@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Chapter 1 - Life Cycles of Flowering Plants</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Trebuchet MS', Arial, sans-serif; background: #f0fdf4; min-height: 100vh; }
+
+.header {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #1565c0 100%);
+  color: white; text-align: center; padding: 22px 20px 18px;
+}
+.header h1 { font-size: 26px; letter-spacing: 1px; }
+.header p { font-size: 14px; opacity: 0.85; margin-top: 5px; }
+.header .star-row { font-size: 22px; margin-top: 8px; letter-spacing: 4px; }
+
+.nav {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 12px 10px; background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.09); flex-wrap: wrap;
+}
+.nav-btn {
+  padding: 10px 20px; border: none; border-radius: 50px;
+  font-size: 14px; font-weight: bold; cursor: pointer;
+  transition: all 0.25s; font-family: inherit; letter-spacing: 0.3px;
+}
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn.active { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.22); }
+.n1 { background: #ff4081; color: white; }
+.n2 { background: #00c853; color: white; }
+.n3 { background: #ff6d00; color: white; }
+.n4 { background: #2979ff; color: white; }
+
+.content { max-width: 920px; margin: 0 auto; padding: 20px; }
+.section { display: none; }
+.section.active { display: block; animation: fadeIn 0.4s; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+.card { background: white; border-radius: 20px; padding: 24px; margin-bottom: 18px; box-shadow: 0 3px 16px rgba(0,0,0,0.08); }
+.card-title { font-size: 20px; font-weight: bold; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; color: #222; }
+
+/* ── FLOWER SECTION ── */
+.flower-layout { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+.flower-wrap { flex: 0 0 auto; }
+.info-box {
+  flex: 1; min-width: 230px; background: #fffde7;
+  border: 2px solid #f9a825; border-radius: 18px;
+  padding: 20px; min-height: 220px;
+}
+.info-box h3 { font-size: 22px; color: #e65100; margin-bottom: 6px; }
+.role-tag {
+  display: inline-block; background: #fff3e0; color: #bf360c;
+  padding: 3px 12px; border-radius: 20px; font-size: 12px;
+  font-weight: bold; margin-bottom: 12px;
+}
+.info-box p { font-size: 14px; line-height: 1.75; color: #444; }
+.fun-fact {
+  margin-top: 12px; background: #e8f5e9; border-radius: 10px;
+  padding: 10px 14px; font-size: 13px; color: #2e7d32;
+  border-left: 3px solid #43a047;
+}
+.default-hint { font-size: 14px; color: #999; line-height: 1.7; }
+.click-hint { text-align: center; font-size: 12px; color: #aaa; margin-top: 8px; }
+
+.parts-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip {
+  padding: 7px 14px; border-radius: 20px; font-size: 13px;
+  font-weight: bold; cursor: pointer; border: 2.5px solid transparent;
+  transition: all 0.25s; font-family: inherit;
+}
+.chip:hover { transform: scale(1.07); }
+.chip.selected { border-color: #333 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.cp { background: #fce4ec; color: #c62828; }
+.cs { background: #e8f5e9; color: #1b5e20; }
+.ca { background: #fff8e1; color: #e65100; }
+.cf { background: #f3e5f5; color: #6a1b9a; }
+.cst { background: #fff3e0; color: #bf360c; }
+.csg { background: #e8eaf6; color: #283593; }
+.cov { background: #e0f7fa; color: #006064; }
+.ccar { background: #e3f2fd; color: #0d47a1; }
+
+/* SVG hover effects */
+.petal-g, .sepal-g, .stamen-g, .carpel-g, .anther-g, .filament-g, .stigma-g, .ovary-g {
+  cursor: pointer;
+}
+
+/* ── GERMINATION SECTION ── */
+.germ-strip {
+  display: flex; gap: 0; overflow-x: auto;
+  padding-bottom: 8px; scroll-behavior: smooth;
+}
+.gstage {
+  flex: 0 0 95px; text-align: center; cursor: pointer;
+  padding: 10px 6px; border-radius: 12px;
+  transition: all 0.25s; border: 3px solid transparent;
+}
+.gstage:hover { background: #f3e5f5; }
+.gstage.active { background: #ede7f6; border-color: #7c4dff; }
+.gicon {
+  width: 66px; height: 66px; border-radius: 50%;
+  margin: 0 auto 8px; display: flex; align-items: center;
+  justify-content: center; font-size: 28px;
+  background: #f5f5f5; border: 3px solid #ddd; transition: all 0.25s;
+}
+.gstage.active .gicon { background: #ede7f6; border-color: #7c4dff; }
+.glabel { font-size: 11px; font-weight: bold; color: #555; line-height: 1.35; }
+
+.germ-detail {
+  background: #e8f5e9; border-radius: 16px; padding: 20px;
+  margin-top: 16px; border-left: 5px solid #43a047;
+  animation: fadeIn 0.4s;
+}
+.germ-detail h3 { font-size: 19px; color: #1b5e20; margin-bottom: 8px; }
+.germ-detail p { font-size: 14px; color: #333; line-height: 1.75; }
+
+.conditions-row { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+.cond-card {
+  flex: 1; min-width: 120px; background: white; border-radius: 16px;
+  padding: 18px 12px; text-align: center; border: 2px solid #e0e0e0;
+  transition: all 0.3s; cursor: default;
+}
+.cond-card:hover { border-color: #7c4dff; transform: translateY(-4px); box-shadow: 0 6px 20px rgba(124,77,255,0.15); }
+.cond-icon { font-size: 36px; margin-bottom: 8px; }
+.cond-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 5px; }
+.cond-desc { font-size: 12px; color: #666; line-height: 1.5; }
+
+/* ── LIFE CYCLE ── */
+.lc-wrapper { overflow-x: auto; }
+.lc-grid {
+  display: grid; grid-template-areas:
+    ".    a2    ."
+    "a1   .     a3"
+    ".    a4    ."
+    ".    a5    .";
+  gap: 8px; min-width: 520px; max-width: 600px; margin: 0 auto;
+  padding: 10px;
+}
+.lc-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.lc-item {
+  background: white; border-radius: 16px; padding: 14px 16px;
+  text-align: center; min-width: 120px; box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  cursor: pointer; transition: all 0.3s; border: 3px solid transparent;
+}
+.lc-item:hover { transform: scale(1.06); border-color: #7c4dff; }
+.lc-item:hover .lc-desc { display: block; }
+.lc-icon { font-size: 32px; margin-bottom: 6px; }
+.lc-label { font-size: 13px; font-weight: bold; color: #333; }
+.lc-desc { display: none; font-size: 11px; color: #888; margin-top: 4px; }
+.lc-arrow { font-size: 26px; color: #7c4dff; user-select: none; }
+.lc-arrow.v { display: flex; justify-content: center; }
+
+/* ── QUIZ ── */
+.q-prog { margin-bottom: 20px; }
+.q-prog-text { font-size: 13px; color: #888; margin-bottom: 6px; }
+.prog-bar { background: #e0e0e0; border-radius: 10px; height: 8px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #7c4dff, #e040fb); transition: width 0.5s; }
+
+.q-text { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 18px; line-height: 1.5; }
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt-btn {
+  padding: 13px 15px; border: 2.5px solid #e0e0e0;
+  border-radius: 14px; font-size: 14px; background: white;
+  cursor: pointer; text-align: left; font-family: inherit;
+  transition: all 0.25s; line-height: 1.4;
+}
+.opt-btn:hover:not(:disabled) { border-color: #7c4dff; background: #f3e5f5; }
+.opt-btn.correct { background: #e8f5e9 !important; border-color: #43a047 !important; color: #1b5e20 !important; }
+.opt-btn.wrong { background: #ffebee !important; border-color: #e53935 !important; color: #b71c1c !important; }
+.opt-btn.reveal { background: #e8f5e9 !important; border-color: #43a047 !important; }
+.opt-btn:disabled { cursor: default; }
+
+.q-feedback { margin-top: 14px; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: bold; display: none; }
+.q-feedback.show { display: block; animation: fadeIn 0.3s; }
+.q-feedback.ok { background: #e8f5e9; color: #2e7d32; }
+.q-feedback.bad { background: #ffebee; color: #c62828; }
+
+.q-nav { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; align-items: center; }
+.q-score-mini { font-size: 13px; color: #888; }
+
+.score-card { text-align: center; padding: 40px 20px; display: none; }
+.score-card.show { display: block; animation: fadeIn 0.5s; }
+.score-card .big-score { font-size: 70px; font-weight: bold; color: #ff6d00; }
+.score-card .star-row { font-size: 44px; margin: 12px 0; }
+.score-card .msg { font-size: 20px; color: #333; margin: 8px 0; font-weight: bold; }
+.score-card .sub { font-size: 15px; color: #666; margin-top: 6px; }
+
+.btn {
+  padding: 11px 24px; border: none; border-radius: 50px;
+  font-size: 15px; font-weight: bold; cursor: pointer;
+  font-family: inherit; transition: all 0.25s;
+}
+.btn:hover { transform: scale(1.05); }
+.btn-v { background: #7c4dff; color: white; }
+.btn-g { background: #43a047; color: white; }
+.btn-o { background: #ff6d00; color: white; }
+
+/* Fact boxes */
+.fact-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.fact-item {
+  flex: 1; min-width: 140px; background: #f3e5f5;
+  border-radius: 14px; padding: 14px 16px;
+  border-left: 4px solid #ab47bc;
+}
+.fact-item .fi-title { font-size: 13px; font-weight: bold; color: #6a1b9a; margin-bottom: 4px; }
+.fact-item .fi-body { font-size: 13px; color: #444; line-height: 1.5; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #ffe082; color: #e65100;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 13px; font-weight: bold; margin-bottom: 14px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌻 Chapter 1: Life Cycles of Flowering Plants</h1>
+  <p>Cambridge Primary Science Stage 5 &nbsp;|&nbsp; Let's explore and have fun!</p>
+  <div class="star-row" id="headerStars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn n1 active" onclick="show('flower', this)">🌸 Parts of a Flower</button>
+  <button class="nav-btn n2" onclick="show('germ', this)">🌱 Germination</button>
+  <button class="nav-btn n3" onclick="show('lifecycle', this)">🔄 Life Cycle</button>
+  <button class="nav-btn n4" onclick="show('quiz', this)">🧠 Quiz Time!</button>
+</div>
+
+<div class="content">
+
+<!-- ══════════════ SECTION 1: FLOWER ══════════════ -->
+<div class="section active" id="sec-flower">
+  <div class="card">
+    <div class="card-title">🌸 Parts of a Flower</div>
+    <div class="badge">👆 Click any part of the flower or a label below to learn about it!</div>
+    <div class="flower-layout">
+
+      <div class="flower-wrap">
+        <svg viewBox="0 0 310 360" width="300" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- SEPALS (base, behind petals) -->
+          <g class="sepal-g" onclick="selectPart('sepal')">
+            <g transform="rotate(30,155,195)"><ellipse cx="155" cy="242" rx="14" ry="34" fill="#66bb6a" opacity="0.9"/></g>
+            <g transform="rotate(90,155,195)"><ellipse cx="155" cy="242" rx="14" ry="34" fill="#66bb6a" opacity="0.9"/></g>
+            <g transform="rotate(150,155,195)"><ellipse cx="155" cy="242" rx="14" ry="34" fill="#66bb6a" opacity="0.9"/></g>
+            <g transform="rotate(210,155,195)"><ellipse cx="155" cy="242" rx="14" ry="34" fill="#66bb6a" opacity="0.9"/></g>
+            <g transform="rotate(270,155,195)"><ellipse cx="155" cy="242" rx="14" ry="34" fill="#66bb6a" opacity="0.9"/></g>
+            <g transform="rotate(330,155,195)"><ellipse cx="155" cy="242" rx="14" ry="34" fill="#66bb6a" opacity="0.9"/></g>
+            <text x="155" y="340" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">Sepal</text>
+          </g>
+
+          <!-- STEM -->
+          <rect x="149" y="275" width="12" height="70" rx="6" fill="#4caf50"/>
+
+          <!-- PETALS -->
+          <g class="petal-g" onclick="selectPart('petal')">
+            <g transform="rotate(0,155,195)">  <ellipse cx="155" cy="118" rx="32" ry="55" fill="#f48fb1"/></g>
+            <g transform="rotate(60,155,195)"> <ellipse cx="155" cy="118" rx="32" ry="55" fill="#f06292"/></g>
+            <g transform="rotate(120,155,195)"><ellipse cx="155" cy="118" rx="32" ry="55" fill="#f48fb1"/></g>
+            <g transform="rotate(180,155,195)"><ellipse cx="155" cy="118" rx="32" ry="55" fill="#f06292"/></g>
+            <g transform="rotate(240,155,195)"><ellipse cx="155" cy="118" rx="32" ry="55" fill="#f48fb1"/></g>
+            <g transform="rotate(300,155,195)"><ellipse cx="155" cy="118" rx="32" ry="55" fill="#f06292"/></g>
+            <text x="155" y="52" text-anchor="middle" font-size="12" fill="#880e4f" font-weight="bold">Petal</text>
+          </g>
+
+          <!-- YELLOW CENTRE -->
+          <circle cx="155" cy="195" r="42" fill="#fff176" stroke="#f9a825" stroke-width="2"/>
+
+          <!-- STAMENS (filament + anther) -->
+          <g class="stamen-g" onclick="selectPart('stamen')">
+            <g transform="rotate(0,155,195)">  <line x1="155" y1="180" x2="155" y2="158" stroke="#a1887f" stroke-width="2.5"/><circle cx="155" cy="154" r="6" fill="#ffd740" stroke="#f57f17" stroke-width="1.5"/></g>
+            <g transform="rotate(51,155,195)"> <line x1="155" y1="180" x2="155" y2="158" stroke="#a1887f" stroke-width="2.5"/><circle cx="155" cy="154" r="6" fill="#ffd740" stroke="#f57f17" stroke-width="1.5"/></g>
+            <g transform="rotate(102,155,195)"><line x1="155" y1="180" x2="155" y2="158" stroke="#a1887f" stroke-width="2.5"/><circle cx="155" cy="154" r="6" fill="#ffd740" stroke="#f57f17" stroke-width="1.5"/></g>
+            <g transform="rotate(153,155,195)"><line x1="155" y1="180" x2="155" y2="158" stroke="#a1887f" stroke-width="2.5"/><circle cx="155" cy="154" r="6" fill="#ffd740" stroke="#f57f17" stroke-width="1.5"/></g>
+            <g transform="rotate(204,155,195)"><line x1="155" y1="180" x2="155" y2="158" stroke="#a1887f" stroke-width="2.5"/><circle cx="155" cy="154" r="6" fill="#ffd740" stroke="#f57f17" stroke-width="1.5"/></g>
+            <g transform="rotate(255,155,195)"><line x1="155" y1="180" x2="155" y2="158" stroke="#a1887f" stroke-width="2.5"/><circle cx="155" cy="154" r="6" fill="#ffd740" stroke="#f57f17" stroke-width="1.5"/></g>
+          </g>
+
+          <!-- CARPEL (stigma + style + ovary) -->
+          <g class="carpel-g" onclick="selectPart('carpel')">
+            <!-- ovary -->
+            <ellipse cx="155" cy="204" rx="13" ry="16" fill="#a5d6a7" stroke="#388e3c" stroke-width="1.5"/>
+            <!-- style -->
+            <line x1="155" y1="188" x2="155" y2="174" stroke="#43a047" stroke-width="3"/>
+            <!-- stigma -->
+            <ellipse cx="155" cy="171" rx="11" ry="7" fill="#81c784" stroke="#2e7d32" stroke-width="1.5"/>
+            <text x="232" y="178" text-anchor="start" font-size="11" fill="#1b5e20" font-weight="bold">Stigma</text>
+            <line x1="166" y1="171" x2="228" y2="175" stroke="#c8e6c9" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <text x="232" y="207" text-anchor="start" font-size="11" fill="#1b5e20" font-weight="bold">Ovary</text>
+            <line x1="168" y1="204" x2="228" y2="204" stroke="#c8e6c9" stroke-width="1.5" stroke-dasharray="3,2"/>
+          </g>
+
+          <!-- LABEL: Stamen indicator -->
+          <text x="4" y="172" text-anchor="start" font-size="11" fill="#e65100" font-weight="bold">Stamen</text>
+          <line x1="52" y1="168" x2="105" y2="168" stroke="#ffe0b2" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+          <!-- LABEL: Sepal indicator (left) -->
+          <text x="4" y="250" text-anchor="start" font-size="11" fill="#2e7d32" font-weight="bold">Sepal</text>
+          <line x1="40" y1="246" x2="100" y2="240" stroke="#c8e6c9" stroke-width="1.5" stroke-dasharray="3,2"/>
+        </svg>
+        <p class="click-hint">Click on the flower parts directly!</p>
+      </div>
+
+      <div style="flex:1; min-width:230px;">
+        <div class="info-box" id="flowerInfo">
+          <p class="default-hint">👈 Click on the flower or tap a label below to discover each part!<br><br>
+          A flower has <strong>4 main parts</strong> arranged in rings, one inside the other:<br>
+          Petals, Sepals, Stamen and Carpel.</p>
+        </div>
+        <div class="parts-chips">
+          <button class="chip cp" onclick="selectPart('petal')">🌸 Petal</button>
+          <button class="chip cs" onclick="selectPart('sepal')">🟢 Sepal</button>
+          <button class="chip cst" onclick="selectPart('stamen')">⚡ Stamen</button>
+          <button class="chip ca" onclick="selectPart('anther')">🟡 Anther</button>
+          <button class="chip cf" onclick="selectPart('filament')">📏 Filament</button>
+          <button class="chip ccar" onclick="selectPart('carpel')">🔵 Carpel</button>
+          <button class="chip csg" onclick="selectPart('stigma')">✨ Stigma</button>
+          <button class="chip cov" onclick="selectPart('ovary')">🥚 Ovary</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Quick Facts — Parts of a Flower</div>
+    <div class="fact-row">
+      <div class="fact-item">
+        <div class="fi-title">🌸 Petals</div>
+        <div class="fi-body">Brightly coloured to attract insects like bees and butterflies to the flower.</div>
+      </div>
+      <div class="fact-item">
+        <div class="fi-title">🟢 Sepals</div>
+        <div class="fi-body">Small green leaves that protect the flower bud before it opens.</div>
+      </div>
+      <div class="fact-item">
+        <div class="fi-title">⚡ Stamen</div>
+        <div class="fi-body">The <em>male</em> part of the flower. Made of the anther and filament.</div>
+      </div>
+      <div class="fact-item">
+        <div class="fi-title">🔵 Carpel</div>
+        <div class="fi-body">The <em>female</em> part of the flower. Made of stigma, style and ovary.</div>
+      </div>
+    </div>
+    <div class="fact-row" style="margin-top:10px;">
+      <div class="fact-item">
+        <div class="fi-title">🟡 Anther</div>
+        <div class="fi-body">Sits on top of the filament. Makes a yellow powder called <strong>pollen</strong>.</div>
+      </div>
+      <div class="fact-item">
+        <div class="fi-title">📏 Filament</div>
+        <div class="fi-body">The thin stalk that holds the anther up so pollen can be collected by insects.</div>
+      </div>
+      <div class="fact-item">
+        <div class="fi-title">✨ Stigma</div>
+        <div class="fi-body">The sticky tip at the top of the carpel. It catches pollen brought by insects.</div>
+      </div>
+      <div class="fact-item">
+        <div class="fi-title">🥚 Ovary</div>
+        <div class="fi-body">Found at the base of the carpel. Contains tiny eggs that become seeds.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SECTION 2: GERMINATION ══════════════ -->
+<div class="section" id="sec-germ">
+  <div class="card">
+    <div class="card-title">🌱 What is Germination?</div>
+    <p style="font-size:15px; line-height:1.8; color:#444; margin-bottom:16px;">
+      Seeds might look dead — but they are not! Inside every seed is a <strong>tiny plant</strong> waiting to grow. When the conditions are right, the seed starts to grow. We call this <strong>germination</strong>. 🌱
+    </p>
+    <div class="conditions-row">
+      <div class="cond-card">
+        <div class="cond-icon">💧</div>
+        <div class="cond-title">Water</div>
+        <div class="cond-desc">The seed must absorb water to swell up and start growing.</div>
+      </div>
+      <div class="cond-card">
+        <div class="cond-icon">☀️</div>
+        <div class="cond-title">Warmth</div>
+        <div class="cond-desc">Not too hot, not too cold — seeds need the right temperature!</div>
+      </div>
+      <div class="cond-card">
+        <div class="cond-icon">💨</div>
+        <div class="cond-title">Air</div>
+        <div class="cond-desc">Seeds need oxygen from the air to grow. No air = no germination!</div>
+      </div>
+      <div class="cond-card">
+        <div class="cond-icon">🌑</div>
+        <div class="cond-title">No Light Needed</div>
+        <div class="cond-desc">Seeds do NOT need light to germinate — they can start in the dark!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 The Journey of a Seed — Tap each stage!</div>
+    <div class="germ-strip" id="germStrip">
+      <div class="gstage active" onclick="showGermStage(0, this)">
+        <div class="gicon">🫘</div>
+        <div class="glabel">Dry Seed</div>
+      </div>
+      <div class="gstage" onclick="showGermStage(1, this)">
+        <div class="gicon">💦</div>
+        <div class="glabel">Absorbs Water</div>
+      </div>
+      <div class="gstage" onclick="showGermStage(2, this)">
+        <div class="gicon">💥</div>
+        <div class="glabel">Coat Splits</div>
+      </div>
+      <div class="gstage" onclick="showGermStage(3, this)">
+        <div class="gicon">⬇️</div>
+        <div class="glabel">Root Grows Down</div>
+      </div>
+      <div class="gstage" onclick="showGermStage(4, this)">
+        <div class="gicon">🌿</div>
+        <div class="glabel">Side Roots</div>
+      </div>
+      <div class="gstage" onclick="showGermStage(5, this)">
+        <div class="gicon">⬆️</div>
+        <div class="glabel">Shoot Grows Up</div>
+      </div>
+      <div class="gstage" onclick="showGermStage(6, this)">
+        <div class="gicon">🌱</div>
+        <div class="glabel">First Leaves</div>
+      </div>
+    </div>
+
+    <div class="germ-detail" id="germDetail">
+      <h3 id="gd-title">🫘 The Dry Seed</h3>
+      <p id="gd-body">A seed looks small and dry — but there is a tiny plant hiding inside! The seed also has a food store to give the plant energy when it starts to grow. Seeds can wait for YEARS until the conditions are just right. The oldest seed ever to germinate was 1,300 years old — a lotus flower found at the bottom of a lake in China! 🪷</p>
+    </div>
+
+    <div style="margin-top:18px;">
+      <p style="font-size:14px; color:#666; margin-bottom:10px;">⚡ After germination, the seed shrivels and becomes small — because the plant has used up its food store!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔬 Fair Test: What do seeds need?</div>
+    <p style="font-size:14px; line-height:1.8; color:#444; margin-bottom:14px;">
+      Scientists test <strong>one thing at a time</strong> to find out what seeds really need. This is called a <em>fair test</em>.
+    </p>
+    <div class="fact-row">
+      <div class="fact-item" style="background:#e3f2fd; border-left-color:#1565c0;">
+        <div class="fi-title" style="color:#0d47a1;">🧪 Test A: Water</div>
+        <div class="fi-body">Put seeds in moist soil vs dry soil. Keep everything else the same. Result: Seeds in <strong>moist soil</strong> germinate. Seeds in <strong>dry soil</strong> do NOT!</div>
+      </div>
+      <div class="fact-item" style="background:#fff3e0; border-left-color:#e65100;">
+        <div class="fi-title" style="color:#bf360c;">🌡️ Test B: Temperature</div>
+        <div class="fi-body">Put seeds in a warm place vs cold place. Keep water the same. Result: Seeds in a <strong>warm place</strong> germinate faster. Seeds in a <strong>cold place</strong> are very slow or don't germinate!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SECTION 3: LIFE CYCLE ══════════════ -->
+<div class="section" id="sec-lifecycle">
+  <div class="card">
+    <div class="card-title">🔄 Life Cycle of a Flowering Plant</div>
+    <p style="font-size:14px; color:#666; margin-bottom:16px;">A life cycle is something that happens <strong>over and over again</strong>. Hover over each stage to learn more!</p>
+
+    <div class="lc-wrapper">
+      <div style="max-width:700px; margin:0 auto;">
+        <!-- Row 1 -->
+        <div class="lc-row" style="margin-bottom:4px;">
+          <div class="lc-item" style="background:#ede7f6; border-color:#9575cd;">
+            <div class="lc-icon">🌱</div>
+            <div class="lc-label">Seed Germinates</div>
+            <div class="lc-desc">Seed absorbs water, swells and the root and shoot emerge.</div>
+          </div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-item" style="background:#e8f5e9; border-color:#66bb6a;">
+            <div class="lc-icon">🌿</div>
+            <div class="lc-label">Plant Grows</div>
+            <div class="lc-desc">The seedling grows bigger, develops leaves and a stem.</div>
+          </div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-item" style="background:#fce4ec; border-color:#f48fb1;">
+            <div class="lc-icon">🌸</div>
+            <div class="lc-label">Plant Flowers</div>
+            <div class="lc-desc">The plant grows flowers with petals, stamens and carpels.</div>
+          </div>
+        </div>
+
+        <!-- Arrow down on right -->
+        <div class="lc-row" style="justify-content:flex-end; padding-right:60px; margin:2px 0;">
+          <div class="lc-arrow">↓</div>
+        </div>
+
+        <!-- Row 2 (reversed) -->
+        <div class="lc-row" style="margin-bottom:4px;">
+          <div class="lc-item" style="background:#fff9c4; border-color:#f9a825;">
+            <div class="lc-icon">🫘</div>
+            <div class="lc-label">Fruit Releases Seeds</div>
+            <div class="lc-desc">The ripe fruit opens and seeds are spread by wind, water, animals or gravity.</div>
+          </div>
+          <div class="lc-arrow">←</div>
+          <div class="lc-item" style="background:#fff3e0; border-color:#ffb74d;">
+            <div class="lc-icon">🍎</div>
+            <div class="lc-label">Flower Makes Fruit</div>
+            <div class="lc-desc">After pollination and fertilisation, the ovary grows into a fruit with seeds inside.</div>
+          </div>
+          <div class="lc-arrow">←</div>
+          <div class="lc-item" style="background:#e3f2fd; border-color:#64b5f6;">
+            <div class="lc-icon">🐝</div>
+            <div class="lc-label">Pollination</div>
+            <div class="lc-desc">Pollen moves from stamen to stigma — by insects or by wind.</div>
+          </div>
+        </div>
+
+        <!-- Arrow back down left -->
+        <div class="lc-row" style="justify-content:flex-start; padding-left:60px; margin:4px 0;">
+          <div class="lc-arrow">↑</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#f3e5f5; border-radius:14px; padding:16px; margin-top:16px;">
+      <strong style="color:#6a1b9a;">Remember:</strong>
+      <span style="font-size:14px; color:#444; line-height:1.7;"> A cycle means it goes round and round — the seeds from the fruit grow into new plants, which flower, make fruit, and the whole thing starts again! ♻️</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌬️ How are Seeds Spread?</div>
+    <div class="fact-row">
+      <div class="fact-item" style="background:#e3f2fd; border-left-color:#1565c0;">
+        <div class="fi-title" style="color:#0d47a1;">🌬️ Wind</div>
+        <div class="fi-body">Light seeds with wings or parachutes float away (dandelion, maple). Wind-pollinated flowers are small and not brightly coloured.</div>
+      </div>
+      <div class="fact-item" style="background:#e8f5e9; border-left-color:#2e7d32;">
+        <div class="fi-title" style="color:#1b5e20;">🐦 Animals</div>
+        <div class="fi-body">Colourful, juicy fruits attract animals. Seeds pass through their bodies or hook onto fur/clothes (burdock, strawberry).</div>
+      </div>
+      <div class="fact-item" style="background:#e3f2fd; border-left-color:#0277bd;">
+        <div class="fi-title" style="color:#01579b;">🌊 Water</div>
+        <div class="fi-body">Spongy fruits float and are carried away (coconut). Mangrove seeds float upright in the sea until washed ashore.</div>
+      </div>
+      <div class="fact-item" style="background:#fff8e1; border-left-color:#f57f17;">
+        <div class="fi-title" style="color:#e65100;">💥 Explosion</div>
+        <div class="fi-body">Some pods dry out and EXPLODE, shooting seeds out (bean pods). Others drop and roll along the ground (apples).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SECTION 4: QUIZ ══════════════ -->
+<div class="section" id="sec-quiz">
+  <div class="card">
+    <div class="card-title">🧠 Quiz Time! Let's see what you know!</div>
+
+    <div id="quizArea">
+      <div class="q-prog">
+        <div class="q-prog-text" id="qProgText">Question 1 of 10</div>
+        <div class="prog-bar"><div class="prog-fill" id="qProgFill" style="width:10%"></div></div>
+      </div>
+
+      <div class="q-text" id="qText"></div>
+      <div class="options-grid" id="qOptions"></div>
+      <div class="q-feedback" id="qFeedback"></div>
+
+      <div class="q-nav">
+        <span class="q-score-mini" id="qScoreMini">Score: 0 / 0</span>
+        <button class="btn btn-v" id="qNextBtn" onclick="nextQuestion()" style="display:none;">Next ➜</button>
+      </div>
+    </div>
+
+    <div class="score-card" id="scoreCard">
+      <div style="font-size:15px; color:#888; margin-bottom:8px;">You scored</div>
+      <div class="big-score" id="finalScore">0/10</div>
+      <div class="star-row" id="finalStars">⭐⭐⭐⭐⭐</div>
+      <div class="msg" id="finalMsg">Amazing work!</div>
+      <div class="sub" id="finalSub"></div>
+      <br>
+      <button class="btn btn-o" onclick="restartQuiz()">🔄 Play Again!</button>
+      &nbsp;
+      <button class="btn btn-g" onclick="show('flower', document.querySelector('.n1'))">🌸 Review Flower</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+// ═══ NAVIGATION ═══
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'quiz') initQuiz();
+}
+
+// ═══ FLOWER PART DATA ═══
+const PARTS = {
+  petal: {
+    name: '🌸 Petal',
+    role: 'Outer ring of the flower',
+    desc: 'Petals are often <strong>brightly coloured</strong> to attract insects like bees and butterflies to the flower. Some petals have special marks on them like a runway at an airport — guiding the insect to the nectar inside! Some flowers even have a lovely scent to help attract insects.',
+    fact: '🐝 Fun Fact: Some flowers smell like rotting meat to attract flies — the flies think it is food but actually carry pollen!'
+  },
+  sepal: {
+    name: '🟢 Sepal',
+    role: 'Outer green leaf-like structure',
+    desc: 'Sepals are the <strong>little green leaves</strong> found at the base of a flower. Before the flower opens, the sepals wrap around the whole bud to protect the petals inside — like a cosy sleeping bag for the flower! When the flower blooms, the sepals fold back.',
+    fact: '🌿 Fun Fact: In a rosebud, the green bits you see on the outside are the sepals protecting the petals inside!'
+  },
+  stamen: {
+    name: '⚡ Stamen',
+    role: 'The MALE part of the flower',
+    desc: 'The stamen is the <strong>male part</strong> of the flower. It has two parts: the <em>anther</em> (which makes pollen) and the <em>filament</em> (the stalk that holds up the anther). Most flowers have several stamens arranged in a ring around the central carpel.',
+    fact: '🌼 Fun Fact: When a bee lands in a flower, it accidentally brushes against the stamens and pollen sticks to its fuzzy body!'
+  },
+  anther: {
+    name: '🟡 Anther',
+    role: 'Top part of the stamen',
+    desc: 'The anther sits at the top of the filament and makes a fine yellow powder called <strong>pollen</strong>. Pollen grains are incredibly tiny — so small you need a microscope to see them properly! When insects or wind carry pollen from one flower to another, this starts the process of making new seeds.',
+    fact: '🤧 Fun Fact: Pollen is what causes hay fever in some people — it floats in the air and makes them sneeze!'
+  },
+  filament: {
+    name: '📏 Filament',
+    role: 'Stalk of the anther',
+    desc: 'The filament is the <strong>thin stalk</strong> that holds up the anther. By holding the anther high up in the flower, the filament makes it easier for insects to brush against it and pick up pollen — or for the wind to blow the pollen away. It acts like a flagpole for pollen!',
+    fact: '📐 Fun Fact: In wind-pollinated flowers like grass, the filaments are very long so the anthers dangle freely and release pollen easily into the air.'
+  },
+  carpel: {
+    name: '🔵 Carpel',
+    role: 'The FEMALE part of the flower',
+    desc: 'The carpel is the <strong>female part</strong> of the flower, found right in the centre. It has three parts: the <em>stigma</em> (the sticky top that catches pollen), the <em>style</em> (a tube in the middle), and the <em>ovary</em> (at the base, containing tiny eggs). The ovary grows into a fruit after fertilisation.',
+    fact: '🍅 Fun Fact: A tomato, an apple, and a peach are all the ovaries of flowers that grew into fruit after fertilisation!'
+  },
+  stigma: {
+    name: '✨ Stigma',
+    role: 'Top of the carpel',
+    desc: 'The stigma is the <strong>sticky tip</strong> at the top of the carpel. Its job is to catch pollen grains that are carried by insects or blown by the wind. Because it is sticky (like glue!), when a pollen grain touches it, the pollen sticks. This is the beginning of the process that leads to seeds forming.',
+    fact: '🍯 Fun Fact: If you touch a stigma gently, your finger will feel slightly sticky — just like pollen grains do when they land on it!'
+  },
+  ovary: {
+    name: '🥚 Ovary',
+    role: 'Base of the carpel',
+    desc: 'The ovary is at the <strong>base of the carpel</strong> and contains tiny <em>eggs</em>. After pollination and fertilisation (when pollen and egg join), the ovary grows bigger and becomes a <strong>fruit</strong>! The eggs inside become the seeds. So every fruit you eat was once the ovary of a flower!',
+    fact: '🍎 Fun Fact: A strawberry has tiny seeds on its OUTSIDE! Each little dot on the surface is actually a seed — the fleshy part grew from the base of the flower, not just the ovary.'
+  }
+};
+
+function selectPart(part) {
+  const data = PARTS[part];
+  if (!data) return;
+  const box = document.getElementById('flowerInfo');
+  box.innerHTML = `
+    <h3>${data.name}</h3>
+    <span class="role-tag">${data.role}</span>
+    <p>${data.desc}</p>
+    <div class="fun-fact">${data.fact}</div>
+  `;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  const mapping = { petal:'cp', sepal:'cs', stamen:'cst', anther:'ca', filament:'cf', carpel:'ccar', stigma:'csg', ovary:'cov' };
+  const match = document.querySelector('.' + mapping[part]);
+  if (match) match.classList.add('selected');
+}
+
+// ═══ GERMINATION STAGES ═══
+const GERM_STAGES = [
+  { title: '🫘 The Dry Seed', body: 'A seed looks small and dry — but there is a tiny plant hiding inside called an <strong>embryo</strong>! The seed also has a <strong>food store</strong> to give the plant energy when it starts to grow. Seeds can wait for YEARS until conditions are just right. The oldest seed ever to germinate was <strong>1,300 years old</strong> — a lotus flower found at the bottom of a lake in China! 🪷' },
+  { title: '💧 Seed Absorbs Water and Swells', body: 'Germination starts when the seed takes in (absorbs) water. The seed swells up as it soaks in moisture — a bit like a sponge! You can try this at home: leave a bean seed in water overnight and see how much it grows. The water wakes up the tiny plant inside and gives it the energy to start growing.' },
+  { title: '💥 Seed Coat Splits', body: 'As the seed absorbs water and swells, the tough outer skin (seed coat) becomes too tight — and <strong>splits open</strong>! This is like cracking open an egg. The tiny plant inside is now free to start pushing out. The seed coat has done its job of protecting the embryo until now.' },
+  { title: '⬇️ The First Root Grows Downwards', body: 'The very first part to emerge from the cracked seed is the <strong>root</strong> (called the radicle). It always grows <strong>downward</strong> into the soil — even if you turn the seed upside down! The root anchors the plant in the soil and absorbs water and nutrients. Gravity tells the root which way is down.' },
+  { title: '🌿 Side Roots Grow', body: 'After the main root has pushed down, smaller <strong>side roots</strong> begin to branch out. This creates a network of roots in the soil — like fingers spreading out. More roots means the plant can absorb more water and nutrients from a larger area. The roots are getting the plant ready to support its shoot!' },
+  { title: '⬆️ The Shoot Grows Upward', body: 'Now the <strong>shoot</strong> (the plumule) pushes upward — always towards the light. It bursts out of the soil and becomes the stem of the new plant. The shoot grows in the opposite direction to the root! While roots grow towards gravity, the shoot grows away from gravity and towards sunlight.' },
+  { title: '🌱 First Leaves Appear Above Ground', body: 'Finally, the first <strong>leaves</strong> unfurl above the ground and begin to catch sunlight. Now the plant can make its own food using sunlight, water and air — this is called <em>photosynthesis</em>! The seed shrivels up because the seedling has used all of its food store. The young plant is called a <strong>seedling</strong>. 🌱' }
+];
+
+function showGermStage(idx, el) {
+  document.querySelectorAll('.gstage').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  const detail = document.getElementById('germDetail');
+  document.getElementById('gd-title').innerHTML = GERM_STAGES[idx].title;
+  document.getElementById('gd-body').innerHTML = GERM_STAGES[idx].body;
+  detail.style.animation = 'none';
+  detail.offsetHeight;
+  detail.style.animation = '';
+}
+
+// ═══ QUIZ ═══
+const QUESTIONS = [
+  {
+    q: 'Which part of the flower is brightly coloured to attract insects?',
+    opts: ['Sepal', 'Petal', 'Anther', 'Ovary'],
+    ans: 1,
+    explain: '🌸 Petals are brightly coloured (and sometimes scented!) to attract insects like bees and butterflies to come and collect nectar — and accidentally pick up pollen!'
+  },
+  {
+    q: 'What does the anther produce?',
+    opts: ['Nectar', 'Eggs', 'Pollen', 'Seeds'],
+    ans: 2,
+    explain: '🟡 The anther is the part of the stamen that makes pollen — a fine yellow powder. Pollen is needed for the plant to reproduce!'
+  },
+  {
+    q: 'Which is the FEMALE part of the flower?',
+    opts: ['Stamen', 'Petal', 'Sepal', 'Carpel'],
+    ans: 3,
+    explain: '🔵 The carpel is the female part of the flower. It has the stigma, style and ovary. The stamen is the male part.'
+  },
+  {
+    q: 'What are the tiny green leaf-like structures at the base of a flower called?',
+    opts: ['Petals', 'Anthers', 'Sepals', 'Stigmas'],
+    ans: 2,
+    explain: '🟢 Sepals are the small green structures that protect the flower bud before it opens. They look like little green leaves at the base.'
+  },
+  {
+    q: 'What does the stigma do?',
+    opts: ['Makes pollen', 'Catches pollen', 'Contains eggs', 'Attracts insects'],
+    ans: 1,
+    explain: '✨ The stigma is the sticky tip of the carpel. Its job is to catch pollen grains brought by insects or blown by the wind.'
+  },
+  {
+    q: 'What THREE things does a seed need to germinate?',
+    opts: ['Sunlight, soil, warmth', 'Water, warmth, air', 'Light, water, soil', 'Pollen, water, eggs'],
+    ans: 1,
+    explain: '💧☀️💨 Seeds need water (to absorb and swell), warmth (right temperature), and air (oxygen). They do NOT need light to germinate!'
+  },
+  {
+    q: 'When a seed germinates, which part of the plant grows first?',
+    opts: ['The leaf', 'The flower', 'The root', 'The stem'],
+    ans: 2,
+    explain: '⬇️ The root (radicle) is the very first part to grow from a germinating seed. It grows downward into the soil to anchor the plant and absorb water.'
+  },
+  {
+    q: 'What happens to the seed coat when germination begins?',
+    opts: ['It grows bigger', 'It turns green', 'It splits open', 'It makes pollen'],
+    ans: 2,
+    explain: '💥 As the seed absorbs water and swells, the tough seed coat splits open — releasing the tiny plant inside!'
+  },
+  {
+    q: 'Which part of the carpel contains the tiny eggs?',
+    opts: ['Stigma', 'Filament', 'Ovary', 'Anther'],
+    ans: 2,
+    explain: '🥚 The ovary is at the base of the carpel and contains tiny eggs. After fertilisation, the ovary grows into a fruit and the eggs become seeds!'
+  },
+  {
+    q: 'What is the name given to a very young plant that has just germinated?',
+    opts: ['Seedling', 'Sapling', 'Sprout', 'Pollen'],
+    ans: 0,
+    explain: '🌱 A seedling is the name for a young plant that has just grown from a seed. It still has its first small leaves called seed leaves!'
+  }
+];
+
+let qIdx = 0, score = 0, answered = [];
+
+function initQuiz() {
+  qIdx = 0; score = 0; answered = [];
+  document.getElementById('quizArea').style.display = 'block';
+  document.getElementById('scoreCard').classList.remove('show');
+  renderQ();
+}
+
+function renderQ() {
+  const q = QUESTIONS[qIdx];
+  document.getElementById('qProgText').textContent = `Question ${qIdx + 1} of ${QUESTIONS.length}`;
+  document.getElementById('qProgFill').style.width = ((qIdx + 1) / QUESTIONS.length * 100) + '%';
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('qScoreMini').textContent = `Score: ${score} / ${qIdx}`;
+  const opts = document.getElementById('qOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = ['A', 'B', 'C', 'D'][i] + ') ' + o;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('qFeedback').className = 'q-feedback';
+  document.getElementById('qFeedback').textContent = '';
+  document.getElementById('qNextBtn').style.display = 'none';
+}
+
+function answerQ(chosen) {
+  const q = QUESTIONS[qIdx];
+  const buttons = document.querySelectorAll('.opt-btn');
+  buttons.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFeedback');
+
+  if (chosen === q.ans) {
+    buttons[chosen].classList.add('correct');
+    fb.textContent = '✅ Brilliant! ' + q.explain;
+    fb.className = 'q-feedback ok show';
+    score++;
+  } else {
+    buttons[chosen].classList.add('wrong');
+    buttons[q.ans].classList.add('reveal');
+    fb.textContent = '❌ Not quite! ' + q.explain;
+    fb.className = 'q-feedback bad show';
+  }
+
+  document.getElementById('qScoreMini').textContent = `Score: ${score} / ${qIdx + 1}`;
+  document.getElementById('qNextBtn').style.display = 'block';
+}
+
+function nextQuestion() {
+  qIdx++;
+  if (qIdx >= QUESTIONS.length) {
+    showScore();
+  } else {
+    renderQ();
+  }
+}
+
+function showScore() {
+  document.getElementById('quizArea').style.display = 'none';
+  const sc = document.getElementById('scoreCard');
+  sc.classList.add('show');
+  document.getElementById('finalScore').textContent = score + ' / ' + QUESTIONS.length;
+  const pct = score / QUESTIONS.length;
+  let stars, msg, sub;
+  if (pct >= 0.9) { stars = '⭐⭐⭐⭐⭐'; msg = 'WOW! You are a Science Superstar! 🏆'; sub = 'Outstanding! You know your flowers and seeds perfectly!'; }
+  else if (pct >= 0.7) { stars = '⭐⭐⭐⭐'; msg = 'Great job! Keep going! 🎉'; sub = 'You did really well! Try reading the parts you got wrong again.'; }
+  else if (pct >= 0.5) { stars = '⭐⭐⭐'; msg = 'Good effort! You\'re learning! 💪'; sub = 'Go back and review the flower parts and germination stages, then try again!'; }
+  else { stars = '⭐⭐'; msg = 'Keep practising! You can do it! 🌱'; sub = 'Explore the flower and germination sections again — then come back and try!'; }
+  document.getElementById('finalStars').textContent = stars;
+  document.getElementById('finalMsg').textContent = msg;
+  document.getElementById('finalSub').textContent = sub;
+}
+
+function restartQuiz() {
+  initQuiz();
+}
+
+// Initialise quiz on load so it's ready
+window.addEventListener('DOMContentLoaded', () => {
+  initQuiz();
+});
+</script>
+</body>
+</html>

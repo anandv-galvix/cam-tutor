@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cambridge Grade 4 Tutor powered by AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #fef9c3 0%, #dbeafe 50%, #fce7f3 100%);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(90deg, #7c3aed, #2563eb, #0891b2);
+      color: white;
+      text-align: center;
+      padding: 40px 20px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "⭐ 🌟 ✨ 🌟 ⭐";
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: 10px;
+      letter-spacing: 12px;
+      opacity: 0.8;
+    }
+    header h1 {
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      font-weight: 900;
+      text-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+      line-height: 1.2;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    .stars-row {
+      font-size: 1.6rem;
+      margin-top: 14px;
+      letter-spacing: 6px;
+    }
+
+    /* ── MAIN ── */
+    main { max-width: 1000px; margin: 0 auto; padding: 40px 20px 0; }
+
+    /* ── SUBJECT SECTION ── */
+    .subject { margin-bottom: 50px; }
+
+    .subject-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .subject-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+    .subject-title {
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    /* subject accent colours */
+    .english  .subject-title { color: #7c3aed; }
+    .science  .subject-title { color: #059669; }
+    .maths    .subject-title { color: #d97706; }
+
+    .subject-divider {
+      height: 4px;
+      border-radius: 99px;
+      margin-bottom: 20px;
+    }
+    .english  .subject-divider { background: linear-gradient(90deg, #7c3aed, #c4b5fd); }
+    .science  .subject-divider { background: linear-gradient(90deg, #059669, #6ee7b7); }
+    .maths    .subject-divider { background: linear-gradient(90deg, #d97706, #fde68a); }
+
+    /* ── CARDS GRID ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+
+    .card {
+      border-radius: 20px;
+      padding: 28px 22px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+    }
+
+    /* card colours */
+    .card-purple { background: linear-gradient(135deg, #ede9fe, #c4b5fd); }
+    .card-blue   { background: linear-gradient(135deg, #dbeafe, #93c5fd); }
+    .card-green  { background: linear-gradient(135deg, #d1fae5, #6ee7b7); }
+    .card-teal   { background: linear-gradient(135deg, #ccfbf1, #5eead4); }
+    .card-yellow { background: linear-gradient(135deg, #fef9c3, #fde047); }
+    .card-orange { background: linear-gradient(135deg, #ffedd5, #fdba74); }
+    .card-pink   { background: linear-gradient(135deg, #fce7f3, #f9a8d4); }
+    .card-red    { background: linear-gradient(135deg, #fee2e2, #fca5a5); }
+
+    .card-emoji { font-size: 2.2rem; }
+    .card-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.55);
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1.3;
+      color: #1e293b;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.4;
+    }
+    .card-arrow {
+      margin-top: auto;
+      font-size: 1.3rem;
+      align-self: flex-end;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 24px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+    footer span { font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Cambridge Grade 4 Tutor</h1>
+  <p>✨ Powered by AI &nbsp;·&nbsp; Learn, Explore, Have Fun! ✨</p>
+  <div class="stars-row">🎓 📚 🚀 📚 🎓</div>
+</header>
+
+<main>
+
+  <!-- ══════════ ENGLISH ══════════ -->
+  <section class="subject english">
+    <div class="subject-header">
+      <div class="subject-icon">📖</div>
+      <div class="subject-title">English</div>
+    </div>
+    <div class="subject-divider"></div>
+    <div class="cards">
+
+      <a class="card card-purple" href="Chapter1_Fables_Adventure.html">
+        <span class="card-emoji">🦊</span>
+        <span class="card-type">Interactive Lesson</span>
+        <div class="card-title">Chapter 1 – Fables & Adventures</div>
+        <div class="card-desc">Explore exciting fables with quizzes and fun activities</div>
+        <div class="card-arrow">➡️</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══════════ SCIENCE ══════════ -->
+  <section class="subject science">
+    <div class="subject-header">
+      <div class="subject-icon">🔬</div>
+      <div class="subject-title">Science</div>
+    </div>
+    <div class="subject-divider"></div>
+    <div class="cards">
+
+      <a class="card card-green" href="Science_Chapter1_Interactive.html">
+        <span class="card-emoji">🌱</span>
+        <span class="card-type">Interactive Lesson</span>
+        <div class="card-title">Chapter 1 – Interactive Science</div>
+        <div class="card-desc">Discover science concepts through interactive experiments</div>
+        <div class="card-arrow">➡️</div>
+      </a>
+
+      <a class="card card-teal" href="Science_Chapter2_Sound.html">
+        <span class="card-emoji">🔊</span>
+        <span class="card-type">Interactive Lesson</span>
+        <div class="card-title">Chapter 2 – Sound</div>
+        <div class="card-desc">How does sound travel? Vibrations, echoes and more!</div>
+        <div class="card-arrow">➡️</div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>🌟</span> Cambridge Grade 4 Tutor &nbsp;·&nbsp; Keep learning, keep growing! <span>🌟</span>
+</footer>
+
+</body>
+</html>

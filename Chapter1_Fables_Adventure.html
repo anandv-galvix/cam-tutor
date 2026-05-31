@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐜 Chapter 1: There's a Lesson in That! 🦗</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+
+  :root {
+    --green: #4CAF50;
+    --yellow: #FFD700;
+    --orange: #FF8C00;
+    --blue: #2196F3;
+    --purple: #9C27B0;
+    --pink: #E91E63;
+    --red: #F44336;
+    --teal: #009688;
+    --bg: #FFF9F0;
+    --card: #ffffff;
+    --shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---- SCREENS ---- */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* ---- HERO HEADER ---- */
+  .hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 24px 20px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: #fff;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: relative;
+  }
+  .hero-emoji { font-size: 4rem; display: block; margin-bottom: 12px; }
+
+  /* ---- NAV TABS ---- */
+  .nav-bar {
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    padding: 0 12px;
+    display: flex;
+    overflow-x: auto;
+    gap: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover { color: #764ba2; border-bottom-color: #764ba2; }
+  .nav-btn.active { color: #764ba2; border-bottom-color: #764ba2; background: #f3f0ff; border-radius: 8px 8px 0 0; }
+
+  /* ---- CONTENT WRAPPER ---- */
+  .content { max-width: 900px; margin: 0 auto; padding: 28px 16px 60px; }
+
+  /* ---- SECTION TITLE ---- */
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: #764ba2;
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    color: #888;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+
+  /* ---- CARD ---- */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); }
+
+  /* ---- STORY CARD ---- */
+  .story-card {
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 20px;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    position: relative;
+  }
+  .story-card .story-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: #E65100;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .story-card p { margin-bottom: 14px; color: #3d2b00; }
+
+  .highlight-word {
+    background: #FFD700;
+    border-radius: 4px;
+    padding: 1px 5px;
+    cursor: help;
+    font-weight: 700;
+    position: relative;
+  }
+  .highlight-word::after {
+    content: attr(data-meaning);
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 10;
+    font-weight: 600;
+  }
+  .highlight-word:hover::after { opacity: 1; }
+
+  .character-scene {
+    display: flex;
+    gap: 20px;
+    background: linear-gradient(135deg, #e8f5e9, #f3e5f5);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .character-bubble {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    padding: 16px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .char-emoji { font-size: 3.5rem; display: block; margin-bottom: 8px; }
+  .char-name { font-family: 'Fredoka One', cursive; font-size: 1.2rem; }
+  .char-trait { font-size: 0.85rem; color: #666; margin-top: 4px; }
+
+  /* ---- QUIZ ---- */
+  .quiz-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .quiz-card h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .quiz-question {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #e3f2fd, #e8eaf6);
+    border-radius: 12px;
+  }
+  .q-num {
+    font-family: 'Fredoka One', cursive;
+    color: #764ba2;
+    font-size: 1.1rem;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn {
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    color: #333;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: #ede7f6;
+    border-color: #764ba2;
+    color: #764ba2;
+    transform: translateX(4px);
+  }
+  .option-btn.correct { background: #e8f5e9; border-color: #4CAF50; color: #2e7d32; }
+  .option-btn.wrong { background: #ffebee; border-color: #F44336; color: #c62828; }
+  .option-btn:disabled { cursor: not-allowed; }
+
+  .feedback-msg {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    margin-top: 12px;
+    display: none;
+    font-size: 1rem;
+  }
+  .feedback-msg.show { display: block; }
+  .feedback-msg.correct { background: #e8f5e9; color: #2e7d32; border: 2px solid #4CAF50; }
+  .feedback-msg.wrong { background: #ffebee; color: #c62828; border: 2px solid #F44336; }
+
+  .next-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 14px;
+    display: none;
+    transition: transform 0.2s;
+  }
+  .next-btn:hover { transform: scale(1.05); }
+  .next-btn.show { display: inline-block; }
+
+  /* ---- SCORE ---- */
+  .score-display {
+    background: linear-gradient(135deg, #f3e7ff, #e3f2fd);
+    border: 2px solid #764ba2;
+    border-radius: 16px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .score-star { font-size: 2rem; }
+  .score-text { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: #764ba2; }
+
+  /* ---- DRAG AND DROP ---- */
+  .sort-container {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .sort-pool {
+    flex: 2;
+    min-width: 200px;
+  }
+  .sort-targets {
+    flex: 3;
+    display: flex;
+    gap: 12px;
+    min-width: 280px;
+  }
+  .sort-target {
+    flex: 1;
+    border: 3px dashed #ccc;
+    border-radius: 16px;
+    padding: 14px;
+    min-height: 200px;
+    transition: all 0.2s;
+  }
+  .sort-target.drag-over { border-color: #764ba2; background: #f3e7ff; }
+  .sort-target h4 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .sort-target.ant-zone { border-color: #FF8C00; background: #fff8e1; }
+  .sort-target.ant-zone h4 { color: #E65100; }
+  .sort-target.grass-zone { border-color: #4CAF50; background: #e8f5e9; }
+  .sort-target.grass-zone h4 { color: #2e7d32; }
+
+  .word-chip {
+    display: inline-block;
+    background: #764ba2;
+    color: #fff;
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin: 4px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: grab;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .word-chip:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(118,75,162,0.4); }
+  .word-chip.dragging { opacity: 0.5; }
+  .word-chip.placed-ant { background: #FF8C00; }
+  .word-chip.placed-grass { background: #4CAF50; }
+
+  /* ---- MODAL VERB GAME ---- */
+  .modal-game {
+    background: linear-gradient(135deg, #e3f2fd, #e8eaf6);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .sentence-row {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .modal-select {
+    border: 2px solid #764ba2;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #764ba2;
+    background: #f3e7ff;
+    cursor: pointer;
+  }
+  .modal-select.correct { border-color: #4CAF50; background: #e8f5e9; color: #2e7d32; }
+  .modal-select.wrong { border-color: #F44336; background: #ffebee; color: #c62828; }
+
+  /* ---- PROVERB MATCH ---- */
+  .proverb-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .proverb-col h4 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #555;
+    text-align: center;
+  }
+  .proverb-item {
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+  }
+  .proverb-item:hover { border-color: #764ba2; color: #764ba2; }
+  .proverb-item.selected { border-color: #764ba2; background: #f3e7ff; color: #764ba2; }
+  .proverb-item.matched { border-color: #4CAF50; background: #e8f5e9; color: #2e7d32; cursor: default; }
+  .proverb-item.wrong-match { border-color: #F44336; background: #ffebee; animation: shake 0.3s; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+
+  /* ---- CREATIVE ZONE ---- */
+  .creative-box {
+    background: linear-gradient(135deg, #fff8e1, #fce4ec);
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .creative-box h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: #E65100;
+    margin-bottom: 12px;
+  }
+  .text-area {
+    width: 100%;
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    background: #fff;
+    resize: vertical;
+    min-height: 120px;
+    margin-top: 8px;
+  }
+  .text-area:focus { outline: none; border-color: #764ba2; }
+
+  /* ---- BADGES ---- */
+  .badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .badge {
+    background: #f3e7ff;
+    border: 2px solid #764ba2;
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #764ba2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.4;
+    transition: all 0.3s;
+  }
+  .badge.earned { opacity: 1; background: #764ba2; color: #fff; box-shadow: 0 4px 12px rgba(118,75,162,0.4); }
+
+  /* ---- INFO BOX ---- */
+  .info-box {
+    background: linear-gradient(135deg, #e3f2fd, #e1f5fe);
+    border: 2px solid #2196F3;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .info-box h4 { font-family: 'Fredoka One', cursive; color: #1565C0; font-size: 1.1rem; margin-bottom: 8px; }
+  .info-box p, .info-box li { color: #1565C0; font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+  .info-box ul { padding-left: 20px; }
+
+  /* ---- CHECK BTN ---- */
+  .check-btn {
+    background: linear-gradient(135deg, #4CAF50, #2e7d32);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-top: 12px;
+  }
+  .check-btn:hover { transform: scale(1.05); }
+
+  /* ---- CELEBRATION ---- */
+  .celebration {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 24px;
+    padding: 40px 50px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+    z-index: 1000;
+    display: none;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .celebration.show { display: block; }
+  @keyframes popIn {
+    from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
+  .celebration h2 { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #764ba2; margin: 12px 0 8px; }
+  .celebration p { color: #666; font-size: 1.1rem; font-weight: 600; }
+  .celebration-emoji { font-size: 4rem; }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; display: none; }
+  .overlay.show { display: block; }
+
+  .close-btn {
+    background: #764ba2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 16px;
+    font-size: 1rem;
+  }
+
+  /* ---- LITERAL VS FIGURATIVE ---- */
+  .lit-fig-row {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .expression { font-size: 1rem; font-weight: 800; color: #333; margin-bottom: 10px; font-style: italic; }
+  .lit-fig-btns { display: flex; gap: 10px; }
+  .lf-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .lf-btn:hover:not(:disabled) { border-color: #764ba2; color: #764ba2; }
+  .lf-btn.correct { background: #e8f5e9; border-color: #4CAF50; color: #2e7d32; }
+  .lf-btn.wrong { background: #ffebee; border-color: #F44336; color: #c62828; }
+
+  /* ---- PROGRESS BAR ---- */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-label { font-weight: 700; color: #764ba2; font-size: 0.9rem; margin-bottom: 6px; }
+  .progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    .proverb-grid { grid-template-columns: 1fr; }
+    .sort-targets { flex-direction: column; }
+    .sort-container { flex-direction: column; }
+    .character-scene { flex-direction: column; }
+  }
+
+  /* ---- TOOLTIP ---- */
+  .tooltip-box {
+    background: #333;
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  /* Tab content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .emoji-divider { text-align: center; font-size: 2rem; margin: 20px 0 10px; letter-spacing: 8px; }
+
+  /* chapter map */
+  .chapter-map {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .map-item {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 3px solid transparent;
+  }
+  .map-item:hover { transform: translateY(-4px); border-color: #764ba2; }
+  .map-item .mi-icon { font-size: 2.2rem; margin-bottom: 6px; }
+  .map-item .mi-title { font-family: 'Fredoka One', cursive; font-size: 0.95rem; color: #333; }
+  .map-item .mi-status { font-size: 0.75rem; color: #aaa; margin-top: 4px; }
+  .map-item.done { border-color: #4CAF50; background: #e8f5e9; }
+  .map-item.done .mi-status { color: #4CAF50; }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <span class="hero-emoji">🐜🌿🦗</span>
+  <h1>There's a Lesson in That!</h1>
+  <p>📚 Cambridge English • Stage 5 • Chapter 1 Adventure</p>
+</div>
+
+<!-- ===== NAV ===== -->
+<div class="nav-bar">
+  <button class="nav-btn active" onclick="showTab('home')">🏠 Home</button>
+  <button class="nav-btn" onclick="showTab('story')">📖 The Story</button>
+  <button class="nav-btn" onclick="showTab('quiz')">🧠 Story Quiz</button>
+  <button class="nav-btn" onclick="showTab('sort')">🃏 Sort It!</button>
+  <button class="nav-btn" onclick="showTab('modals')">🔑 Modal Verbs</button>
+  <button class="nav-btn" onclick="showTab('proverbs')">🌟 Proverbs</button>
+  <button class="nav-btn" onclick="showTab('literal')">🎭 Literal or Not?</button>
+  <button class="nav-btn" onclick="showTab('create')">✍️ Create!</button>
+</div>
+
+<!-- ===== CELEBRATION OVERLAY ===== -->
+<div class="overlay" id="overlay" onclick="closeModal()"></div>
+<div class="celebration" id="celebration">
+  <div class="celebration-emoji" id="cel-emoji">🎉</div>
+  <h2 id="cel-title">Amazing!</h2>
+  <p id="cel-msg">You got it right!</p>
+  <button class="close-btn" onclick="closeModal()">Keep Going! 🚀</button>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="content">
+
+  <!-- HOME TAB -->
+  <div class="tab-content active" id="tab-home">
+    <div class="section-title">🗺️ Your Learning Adventure</div>
+    <div class="section-sub">Chapter 1 is all about fables — short stories with big lessons! Explore each section below.</div>
+
+    <div class="badges-row" id="badges-row">
+      <div class="badge" id="badge-story">📖 Story Reader</div>
+      <div class="badge" id="badge-quiz">🧠 Quiz Champion</div>
+      <div class="badge" id="badge-sort">🃏 Word Sorter</div>
+      <div class="badge" id="badge-modal">🔑 Modal Master</div>
+      <div class="badge" id="badge-proverb">🌟 Proverb Pro</div>
+      <div class="badge" id="badge-literal">🎭 Language Wizard</div>
+      <div class="badge" id="badge-create">✍️ Storyteller</div>
+    </div>
+
+    <div class="chapter-map">
+      <div class="map-item" onclick="showTab('story')">
+        <div class="mi-icon">📖</div>
+        <div class="mi-title">Read the Fable</div>
+        <div class="mi-status" id="ms-story">Not started</div>
+      </div>
+      <div class="map-item" onclick="showTab('quiz')">
+        <div class="mi-icon">🧠</div>
+        <div class="mi-title">Story Quiz</div>
+        <div class="mi-status" id="ms-quiz">Not started</div>
+      </div>
+      <div class="map-item" onclick="showTab('sort')">
+        <div class="mi-icon">🃏</div>
+        <div class="mi-title">Sort the Words</div>
+        <div class="mi-status" id="ms-sort">Not started</div>
+      </div>
+      <div class="map-item" onclick="showTab('modals')">
+        <div class="mi-icon">🔑</div>
+        <div class="mi-title">Modal Verbs</div>
+        <div class="mi-status" id="ms-modal">Not started</div>
+      </div>
+      <div class="map-item" onclick="showTab('proverbs')">
+        <div class="mi-icon">🌟</div>
+        <div class="mi-title">Proverbs</div>
+        <div class="mi-status" id="ms-proverb">Not started</div>
+      </div>
+      <div class="map-item" onclick="showTab('literal')">
+        <div class="mi-icon">🎭</div>
+        <div class="mi-title">Literal or Figurative?</div>
+        <div class="mi-status" id="ms-literal">Not started</div>
+      </div>
+      <div class="map-item" onclick="showTab('create')">
+        <div class="mi-icon">✍️</div>
+        <div class="mi-title">Write Your Fable</div>
+        <div class="mi-status" id="ms-create">Not started</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>📚 What is a Fable?</h4>
+      <ul>
+        <li>🐾 A short story with <strong>animal characters</strong> that act like humans</li>
+        <li>💡 Animals have <strong>human personalities</strong> — called <em>anthropomorphism</em></li>
+        <li>📝 Always has a <strong>moral</strong> — a lesson about how to behave</li>
+        <li>🌍 Found in <strong>many cultures</strong> — Aesop lived in ancient Greece!</li>
+      </ul>
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, #fce4ec, #f3e5f5); border: 2px solid #E91E63;">
+      <div style="font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #880E4F; margin-bottom: 8px;">🤔 Did you know?</div>
+      <p style="color: #4a148c; font-weight: 600; font-size: 0.95rem;">Aesop lived in <strong>Greece in the 6th century BCE</strong> — that's over 2,500 years ago! His name may come from the Greek word "Aethiop", meaning <strong>Ethiopia</strong>. His fables are still read all over the world today! 🌍</p>
+    </div>
+  </div>
+
+  <!-- STORY TAB -->
+  <div class="tab-content" id="tab-story">
+    <div class="section-title">📖 Read the Fable</div>
+    <div class="section-sub">Read the story. Hover over the <span class="highlight-word" data-meaning="Touch me to see meanings!" style="cursor:help">golden words</span> to learn what they mean!</div>
+
+    <div class="character-scene">
+      <div class="character-bubble">
+        <span class="char-emoji">🐜</span>
+        <div class="char-name" style="color: #E65100;">Ant</div>
+        <div class="char-trait">Hard-working &amp; practical</div>
+      </div>
+      <div class="character-bubble">
+        <span class="char-emoji">🦗</span>
+        <div class="char-name" style="color: #2e7d32;">Grasshopper</div>
+        <div class="char-trait">Fun-loving &amp; carefree</div>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-title">🌾 The Ant and the Grasshopper 🌾</div>
+      <p>One fine summer's day, deep in a meadow, a grasshopper was bouncing about, <span class="highlight-word" data-meaning="making chirping sounds">chirruping</span> and singing without a care in the world. An ant <span class="highlight-word" data-meaning="moved quickly and busily">bustled</span> by, weighed down by the enormous ear of corn she was <span class="highlight-word" data-meaning="dragging with effort">lugging</span> to her nest.</p>
+
+      <p>Time and time again, the grasshopper watched the ant scurry back and forth gathering food — insects, flies, grains of wheat — anything she could find, never once stopping to admire the glorious day.</p>
+
+      <p>The grasshopper found this difficult to <span class="highlight-word" data-meaning="understand by thinking hard">fathom</span> and teased her, saying: <em>"Take it easy there, Ant! Why are you working so hard? The day is long! Food is plentiful. Come and rest awhile!"</em></p>
+
+      <p><em>"As it happens, Grasshopper, I am storing up food for winter and you should be doing the same. Summer won't last forever, you know!"</em> snapped the ant, shaking her head as she continued on her <span class="highlight-word" data-meaning="extremely hard-working">industrious</span> way.</p>
+
+      <p>Grasshopper <span class="highlight-word" data-meaning="laughed loudly, mocking Ant">guffawed</span> at the idea of working on such a day and hopped happily off into the sunset, singing and jigging all the way.</p>
+
+      <p>And summer didn't last. It never does. Winter came, bringing <span class="highlight-word" data-meaning="empty of food">barren</span> fields and frost. Grasshopper's song stuck in his throat as he shivered without shelter or <span class="highlight-word" data-meaning="food to survive">sustenance</span>, gazing <span class="highlight-word" data-meaning="sadly, wishing for something you can't have">wistfully</span> at the ants as they munched from their stores of food.</p>
+
+      <p><em>"How foolish I have been!"</em> he wailed — for only then did Grasshopper understand that he should have made provision for winter as Ant had said. 🍂</p>
+    </div>
+
+    <div class="info-box">
+      <h4>💬 The Moral of the Story</h4>
+      <p style="font-size: 1rem; font-weight: 800; color: #1a237e;">"Make hay while the sun shines!" — Work hard when times are good, so you are ready for harder times ahead.</p>
+    </div>
+
+    <div class="emoji-divider">· · ·</div>
+
+    <div class="story-card" style="background: linear-gradient(135deg, #e8f5e9, #f3e5f5);">
+      <div class="story-title" style="color: #6A1B9A;">✨ Auntie Anthea &amp; Gentle Geoffrey</div>
+      <p>This is a <strong>modern twist</strong> on the same fable! Summer had been a blast and <strong>Gentle Geoffrey</strong> (the grasshopper 🦗) loved every minute. His music was sweeter than ever. <strong>Auntie Anthea</strong> (the ant 🐜) had also enjoyed the summer — Geoffrey's music made her work feel easier!</p>
+
+      <p>When winter came, Geoffrey was famished and frail. He had no food or shelter. But Anthea had a <em>sneaky</em> plan — she wanted to invite him home... <em>as her dinner!</em> 😱</p>
+
+      <p>But clever Geoffrey started singing so beautifully that Anthea couldn't bring herself to eat him. Instead, he sang for his supper — and they both got what they needed! 🎵🍽️</p>
+
+      <div class="info-box" style="margin-top: 14px;">
+        <h4>🔄 The Twist!</h4>
+        <p>In the original: Ant ignores Grasshopper. In this version: Anthea wants to <em>eat</em> Geoffrey — but his music saves him! The lesson changes too: <strong>"One good turn deserves another."</strong></p>
+      </div>
+    </div>
+
+    <button class="check-btn" onclick="earnBadge('story', '📖', 'Story Reader', 'You read the fable! Great job! 🐜🦗'); markDone('story');" style="background: linear-gradient(135deg, #FF8C00, #E65100); width: 100%;">
+      ✅ I've Read the Story! Earn My Badge!
+    </button>
+  </div>
+
+  <!-- QUIZ TAB -->
+  <div class="tab-content" id="tab-quiz">
+    <div class="section-title">🧠 Story Quiz!</div>
+    <div class="section-sub">Answer questions about The Ant and the Grasshopper. How many can you get right?</div>
+
+    <div class="score-display">
+      <span class="score-star">⭐</span>
+      <span class="score-text">Score: <span id="quiz-score">0</span> / 8</span>
+      <div class="progress-wrap" style="flex:1; margin:0 0 0 12px;">
+        <div class="progress-bar"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div id="quiz-container"></div>
+  </div>
+
+  <!-- SORT TAB -->
+  <div class="tab-content" id="tab-sort">
+    <div class="section-title">🃏 Sort the Characters!</div>
+    <div class="section-sub">Drag each word to the right character. Which adjectives describe Ant 🐜 and which describe Grasshopper 🦗?</div>
+
+    <div class="sort-container">
+      <div class="sort-pool">
+        <h4 style="font-family:'Fredoka One',cursive; color:#764ba2; margin-bottom:12px;">🏷️ Word Pool</h4>
+        <div id="word-pool">
+          <!-- Words injected by JS -->
+        </div>
+      </div>
+      <div class="sort-targets">
+        <div class="sort-target ant-zone" id="ant-zone" ondragover="allowDrop(event)" ondrop="drop(event,'ant')">
+          <h4>🐜 Ant</h4>
+          <div id="ant-placed"></div>
+        </div>
+        <div class="sort-target grass-zone" id="grass-zone" ondragover="allowDrop(event)" ondrop="drop(event,'grass')">
+          <h4>🦗 Grasshopper</h4>
+          <div id="grass-placed"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="check-btn" id="sort-check-btn" onclick="checkSort()" style="margin-top: 16px;">✅ Check My Sorting!</button>
+    <div id="sort-feedback" class="feedback-msg"></div>
+  </div>
+
+  <!-- MODAL VERBS TAB -->
+  <div class="tab-content" id="tab-modals">
+    <div class="section-title">🔑 Modal Verbs</div>
+    <div class="section-sub">Modal verbs show how possible, necessary, or allowed something is!</div>
+
+    <div class="info-box">
+      <h4>🔑 Modal Verbs to Know</h4>
+      <p>These are the main modal verbs: <strong>can, could, may, might, should, would, will, must, ought to, shall</strong></p>
+      <ul style="margin-top: 8px;">
+        <li><strong>must / will</strong> = very certain 🟢</li>
+        <li><strong>should / ought to</strong> = a good idea 🟡</li>
+        <li><strong>may / might / could</strong> = possible but not sure 🔵</li>
+        <li><strong>can</strong> = ability 💪</li>
+      </ul>
+    </div>
+
+    <div class="modal-game">
+      <h3 style="font-family:'Fredoka One',cursive; color:#1565C0; margin-bottom: 16px;">🎮 Pick the Right Modal Verb!</h3>
+      <p style="font-weight:700; color:#555; margin-bottom:16px;">Choose the best modal verb to complete each sentence:</p>
+
+      <div id="modal-sentences"></div>
+
+      <button class="check-btn" onclick="checkModals()">✅ Check My Answers!</button>
+      <div id="modal-feedback" class="feedback-msg" style="margin-top: 12px;"></div>
+    </div>
+
+    <div class="info-box" style="background: linear-gradient(135deg, #fff8e1, #fff3e0); border-color: #FF8C00;">
+      <h4 style="color: #E65100;">📝 Negative Modal Verbs</h4>
+      <p style="color: #BF360C;">You can make modal verbs negative by adding "not" or a contraction:</p>
+      <ul style="color: #BF360C; margin-top: 6px;">
+        <li>will → <strong>won't</strong></li>
+        <li>should → <strong>shouldn't</strong></li>
+        <li>can → <strong>can't</strong></li>
+        <li>must → <strong>mustn't</strong></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4 style="font-family:'Fredoka One',cursive; color:#764ba2; margin-bottom:12px;">📝 Turn These Positive!</h4>
+      <p style="font-weight:700; color:#333; margin-bottom: 8px;">Read these negative sentences. Can you write the positive version in the box?</p>
+      <p style="background:#f3e7ff; border-radius:10px; padding:10px; font-weight:700; color:#333; margin-bottom:8px;">Grasshopper <strong>won't</strong> collect food for winter.</p>
+      <textarea class="text-area" style="min-height: 60px;" placeholder="Write the positive version here..."></textarea>
+      <p style="background:#f3e7ff; border-radius:10px; padding:10px; font-weight:700; color:#333; margin-bottom:8px; margin-top:12px;">Ant <strong>couldn't</strong> stop working.</p>
+      <textarea class="text-area" style="min-height: 60px;" placeholder="Write the positive version here..."></textarea>
+    </div>
+
+    <button class="check-btn" onclick="earnBadge('modal', '🔑', 'Modal Master', 'You conquered modal verbs! Brilliant! 🔑'); markDone('modal');" style="width: 100%;">🏆 I Understand Modal Verbs!</button>
+  </div>
+
+  <!-- PROVERBS TAB -->
+  <div class="tab-content" id="tab-proverbs">
+    <div class="section-title">🌟 Proverbs!</div>
+    <div class="section-sub">A proverb is a short, wise saying that teaches a lesson — just like a fable, but in one sentence!</div>
+
+    <div class="info-box">
+      <h4>🌟 What is a Proverb?</h4>
+      <p>Proverbs use <strong>figurative language</strong> — they don't mean exactly what they say. You have to think about the <em>deeper lesson</em>!</p>
+      <p style="margin-top:6px;">Example: <strong>"Make hay while the sun shines"</strong> means: <em>Work hard when times are good!</em> (Not actually about hay! 🌾)</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-family:'Fredoka One',cursive; color:#764ba2; margin-bottom:16px;">🎯 Match Each Proverb to Its Meaning!</h3>
+      <p style="font-weight:700; color:#666; margin-bottom:16px;">Click a proverb, then click its meaning. Can you match them all?</p>
+
+      <div class="proverb-grid">
+        <div class="proverb-col">
+          <h4>📣 Proverbs</h4>
+          <div class="proverb-item" id="p1" onclick="selectProverb('p1', 'm2')" data-answer="m2">Too many cooks spoil the broth.</div>
+          <div class="proverb-item" id="p2" onclick="selectProverb('p2', 'm3')" data-answer="m3">Birds of a feather flock together.</div>
+          <div class="proverb-item" id="p3" onclick="selectProverb('p3', 'm1')" data-answer="m1">Don't put all your eggs in one basket.</div>
+          <div class="proverb-item" id="p4" onclick="selectProverb('p4', 'm4')" data-answer="m4">Make hay while the sun shines.</div>
+        </div>
+        <div class="proverb-col">
+          <h4>💡 Meanings</h4>
+          <div class="proverb-item" id="m1" onclick="selectMeaning('m1')" data-answer="p3">Have a backup plan — don't risk everything on one thing.</div>
+          <div class="proverb-item" id="m2" onclick="selectMeaning('m2')" data-answer="p1">When too many people are in charge, things get confused!</div>
+          <div class="proverb-item" id="m3" onclick="selectMeaning('m3')" data-answer="p2">People like spending time with others who are like them.</div>
+          <div class="proverb-item" id="m4" onclick="selectMeaning('m4')" data-answer="p4">Work hard and be prepared while you have the chance.</div>
+        </div>
+      </div>
+      <div id="proverb-feedback" class="feedback-msg" style="margin-top: 12px;"></div>
+    </div>
+
+    <button class="check-btn" onclick="earnBadge('proverb', '🌟', 'Proverb Pro', 'You matched all the proverbs! 🌟'); markDone('proverb');" style="width: 100%;">🏆 I Know My Proverbs!</button>
+  </div>
+
+  <!-- LITERAL TAB -->
+  <div class="tab-content" id="tab-literal">
+    <div class="section-title">🎭 Literal or Figurative?</div>
+    <div class="section-sub">Some expressions mean exactly what they say (literal). Others use imaginative language to mean something different (figurative)!</div>
+
+    <div class="info-box">
+      <h4>🎭 The Difference</h4>
+      <p><strong>Literal</strong> = means exactly what it says 👉 "The ant carried the corn" (she really did!)</p>
+      <p style="margin-top:6px;"><strong>Figurative</strong> = means something different, more imaginative 👉 "Grasshopper had his head in the clouds" (he was daydreaming — not literally in the sky! ☁️)</p>
+    </div>
+
+    <h3 style="font-family:'Fredoka One',cursive; color:#764ba2; margin-bottom:16px;">🎮 Click: Literal or Figurative?</h3>
+
+    <div id="lit-fig-container"></div>
+
+    <div id="litfig-score" class="score-display" style="margin-top:16px;">
+      <span class="score-star">⭐</span>
+      <span class="score-text">Score: <span id="lf-score">0</span> / 6</span>
+    </div>
+
+    <button class="check-btn" onclick="earnBadge('literal', '🎭', 'Language Wizard', 'You can tell literal from figurative! Amazing! 🎭'); markDone('literal');" style="width: 100%;">🏆 I Can Spot Figurative Language!</button>
+  </div>
+
+  <!-- CREATE TAB -->
+  <div class="tab-content" id="tab-create">
+    <div class="section-title">✍️ Write Your Own Fable!</div>
+    <div class="section-sub">Now it's your turn to be the author! Use the planner below to create your very own fable.</div>
+
+    <div class="info-box">
+      <h4>📋 Features of a Fable — Remember These!</h4>
+      <ul>
+        <li>🐾 Animal characters who act like humans</li>
+        <li>💬 Dialogue — the characters talk to each other</li>
+        <li>📝 A clear lesson or moral at the end</li>
+        <li>🌈 Figurative language or alliteration</li>
+        <li>📏 Short and simple story</li>
+      </ul>
+    </div>
+
+    <div class="creative-box">
+      <h3>🐾 Step 1: Choose Your Characters</h3>
+      <p style="font-weight:700; color:#555; margin-bottom:8px;">Pick two animals. What personality will each one have?</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:140px;">
+          <label style="font-weight:800; color:#E65100;">Animal 1 🐾</label>
+          <textarea class="text-area" style="min-height:80px;" placeholder="e.g. A hardworking bee named Betty..."></textarea>
+        </div>
+        <div style="flex:1; min-width:140px;">
+          <label style="font-weight:800; color:#2e7d32;">Animal 2 🐾</label>
+          <textarea class="text-area" style="min-height:80px;" placeholder="e.g. A lazy lion named Leo..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="creative-box" style="background: linear-gradient(135deg, #e3f2fd, #e8eaf6); border-color: #2196F3;">
+      <h3 style="color:#1565C0;">⚙️ Step 2: The Problem</h3>
+      <p style="font-weight:700; color:#555; margin-bottom:8px;">What happens in your story? What's the problem or challenge?</p>
+      <textarea class="text-area" placeholder="e.g. One day, a drought came and there was no water. Betty had stored water in her hive, but Leo had wasted his..."></textarea>
+    </div>
+
+    <div class="creative-box" style="background: linear-gradient(135deg, #fce4ec, #f3e5f5); border-color: #E91E63;">
+      <h3 style="color:#880E4F;">💬 Step 3: Write the Dialogue</h3>
+      <p style="font-weight:700; color:#555; margin-bottom:8px;">What do your characters say to each other? Remember speech marks!</p>
+      <div class="info-box" style="margin-bottom:10px; border-color:#E91E63; background: #fff0f5;">
+        <h4 style="color:#880E4F;">Speech Marks Rules 💬</h4>
+        <ul style="color:#880E4F;">
+          <li>Put <strong>" "</strong> around what is spoken</li>
+          <li>Capital letter after the opening speech mark</li>
+          <li>Comma or ! or ? before the closing mark</li>
+          <li>New line when a new person speaks</li>
+        </ul>
+      </div>
+      <textarea class="text-area" style="min-height:150px;" placeholder='"Why do you work so hard?" asked Leo, yawning lazily.&#10;&#10;"Because winter is coming," replied Betty busily, "and I must be ready!"&#10;&#10;"Pah!" roared Leo. "There is plenty of time for that!"'></textarea>
+    </div>
+
+    <div class="creative-box" style="background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-color: #4CAF50;">
+      <h3 style="color:#2e7d32;">🌟 Step 4: The Lesson</h3>
+      <p style="font-weight:700; color:#555; margin-bottom:8px;">What moral does your fable teach? Can you find a proverb that fits?</p>
+      <textarea class="text-area" style="min-height:80px;" placeholder="The lesson of my fable is... / The proverb that fits is..."></textarea>
+    </div>
+
+    <div class="creative-box" style="background: linear-gradient(135deg, #fff8e1, #fff3e0); border-color: #FF8C00;">
+      <h3 style="color:#E65100;">📝 Step 5: Write Your Full Fable!</h3>
+      <p style="font-weight:700; color:#555; margin-bottom:8px;">Put it all together! Write your complete fable here:</p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+        <span style="background:#764ba2; color:#fff; border-radius:20px; padding:4px 12px; font-size:0.85rem; font-weight:700;">💡 Use alliteration in names!</span>
+        <span style="background:#4CAF50; color:#fff; border-radius:20px; padding:4px 12px; font-size:0.85rem; font-weight:700;">💡 Add figurative language!</span>
+        <span style="background:#2196F3; color:#fff; border-radius:20px; padding:4px 12px; font-size:0.85rem; font-weight:700;">💡 Use modal verbs!</span>
+      </div>
+      <textarea class="text-area" style="min-height:280px;" placeholder="Once upon a time..."></textarea>
+    </div>
+
+    <button class="check-btn" onclick="earnBadge('create', '✍️', 'Storyteller', 'You wrote your own fable! You\'re a real author! ✍️'); markDone('create');" style="width: 100%; background: linear-gradient(135deg, #E91E63, #880E4F);">
+      🏆 I Wrote My Fable! Earn My Badge!
+    </button>
+  </div>
+
+</div>
+
+<script>
+// ============================================
+// STATE
+// ============================================
+const state = {
+  quizScore: 0,
+  quizAnswered: 0,
+  sortScore: 0,
+  modalScore: 0,
+  lfScore: 0,
+  proverbSelected: null,
+  meaningSelected: null,
+  proverbMatches: 0,
+  badges: {}
+};
+
+// ============================================
+// NAVIGATION
+// ============================================
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  btns.forEach(b => { if(b.textContent.toLowerCase().includes(name.slice(0,3))) b.classList.add('active'); });
+  // Special case for home
+  if(name === 'home') btns[0].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ============================================
+// QUIZ DATA
+// ============================================
+const quizQuestions = [
+  {
+    q: "What was Ant doing all summer long?",
+    options: ["Singing and dancing", "Storing food for winter", "Playing with Grasshopper", "Sleeping in her nest"],
+    answer: 1,
+    explain: "🐜 Ant was busy storing food — insects, flies and grains of wheat — ready for the cold winter ahead!"
+  },
+  {
+    q: "What did Grasshopper spend summer doing?",
+    options: ["Working hard", "Building a home", "Chirruping and singing with no worries", "Helping Ant collect food"],
+    answer: 2,
+    explain: "🦗 Grasshopper bounced about, chirruping and singing without a care in the world!"
+  },
+  {
+    q: "What did Ant warn Grasshopper about?",
+    options: ["A hungry bird nearby", "Winter coming and food running out", "A flood in the meadow", "Other ants stealing food"],
+    answer: 1,
+    explain: "⚠️ Ant said 'Summer won't last forever' — trying to warn Grasshopper to prepare!"
+  },
+  {
+    q: "What happened to Grasshopper in winter?",
+    options: ["He found lots of food", "He moved to a warmer country", "He shivered with no food or shelter", "He joined Ant's colony"],
+    answer: 2,
+    explain: "❄️ Poor Grasshopper shivered without shelter or sustenance (food) while looking at Ant's full stores!"
+  },
+  {
+    q: "What does the word 'fathom' mean in the story?",
+    options: ["A type of food", "To understand something by thinking hard", "A measurement of depth", "To run very fast"],
+    answer: 1,
+    explain: "🧠 Grasshopper couldn't 'fathom' (understand) why Ant worked so hard on such a lovely day!"
+  },
+  {
+    q: "What is a FABLE?",
+    options: ["A long adventure novel", "A short story with animal characters that teaches a moral", "A poem about nature", "A true history story"],
+    answer: 1,
+    explain: "📚 A fable is a short story — usually with animals acting like people — that teaches a lesson (moral)!"
+  },
+  {
+    q: "In 'Auntie Anthea and Gentle Geoffrey', what was Anthea's sneaky plan?",
+    options: ["To share her food with Geoffrey", "To give Geoffrey a warm bed", "To eat Geoffrey for her supper!", "To teach Geoffrey to collect food"],
+    answer: 2,
+    explain: "😱 Anthea wanted to eat Geoffrey! She said 'I've never grazed on a grasshopper before'! 🦗"
+  },
+  {
+    q: "The word 'anthropomorphism' means...",
+    options: ["A type of insect", "Giving human characteristics to animals", "A very long winter", "A kind of proverb"],
+    answer: 1,
+    explain: "🐾 Anthropo = human, morph = shape/form. It means giving human qualities to animals in stories!"
+  }
+];
+
+let currentQ = 0;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  quizQuestions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-card';
+    div.id = 'qcard-' + i;
+    div.innerHTML = `
+      <div class="quiz-question"><span class="q-num">Q${i+1}.</span> ${q.q}</div>
+      <div class="options" id="opts-${i}">
+        ${q.options.map((opt, j) => `
+          <button class="option-btn" onclick="answerQ(${i}, ${j})" id="opt-${i}-${j}">
+            ${['🅰️','🅱️','🅲️','🅳️'][j]} ${opt}
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback-msg" id="fb-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerQ(qi, chosen) {
+  const q = quizQuestions[qi];
+  const opts = document.querySelectorAll(`#opts-${qi} .option-btn`);
+  const fb = document.getElementById('fb-' + qi);
+
+  opts.forEach(o => o.disabled = true);
+
+  if (chosen === q.answer) {
+    opts[chosen].classList.add('correct');
+    fb.textContent = '✅ Correct! ' + q.explain;
+    fb.className = 'feedback-msg show correct';
+    state.quizScore++;
+    document.getElementById('quiz-score').textContent = state.quizScore;
+    document.getElementById('quiz-progress').style.width = (state.quizScore / 8 * 100) + '%';
+    if (state.quizScore === 8) celebrate('🏆', 'Perfect Score!', 'You got all 8 questions right! You\'re a fable expert! 🐜🦗');
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[q.answer].classList.add('correct');
+    fb.textContent = '❌ Not quite! ' + q.explain;
+    fb.className = 'feedback-msg show wrong';
+  }
+
+  state.quizAnswered++;
+  if (state.quizAnswered === 8) {
+    earnBadge('quiz', '🧠', 'Quiz Champion', `You scored ${state.quizScore}/8 on the quiz!`);
+    markDone('quiz');
+  }
+}
+
+// ============================================
+// SORT GAME
+// ============================================
+const sortWords = [
+  { word: 'hard-working', correct: 'ant' },
+  { word: 'fun-loving', correct: 'grass' },
+  { word: 'serious', correct: 'ant' },
+  { word: 'cheerful', correct: 'grass' },
+  { word: 'prudent', correct: 'ant' },
+  { word: 'irresponsible', correct: 'grass' },
+  { word: 'practical', correct: 'ant' },
+  { word: 'happy-go-lucky', correct: 'grass' },
+  { word: 'down-to-earth', correct: 'ant' },
+  { word: 'feckless', correct: 'grass' },
+  { word: 'sensible', correct: 'ant' },
+  { word: 'cheery', correct: 'grass' },
+];
+
+const sortPlacements = {};
+
+function buildSort() {
+  const pool = document.getElementById('word-pool');
+  pool.innerHTML = '';
+  sortWords.forEach((sw, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'word-chip';
+    chip.id = 'chip-' + i;
+    chip.textContent = sw.word;
+    chip.draggable = true;
+    chip.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('chipId', 'chip-' + i);
+      chip.classList.add('dragging');
+    });
+    chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+    pool.appendChild(chip);
+  });
+}
+
+function allowDrop(e) { e.preventDefault(); }
+
+function drop(e, zone) {
+  e.preventDefault();
+  const chipId = e.dataTransfer.getData('chipId');
+  const chip = document.getElementById(chipId);
+  const idx = parseInt(chipId.replace('chip-', ''));
+  sortPlacements[idx] = zone;
+  const placed = document.getElementById(zone + '-placed');
+  placed.appendChild(chip);
+  chip.classList.remove('placed-ant', 'placed-grass');
+  chip.classList.add('placed-' + zone);
+}
+
+function checkSort() {
+  let correct = 0;
+  sortWords.forEach((sw, i) => {
+    const placement = sortPlacements[i];
+    const chip = document.getElementById('chip-' + i);
+    if (placement === sw.correct) {
+      correct++;
+      chip.style.background = '#4CAF50';
+    } else if (placement) {
+      chip.style.background = '#F44336';
+    }
+  });
+  const fb = document.getElementById('sort-feedback');
+  const total = Object.keys(sortPlacements).length;
+  fb.textContent = `You placed ${total} words and got ${correct}/${total} correct! ${correct === sortWords.length ? '🎉 Perfect!' : 'Try again!'}`;
+  fb.className = 'feedback-msg show ' + (correct === sortWords.length ? 'correct' : 'wrong');
+  if (correct >= 10) {
+    earnBadge('sort', '🃏', 'Word Sorter', 'You sorted the characters perfectly! 🃏');
+    markDone('sort');
+  }
+}
+
+// ============================================
+// MODAL VERBS
+// ============================================
+const modalSentences = [
+  { before: "Ant is very strong. She", blank: "", after: "carry food twice her own size!", options: ["might", "can", "must", "would"], answer: 1, explain: "CAN shows ability — Ant IS able to carry heavy loads!" },
+  { before: "It's nearly winter! You", blank: "", after: "collect food soon!", options: ["can", "might", "must", "would"], answer: 2, explain: "MUST shows obligation — it's very important, not optional!" },
+  { before: "The grasshopper", blank: "", after: "collect food (but probably won't!).", options: ["must", "might", "can't", "will"], answer: 1, explain: "MIGHT = possible but not certain. Grasshopper probably won't!" },
+  { before: "If you work hard now, you", blank: "", after: "be comfortable this winter.", options: ["can't", "won't", "will", "might not"], answer: 2, explain: "WILL shows certainty about the future — a definite outcome!" },
+  { before: "Grasshopper", blank: "", after: "think about winter — it's only fair!", options: ["should", "will", "can", "might"], answer: 0, explain: "SHOULD gives advice — it would be a good idea for Grasshopper!" },
+];
+
+function buildModals() {
+  const container = document.getElementById('modal-sentences');
+  container.innerHTML = '';
+  modalSentences.forEach((ms, i) => {
+    const div = document.createElement('div');
+    div.className = 'sentence-row';
+    div.innerHTML = `
+      <span style="background:#764ba2;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">${i+1}</span>
+      <span>${ms.before}</span>
+      <select class="modal-select" id="ms-${i}">
+        <option value="">choose...</option>
+        ${ms.options.map((o,j) => `<option value="${j}">${o}</option>`).join('')}
+      </select>
+      <span>${ms.after}</span>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkModals() {
+  let correct = 0;
+  modalSentences.forEach((ms, i) => {
+    const sel = document.getElementById('ms-' + i);
+    const val = parseInt(sel.value);
+    sel.classList.remove('correct', 'wrong');
+    if (!isNaN(val)) {
+      if (val === ms.answer) { sel.classList.add('correct'); correct++; }
+      else { sel.classList.add('wrong'); }
+    }
+  });
+  const fb = document.getElementById('modal-feedback');
+  fb.textContent = `${correct}/5 correct! ${correct === 5 ? '🎉 Modal Master!' : 'Check the highlighted ones and try again!'}`;
+  fb.className = 'feedback-msg show ' + (correct >= 4 ? 'correct' : 'wrong');
+  if (correct >= 4) { earnBadge('modal', '🔑', 'Modal Master', 'You nailed modal verbs! 🔑'); markDone('modal'); }
+}
+
+// ============================================
+// PROVERBS MATCHING
+// ============================================
+let selectedProverb = null;
+let selectedMeaning = null;
+
+function selectProverb(pid, correctMid) {
+  const el = document.getElementById(pid);
+  if (el.classList.contains('matched')) return;
+  document.querySelectorAll('.proverb-col:first-child .proverb-item:not(.matched)').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedProverb = { id: pid, correctMid };
+  tryMatch();
+}
+
+function selectMeaning(mid) {
+  const el = document.getElementById(mid);
+  if (el.classList.contains('matched')) return;
+  document.querySelectorAll('.proverb-col:last-child .proverb-item:not(.matched)').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedMeaning = mid;
+  tryMatch();
+}
+
+function tryMatch() {
+  if (!selectedProverb || !selectedMeaning) return;
+  const pid = selectedProverb.id;
+  const mid = selectedMeaning;
+  const correctMid = selectedProverb.correctMid;
+
+  if (mid === correctMid) {
+    document.getElementById(pid).classList.remove('selected');
+    document.getElementById(mid).classList.remove('selected');
+    document.getElementById(pid).classList.add('matched');
+    document.getElementById(mid).classList.add('matched');
+    state.proverbMatches++;
+    const fb = document.getElementById('proverb-feedback');
+    if (state.proverbMatches === 4) {
+      fb.textContent = '🎉 Perfect! You matched all 4 proverbs!';
+      fb.className = 'feedback-msg show correct';
+      celebrate('🌟', 'Proverb Pro!', 'You matched all the proverbs perfectly! You\'re wise! 🌟');
+      earnBadge('proverb', '🌟', 'Proverb Pro', 'You matched all proverbs! Wise as an owl! 🦉');
+      markDone('proverb');
+    } else {
+      fb.textContent = `✅ Correct match! ${state.proverbMatches}/4 done.`;
+      fb.className = 'feedback-msg show correct';
+    }
+  } else {
+    document.getElementById(pid).classList.add('wrong-match');
+    document.getElementById(mid).classList.add('wrong-match');
+    setTimeout(() => {
+      document.getElementById(pid).classList.remove('wrong-match', 'selected');
+      document.getElementById(mid).classList.remove('wrong-match', 'selected');
+    }, 600);
+    const fb = document.getElementById('proverb-feedback');
+    fb.textContent = '❌ Not quite! Try another meaning for that proverb.';
+    fb.className = 'feedback-msg show wrong';
+  }
+  selectedProverb = null;
+  selectedMeaning = null;
+}
+
+// ============================================
+// LITERAL VS FIGURATIVE
+// ============================================
+const lfItems = [
+  { expr: '"Grasshopper\'s song stuck in his throat."', correct: 'fig', explanation: 'He was too shocked and sad to sing — it\'s figurative!' },
+  { expr: '"The ant carried the corn to her nest."', correct: 'lit', explanation: 'She really did carry the corn — that\'s exactly what happened!' },
+  { expr: '"Summer had been a blast!"', correct: 'fig', explanation: '"Blast" means amazing fun here — not an actual explosion!' },
+  { expr: '"Grasshopper had his head in the clouds."', correct: 'fig', explanation: 'He was daydreaming — his head wasn\'t literally in the sky!' },
+  { expr: '"The ants munched from their stores of food."', correct: 'lit', explanation: 'They really were eating their stored food — literal!' },
+  { expr: '"It was a giant leap forward for antkind!"', correct: 'fig', explanation: 'A play on "mankind" — it means a great achievement for ants!' },
+];
+
+let lfScore = 0;
+
+function buildLitFig() {
+  const container = document.getElementById('lit-fig-container');
+  container.innerHTML = '';
+  lfItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'lit-fig-row';
+    div.innerHTML = `
+      <div class="expression">"${item.expr}"</div>
+      <div class="lit-fig-btns">
+        <button class="lf-btn" id="lf-lit-${i}" onclick="answerLF(${i}, 'lit')">📝 Literal</button>
+        <button class="lf-btn" id="lf-fig-${i}" onclick="answerLF(${i}, 'fig')">🎭 Figurative</button>
+      </div>
+      <div id="lf-fb-${i}" style="font-size:0.85rem; font-weight:700; margin-top:6px; display:none; color:#555;"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerLF(i, choice) {
+  const item = lfItems[i];
+  const litBtn = document.getElementById('lf-lit-' + i);
+  const figBtn = document.getElementById('lf-fig-' + i);
+  const fb = document.getElementById('lf-fb-' + i);
+  litBtn.disabled = figBtn.disabled = true;
+
+  if (choice === item.correct) {
+    document.getElementById(`lf-${choice}-${i}`).classList.add('correct');
+    fb.textContent = '✅ ' + item.explanation;
+    fb.style.color = '#2e7d32';
+    lfScore++;
+    document.getElementById('lf-score').textContent = lfScore;
+    if (lfScore === 6) celebrate('🎭', 'Language Wizard!', 'You got all 6 right! You understand figurative language! ✨');
+  } else {
+    document.getElementById(`lf-${choice}-${i}`).classList.add('wrong');
+    document.getElementById(`lf-${item.correct}-${i}`).classList.add('correct');
+    fb.textContent = '❌ ' + item.explanation;
+    fb.style.color = '#c62828';
+  }
+  fb.style.display = 'block';
+}
+
+// ============================================
+// BADGES & CELEBRATION
+// ============================================
+function earnBadge(key, emoji, title, msg) {
+  if (state.badges[key]) return;
+  state.badges[key] = true;
+  const badge = document.getElementById('badge-' + key);
+  if (badge) { badge.classList.add('earned'); badge.textContent = emoji + ' ' + title; }
+  celebrate(emoji, title + ' Badge Earned!', msg);
+}
+
+function markDone(key) {
+  const el = document.getElementById('ms-' + key);
+  if (el) { el.textContent = '✅ Done!'; }
+  const mapItem = el ? el.closest('.map-item') : null;
+  if (mapItem) mapItem.classList.add('done');
+}
+
+function celebrate(emoji, title, msg) {
+  document.getElementById('cel-emoji').textContent = emoji;
+  document.getElementById('cel-title').textContent = title;
+  document.getElementById('cel-msg').textContent = msg;
+  document.getElementById('celebration').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('celebration').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ============================================
+// INIT
+// ============================================
+window.onload = function() {
+  buildQuiz();
+  buildSort();
+  buildModals();
+  buildLitFig();
+};
+</script>
+</body>
+</html>

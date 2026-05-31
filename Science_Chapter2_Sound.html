@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Chapter 2 - Sound</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Trebuchet MS', Arial, sans-serif; background: #e8f4fd; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #6a1b9a 100%); color: white; text-align: center; padding: 22px 20px 18px; }
+.header h1 { font-size: 26px; letter-spacing: 1px; }
+.header p { font-size: 14px; opacity: 0.85; margin-top: 5px; }
+.nav { display: flex; justify-content: center; gap: 6px; padding: 12px 10px; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.09); flex-wrap: wrap; }
+.nav-btn { padding: 9px 16px; border: none; border-radius: 50px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.25s; font-family: inherit; }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn.active { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.22); }
+.n1{background:#e91e63;color:white;} .n2{background:#ff6f00;color:white;} .n3{background:#00897b;color:white;} .n4{background:#7b1fa2;color:white;} .n5{background:#1565c0;color:white;}
+.content { max-width: 940px; margin: 0 auto; padding: 20px; }
+.section { display: none; }
+.section.active { display: block; animation: fadeIn 0.4s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);} }
+.card { background: white; border-radius: 20px; padding: 24px; margin-bottom: 18px; box-shadow: 0 3px 16px rgba(0,0,0,0.08); }
+.card-title { font-size: 20px; font-weight: bold; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; color: #222; }
+.badge { display: inline-flex; align-items: center; gap: 6px; background: #ffe082; color: #e65100; padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 14px; }
+.fact-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.fact-item { flex: 1; min-width: 140px; background: #f3e5f5; border-radius: 14px; padding: 14px 16px; border-left: 4px solid #ab47bc; }
+.fi-title { font-size: 13px; font-weight: bold; color: #6a1b9a; margin-bottom: 4px; }
+.fi-body { font-size: 13px; color: #444; line-height: 1.5; }
+.vib-canvas { background: #1a1a2e; border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 16px; }
+.vib-btn { background: #e91e63; color: white; border: none; padding: 10px 20px; border-radius: 25px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: inherit; margin: 6px; transition: all 0.25s; }
+.vib-btn:hover { background: #c2185b; transform: scale(1.05); }
+.vib-btn.active { background: #c2185b; box-shadow: 0 0 0 3px rgba(233,30,99,0.4); }
+.travel-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 14px; }
+.travel-card { border-radius: 14px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+.travel-card:hover { transform: translateY(-4px); }
+.travel-card.selected { border-color: #1565c0; }
+.travel-icon { font-size: 36px; margin-bottom: 8px; }
+.travel-name { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+.travel-bar { height: 16px; border-radius: 8px; margin: 8px 0; }
+.travel-val { font-size: 12px; color: #666; }
+.travel-info { margin-top: 10px; font-size: 13px; color: #555; display: none; line-height: 1.6; text-align: left; }
+.travel-card.selected .travel-info { display: block; }
+.db-bar { display: flex; align-items: center; gap: 10px; margin: 8px 0; cursor: pointer; transition: all 0.25s; padding: 8px 12px; border-radius: 10px; }
+.db-bar:hover { background: #f5f5f5; }
+.db-label { width: 160px; font-size: 13px; color: #444; font-weight: bold; }
+.db-fill-wrap { flex: 1; background: #f0f0f0; border-radius: 8px; height: 18px; overflow: hidden; }
+.db-fill { height: 100%; border-radius: 8px; transition: width 0.8s; }
+.db-num { width: 60px; font-size: 13px; font-weight: bold; text-align: right; }
+.wave-demo { background: #1a1a2e; border-radius: 16px; padding: 20px; margin: 14px 0; }
+.wave-row { display: flex; align-items: center; gap: 14px; margin: 10px 0; }
+.wave-label { width: 100px; color: #ccc; font-size: 13px; font-weight: bold; }
+.wave-svg { flex: 1; }
+.wave-tag { background: #e3f2fd; color: #0d47a1; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; white-space: nowrap; }
+.guitar-sim { background: #3e2723; border-radius: 16px; padding: 24px; margin: 14px 0; }
+.guitar-body { background: #5d4037; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+.guitar-string { display: flex; align-items: center; gap: 10px; margin: 10px 0; cursor: pointer; padding: 6px; border-radius: 8px; transition: all 0.2s; }
+.guitar-string:hover { background: rgba(255,255,255,0.1); }
+.gs-line-wrap { flex: 1; height: 30px; position: relative; }
+.gs-label { color: #ffcc80; font-size: 12px; width: 110px; }
+.gs-pitch { color: #a5d6a7; font-size: 12px; width: 90px; text-align: right; font-weight: bold; }
+.result-box { background: #fff3e0; border-radius: 12px; padding: 14px 16px; margin-top: 12px; border-left: 4px solid #ff6f00; font-size: 14px; color: #444; line-height: 1.7; }
+.bottles-wrap { display: flex; gap: 10px; justify-content: center; align-items: flex-end; margin: 16px 0; flex-wrap: wrap; }
+.bottle-item { text-align: center; cursor: pointer; transition: all 0.25s; }
+.bottle-item:hover { transform: translateY(-5px); }
+.bottle-item.active { transform: translateY(-5px); }
+.bottle-note { font-size: 14px; font-weight: bold; margin-top: 6px; }
+.bottle-pitch { font-size: 11px; color: #888; }
+.pitch-result { background: #f3e5f5; border-radius: 14px; padding: 16px; margin-top: 14px; text-align: center; border: 2px solid #ab47bc; animation: fadeIn 0.4s; }
+.pitch-result h3 { font-size: 18px; color: #6a1b9a; margin-bottom: 8px; }
+.pitch-result p { font-size: 14px; color: #444; line-height: 1.7; }
+.muffle-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 14px; }
+.muffle-card { border-radius: 14px; padding: 16px; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+.muffle-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+.muffle-card.selected { border-color: #00897b; }
+.muffle-icon { font-size: 32px; margin-bottom: 8px; }
+.muffle-name { font-size: 15px; font-weight: bold; margin-bottom: 4px; }
+.star-filled { color: #ffd740; font-size: 16px; }
+.star-empty { color: #e0e0e0; font-size: 16px; }
+.muffle-desc { font-size: 13px; color: #555; display: none; line-height: 1.6; margin-top: 8px; }
+.muffle-card.selected .muffle-desc { display: block; }
+.q-prog { margin-bottom: 20px; }
+.q-prog-text { font-size: 13px; color: #888; margin-bottom: 6px; }
+.prog-bar { background: #e0e0e0; border-radius: 10px; height: 8px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg,#1565c0,#7b1fa2); transition: width 0.5s; }
+.q-text { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 18px; line-height: 1.5; }
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt-btn { padding: 13px 15px; border: 2.5px solid #e0e0e0; border-radius: 14px; font-size: 14px; background: white; cursor: pointer; text-align: left; font-family: inherit; transition: all 0.25s; line-height: 1.4; }
+.opt-btn:hover:not(:disabled) { border-color: #1565c0; background: #e3f2fd; }
+.opt-btn.correct { background: #e8f5e9!important; border-color: #43a047!important; color: #1b5e20!important; }
+.opt-btn.wrong { background: #ffebee!important; border-color: #e53935!important; color: #b71c1c!important; }
+.opt-btn.reveal { background: #e8f5e9!important; border-color: #43a047!important; }
+.opt-btn:disabled { cursor: default; }
+.q-feedback { margin-top: 14px; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: bold; display: none; }
+.q-feedback.show { display: block; animation: fadeIn 0.3s; }
+.q-feedback.ok { background: #e8f5e9; color: #2e7d32; }
+.q-feedback.bad { background: #ffebee; color: #c62828; }
+.q-nav { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; align-items: center; }
+.q-score-mini { font-size: 13px; color: #888; }
+.btn { padding: 11px 24px; border: none; border-radius: 50px; font-size: 15px; font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.25s; }
+.btn:hover { transform: scale(1.05); }
+.btn-b{background:#1565c0;color:white;} .btn-g{background:#43a047;color:white;} .btn-o{background:#ff6d00;color:white;} .btn-p{background:#7b1fa2;color:white;}
+.score-card { text-align: center; padding: 40px 20px; display: none; }
+.score-card.show { display: block; animation: fadeIn 0.5s; }
+.big-score { font-size: 70px; font-weight: bold; color: #1565c0; }
+.star-row { font-size: 44px; margin: 12px 0; }
+.msg { font-size: 20px; color: #333; margin: 8px 0; font-weight: bold; }
+.sub { font-size: 15px; color: #666; margin-top: 6px; }
+@keyframes pluck { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔊 Chapter 2: Sound</h1>
+  <p>Cambridge Primary Science Stage 5 &nbsp;|&nbsp; Explore the amazing world of sound!</p>
+  <div style="font-size:22px;margin-top:8px;letter-spacing:4px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+</div>
+<div class="nav">
+  <button class="nav-btn n1 active" onclick="show('s21',this)">🌊 How Sounds Are Made</button>
+  <button class="nav-btn n2" onclick="show('s22',this)">📊 Volume &amp; Pitch</button>
+  <button class="nav-btn n3" onclick="show('s23',this)">🔇 Changing Volume</button>
+  <button class="nav-btn n4" onclick="show('s24',this)">🎸 Changing Pitch</button>
+  <button class="nav-btn n5" onclick="show('quiz',this)">🧠 Quiz Time!</button>
+</div>
+<div class="content">
+
+<!-- 2.1 HOW SOUNDS ARE MADE -->
+<div class="section active" id="sec-s21">
+  <div class="card">
+    <div class="card-title">🌊 Sounds Are Made by Vibrations</div>
+    <p style="font-size:15px;line-height:1.8;color:#444;margin-bottom:16px;">Every single sound you hear is made by something <strong>vibrating</strong> — moving back and forth very quickly. When an object vibrates, it makes the air around it vibrate too. Those vibrations travel to your ears and you hear SOUND! 👂</p>
+    <div class="badge">👆 Press the buttons to see a string vibrate!</div>
+    <div class="vib-canvas">
+      <p style="color:#aaa;font-size:13px;margin-bottom:10px;">🎸 Watch the string vibrate:</p>
+      <svg width="100%" viewBox="0 0 400 60" style="display:block;margin:0 auto;max-width:460px;">
+        <line x1="0" y1="30" x2="400" y2="30" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+        <path id="vibPath" d="M 0 30 Q 200 30 400 30" fill="none" stroke="#e91e63" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="0" cy="30" r="6" fill="#bdbdbd"/>
+        <circle cx="400" cy="30" r="6" fill="#bdbdbd"/>
+      </svg>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+        <button class="vib-btn" onclick="playVib('still',this)">😴 No Sound</button>
+        <button class="vib-btn active" onclick="playVib('quiet',this)">🔉 Quiet Sound</button>
+        <button class="vib-btn" onclick="playVib('loud',this)">🔊 Loud Sound</button>
+        <button class="vib-btn" onclick="playVib('fast',this)">🎵 High Pitch</button>
+      </div>
+      <p id="vibMsg" style="color:#aaa;font-size:13px;margin-top:12px;">A <strong style="color:#e91e63;">quiet sound</strong> — small vibrations back and forth.</p>
+    </div>
+    <div class="fact-row">
+      <div class="fact-item" style="background:#fce4ec;border-left-color:#e91e63;">
+        <div class="fi-title" style="color:#c62828;">🎵 Vibration = Sound</div>
+        <div class="fi-body">Put your hand on your throat and hum — you can FEEL the vibrations! Every sound from a whisper to thunder is made by vibrating.</div>
+      </div>
+      <div class="fact-item" style="background:#e8eaf6;border-left-color:#3f51b5;">
+        <div class="fi-title" style="color:#283593;">👁️ Can You See Vibrations?</div>
+        <div class="fi-body">Usually vibrations are too fast to see. But you can see guitar strings blur when plucked, and rice grains jump on a drum skin when you bang it!</div>
+      </div>
+      <div class="fact-item" style="background:#e0f7fa;border-left-color:#0097a7;">
+        <div class="fi-title" style="color:#006064;">🚀 No Sound in Space!</div>
+        <div class="fi-body">In outer space there is no air, so sound vibrations cannot travel at all. Space is completely silent — even a massive explosion makes no sound!</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">🧪 How Well Does Sound Travel? — Click each material!</div>
+    <p style="font-size:14px;color:#666;margin-bottom:16px;">Sound travels through <strong>solids, liquids and gases</strong> — but better through some than others. Tap each to find out!</p>
+    <div class="travel-grid">
+      <div class="travel-card selected" style="background:#fce4ec;" onclick="selectTravel(this)">
+        <div class="travel-icon">🌬️</div>
+        <div class="travel-name" style="color:#c62828;">Gas (Air)</div>
+        <div class="travel-bar" style="background:#ef9a9a;"><div style="width:30%;height:100%;background:#e53935;border-radius:8px;"></div></div>
+        <div class="travel-val">Slowest — particles far apart</div>
+        <div class="travel-info">Sound travels <strong>slowest through gases</strong> like air. The particles are spread far apart so vibrations take longer to pass. Sound travels at about 340 m/s through air — still fast, but slowest of the three!</div>
+      </div>
+      <div class="travel-card" style="background:#e3f2fd;" onclick="selectTravel(this)">
+        <div class="travel-icon">💧</div>
+        <div class="travel-name" style="color:#0d47a1;">Liquid (Water)</div>
+        <div class="travel-bar" style="background:#90caf9;"><div style="width:62%;height:100%;background:#1565c0;border-radius:8px;"></div></div>
+        <div class="travel-val">Medium — particles closer together</div>
+        <div class="travel-info">Sound travels <strong>better through liquids</strong>. Particles are closer so vibrations pass along faster. Whales and dolphins communicate using sound underwater — sometimes hundreds of kilometres away!</div>
+      </div>
+      <div class="travel-card" style="background:#e8f5e9;" onclick="selectTravel(this)">
+        <div class="travel-icon">🪨</div>
+        <div class="travel-name" style="color:#1b5e20;">Solid (Wood/Metal)</div>
+        <div class="travel-bar" style="background:#a5d6a7;"><div style="width:90%;height:100%;background:#2e7d32;border-radius:8px;"></div></div>
+        <div class="travel-val">Fastest — particles packed tightly</div>
+        <div class="travel-info">Sound travels <strong>fastest and best through solids</strong>! Particles are packed tightly together so vibrations pass extremely quickly. Put your ear on a wooden desk and tap it — it sounds MUCH louder than tapping through air!</div>
+      </div>
+    </div>
+    <div style="background:#fff9c4;border-radius:12px;padding:14px;margin-top:14px;font-size:14px;color:#555;border-left:4px solid #f9a825;">
+      <strong>🏆 Remember:</strong> Sound travels BEST through <strong>solids</strong>, then liquids, then gases (air). Solids are best because their particles are closest together!
+    </div>
+  </div>
+</div>
+
+<!-- 2.2 VOLUME AND PITCH -->
+<div class="section" id="sec-s22">
+  <div class="card">
+    <div class="card-title">📢 Volume — How Loud is a Sound?</div>
+    <p style="font-size:15px;line-height:1.8;color:#444;margin-bottom:14px;"><strong>Volume</strong> is how loud or quiet a sound is. A sound is louder when vibrations are <em>bigger</em>. We measure volume in <strong>decibels (dB)</strong>. Sounds over <strong>85 dB</strong> can damage your ears! 👂</p>
+    <div class="badge">📊 Click any bar to learn about that sound level!</div>
+    <div class="db-bar" onclick="showDbInfo('0 dB — Complete silence. Absolutely no sound at all! This is the quietest thing a human can hear.')">
+      <div class="db-label">🤫 Silence</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:2%;background:#b2dfdb;"></div></div>
+      <div class="db-num" style="color:#00897b;">0 dB</div>
+    </div>
+    <div class="db-bar" onclick="showDbInfo('30 dB — A whisper or rustling leaves. Very soft and gentle. You have to be very close to hear it.')">
+      <div class="db-label">🍃 Whisper</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:20%;background:#80cbc4;"></div></div>
+      <div class="db-num" style="color:#00897b;">30 dB</div>
+    </div>
+    <div class="db-bar" onclick="showDbInfo('60 dB — Normal everyday conversation between people. Safe and comfortable for your ears!')">
+      <div class="db-label">💬 Conversation</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:45%;background:#81c784;"></div></div>
+      <div class="db-num" style="color:#388e3c;">60 dB</div>
+    </div>
+    <div class="db-bar" onclick="showDbInfo('75 dB — A busy road with lots of traffic. Loud, but not yet at the danger level for short periods.')">
+      <div class="db-label">🚗 Busy Traffic</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:58%;background:#fff176;"></div></div>
+      <div class="db-num" style="color:#f57f17;">75 dB</div>
+    </div>
+    <div class="db-bar" onclick="showDbInfo('⚠️ 85 dB — THE DANGER LEVEL! Regular exposure to sounds this loud or above can permanently damage your hearing. Always protect your ears!')">
+      <div class="db-label" style="color:#e53935;font-weight:bold;">⚠️ DANGER LEVEL</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:65%;background:#ef9a9a;"></div></div>
+      <div class="db-num" style="color:#c62828;">85 dB</div>
+    </div>
+    <div class="db-bar" onclick="showDbInfo('100 dB — A loud rock concert or nightclub. Prolonged exposure without ear protection will cause permanent hearing damage!')">
+      <div class="db-label">🎸 Rock Concert</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:78%;background:#e57373;"></div></div>
+      <div class="db-num" style="color:#c62828;">100 dB</div>
+    </div>
+    <div class="db-bar" onclick="showDbInfo('130 dB — Standing near a jet aircraft engine. Extremely dangerous — can cause instant and permanent hearing damage!')">
+      <div class="db-label">✈️ Jet Engine</div>
+      <div class="db-fill-wrap"><div class="db-fill" style="width:95%;background:#e53935;"></div></div>
+      <div class="db-num" style="color:#b71c1c;">130 dB</div>
+    </div>
+    <div id="dbInfo" style="background:#fff3e0;border-radius:12px;padding:14px;margin-top:12px;font-size:14px;color:#444;border-left:4px solid #ff6d00;display:none;animation:fadeIn 0.3s;"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">🎵 Pitch — High or Low?</div>
+    <p style="font-size:15px;line-height:1.8;color:#444;margin-bottom:14px;"><strong>Pitch</strong> describes whether a sound is high or low. <em>Fast vibrations</em> → high pitch. <em>Slow vibrations</em> → low pitch.</p>
+    <div class="wave-demo">
+      <p style="color:#aaa;font-size:13px;margin-bottom:14px;">👀 See how different vibrations produce different sounds:</p>
+      <div class="wave-row">
+        <div class="wave-label">⬇️ Slow vibrations</div>
+        <svg class="wave-svg" viewBox="0 0 300 60" height="50"><path d="M0 30 C37 0 75 0 112 30 C150 60 188 60 225 30 C263 0 275 0 300 30" fill="none" stroke="#1565c0" stroke-width="3"/></svg>
+        <span class="wave-tag" style="background:#e3f2fd;color:#0d47a1;">LOW pitch 🐘</span>
+      </div>
+      <div class="wave-row">
+        <div class="wave-label">⬆️ Fast vibrations</div>
+        <svg class="wave-svg" viewBox="0 0 300 60" height="50"><path d="M0 30 C10 5 20 5 30 30 C40 55 50 55 60 30 C70 5 80 5 90 30 C100 55 110 55 120 30 C130 5 140 5 150 30 C160 55 170 55 180 30 C190 5 200 5 210 30 C220 55 230 55 240 30 C250 5 260 5 270 30 C280 55 290 55 300 30" fill="none" stroke="#e91e63" stroke-width="3"/></svg>
+        <span class="wave-tag" style="background:#fce4ec;color:#c62828;">HIGH pitch 🦇</span>
+      </div>
+      <div class="wave-row">
+        <div class="wave-label">💥 Large vibrations</div>
+        <svg class="wave-svg" viewBox="0 0 300 60" height="50"><path d="M0 30 C37 -10 75 -10 112 30 C150 70 188 70 225 30 C263 -10 275 -10 300 30" fill="none" stroke="#ff6d00" stroke-width="3"/></svg>
+        <span class="wave-tag" style="background:#fff3e0;color:#e65100;">LOUD sound 📢</span>
+      </div>
+      <div class="wave-row">
+        <div class="wave-label">🤏 Small vibrations</div>
+        <svg class="wave-svg" viewBox="0 0 300 60" height="50"><path d="M0 30 C37 22 75 22 112 30 C150 38 188 38 225 30 C263 22 275 22 300 30" fill="none" stroke="#9e9e9e" stroke-width="3"/></svg>
+        <span class="wave-tag" style="background:#f5f5f5;color:#616161;">quiet sound 🔉</span>
+      </div>
+    </div>
+    <div class="fact-row" style="margin-top:14px;">
+      <div style="flex:1;min-width:200px;background:#e8f5e9;border-radius:14px;padding:16px;border-left:4px solid #43a047;">
+        <strong style="color:#1b5e20;">🐘 Elephants use INFRASOUND</strong>
+        <p style="font-size:13px;color:#444;margin-top:6px;line-height:1.6;">Very low-pitched sounds humans cannot hear. Other elephants detect them up to <strong>7.5 km away!</strong></p>
+      </div>
+      <div style="flex:1;min-width:200px;background:#e3f2fd;border-radius:14px;padding:16px;border-left:4px solid #1565c0;">
+        <strong style="color:#0d47a1;">🦇 Bats use ULTRASOUND</strong>
+        <p style="font-size:13px;color:#444;margin-top:6px;line-height:1.6;">Very high-pitched sounds humans cannot hear. Bats use echolocation to navigate and hunt in complete darkness!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2.3 CHANGING VOLUME -->
+<div class="section" id="sec-s23">
+  <div class="card">
+    <div class="card-title">📢 Making Sounds LOUDER</div>
+    <p style="font-size:15px;line-height:1.8;color:#444;margin-bottom:14px;">How do musicians get their voice to reach thousands of people? They use a <strong>sound system!</strong></p>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;padding:20px;background:#1a1a2e;border-radius:16px;margin-bottom:16px;">
+      <div style="text-align:center;"><div style="font-size:42px;margin-bottom:6px;">🎤</div><div style="color:#ccc;font-size:13px;font-weight:bold;">Microphone</div><div style="color:#aaa;font-size:11px;margin-top:3px;">Picks up the sound</div></div>
+      <div style="color:#e91e63;font-size:30px;font-weight:bold;">→</div>
+      <div style="text-align:center;"><div style="font-size:42px;margin-bottom:6px;">⚡</div><div style="color:#ccc;font-size:13px;font-weight:bold;">Amplifier</div><div style="color:#aaa;font-size:11px;margin-top:3px;">Makes sound bigger</div></div>
+      <div style="color:#e91e63;font-size:30px;font-weight:bold;">→</div>
+      <div style="text-align:center;"><div style="font-size:42px;margin-bottom:6px;">🔈</div><div style="color:#ccc;font-size:13px;font-weight:bold;">Loudspeaker</div><div style="color:#aaa;font-size:11px;margin-top:3px;">Sends sound out loudly</div></div>
+    </div>
+    <div class="fact-row">
+      <div class="fact-item" style="background:#e3f2fd;border-left-color:#1565c0;">
+        <div class="fi-title" style="color:#0d47a1;">📯 Simple Tube Trick</div>
+        <div class="fi-body">A tube can make sound louder without electricity! It focuses vibrations into a narrow path so they don't spread out and get lost. Old gramophones used a horn-shaped tube to amplify music!</div>
+      </div>
+      <div class="fact-item" style="background:#fff3e0;border-left-color:#ff6d00;">
+        <div class="fi-title" style="color:#e65100;">📏 Distance Makes Sound Quieter</div>
+        <div class="fi-body">As sound travels further from its source, it spreads out in all directions and gets quieter. That's why a voice from far away sounds faint!</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">🔇 Making Sounds QUIETER — Muffling</div>
+    <p style="font-size:14px;color:#666;margin-bottom:14px;">Sometimes sounds are too loud — like traffic or construction. We can <strong>muffle</strong> sounds using special materials. Click each method!</p>
+    <div class="muffle-grid">
+      <div class="muffle-card selected" style="background:#e0f7fa;" onclick="selectMuffle(this)">
+        <div class="muffle-icon">🎧</div>
+        <div class="muffle-name" style="color:#006064;">Ear Defenders</div>
+        <div><span class="star-filled">★★★★★</span></div>
+        <div style="font-size:11px;color:#666;margin-top:3px;">Protection: Excellent</div>
+        <div class="muffle-desc">Ear defenders are worn by people working in very noisy places — construction sites, airports, factories. Thick pads absorb sound vibrations before they reach your eardrum. Always wear them near very loud sounds!</div>
+      </div>
+      <div class="muffle-card" style="background:#fce4ec;" onclick="selectMuffle(this)">
+        <div class="muffle-icon">🏠</div>
+        <div class="muffle-name" style="color:#880e4f;">Carpets &amp; Curtains</div>
+        <div><span class="star-filled">★★★</span><span class="star-empty">★★</span></div>
+        <div style="font-size:11px;color:#666;margin-top:3px;">Muffles: Moderate</div>
+        <div class="muffle-desc">Soft materials absorb sound vibrations. Hard floors and bare walls REFLECT sound (making echoes), while carpets and curtains soak it up. That's why an empty room sounds echoey!</div>
+      </div>
+      <div class="muffle-card" style="background:#e8f5e9;" onclick="selectMuffle(this)">
+        <div class="muffle-icon">🧱</div>
+        <div class="muffle-name" style="color:#1b5e20;">Insulated Walls</div>
+        <div><span class="star-filled">★★★★</span><span class="star-empty">★</span></div>
+        <div style="font-size:11px;color:#666;margin-top:3px;">Protection: Good</div>
+        <div class="muffle-desc">Buildings sometimes have sound-absorbing foam or fibreglass packed between their walls. Recording studios have extremely thick insulated walls to keep sound in and outside noise out!</div>
+      </div>
+      <div class="muffle-card" style="background:#f3e5f5;" onclick="selectMuffle(this)">
+        <div class="muffle-icon">🚗</div>
+        <div class="muffle-name" style="color:#4a148c;">Car Silencer</div>
+        <div><span class="star-filled">★★★★</span><span class="star-empty">★</span></div>
+        <div style="font-size:11px;color:#666;margin-top:3px;">Protection: Good</div>
+        <div class="muffle-desc">Cars, trucks and motorbikes have silencers on their exhausts. Without one, engines would be incredibly loud. The silencer uses chambers to cancel out sound waves before they escape into the air.</div>
+      </div>
+    </div>
+    <div style="background:#ffebee;border-radius:12px;padding:14px;margin-top:14px;border-left:4px solid #e53935;">
+      <strong style="color:#c62828;">🔴 Noise Pollution</strong>
+      <p style="font-size:13px;color:#444;margin-top:6px;line-height:1.6;">Too much loud noise is called <strong>noise pollution</strong>. Sources include traffic, airports and factories. It causes stress, disrupts sleep and can damage hearing. Muffling technology helps reduce its impact on our communities!</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2.4 CHANGING PITCH -->
+<div class="section" id="sec-s24">
+  <div class="card">
+    <div class="card-title">🎸 Changing Pitch — Stringed Instruments</div>
+    <p style="font-size:14px;color:#666;margin-bottom:14px;">On a guitar or violin, pitch changes in three ways. <strong>Click a string to pluck it!</strong></p>
+    <div class="guitar-sim">
+      <div style="color:#ffcc80;font-size:14px;margin-bottom:12px;">🎸 Guitar String Simulator — Tap a string!</div>
+      <div class="guitar-body">
+        <div class="guitar-string" onclick="pluckString(this,'Very LOW pitch 🔉','Thick &amp; Loose string','Very slow, large vibrations')">
+          <div class="gs-label">Thick + Loose</div>
+          <div class="gs-line-wrap"><svg width="100%" height="30" viewBox="0 0 200 30"><line x1="0" y1="15" x2="200" y2="15" stroke="#8d6e63" stroke-width="7" stroke-linecap="round"/></svg></div>
+          <div class="gs-pitch">Very LOW 🔉</div>
+        </div>
+        <div class="guitar-string" onclick="pluckString(this,'LOW pitch','Thick &amp; Medium string','Slow vibrations')">
+          <div class="gs-label">Thick + Medium</div>
+          <div class="gs-line-wrap"><svg width="100%" height="30" viewBox="0 0 200 30"><line x1="0" y1="15" x2="200" y2="15" stroke="#a1887f" stroke-width="5" stroke-linecap="round"/></svg></div>
+          <div class="gs-pitch">LOW 🎵</div>
+        </div>
+        <div class="guitar-string" onclick="pluckString(this,'Medium pitch','Medium thickness string','Medium-speed vibrations')">
+          <div class="gs-label">Medium string</div>
+          <div class="gs-line-wrap"><svg width="100%" height="30" viewBox="0 0 200 30"><line x1="0" y1="15" x2="200" y2="15" stroke="#c8a97e" stroke-width="3" stroke-linecap="round"/></svg></div>
+          <div class="gs-pitch">MEDIUM 🎶</div>
+        </div>
+        <div class="guitar-string" onclick="pluckString(this,'HIGH pitch 🎵','Thin &amp; Tight string','Fast vibrations')">
+          <div class="gs-label">Thin + Tight</div>
+          <div class="gs-line-wrap"><svg width="100%" height="30" viewBox="0 0 200 30"><line x1="0" y1="15" x2="200" y2="15" stroke="#ffe082" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="gs-pitch">HIGH 🎵</div>
+        </div>
+        <div class="guitar-string" onclick="pluckString(this,'Very HIGH pitch! 🎵🎵','Very thin &amp; Very tight','Very fast vibrations!')">
+          <div class="gs-label">Very thin + Very tight</div>
+          <div class="gs-line-wrap"><svg width="100%" height="30" viewBox="0 0 200 30"><line x1="0" y1="15" x2="200" y2="15" stroke="#fff9c4" stroke-width="1" stroke-linecap="round"/></svg></div>
+          <div class="gs-pitch">VERY HIGH 🎵🎵</div>
+        </div>
+      </div>
+      <div class="result-box" id="guitarResult">👆 Tap any string above to pluck it and see what happens!</div>
+    </div>
+    <div class="fact-row">
+      <div class="fact-item" style="background:#fce4ec;border-left-color:#e91e63;">
+        <div class="fi-title" style="color:#c62828;">🔁 Tighter = Higher</div>
+        <div class="fi-body">Tightening a string (turning the peg) makes it vibrate <strong>faster → higher pitch</strong>. Loosening makes vibrations slower → lower pitch.</div>
+      </div>
+      <div class="fact-item" style="background:#fff3e0;border-left-color:#ff6d00;">
+        <div class="fi-title" style="color:#e65100;">📏 Thicker = Lower</div>
+        <div class="fi-body">A <strong>thicker string</strong> vibrates more slowly → <strong>lower pitch</strong>. A thinner string vibrates faster → higher pitch.</div>
+      </div>
+      <div class="fact-item" style="background:#e8f5e9;border-left-color:#43a047;">
+        <div class="fi-title" style="color:#1b5e20;">✋ Shorter = Higher</div>
+        <div class="fi-body">Pressing a string down shortens it. A <strong>shorter string</strong> vibrates faster → <strong>higher pitch</strong>. This is how guitarists play different notes!</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">🎶 Changing Pitch — Wind Instruments (Bottle Simulator!)</div>
+    <p style="font-size:14px;color:#666;margin-bottom:14px;">Blowing across a bottle top makes the <strong>air column vibrate</strong>. The length of the air column changes the pitch. Tap each bottle!</p>
+    <div class="bottles-wrap" id="bottlesWrap"></div>
+    <div id="bottleResult" style="display:none;" class="pitch-result">
+      <h3 id="br-title"></h3>
+      <p id="br-body"></p>
+    </div>
+    <div style="background:#f3e5f5;border-radius:12px;padding:14px;margin-top:14px;font-size:14px;color:#444;border-left:4px solid #7b1fa2;">
+      <strong style="color:#6a1b9a;">🔑 The Key Pattern:</strong><br>
+      More water → <strong>shorter air column</strong> → faster vibrations → <strong>HIGHER pitch</strong><br>
+      Less water → <strong>longer air column</strong> → slower vibrations → <strong>LOWER pitch</strong>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="section" id="sec-quiz">
+  <div class="card">
+    <div class="card-title">🧠 Chapter 2 Quiz — All About Sound!</div>
+    <div id="quizArea">
+      <div class="q-prog">
+        <div class="q-prog-text" id="qProgText">Question 1 of 12</div>
+        <div class="prog-bar"><div class="prog-fill" id="qProgFill" style="width:8%"></div></div>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="options-grid" id="qOptions"></div>
+      <div class="q-feedback" id="qFeedback"></div>
+      <div class="q-nav">
+        <span class="q-score-mini" id="qScoreMini">Score: 0 / 0</span>
+        <button class="btn btn-b" id="qNextBtn" onclick="nextQuestion()" style="display:none;">Next ➜</button>
+      </div>
+    </div>
+    <div class="score-card" id="scoreCard">
+      <div style="font-size:15px;color:#888;margin-bottom:8px;">You scored</div>
+      <div class="big-score" id="finalScore">0/12</div>
+      <div class="star-row" id="finalStars">⭐⭐⭐⭐⭐</div>
+      <div class="msg" id="finalMsg">Amazing!</div>
+      <div class="sub" id="finalSub"></div>
+      <br>
+      <button class="btn btn-o" onclick="restartQuiz()">🔄 Play Again!</button>
+      &nbsp;
+      <button class="btn btn-p" onclick="show('s21',document.querySelector('.n1'))">🌊 Review Sound</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='quiz') initQuiz();
+}
+
+let vibInterval=null, vibPhase=0;
+const VIBS={
+  still:{amp:0,color:'#555',msg:'😴 <strong style="color:#aaa;">No vibration — no sound!</strong> The string is completely still.'},
+  quiet:{amp:18,speed:6,color:'#64b5f6',msg:'🔉 A <strong style="color:#64b5f6;">quiet sound</strong> — small vibrations.'},
+  loud:{amp:52,speed:6,color:'#e91e63',msg:'🔊 A <strong style="color:#e91e63;">loud sound</strong> — much BIGGER vibrations!'},
+  fast:{amp:18,speed:3,color:'#ffd740',msg:'🎵 A <strong style="color:#ffd740;">high-pitched sound</strong> — fast vibrations back and forth!'}
+};
+function playVib(mode,btn){
+  document.querySelectorAll('.vib-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('vibMsg').innerHTML=VIBS[mode].msg;
+  if(vibInterval) clearInterval(vibInterval);
+  const path=document.getElementById('vibPath');
+  const m=VIBS[mode];
+  if(!m.amp){path.setAttribute('d','M 0 30 Q 200 30 400 30');path.setAttribute('stroke','#555');return;}
+  path.setAttribute('stroke',m.color);
+  vibPhase=0;
+  vibInterval=setInterval(()=>{
+    vibPhase+=0.15;
+    const c1y=30-m.amp*Math.sin(vibPhase);
+    const c2y=30+m.amp*Math.sin(vibPhase);
+    path.setAttribute('d',`M 0 30 Q 100 ${c1y} 200 30 Q 300 ${c2y} 400 30`);
+  },m.speed);
+}
+playVib('quiet',document.querySelector('.vib-btn.active'));
+
+function selectTravel(el){
+  document.querySelectorAll('.travel-card').forEach(c=>{c.classList.remove('selected');c.querySelector('.travel-info').style.display='none';});
+  el.classList.add('selected');
+  el.querySelector('.travel-info').style.display='block';
+}
+
+function showDbInfo(msg){
+  const b=document.getElementById('dbInfo');
+  b.style.display='block';
+  b.innerHTML='🔊 '+msg;
+  b.style.animation='none';
+  b.offsetHeight;
+  b.style.animation='fadeIn 0.3s';
+}
+
+function selectMuffle(el){
+  document.querySelectorAll('.muffle-card').forEach(c=>{c.classList.remove('selected');c.querySelector('.muffle-desc').style.display='none';});
+  el.classList.add('selected');
+  el.querySelector('.muffle-desc').style.display='block';
+}
+
+function pluckString(el,pitchName,stringType,vibDesc){
+  el.style.animation='pluck 0.3s ease';
+  setTimeout(()=>el.style.animation='',300);
+  document.getElementById('guitarResult').innerHTML=
+    `<strong style="color:#e65100;font-size:18px;">${pitchName}</strong><br><span style="font-size:13px;color:#555;">String: <strong>${stringType}</strong> — ${vibDesc}</span>`;
+}
+
+const bottleData=[
+  {water:92,note:'Do (High)',pitch:'Highest',color:'#ef5350',body:'Almost full! Very SHORT air column → very FAST vibrations → HIGHEST pitch. Like the highest note on a flute!'},
+  {water:75,note:'Re',pitch:'Very High',color:'#ff7043',body:'Lots of water, short air column. Fast vibrations give a high-pitched sound.'},
+  {water:58,note:'Mi',pitch:'High',color:'#fdd835',body:'Medium-high water. The air column is getting longer so vibrations are a bit slower — medium-high pitch.'},
+  {water:42,note:'Fa',pitch:'Medium',color:'#66bb6a',body:'About half full! Medium air column → medium pitch. Right in the middle of our scale!'},
+  {water:27,note:'Sol',pitch:'Low',color:'#29b6f6',body:'Less water means a longer air column. Longer → slower vibrations → lower pitch.'},
+  {water:13,note:'La',pitch:'Very Low',color:'#7e57c2',body:'Not much water — long air column! Slow vibrations give a low-pitched sound.'},
+  {water:3,note:'Ti (Low)',pitch:'Lowest',color:'#5c6bc0',body:'Nearly empty! Very LONG air column → very SLOW vibrations → LOWEST pitch. Like the deepest note on a big pipe organ!'}
+];
+
+function buildBottles(){
+  const wrap=document.getElementById('bottlesWrap');
+  wrap.innerHTML='';
+  bottleData.forEach((b,i)=>{
+    const bH=120, wH=Math.round(bH*b.water/100), aH=bH-wH;
+    wrap.innerHTML+=`<div class="bottle-item" onclick="selectBottle(${i})">
+      <svg width="50" height="145" viewBox="0 0 50 145">
+        <rect x="10" y="0" width="30" height="10" rx="3" fill="#bdbdbd"/>
+        <rect x="4" y="10" width="42" height="${aH}" fill="#ddeeff" stroke="#90caf9" stroke-width="1.5"/>
+        <rect x="4" y="${10+aH}" width="42" height="${wH}" fill="${b.color}" opacity="0.7"/>
+        <rect x="4" y="10" width="42" height="${bH}" rx="4" fill="none" stroke="${b.color}" stroke-width="2"/>
+        ${aH>14?`<text x="25" y="${10+aH/2+4}" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">air</text>`:''}
+      </svg>
+      <div class="bottle-note" style="color:${b.color};font-size:12px;">${b.note}</div>
+      <div class="bottle-pitch">${b.pitch}</div>
+    </div>`;
+  });
+}
+buildBottles();
+
+function selectBottle(idx){
+  document.querySelectorAll('.bottle-item').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  const d=bottleData[idx];
+  document.getElementById('br-title').textContent=`${d.note} — ${d.pitch} Pitch!`;
+  document.getElementById('br-body').textContent=d.body;
+  const r=document.getElementById('bottleResult');
+  r.style.display='block';
+  r.style.animation='none';
+  r.offsetHeight;
+  r.style.animation='fadeIn 0.4s';
+}
+
+const QUESTIONS=[
+  {q:'What causes a sound to be made?',opts:['Movement of air only','Vibrations — back and forth movement','Heat energy','Gravity'],ans:1,explain:'🌊 Every sound is made by something vibrating — moving back and forth very quickly. Vibrations travel through air to our ears!'},
+  {q:'Sound travels BEST through which type of material?',opts:['Gas (like air)','Liquid (like water)','Solid (like wood or metal)','They are all the same'],ans:2,explain:'🪨 Sound travels BEST through solids! Particles are packed tightly together so vibrations pass along most quickly.'},
+  {q:'What unit do we use to measure the volume (loudness) of sound?',opts:['Metres (m)','Hertz (Hz)','Decibels (dB)','Newtons (N)'],ans:2,explain:'📊 We measure volume in decibels (dB). A whisper is about 30 dB and sounds above 85 dB can damage hearing!'},
+  {q:'What does PITCH describe?',opts:['How loud or quiet a sound is','How high or low a sound is','How far a sound travels','How fast sound moves'],ans:1,explain:'🎵 Pitch tells us if a sound is high or low. A whistle has high pitch; thunder has low pitch.'},
+  {q:'What type of vibrations make a LOUD sound?',opts:['Very fast vibrations','Very slow vibrations','Very large (big) vibrations','Very small vibrations'],ans:2,explain:'📢 Loud sounds are made by BIGGER vibrations. The larger the back-and-forth movement, the louder the sound!'},
+  {q:'What type of vibrations make a HIGH-PITCHED sound?',opts:['Large vibrations','Small vibrations','Fast vibrations','Slow vibrations'],ans:2,explain:'🎵 Fast vibrations make high-pitched sounds. Slow vibrations make low-pitched sounds. Think of a bat (high) vs an elephant (low)!'},
+  {q:'Which animal uses very LOW-pitched sounds to communicate that humans cannot hear?',opts:['Bats','Dogs','Elephants','Dolphins'],ans:2,explain:'🐘 Elephants use very low-pitched infrasound that humans cannot hear. Other elephants detect these sounds up to 7.5 km away!'},
+  {q:'In a sound system, what does the AMPLIFIER do?',opts:['Picks up the sound','Sends sound through speakers','Makes the sound louder','Turns sound into electricity'],ans:2,explain:'⚡ The amplifier makes sound LOUDER! Microphone picks up → amplifier makes bigger → loudspeaker sends out!'},
+  {q:'On a guitar, what happens to pitch when you TIGHTEN a string?',opts:['Pitch gets lower','Pitch stays the same','Pitch gets higher','String breaks'],ans:2,explain:'🎸 Tightening a string makes it vibrate FASTER → higher pitch! Loosening makes it vibrate slower → lower pitch.'},
+  {q:'On a wind instrument, what happens when the air column is LONGER?',opts:['Pitch is higher','Pitch is lower','Pitch stays the same','Sound disappears'],ans:1,explain:'🎶 A longer air column vibrates more slowly → LOWER pitch! Less water in the bottle = longer air column = lower note.'},
+  {q:'Above what decibel level can sounds start to damage your ears?',opts:['60 dB','75 dB','85 dB','100 dB'],ans:2,explain:'⚠️ Sounds above 85 dB can damage your hearing! That is why people in noisy workplaces wear ear defenders.'},
+  {q:'What is the word for making a loud sound quieter using soft materials?',opts:['Amplifying','Muffling','Vibrating','Pitching'],ans:1,explain:'🔇 Muffling means making a sound quieter by absorbing vibrations. Ear defenders, carpets and silencers all muffle sound!'}
+];
+
+let qIdx=0, score=0;
+function initQuiz(){
+  qIdx=0; score=0;
+  document.getElementById('quizArea').style.display='block';
+  document.getElementById('scoreCard').classList.remove('show');
+  renderQ();
+}
+function renderQ(){
+  const q=QUESTIONS[qIdx];
+  document.getElementById('qProgText').textContent=`Question ${qIdx+1} of ${QUESTIONS.length}`;
+  document.getElementById('qProgFill').style.width=((qIdx+1)/QUESTIONS.length*100)+'%';
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qScoreMini').textContent=`Score: ${score} / ${qIdx}`;
+  const opts=document.getElementById('qOptions');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn';
+    b.textContent=['A','B','C','D'][i]+') '+o;
+    b.onclick=()=>answerQ(i);
+    opts.appendChild(b);
+  });
+  document.getElementById('qFeedback').className='q-feedback';
+  document.getElementById('qNextBtn').style.display='none';
+}
+function answerQ(chosen){
+  const q=QUESTIONS[qIdx];
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('qFeedback');
+  if(chosen===q.ans){
+    document.querySelectorAll('.opt-btn')[chosen].classList.add('correct');
+    fb.textContent='✅ Brilliant! '+q.explain;
+    fb.className='q-feedback ok show';
+    score++;
+  } else {
+    document.querySelectorAll('.opt-btn')[chosen].classList.add('wrong');
+    document.querySelectorAll('.opt-btn')[q.ans].classList.add('reveal');
+    fb.textContent='❌ Not quite! '+q.explain;
+    fb.className='q-feedback bad show';
+  }
+  document.getElementById('qScoreMini').textContent=`Score: ${score} / ${qIdx+1}`;
+  document.getElementById('qNextBtn').style.display='block';
+}
+function nextQuestion(){
+  qIdx++;
+  if(qIdx>=QUESTIONS.length) showScore();
+  else renderQ();
+}
+function showScore(){
+  document.getElementById('quizArea').style.display='none';
+  document.getElementById('scoreCard').classList.add('show');
+  document.getElementById('finalScore').textContent=score+' / '+QUESTIONS.length;
+  const p=score/QUESTIONS.length;
+  let stars,msg,sub;
+  if(p>=0.9){stars='⭐⭐⭐⭐⭐';msg='WOW! You are a Sound Superstar! 🏆';sub='You understand vibrations, pitch and volume perfectly!';}
+  else if(p>=0.7){stars='⭐⭐⭐⭐';msg='Great work! Keep it up! 🎉';sub='Well done! Review the sections you found tricky.';}
+  else if(p>=0.5){stars='⭐⭐⭐';msg='Good effort! Almost there! 💪';sub='Go back and try the Volume & Pitch and Changing Pitch sections again.';}
+  else{stars='⭐⭐';msg='Keep practising — you can do it! 🌱';sub='Explore all four sections again, then come back for another try!';}
+  document.getElementById('finalStars').textContent=stars;
+  document.getElementById('finalMsg').textContent=msg;
+  document.getElementById('finalSub').textContent=sub;
+}
+function restartQuiz(){ initQuiz(); }
+window.addEventListener('DOMContentLoaded',()=>{ initQuiz(); });
+</script>
+</body>
+</html>
