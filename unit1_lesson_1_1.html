@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.1 – Read Aesop's Fable | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+
+/* NAV */
+.top-nav{background:#4527A0;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;text-decoration:none;display:inline-block}
+.tn-btn:hover{color:#fff;border-bottom-color:#E040FB}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-next{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-next:hover{background:rgba(255,255,255,.25) !important}
+
+/* LESSON HEADER */
+.lesson-hdr{background:#4527A0;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px;letter-spacing:.04em}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+
+/* TAB NAV */
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px}
+.tab-btn:hover{color:#7C4DFF}
+.tab-btn.active{color:#7C4DFF;border-bottom-color:#7C4DFF;background:#F5F0FF}
+
+/* CONTENT */
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* SECTION TITLE */
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#4527A0;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+
+/* INFO BOX */
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+
+/* STORY CARD */
+.story-card{background:#FFFDE7;border:2px solid #FFD54F;border-radius:18px;padding:24px;margin-bottom:20px}
+.story-title{font-family:'Fredoka One',cursive;font-size:1.5rem;color:#E65100;text-align:center;margin-bottom:16px}
+.story-body{font-size:1rem;line-height:1.9;color:#3d2b00}
+.story-body p{margin-bottom:14px}
+.story-body p:last-child{margin-bottom:0}
+
+/* VOCAB WORD */
+.vw{background:#FFD54F;border-radius:4px;padding:1px 5px;font-weight:800;cursor:pointer;border-bottom:2px solid #FF8F00;transition:background .2s}
+.vw:hover{background:#FFB300}
+.vw.active-word{background:#FF8F00;color:#fff}
+
+/* WORD POPUP */
+.word-popup{background:#fff;border:2px solid #7C4DFF;border-radius:14px;padding:14px 18px;margin:10px 0;display:none;box-shadow:0 4px 16px rgba(124,77,255,.2)}
+.word-popup.show{display:block}
+.wp-word{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#7C4DFF}
+.wp-pos{font-size:.78rem;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-left:6px}
+.wp-def{font-size:.92rem;color:#333;font-weight:700;margin:6px 0 4px}
+.wp-ex{font-size:.85rem;color:#666;font-style:italic}
+
+/* AESOP BOX */
+.aesop-box{background:linear-gradient(135deg,#EDE7FF,#E8EAF6);border:2px solid #9C8FFF;border-radius:18px;padding:20px;margin-bottom:20px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.aesop-img{width:80px;height:80px;border-radius:12px;object-fit:cover;flex-shrink:0;border:2px solid #9C8FFF}
+.aesop-text h3{font-family:'Fredoka One',cursive;color:#4527A0;font-size:1.1rem;margin-bottom:6px}
+.aesop-text p{font-size:.85rem;color:#333;line-height:1.6;font-weight:600}
+.web-link{display:inline-flex;align-items:center;gap:6px;background:#4527A0;color:#fff;border-radius:8px;padding:6px 14px;font-size:.82rem;font-weight:800;text-decoration:none;margin-top:8px;transition:background .2s}
+.web-link:hover{background:#6C3FC5}
+.yt-card{background:linear-gradient(135deg,#ffebee,#fff8e1);border:2px solid #EF9A9A;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:14px;transition:all .2s}
+.yt-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(239,83,80,.2)}
+.yt-icon{font-size:2.5rem;flex-shrink:0}
+.yt-info h4{font-weight:800;color:#c62828;font-size:.95rem;margin-bottom:3px}
+.yt-info p{font-size:.8rem;color:#666}
+
+/* FLASHCARDS */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.fc{perspective:800px;cursor:pointer;min-height:130px}
+.fc-inner{position:relative;width:100%;height:130px;transform-style:preserve-3d;transition:transform .5s}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;border:2px solid}
+.fc-front{background:#7C4DFF;border-color:#651FFF;box-shadow:0 4px 14px rgba(124,77,255,.3)}
+.fc-front .fc-word{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#fff;text-align:center}
+.fc-front .fc-pos{font-size:.72rem;color:rgba(255,255,255,.75);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.fc-front .fc-hint{font-size:.72rem;color:rgba(255,255,255,.6);margin-top:8px}
+.fc-back{background:#fff;border-color:#7C4DFF;transform:rotateY(180deg)}
+.fc-back .fc-def{font-size:.85rem;font-weight:700;color:#333;text-align:center;margin-bottom:6px;line-height:1.4}
+.fc-back .fc-ex{font-size:.75rem;color:#666;font-style:italic;text-align:center;line-height:1.4}
+
+/* FACT FILE */
+.ff-box{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.07);margin-bottom:20px}
+.ff-title{font-family:'Fredoka One',cursive;color:#E65100;font-size:1.3rem;text-align:center;padding:10px 0;border-bottom:2px dashed #FFD54F;margin-bottom:18px}
+.ff-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.ff-label{font-weight:800;color:#4527A0;font-size:.88rem;min-width:100px;padding-top:10px}
+.ff-input{flex:1;border:2px solid #D1C4E9;border-radius:10px;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#F5F0FF;resize:vertical;min-height:44px;transition:border .2s}
+.ff-input:focus{outline:none;border-color:#7C4DFF;background:#fff}
+.ff-input.correct{border-color:#4CAF50;background:#E8F5E9}
+.ff-prompt{font-size:.78rem;color:#aaa;font-weight:700;margin-top:3px;font-style:italic}
+.word-bank{background:#EDE7FF;border-radius:10px;padding:12px 16px;margin-bottom:18px}
+.wb-title{font-weight:800;color:#6C3FC5;font-size:.82rem;margin-bottom:6px}
+.wb-words{display:flex;flex-wrap:wrap;gap:6px}
+.wb-word{background:#7C4DFF;color:#fff;border-radius:16px;padding:4px 12px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;user-select:none}
+.wb-word:hover{background:#651FFF;transform:scale(1.05)}
+
+/* QUIZ */
+.quiz-progress{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.qp-bar{flex:1;background:#EDE7FF;height:10px;border-radius:5px;overflow:hidden}
+.qp-fill{background:linear-gradient(90deg,#7C4DFF,#E040FB);height:100%;border-radius:5px;transition:width .4s}
+.qp-text{font-weight:800;color:#7C4DFF;font-size:.88rem;white-space:nowrap}
+
+.qcard{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.q-num{font-family:'Fredoka One',cursive;color:#7C4DFF;font-size:1rem;margin-bottom:8px}
+.q-marks{display:inline-block;background:#EDE7FF;color:#6C3FC5;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800;margin-left:6px}
+.q-text{font-weight:700;color:#222;font-size:.95rem;background:#F5F0FF;border-radius:10px;padding:12px 14px;margin-bottom:12px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt-btn{background:#F9F9F9;border:2px solid #E0E0E0;border-radius:10px;padding:11px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;text-align:left;transition:all .2s;color:#333}
+.opt-btn:hover:not(:disabled){background:#EDE7FF;border-color:#7C4DFF;color:#6C3FC5;transform:translateX(3px)}
+.opt-btn.correct{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32}
+.opt-btn.wrong{background:#FFEBEE;border-color:#EF5350;color:#C62828}
+.opt-btn:disabled{cursor:not-allowed}
+.q-feedback{border-radius:10px;padding:10px 14px;font-weight:700;font-size:.88rem;margin-top:10px;display:none;line-height:1.5}
+.q-feedback.show{display:block}
+.qfb-c{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.qfb-w{background:#FFEBEE;color:#C62828;border:2px solid #EF9A9A}
+
+/* SHORT ANSWER */
+.sacard{background:#fff;border-radius:16px;padding:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #7C4DFF}
+.sa-qnum{font-family:'Fredoka One',cursive;color:#7C4DFF;font-size:.95rem;margin-bottom:4px}
+.sa-marks{display:inline-block;background:#EDE7FF;color:#6C3FC5;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800;margin-left:6px;vertical-align:middle}
+.sa-question{font-weight:700;font-size:.95rem;color:#222;margin-bottom:12px;line-height:1.5}
+.sa-tip{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:.82rem;font-weight:700;color:#E65100}
+.sa-textarea{width:100%;border:2px solid #D1C4E9;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#F5F0FF;resize:vertical;min-height:100px;transition:border .2s}
+.sa-textarea:focus{outline:none;border-color:#7C4DFF;background:#fff}
+.sa-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn:hover{transform:scale(1.04)}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F}
+.btn-check{background:#7C4DFF;color:#fff}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+
+/* COMPLETE BTN */
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px;transition:all .2s;box-shadow:0 4px 16px rgba(46,125,50,.3)}
+.complete-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,125,50,.4)}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;font-size:1rem;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Unit Home</a>
+  <span class="tn-btn" style="color:#FFD700;cursor:default">▶ Lesson 1.1</span>
+  <div class="tn-spacer"></div>
+  <a href="unit1_lesson_1_2.html" class="tn-btn tn-next">Next: Lesson 1.2 →</a>
+</div>
+
+<!-- LESSON HEADER -->
+<div class="lesson-hdr">
+  <div class="lh-badge">📖 LESSON 1.1</div>
+  <div class="lh-title">Read Aesop's Fable</div>
+  <div class="lh-sub">The Ant and the Grasshopper · Vocabulary · Fable Features · Comprehension</div>
+  <div class="lh-goals">
+    <span class="goal-chip">📖 Read and understand a fable</span>
+    <span class="goal-chip">📝 Learn 10 key vocabulary words</span>
+    <span class="goal-chip">🧠 Identify fable features</span>
+    <span class="goal-chip">✏️ Answer comprehension questions</span>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('story')">📖 Read the Story</button>
+  <button class="tab-btn" onclick="showTab('vocab')">📝 Vocabulary (10 words)</button>
+  <button class="tab-btn" onclick="showTab('factfile')">📋 Fable Fact File</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🧠 MCQ Quiz</button>
+  <button class="tab-btn" onclick="showTab('answers')">✏️ Comprehension</button>
+  <button class="tab-btn" onclick="showTab('enrich')">🌍 About Aesop</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- ===== TAB 1: STORY ===== -->
+<div class="tab-pane active" id="tab-story">
+  <div class="st">The Ant and the Grasshopper</div>
+  <div class="st-sub">Read the story carefully. Click on a <span style="background:#FFD54F;padding:1px 5px;border-radius:3px;font-weight:800">highlighted word</span> to see its meaning!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>📌 Before you read — What is a FABLE?</h4>
+    <p>A fable is a <strong>short story</strong> where animals act like humans. Every fable teaches a <strong>moral</strong> — a life lesson. Aesop was a storyteller from Ancient Greece who wrote hundreds of fables over 2,500 years ago!</p>
+  </div>
+
+  <div id="word-popup" class="word-popup">
+    <div><span class="wp-word" id="wp-word"></span><span class="wp-pos" id="wp-pos"></span></div>
+    <div class="wp-def" id="wp-def"></div>
+    <div class="wp-ex" id="wp-ex"></div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-title">🌾 The Ant and the Grasshopper 🌾</div>
+    <div class="story-body">
+      <p>One fine summer's day, deep in a meadow, a grasshopper was bouncing about, <span class="vw" data-word="chirruping" data-pos="verb" data-def="making short, high-pitched sounds, like a bird or insect" data-ex="The grasshopper was chirruping happily in the warm sunshine.">chirruping</span> and singing without a care in the world. An ant <span class="vw" data-word="bustled" data-pos="verb" data-def="moved in a busy, energetic way — always in a hurry" data-ex="The teacher bustled around the classroom, helping every student.">bustled</span> by, weighed down by the enormous ear of corn she was <span class="vw" data-word="lugging" data-pos="verb" data-def="carrying something heavy with great effort" data-ex="He was lugging a huge bag of shopping up the stairs.">lugging</span> to her nest.</p>
+
+      <p>Time and time again, the grasshopper watched the ant scurry back and forth gathering food — insects, flies, grains of wheat — anything she could find, never once stopping to admire the glorious day or relax in the rays.</p>
+
+      <p>The grasshopper found this difficult to <span class="vw" data-word="fathom" data-pos="verb" data-def="to understand something by thinking about it hard" data-ex="I can't fathom why he would give up such a good job!">fathom</span> and teased her as she busied by, saying: <em>"Take it easy there, Ant! Why are you working so hard? The day is long! Food is <span class="vw" data-word="plentiful" data-pos="adjective" data-def="available in large amounts — more than enough" data-ex="There was plentiful food at the party.">plentiful</span>. Come and rest awhile and listen to my latest melody."</em></p>
+
+      <p><em>"As it happens, Grasshopper, I am storing up food for winter and you should be doing the same. Summer won't last forever, you know!"</em> snapped the ant, shaking her head and rolling her eyes as she continued on her <span class="vw" data-word="industrious" data-pos="adjective" data-def="extremely hard-working; always busy doing useful things" data-ex="The industrious student finished all her homework before dinner.">industrious</span> way, if anything toiling just a little harder.</p>
+
+      <p>Grasshopper <span class="vw" data-word="guffawed" data-pos="verb" data-def="laughed loudly, especially when mocking someone or something" data-ex="The children guffawed when the clown fell over.">guffawed</span> at the idea of working on such a day and hopped happily off into the sunset, singing and jigging all the way.</p>
+
+      <p>And summer didn't last. It never does. Winter came, bringing <span class="vw" data-word="barren" data-pos="adjective" data-def="empty, with no food or plants; bare and lifeless" data-ex="The barren fields had nothing growing in them after the frost.">barren</span> fare and frosty fields. Grasshopper's song stuck in his throat as he shivered without shelter or <span class="vw" data-word="sustenance" data-pos="noun" data-def="food and drink that you need to stay alive and healthy" data-ex="The explorer carried enough sustenance for a week in the mountains.">sustenance</span>, gazing <span class="vw" data-word="wistfully" data-pos="adverb" data-def="in a sadly longing way — wishing for something you cannot have" data-ex="She looked wistfully at the cake she was not allowed to eat.">wistfully</span> at the ants as they munched <span class="vw" data-word="liberally" data-pos="adverb" data-def="in large, generous amounts; freely" data-ex="She spread butter liberally on her toast.">liberally</span> from their stores of food, shaking their heads at him and offering him nothing.</p>
+
+      <p><em>"How foolish I have been!"</em> he wailed — for only then did Grasshopper understand that he should have made provision for winter as Ant had said. 🍂</p>
+    </div>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>💡 The Moral of this Fable</h4>
+    <p><strong>"Make hay while the sun shines"</strong> — This means: work hard and prepare yourself when times are good, so you are ready when times become difficult.</p>
+  </div>
+
+  <div class="info-box ib-orange">
+    <h4>📖 Reading Tips</h4>
+    <p>• When you see a word you don't know, <strong>click on it</strong> to see the meaning.<br>
+    • Re-read the story once you know the vocabulary — it will make much more sense!<br>
+    • Think about <strong>how</strong> the characters speak and act. This tells us about their personality.</p>
+  </div>
+</div><!-- end tab-story -->
+
+<!-- ===== TAB 2: VOCABULARY ===== -->
+<div class="tab-pane" id="tab-vocab">
+  <div class="st">📝 Vocabulary Flashcards</div>
+  <div class="st-sub">Click each card to flip it and see the definition. Learn all 10 words!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>🎯 How to use these cards</h4>
+    <p>1. Look at the word on the front. Try to guess or recall its meaning.<br>
+    2. Click the card to flip it and see the definition and example.<br>
+    3. Go through all 10 cards twice until you can remember them!</p>
+  </div>
+
+  <div class="fc-grid" id="flashcard-grid"></div>
+
+  <div class="info-box ib-orange" style="margin-top:8px">
+    <h4>✏️ Vocabulary Practice</h4>
+    <p>Choose THREE words from the cards above. Write a sentence of your own for each word in your notebook. This is the best way to remember new vocabulary!</p>
+  </div>
+</div><!-- end tab-vocab -->
+
+<!-- ===== TAB 3: FABLE FACT FILE ===== -->
+<div class="tab-pane" id="tab-factfile">
+  <div class="st">📋 Fable Fact File</div>
+  <div class="st-sub">Complete the fact file by filling in the boxes. Use the word bank to help you!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>🔑 Key Words to Know</h4>
+    <p><strong>Fable</strong> — a short story, usually with animal characters, that teaches a lesson.<br>
+    <strong>Moral</strong> — the lesson or message of a fable; what we learn about how to behave.<br>
+    <strong>Folklore</strong> — traditional stories and beliefs that have been passed down through generations.</p>
+  </div>
+
+  <div class="word-bank">
+    <div class="wb-title">📦 Word Bank — click to copy a word into your box:</div>
+    <div class="wb-words" id="wb-container"></div>
+  </div>
+
+  <div class="ff-box">
+    <div class="ff-title">🐜 FABLE FACT FILE 🦗</div>
+
+    <div class="ff-row">
+      <div class="ff-label">Fables are...</div>
+      <div style="flex:1">
+        <textarea class="ff-input" id="ff1" rows="2" placeholder="Describe what a fable is in your own words..."></textarea>
+        <div class="ff-prompt">Hint: Think about the type of story, the characters, and the lesson.</div>
+      </div>
+    </div>
+    <div class="ff-row">
+      <div class="ff-label">The characters usually...</div>
+      <div style="flex:1">
+        <textarea class="ff-input" id="ff2" rows="2" placeholder="What kind of characters appear in fables? How do they behave?"></textarea>
+      </div>
+    </div>
+    <div class="ff-row">
+      <div class="ff-label">The main point is...</div>
+      <div style="flex:1">
+        <textarea class="ff-input" id="ff3" rows="2" placeholder="What is the purpose of a fable?"></textarea>
+      </div>
+    </div>
+    <div class="ff-row">
+      <div class="ff-label">The moral teaches us...</div>
+      <div style="flex:1">
+        <textarea class="ff-input" id="ff4" rows="2" placeholder="What lesson does this particular fable teach us?"></textarea>
+      </div>
+    </div>
+    <div class="ff-row">
+      <div class="ff-label">This fable comes from...</div>
+      <div style="flex:1">
+        <textarea class="ff-input" id="ff5" rows="2" placeholder="Who wrote it? Where does it come from? When?"></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-check" onclick="checkFactFile()" style="margin-top:10px">✅ Check My Fact File</button>
+  </div>
+
+  <div id="ff-feedback" class="hint-box" style="background:#E8F5E9;border-color:#66BB6A;display:none">
+    <div style="font-family:'Fredoka One',cursive;color:#2E7D32;font-size:1rem;margin-bottom:8px">✅ Model Fact File Answers</div>
+    <p style="font-size:.88rem;color:#1B5E20;line-height:1.7;font-weight:600">
+    <strong>Fables are...</strong> short stories, usually with animal characters who act like humans, that teach a lesson (moral).<br><br>
+    <strong>Characters usually...</strong> have human qualities such as speaking, thinking, and having personalities — for example, Ant is hard-working and Grasshopper is carefree.<br><br>
+    <strong>The main point is...</strong> to teach the reader an important lesson about life and how to behave through an entertaining story.<br><br>
+    <strong>The moral teaches us...</strong> to prepare for the future when times are good and not to be lazy or carefree. ("Make hay while the sun shines.")<br><br>
+    <strong>This fable comes from...</strong> Aesop, a storyteller who lived in Ancient Greece around 600 BCE (over 2,500 years ago).
+    </p>
+  </div>
+</div><!-- end tab-factfile -->
+
+<!-- ===== TAB 4: MCQ QUIZ ===== -->
+<div class="tab-pane" id="tab-quiz">
+  <div class="st">🧠 Multiple Choice Quiz</div>
+  <div class="st-sub">Choose the best answer for each question. You get one chance — think carefully!</div>
+
+  <div class="quiz-progress">
+    <div class="qp-bar"><div class="qp-fill" id="qp-fill" style="width:0%"></div></div>
+    <div class="qp-text">Score: <span id="q-score">0</span> / 5</div>
+  </div>
+
+  <div id="quiz-container"></div>
+</div><!-- end tab-quiz -->
+
+<!-- ===== TAB 5: COMPREHENSION ===== -->
+<div class="tab-pane" id="tab-answers">
+  <div class="st">✏️ Comprehension Questions</div>
+  <div class="st-sub">These are exam-style questions. Always use evidence from the text in your answers!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>🏆 The PEE Method — Use this for every answer!</h4>
+    <p><strong>P</strong>oint — make your main point clearly.<br>
+    <strong>E</strong>vidence — quote or refer to something from the story.<br>
+    <strong>E</strong>xplain — explain HOW the evidence proves your point.<br><br>
+    <em>Example: Ant is hard-working (P) because the text says she was "scurry back and forth gathering food" (E), which shows she never stopped working even in the hot summer (E).</em></p>
+  </div>
+
+  <!-- Q1 -->
+  <div class="sacard">
+    <div class="sa-qnum">Question 1 <span class="sa-marks">2 marks</span></div>
+    <div class="sa-question">Why did Grasshopper tease Ant about working so hard? Use evidence from the text in your answer.</div>
+    <div class="sa-tip">💡 Exam Tip: A 2-mark answer needs TWO separate points or one point with evidence. Write at least 2 sentences.</div>
+    <textarea class="sa-textarea" id="sa1" placeholder="Grasshopper teased Ant because..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('hint1')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('model1')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="hint1">Think about what Grasshopper said to Ant. He mentions two things: how long the day is and how much food there is. Why did these things make him think Ant was wrong to work?</div>
+    <div class="model-box" id="model1">
+      <div class="model-title">✅ Model Answer (2 marks)</div>
+      <div class="model-text">Grasshopper teased Ant because he could not "fathom" (understand) why she was working so hard. He thought there was no need to work because "the day is long" and "food is plentiful", so he believed there was plenty of time to relax. Grasshopper did not think about the future, only the present moment.</div>
+      <div class="model-note">📝 Notice: This answer gives a reason (couldn't understand) + evidence (quotes from text) + explanation (only thought about the present). That's PEE!</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="sacard">
+    <div class="sa-qnum">Question 2 <span class="sa-marks">3 marks</span></div>
+    <div class="sa-question">How does the writer show us that Ant disapproved of Grasshopper's behaviour? Use TWO examples from the text with explanations.</div>
+    <div class="sa-tip">💡 Exam Tip: A 3-mark answer needs 2 separate points, each with a quote AND an explanation. Look at Ant's words AND her actions.</div>
+    <textarea class="sa-textarea" id="sa2" placeholder="The writer shows Ant's disapproval through her words and actions. First..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('hint2')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('model2')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="hint2">Look for: (1) How does Ant SPEAK to Grasshopper? Find the exact verb used. (2) What does Ant DO with her head and eyes? What do those actions mean?</div>
+    <div class="model-box" id="model2">
+      <div class="model-title">✅ Model Answer (3 marks)</div>
+      <div class="model-text">The writer shows Ant's disapproval through her words and actions. First, she "snapped" at Grasshopper, which suggests she was irritated and frustrated by his teasing — a gentle person would not snap. Second, she "shook her head and rolled her eyes", which are gestures that show she thought Grasshopper was being foolish and irresponsible. These actions together create a picture of Ant as someone who found Grasshopper's carefree attitude very annoying.</div>
+      <div class="model-note">📝 Marks: 1 mark for each example with explanation (×2), plus 1 mark for the overall point about disapproval.</div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="sacard">
+    <div class="sa-qnum">Question 3 <span class="sa-marks">4 marks</span></div>
+    <div class="sa-question">Explain what the moral of this fable is and whether you think it is a useful lesson for people today. Give reasons for your opinion.</div>
+    <div class="sa-tip">💡 Exam Tip: A 4-mark answer needs a clear explanation of the moral + your opinion + at least TWO reasons with examples from real life. Write a full paragraph of 4–6 sentences.</div>
+    <textarea class="sa-textarea" id="sa3" style="min-height:130px" placeholder="The moral of this fable is... This means... I think this lesson is still useful today because..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('hint3')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('model3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="hint3">Step 1: What is the moral? (work hard now, prepare for the future). Step 2: Do you agree it's useful? Step 3: Give 2 real-life examples where this lesson applies (e.g. studying for exams, saving money, eating healthily).</div>
+    <div class="model-box" id="model3">
+      <div class="model-title">✅ Model Answer (4 marks)</div>
+      <div class="model-text">The moral of this fable is that we should prepare for the future when times are good, rather than being lazy and wasting time. This is shown when Grasshopper cries "How foolish I have been!" — he only realises his mistake when it is too late. I believe this is still a very useful lesson today. For example, students who revise regularly throughout the year do better in exams than those who leave all their studying to the last minute. Similarly, people who save money for emergencies are not in trouble when something unexpected happens. The story teaches us that short-term enjoyment is not worth long-term suffering.</div>
+      <div class="model-note">📝 Marks: 1 mark — identifies the moral clearly. 1 mark — evidence from text (Grasshopper's quote). 2 marks — two real-life examples with explanation. Well done if you included all four!</div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson()">🏆 Lesson 1.1 Complete! Save My Progress</button>
+  <div class="complete-msg" id="complete-msg">✅ Brilliant! Lesson 1.1 is saved. <a href="unit1_lesson_1_2.html" style="color:#2E7D32;font-weight:900">Go to Lesson 1.2 →</a></div>
+</div><!-- end tab-answers -->
+
+<!-- ===== TAB 6: ENRICHMENT ===== -->
+<div class="tab-pane" id="tab-enrich">
+  <div class="st">🌍 About Aesop &amp; Enrichment</div>
+  <div class="st-sub">Learn more about the world behind the fable — history, science, and geography!</div>
+
+  <!-- About Aesop -->
+  <div class="aesop-box">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Aesop_pushkin02.jpg/200px-Aesop_pushkin02.jpg" alt="Ancient bust of Aesop" class="aesop-img" onerror="this.style.display='none'">
+    <div class="aesop-text">
+      <h3>🏛️ Who was Aesop?</h3>
+      <p>Aesop was a storyteller who lived in <strong>Ancient Greece</strong> around <strong>620–564 BCE</strong> — that is over 2,500 years ago! No one is completely sure where he was born — his name comes from the Greek word "Aethiop" which means Ethiopia, so he may have come from Africa. Aesop is believed to have been a slave who used clever stories to share wisdom. His fables have been translated into almost every language on Earth and are still taught in schools today!</p>
+      <a href="https://en.wikipedia.org/wiki/Aesop" target="_blank" class="web-link">🔗 Read more on Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- Video link -->
+  <div class="st" style="margin-top:24px">🎬 Watch the Animated Fable</div>
+  <a href="https://www.youtube.com/results?search_query=ant+and+grasshopper+aesop+animated+fable+kids" target="_blank" class="yt-card">
+    <div class="yt-icon">▶️</div>
+    <div class="yt-info">
+      <h4>The Ant and the Grasshopper — Animated</h4>
+      <p>Watch an animated version of the fable on YouTube. Hearing it read aloud will help you understand the story even better!</p>
+    </div>
+  </a>
+
+  <!-- Science cross-link -->
+  <div class="st" style="margin-top:20px">🔬 Science Connection: Real Ants &amp; Grasshoppers</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="info-box ib-orange" style="margin:0">
+      <h4>🐜 Real Ants</h4>
+      <p>• Live almost anywhere<br>• Live in colonies (groups)<br>• Eat almost everything — omnivores<br>• Can survive for months to years<br>• Do they really store food? YES!</p>
+    </div>
+    <div class="info-box ib-green" style="margin:0">
+      <h4>🦗 Real Grasshoppers</h4>
+      <p>• Live in warm places<br>• Live alone (not in groups)<br>• Eat grasses and plants only<br>• Usually don't survive winter<br>• Does their "song" stop? YES!</p>
+    </div>
+  </div>
+  <div class="info-box ib-blue">
+    <h4>🤔 Discussion Question</h4>
+    <p>Does the science match the fable? In real life, ants DO store food and grasshoppers DON'T survive winter. Do you think Aesop knew about the real behaviour of these animals when he wrote the story? What does this tell us about how fables work?</p>
+  </div>
+
+  <!-- Geography -->
+  <div class="st" style="margin-top:20px">🌏 Geography: Ancient Greece</div>
+  <a href="https://www.google.com/maps/place/Greece" target="_blank" class="yt-card" style="border-color:#90CAF9">
+    <div class="yt-icon">🗺️</div>
+    <div class="yt-info">
+      <h4>Find Greece on a Map!</h4>
+      <p>Aesop lived in Ancient Greece. Can you find Greece on a map? What continent is it in? What sea surrounds it?</p>
+    </div>
+  </a>
+
+  <!-- Dictionary link -->
+  <div class="st" style="margin-top:20px">📚 Vocabulary Extra Practice</div>
+  <a href="https://www.oxfordlearnersdictionaries.com/wordlist/english/oxford3000/" target="_blank" class="yt-card" style="border-color:#CE93D8">
+    <div class="yt-icon">📖</div>
+    <div class="yt-info">
+      <h4>Oxford Learner's Dictionary</h4>
+      <p>Look up any words from the story you are still not sure about. The Oxford dictionary gives clear definitions with example sentences.</p>
+    </div>
+  </a>
+</div><!-- end tab-enrich -->
+
+</div><!-- end .main -->
+
+<script>
+// ---- TAB SWITCHING ----
+function showTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ---- WORD POPUP ----
+document.querySelectorAll('.vw').forEach(w => {
+  w.addEventListener('click', function() {
+    const popup = document.getElementById('word-popup');
+    const wasOpen = this.classList.contains('active-word');
+    document.querySelectorAll('.vw').forEach(x => x.classList.remove('active-word'));
+    if (wasOpen) { popup.classList.remove('show'); return; }
+    this.classList.add('active-word');
+    document.getElementById('wp-word').textContent = this.dataset.word;
+    document.getElementById('wp-pos').textContent = '(' + this.dataset.pos + ')';
+    document.getElementById('wp-def').textContent = this.dataset.def;
+    document.getElementById('wp-ex').textContent = '"' + this.dataset.ex + '"';
+    popup.classList.add('show');
+    popup.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+});
+
+// ---- FLASHCARDS ----
+const vocabData = [
+  {word:'chirruping', pos:'verb', def:'Making short, high-pitched sounds, like a bird or insect', ex:'"The grasshopper was chirruping merrily in the warm meadow."'},
+  {word:'bustled', pos:'verb', def:'Moved in a busy, energetic way — always in a hurry', ex:'"She bustled around the kitchen, preparing the evening meal."'},
+  {word:'lugging', pos:'verb', def:'Carrying something heavy with great effort', ex:'"He was lugging a huge suitcase up four flights of stairs."'},
+  {word:'fathom', pos:'verb', def:'To understand something by thinking about it hard', ex:'"I cannot fathom why he left without saying goodbye."'},
+  {word:'industrious', pos:'adjective', def:'Extremely hard-working; always busy doing useful things', ex:'"The industrious student finished her project three days early."'},
+  {word:'plentiful', pos:'adjective', def:'Available in large, more-than-enough amounts', ex:'"Food was plentiful at the harvest festival."'},
+  {word:'guffawed', pos:'verb', def:'Laughed loudly — often mocking someone or something', ex:'"The audience guffawed when the comedian told his joke."'},
+  {word:'barren', pos:'adjective', def:'Empty, with nothing growing; bare and lifeless', ex:'"The barren fields had been stripped bare by frost."'},
+  {word:'sustenance', pos:'noun', def:'Food and drink needed to stay alive and healthy', ex:'"The hiker carried enough sustenance for the three-day trek."'},
+  {word:'wistfully', pos:'adverb', def:'In a sadly longing way — wanting something you cannot have', ex:'"She looked wistfully at the toy in the shop window."'},
+];
+
+const fcGrid = document.getElementById('flashcard-grid');
+vocabData.forEach((v, i) => {
+  const fc = document.createElement('div');
+  fc.className = 'fc';
+  fc.id = 'fc-' + i;
+  fc.innerHTML = `<div class="fc-inner">
+    <div class="fc-front">
+      <div class="fc-word">${v.word}</div>
+      <div class="fc-pos">${v.pos}</div>
+      <div class="fc-hint">Click to see definition</div>
+    </div>
+    <div class="fc-back">
+      <div class="fc-def">${v.def}</div>
+      <div class="fc-ex">${v.ex}</div>
+    </div>
+  </div>`;
+  fc.addEventListener('click', () => fc.classList.toggle('flipped'));
+  fcGrid.appendChild(fc);
+});
+
+// ---- WORD BANK ----
+const wbWords = ['short story','animal characters','moral','lesson','human qualities','folklore','Aesop','Ancient Greece','2,500 years','prepare for the future'];
+const wbContainer = document.getElementById('wb-container');
+wbWords.forEach(w => {
+  const chip = document.createElement('span');
+  chip.className = 'wb-word';
+  chip.textContent = w;
+  chip.addEventListener('click', () => {
+    const active = document.activeElement;
+    if (active && active.classList.contains('ff-input')) {
+      const pos = active.selectionStart;
+      const val = active.value;
+      active.value = val.slice(0, pos) + w + val.slice(pos);
+    }
+  });
+  wbContainer.appendChild(chip);
+});
+
+// ---- FACT FILE CHECK ----
+function checkFactFile() {
+  const allFilled = ['ff1','ff2','ff3','ff4','ff5'].every(id => document.getElementById(id).value.trim().length > 10);
+  const fb = document.getElementById('ff-feedback');
+  fb.style.display = 'block';
+  if (!allFilled) {
+    fb.style.background = '#FFF8E1';
+    fb.style.borderColor = '#FFD54F';
+    fb.querySelector('div').style.color = '#E65100';
+    fb.querySelector('div').textContent = '⚠️ Please fill in all boxes before checking!';
+  } else {
+    fb.querySelector('div').textContent = '✅ Model Fact File Answers';
+    fb.querySelector('div').style.color = '#2E7D32';
+    fb.style.background = '#E8F5E9';
+    fb.style.borderColor = '#66BB6A';
+  }
+}
+
+// ---- MCQ QUIZ ----
+const questions = [
+  {q:'What was Grasshopper doing all summer while Ant worked?', marks:1,
+   opts:['Collecting food with Ant','Chirruping and singing without a care','Sleeping inside a flower','Building a shelter for winter'],
+   ans:1, exp:'🦗 Grasshopper was "bouncing about, chirruping and singing without a care in the world" — he only thought about having fun!'},
+  {q:'What does the word "industrious" mean in this story?', marks:1,
+   opts:['Angry and upset','Lazy and careless','Extremely hard-working','Worried about winter'],
+   ans:2, exp:'✅ Industrious means extremely hard-working. Ant was called industrious because she never stopped working!'},
+  {q:'How did Ant react when Grasshopper teased her?', marks:1,
+   opts:['She laughed and stopped working','She ignored him completely','She "snapped" at him and rolled her eyes','She asked him to help her'],
+   ans:2, exp:'😤 Ant "snapped" at Grasshopper and "shook her head and rolled her eyes" — she was clearly annoyed!'},
+  {q:'What happened to Grasshopper\'s song when winter arrived?', marks:1,
+   opts:['It became louder and sadder','It "stuck in his throat"','He sang it to the ants for food','He taught Ant the melody'],
+   ans:1, exp:'❄️ "Grasshopper\'s song stuck in his throat" — he was too shocked and miserable to sing. This is a figurative expression!'},
+  {q:'Which word BEST describes Grasshopper\'s attitude in summer?', marks:1,
+   opts:['Careful and prepared','Hardworking and focused','Carefree and happy-go-lucky','Sad and lonely'],
+   ans:2, exp:'🌟 Carefree and happy-go-lucky! Grasshopper had "not a care in the world" and lived only for the present moment.'},
+];
+
+let score = 0;
+let answered = 0;
+const qContainer = document.getElementById('quiz-container');
+questions.forEach((q, i) => {
+  const div = document.createElement('div');
+  div.className = 'qcard';
+  div.innerHTML = `<div class="q-num">Q${i+1} <span class="q-marks">${q.marks} mark</span></div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts" id="opts${i}">
+      ${q.opts.map((o,j) => `<button class="opt-btn" onclick="answerMCQ(${i},${j},${q.ans},event)">${['A','B','C','D'][j]}. ${o}</button>`).join('')}
+    </div>
+    <div class="q-feedback" id="fb${i}"></div>`;
+  qContainer.appendChild(div);
+});
+
+function answerMCQ(qi, chosen, correct, e) {
+  const opts = document.querySelectorAll(`#opts${qi} .opt-btn`);
+  opts.forEach(o => o.disabled = true);
+  const fb = document.getElementById('fb' + qi);
+  if (chosen === correct) {
+    opts[chosen].classList.add('correct');
+    fb.textContent = '✅ Correct! ' + questions[qi].exp;
+    fb.className = 'q-feedback show qfb-c';
+    score++;
+    document.getElementById('q-score').textContent = score;
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[correct].classList.add('correct');
+    fb.textContent = '❌ Not quite. ' + questions[qi].exp;
+    fb.className = 'q-feedback show qfb-w';
+  }
+  answered++;
+  document.getElementById('qp-fill').style.width = (answered / 5 * 100) + '%';
+}
+
+// ---- HINT / MODEL TOGGLES ----
+function toggleHint(id) { document.getElementById(id).classList.toggle('show'); }
+function toggleModel(id) { document.getElementById(id).classList.toggle('show'); }
+
+// ---- COMPLETE LESSON ----
+function completeLesson() {
+  localStorage.setItem('u1_done_1-1', 'true');
+  document.getElementById('complete-msg').classList.add('show');
+  document.querySelector('.complete-btn').disabled = true;
+  document.querySelector('.complete-btn').style.opacity = '.7';
+}
+
+// Restore state
+if (localStorage.getItem('u1_done_1-1') === 'true') {
+  document.getElementById('complete-msg').classList.add('show');
+}
+</script>
+</body>
+</html>

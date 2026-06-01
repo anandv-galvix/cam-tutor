@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.3 – Story Features | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+
+.top-nav{background:#4527A0;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;text-decoration:none;display:inline-block}
+.tn-btn:hover{color:#fff;border-bottom-color:#E040FB}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-side:hover{background:rgba(255,255,255,.25) !important}
+
+.lesson-hdr{background:#2E7D32;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#2E7D32}
+.tab-btn.active{color:#2E7D32;border-bottom-color:#2E7D32;background:#E8F5E9}
+
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#2E7D32;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p,.ib-purple li{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+
+/* ANTHROPOMORPHISM */
+.anthro-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.anthro-card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 3px 12px rgba(0,0,0,.07);text-align:center}
+.ac-icon{font-size:2.5rem;margin-bottom:8px}
+.ac-label{font-size:.72rem;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.ac-title{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#4527A0;margin-bottom:8px}
+.ac-list{font-size:.82rem;color:#555;text-align:left;line-height:1.7}
+.ac-list li{margin-left:16px;margin-bottom:2px}
+
+/* STORY STAGES */
+.stages-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;margin-bottom:20px;position:relative}
+.stage-card{background:#fff;border:2px solid #E0E0E0;padding:16px 12px;text-align:center;position:relative;cursor:pointer;transition:all .2s}
+.stage-card:not(:last-child)::after{content:'→';position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:#999;z-index:1;display:none}
+.stage-card:hover{border-color:#2E7D32;background:#E8F5E9;transform:translateY(-2px)}
+.stage-card.active-stage{border-color:#2E7D32;background:#E8F5E9}
+.sc-num{font-family:'Fredoka One',cursive;font-size:1.5rem;color:#2E7D32;margin-bottom:4px}
+.sc-name{font-weight:800;font-size:.88rem;color:#333;margin-bottom:4px}
+.sc-q{font-size:.75rem;color:#888}
+.stage-detail{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;margin-bottom:16px;display:none}
+.stage-detail.show{display:block}
+.sd-title{font-family:'Fredoka One',cursive;color:#2E7D32;font-size:1.1rem;margin-bottom:6px}
+.sd-body{font-size:.88rem;color:#1B5E20;line-height:1.6;font-weight:600}
+
+/* TRAITS SORTER */
+.sorter-wrap{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.traits-pool{background:#fff;border-radius:14px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,.07);flex:2;min-width:180px}
+.tp-title{font-weight:800;color:#4527A0;font-size:.88rem;margin-bottom:10px}
+.traits-pool-words{display:flex;flex-wrap:wrap;gap:6px}
+.trait-chip{display:inline-block;background:#7C4DFF;color:#fff;border-radius:20px;padding:6px 14px;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s;user-select:none;margin:2px}
+.trait-chip:hover{background:#651FFF;transform:scale(1.05)}
+.trait-chip.used{opacity:.35;cursor:default;transform:none}
+.zones{display:flex;gap:12px;flex:3;min-width:280px}
+.drop-zone{flex:1;border:3px dashed #ccc;border-radius:14px;padding:12px;min-height:180px;transition:all .2s}
+.drop-zone.over{border-color:#2E7D32;background:#E8F5E9}
+.ant-zone{border-color:#E65100;background:#FFF8E6}
+.grass-zone{border-color:#2E7D32;background:#E8F5E9}
+.dz-title{font-family:'Fredoka One',cursive;font-size:1.1rem;text-align:center;margin-bottom:8px;padding-bottom:8px;border-bottom:2px dashed}
+.ant-zone .dz-title{color:#E65100;border-color:#FFB74D}
+.grass-zone .dz-title{color:#2E7D32;border-color:#A5D6A7}
+.placed-ant{background:#E65100 !important}
+.placed-grass{background:#2E7D32 !important}
+.sort-result{border-radius:12px;padding:12px 16px;font-weight:700;font-size:.88rem;margin-top:10px;display:none;line-height:1.6}
+.sort-result.show{display:block}
+.sr-good{background:#E8F5E9;color:#1B5E20;border:2px solid #66BB6A}
+.sr-try{background:#FFF8E1;color:#5D4037;border:2px solid #FFD54F}
+
+/* COMPARE TABLE */
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.compare-table th{padding:10px 14px;text-align:left;font-weight:800;font-size:.85rem;color:#fff}
+.compare-table td{padding:10px 14px;font-size:.85rem;font-weight:600;color:#333;border-bottom:1px solid #eee}
+.compare-table tr:last-child td{border-bottom:none}
+.col-ant{background:#E65100}
+.col-grass{background:#2E7D32}
+.col-label{background:#F5F5F5;font-weight:800;color:#555;font-size:.82rem}
+.row-a{background:#FFF8E6}
+.row-b{background:#F1F8E9}
+
+/* PEE STRUCTURE */
+.pee-box{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.07);margin-bottom:20px}
+.pee-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.pee-letter{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1.4rem;color:#fff;flex-shrink:0}
+.pee-p{background:#1565C0}
+.pee-e1{background:#2E7D32}
+.pee-e2{background:#E65100}
+.pee-content h4{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:4px}
+.pee-content p{font-size:.86rem;color:#555;line-height:1.6;font-weight:600}
+.pee-example{background:#F5F5F5;border-radius:10px;padding:10px 14px;margin-top:6px;font-size:.84rem;color:#333;font-style:italic;line-height:1.6}
+
+/* WRITING FRAME */
+.writing-frame{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.07);margin-bottom:20px;border-top:5px solid #2E7D32}
+.wf-title{font-family:'Fredoka One',cursive;color:#2E7D32;font-size:1.2rem;margin-bottom:12px}
+.wf-prompt{background:#E8F5E9;border-radius:10px;padding:10px 14px;font-size:.88rem;font-weight:700;color:#1B5E20;margin-bottom:10px}
+.wf-sentence{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.ws-starter{font-size:.88rem;font-weight:800;color:#4527A0;min-width:fit-content;padding-top:10px;white-space:nowrap}
+.ws-input{flex:1;border:2px solid #D1C4E9;border-radius:10px;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:#333;background:#F5F0FF;resize:none;min-height:40px;overflow:hidden;transition:border .2s}
+.ws-input:focus{outline:none;border-color:#2E7D32;background:#fff}
+.word-bank-mini{background:#E8F5E9;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:.8rem}
+.wbm-title{font-weight:800;color:#2E7D32;margin-bottom:6px}
+.wbm-words{display:flex;flex-wrap:wrap;gap:4px}
+.wbm-w{background:#2E7D32;color:#fff;border-radius:14px;padding:3px 10px;font-size:.75rem;font-weight:700}
+
+/* SHORT ANSWER */
+.sacard{background:#fff;border-radius:16px;padding:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #2E7D32}
+.sa-qnum{font-family:'Fredoka One',cursive;color:#2E7D32;font-size:.95rem;margin-bottom:4px}
+.sa-marks{display:inline-block;background:#E8F5E9;color:#2E7D32;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800;margin-left:6px;vertical-align:middle}
+.sa-question{font-weight:700;font-size:.95rem;color:#222;margin-bottom:12px;line-height:1.5}
+.sa-tip{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:.82rem;font-weight:700;color:#E65100}
+.sa-textarea{width:100%;border:2px solid #D1C4E9;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#F5F0FF;resize:vertical;min-height:100px;transition:border .2s}
+.sa-textarea:focus{outline:none;border-color:#2E7D32;background:#fff}
+.sa-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn:hover{transform:scale(1.04)}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px;box-shadow:0 4px 16px rgba(46,125,50,.3);transition:all .2s}
+.complete-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,125,50,.4)}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;font-size:1rem;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Unit Home</a>
+  <a href="unit1_lesson_1_2.html" class="tn-btn">← Lesson 1.2</a>
+  <span class="tn-btn" style="color:#FFD700;cursor:default">▶ Lesson 1.3</span>
+  <div class="tn-spacer"></div>
+  <a href="unit1_home.html" class="tn-btn tn-side">Back to Unit Home</a>
+</div>
+
+<div class="lesson-hdr">
+  <div class="lh-badge">🐾 LESSON 1.3</div>
+  <div class="lh-title">Story Features</div>
+  <div class="lh-sub">Anthropomorphism · Character Analysis · Story Stages · Paragraph Writing</div>
+  <div class="lh-goals">
+    <span class="goal-chip">🐾 Understand anthropomorphism</span>
+    <span class="goal-chip">📊 Identify story stages</span>
+    <span class="goal-chip">🎭 Analyse characters using evidence</span>
+    <span class="goal-chip">✏️ Write a character paragraph (PEE)</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('anthro')">🐾 Anthropomorphism</button>
+  <button class="tab-btn" onclick="showTab('stages')">📊 Story Stages</button>
+  <button class="tab-btn" onclick="showTab('chars')">🎭 Characters</button>
+  <button class="tab-btn" onclick="showTab('write')">✏️ Write!</button>
+  <button class="tab-btn" onclick="showTab('comprehension')">🧠 Comprehension</button>
+</div>
+
+<div class="main">
+
+<!-- ===== TAB 1: ANTHROPOMORPHISM ===== -->
+<div class="tab-pane active" id="tab-anthro">
+  <div class="st">🐾 What is Anthropomorphism?</div>
+  <div class="st-sub">This is the big word used to describe when animals are given human qualities in stories!</div>
+
+  <div class="info-box ib-blue">
+    <h4>📌 Breaking down the word</h4>
+    <p><strong>Anthropo</strong> (Greek) = human / person<br>
+    <strong>Morph</strong> (Greek) = shape / form<br>
+    Together: <strong>giving human shape or qualities to non-human things</strong> (animals, objects, nature).<br><br>
+    In fables, animals act like humans — they speak, they think, they feel emotions, and they make decisions. This is <strong>anthropomorphism</strong>.</p>
+  </div>
+
+  <div class="anthro-grid">
+    <div class="anthro-card">
+      <div class="ac-icon">🐜</div>
+      <div class="ac-label">The ant in real life</div>
+      <div class="ac-title">Real Ant</div>
+      <div class="ac-list"><ul>
+        <li>Cannot speak</li>
+        <li>Works by instinct</li>
+        <li>Has no opinion</li>
+        <li>Cannot "snap" or "roll eyes"</li>
+        <li>Cannot understand or plan consciously</li>
+      </ul></div>
+    </div>
+    <div class="anthro-card" style="background:linear-gradient(135deg,#FFF8E1,#FFF3E0);border:2px solid #FFD54F">
+      <div class="ac-icon">🐜💬</div>
+      <div class="ac-label">Ant in the fable</div>
+      <div class="ac-title">Fable Ant</div>
+      <div class="ac-list"><ul>
+        <li>Speaks in full sentences</li>
+        <li>Makes decisions and plans ahead</li>
+        <li>Has opinions about Grasshopper</li>
+        <li>"Snaps" and "rolls her eyes"</li>
+        <li>Consciously prepares for the future</li>
+      </ul></div>
+    </div>
+    <div class="anthro-card">
+      <div class="ac-icon">🦗</div>
+      <div class="ac-label">Real grasshopper</div>
+      <div class="ac-title">Real Grasshopper</div>
+      <div class="ac-list"><ul>
+        <li>Cannot laugh or sing songs</li>
+        <li>Does not "tease" anyone</li>
+        <li>Has no sense of humour</li>
+        <li>Cannot feel foolish</li>
+        <li>Dies in winter — just a natural cycle</li>
+      </ul></div>
+    </div>
+    <div class="anthro-card" style="background:linear-gradient(135deg,#E8F5E9,#F1F8E9);border:2px solid #A5D6A7">
+      <div class="ac-icon">🦗😄</div>
+      <div class="ac-label">Grasshopper in the fable</div>
+      <div class="ac-title">Fable Grasshopper</div>
+      <div class="ac-list"><ul>
+        <li>Sings and makes melodies</li>
+        <li>Teases Ant with clever words</li>
+        <li>Laughs loudly ("guffawed")</li>
+        <li>Feels foolish at the end</li>
+        <li>Learns a lesson from experience</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>🌟 Why use anthropomorphism?</h4>
+    <p>By giving animals human qualities, fable writers can:<br>
+    • Teach lessons about <strong>human behaviour</strong> without criticising a specific person<br>
+    • Make the story <strong>easier to understand</strong> for young children<br>
+    • Use <strong>animal stereotypes</strong> (ideas we already have about animals) to quickly establish character<br>
+    • Make the moral <strong>memorable</strong> through a simple, vivid story</p>
+  </div>
+
+  <div class="info-box ib-orange">
+    <h4>💬 Think about this...</h4>
+    <p>When you imagine an ant, what words come to mind? When you imagine a grasshopper? Aesop chose these animals carefully because we already THINK of ants as busy and grasshoppers as carefree. These pre-existing ideas are called <strong>stereotypes</strong>. Do you think this was a fair choice?</p>
+  </div>
+
+  <div class="info-box ib-purple">
+    <h4>🎬 Famous examples of anthropomorphism in films</h4>
+    <p>You've seen this technique in many famous stories:<br>
+    • <strong>The Lion King</strong> — lions feel love, grief, and responsibility<br>
+    • <strong>Charlotte's Web</strong> — a spider writes words and forms deep friendships<br>
+    • <strong>Kung Fu Panda</strong> — animals practise martial arts and have pride and self-doubt<br>
+    • <strong>Winnie-the-Pooh</strong> — animals have worries, favourite foods, and friendships<br><br>
+    Can you think of more examples?</p>
+  </div>
+</div>
+
+<!-- ===== TAB 2: STORY STAGES ===== -->
+<div class="tab-pane" id="tab-stages">
+  <div class="st">📊 The Five Story Stages</div>
+  <div class="st-sub">Every story follows a structure. Click each stage to see what happens in "The Ant and the Grasshopper"!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>📌 Why do stories have stages?</h4>
+    <p>A story structure helps the reader follow and understand the narrative. In fables, the structure is very clear because the lesson needs to come through strongly. Learning to identify these stages will help you in your comprehension exams!</p>
+  </div>
+
+  <div class="stages-flow" id="stages-flow"></div>
+  <div class="stage-detail" id="stage-detail"></div>
+
+  <div class="info-box ib-orange" style="margin-top:8px">
+    <h4>✏️ Practice: Put the events in order!</h4>
+    <p>Number these events from the story in the correct order (1 = first, 5 = last):<br><br>
+    ___ Grasshopper realises he was foolish and wails "How foolish I have been!"<br>
+    ___ Ant scurries back and forth collecting food for winter<br>
+    ___ Grasshopper teases Ant and hops off singing<br>
+    ___ Summer ends and winter arrives with frost and empty fields<br>
+    ___ An ant and grasshopper live in a meadow in summer<br><br>
+    <em>Answers: 5, 2, 3, 4, 1</em></p>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>🌟 Story Stage Language</h4>
+    <p>Use these words when writing about story structure:<br>
+    <strong>Exposition:</strong> "At the beginning of the story... / The story opens with..."<br>
+    <strong>Problem:</strong> "The central issue arises when... / The conflict begins..."<br>
+    <strong>Rising action:</strong> "As the story develops... / The tension builds when..."<br>
+    <strong>Climax:</strong> "The turning point comes when... / At the most dramatic moment..."<br>
+    <strong>Resolution:</strong> "By the end of the story... / The lesson is revealed when..."</p>
+  </div>
+</div>
+
+<!-- ===== TAB 3: CHARACTERS ===== -->
+<div class="tab-pane" id="tab-chars">
+  <div class="st">🎭 Character Analysis</div>
+  <div class="st-sub">Sort the adjectives between Ant and Grasshopper, then compare them using the table!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>📌 Animal Stereotypes</h4>
+    <p>A <strong>stereotype</strong> is a general, fixed idea about a type of person or thing. In fables, animal stereotypes are used to quickly establish characters. We expect ants to be busy and industrious, and grasshoppers to be carefree — so Aesop built his characters around these expectations.</p>
+  </div>
+
+  <div style="font-family:'Fredoka One',cursive;color:#4527A0;font-size:1.1rem;margin-bottom:10px">🃏 Sort the Adjectives</div>
+  <p style="font-size:.85rem;color:#666;margin-bottom:12px;font-weight:600">Click each word to place it with either Ant 🐜 or Grasshopper 🦗. Use what you know from the story!</p>
+
+  <div class="sorter-wrap">
+    <div class="traits-pool">
+      <div class="tp-title">🏷️ Adjectives to sort:</div>
+      <div class="traits-pool-words" id="traits-pool"></div>
+    </div>
+    <div class="zones">
+      <div class="drop-zone ant-zone" id="ant-zone">
+        <div class="dz-title">🐜 Ant</div>
+        <div id="ant-placed"></div>
+      </div>
+      <div class="drop-zone grass-zone" id="grass-zone">
+        <div class="dz-title">🦗 Grasshopper</div>
+        <div id="grass-placed"></div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-model" id="sort-check-btn" onclick="checkSort()" style="margin-bottom:16px;padding:10px 22px">✅ Check My Sorting</button>
+  <div class="sort-result" id="sort-result"></div>
+
+  <div class="st" style="margin-top:24px">📊 Compare the Characters</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th class="col-label" style="width:22%">Feature</th>
+        <th class="col-ant">🐜 Ant</th>
+        <th class="col-grass">🦗 Grasshopper</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-a">
+        <td><strong>Attitude to work</strong></td>
+        <td>Works tirelessly all summer — "toiling just a little harder"</td>
+        <td>"singing without a care in the world" — avoids all work</td>
+      </tr>
+      <tr class="row-b">
+        <td><strong>Attitude to the future</strong></td>
+        <td>Prepares for winter: stores food and plans ahead</td>
+        <td>Lives only in the present — "food is plentiful"</td>
+      </tr>
+      <tr class="row-a">
+        <td><strong>Relationship to each other</strong></td>
+        <td>Irritated by Grasshopper — "snapped", "rolled her eyes"</td>
+        <td>Teases Ant — "guffawed", finds her working funny</td>
+      </tr>
+      <tr class="row-b">
+        <td><strong>Emotions at end</strong></td>
+        <td>Has enough food — satisfied and proven right</td>
+        <td>Shivering, starving, wailing — "How foolish I have been!"</td>
+      </tr>
+      <tr class="row-a">
+        <td><strong>Lesson learned</strong></td>
+        <td>Already knew the lesson — she chose wisely</td>
+        <td>Learns too late — should have listened to Ant</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== TAB 4: WRITE ===== -->
+<div class="tab-pane" id="tab-write">
+  <div class="st">✏️ Write a Character Paragraph</div>
+  <div class="st-sub">Use the PEE method and the writing frame to describe Ant's OR Grasshopper's personality!</div>
+
+  <div class="pee-box">
+    <div class="st" style="color:#4527A0;margin-bottom:14px">🏆 The PEE Paragraph Structure</div>
+    <div class="pee-row">
+      <div class="pee-letter pee-p">P</div>
+      <div class="pee-content">
+        <h4 style="color:#1565C0">POINT — What is your main idea?</h4>
+        <p>State clearly what you want to say about the character. Be direct!</p>
+        <div class="pee-example">"Ant is an extremely hard-working and responsible character."</div>
+      </div>
+    </div>
+    <div class="pee-row">
+      <div class="pee-letter pee-e1">E</div>
+      <div class="pee-content">
+        <h4 style="color:#2E7D32">EVIDENCE — What proof do you have?</h4>
+        <p>Quote or refer specifically to something from the text.</p>
+        <div class="pee-example">"This is shown by the verb 'toiling', as the writer says Ant was 'toiling just a little harder'."</div>
+      </div>
+    </div>
+    <div class="pee-row">
+      <div class="pee-letter pee-e2">E</div>
+      <div class="pee-content">
+        <h4 style="color:#E65100">EXPLAIN — Why does this prove your point?</h4>
+        <p>Connect your evidence back to your point. Explain what the word/phrase shows.</p>
+        <div class="pee-example">"The word 'toiling' suggests exhausting, demanding work, showing Ant pushed herself beyond what was comfortable to prepare for winter."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="writing-frame">
+    <div class="wf-title">📝 Writing Frame — Describe a character</div>
+    <div class="wf-prompt">📌 Task: Write a paragraph describing either Ant OR Grasshopper's personality. Use at least TWO pieces of evidence from the story.</div>
+
+    <div class="word-bank-mini">
+      <div class="wbm-title">📦 Useful words and phrases:</div>
+      <div class="wbm-words">
+        <span class="wbm-w">hard-working</span><span class="wbm-w">prudent</span><span class="wbm-w">irresponsible</span>
+        <span class="wbm-w">this shows that</span><span class="wbm-w">this suggests</span><span class="wbm-w">the writer uses</span>
+        <span class="wbm-w">in contrast</span><span class="wbm-w">for example</span><span class="wbm-w">furthermore</span>
+        <span class="wbm-w">carefree</span><span class="wbm-w">sensible</span><span class="wbm-w">happy-go-lucky</span>
+      </div>
+    </div>
+
+    <div class="wf-sentence">
+      <div class="ws-starter">[Character name] is...</div>
+      <textarea class="ws-input" rows="2" placeholder="a ___ and ___ character in the fable."></textarea>
+    </div>
+    <div class="wf-sentence">
+      <div class="ws-starter">We can see this when...</div>
+      <textarea class="ws-input" rows="2" placeholder="the text says '____' / the writer uses the verb '____'"></textarea>
+    </div>
+    <div class="wf-sentence">
+      <div class="ws-starter">This shows that [character]...</div>
+      <textarea class="ws-input" rows="2" placeholder="because the word '_____' suggests that..."></textarea>
+    </div>
+    <div class="wf-sentence">
+      <div class="ws-starter">A further example is...</div>
+      <textarea class="ws-input" rows="2" placeholder="when [he/she] '____', which means..."></textarea>
+    </div>
+    <div class="wf-sentence">
+      <div class="ws-starter">Overall, [character] is...</div>
+      <textarea class="ws-input" rows="2" placeholder="a ___ character who teaches us that..."></textarea>
+    </div>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>✅ Self-Assessment Checklist</h4>
+    <p>Before you finish, check your paragraph:<br>
+    ☐ Did I state my main point clearly at the start?<br>
+    ☐ Did I use at least TWO quotes or references from the story?<br>
+    ☐ Did I explain WHY each piece of evidence proves my point?<br>
+    ☐ Did I use linking phrases (furthermore, in addition, this shows)?<br>
+    ☐ Did I use capital letters and full stops correctly?<br>
+    ☐ Did I avoid starting three sentences with the same word?</p>
+  </div>
+
+  <div class="info-box ib-purple">
+    <h4>📖 Model Paragraph — Ant</h4>
+    <p>Ant is an extremely hard-working and prudent character. This is shown through the verbs the writer uses to describe her movement — she "bustled", "scurried" and was "toiling just a little harder", all of which suggest non-stop, energetic, purposeful work. Furthermore, the writer shows Ant's intelligence through her words: "Summer won't last forever, you know!" The modal verb "won't" shows Ant's certainty about the future, revealing that she thinks clearly and plans ahead. Overall, Ant is a sensible, responsible character whose behaviour teaches us the importance of preparing for difficult times.</p>
+  </div>
+</div>
+
+<!-- ===== TAB 5: COMPREHENSION ===== -->
+<div class="tab-pane" id="tab-comprehension">
+  <div class="st">🧠 Comprehension Questions</div>
+  <div class="st-sub">Use everything you've learned in this lesson to answer these exam-style questions.</div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 1 <span class="sa-marks">2 marks</span></div>
+    <div class="sa-question">What is "anthropomorphism"? Give one example of anthropomorphism from "The Ant and the Grasshopper".</div>
+    <div class="sa-tip">💡 Exam Tip: Define the term clearly (1 mark), then give a specific example from the story (1 mark).</div>
+    <textarea class="sa-textarea" id="q1" placeholder="Anthropomorphism is... An example from the story is..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('qh1')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('qm1')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="qh1">Anthropo = human, morph = form/shape. Think about what the animals do in the fable that real animals cannot do. Speak? Think? Feel emotions?</div>
+    <div class="model-box" id="qm1">
+      <div class="model-title">✅ Model Answer (2 marks)</div>
+      <div class="model-text">Anthropomorphism is the technique of giving human qualities, emotions, and behaviours to animals or non-human things. An example from the story is when the Ant "snapped" at Grasshopper and "rolled her eyes" — these are human gestures of frustration and disapproval that a real ant would never show.</div>
+    </div>
+  </div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 2 <span class="sa-marks">3 marks</span></div>
+    <div class="sa-question">Explain the structure of "The Ant and the Grasshopper". Identify THREE stages of the story and explain what happens at each stage.</div>
+    <div class="sa-tip">💡 Use story stage language: "At the beginning...", "The problem develops when...", "The resolution comes when..."</div>
+    <textarea class="sa-textarea" id="q2" style="min-height:130px" placeholder="At the beginning of the story...&#10;&#10;The problem develops when...&#10;&#10;By the end..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('qh2')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('qm2')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="qh2">Stage 1: Setting + characters (summer meadow, Ant working, Grasshopper playing). Stage 2: The problem/issue (Ant warns Grasshopper; he ignores her). Stage 3: The resolution (winter comes, Grasshopper suffers, lesson is learned).</div>
+    <div class="model-box" id="qm2">
+      <div class="model-title">✅ Model Answer (3 marks)</div>
+      <div class="model-text">At the beginning of the story, the setting and characters are introduced. It is summer in a meadow, and we see Ant working hard while Grasshopper sings and plays. The problem develops when Grasshopper teases Ant for working so hard, and Ant warns him that "summer won't last forever" — but he ignores her. The resolution comes when winter arrives: Grasshopper is cold and starving, while Ant has stored enough food. Grasshopper finally understands the lesson: "How foolish I have been!" This three-part structure — a situation, a problem, and a resolution — is typical of fables.</div>
+    </div>
+  </div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 3 <span class="sa-marks">5 marks</span></div>
+    <div class="sa-question">Compare the personalities of Ant and Grasshopper. How does each character behave and what does this show about them? Use evidence from the text and the PEE method in your answer. Write a full paragraph of at least 6 sentences.</div>
+    <div class="sa-tip">💡 Extended writing: This is worth 5 marks, so aim for 5 separate, developed points. Compare the TWO characters directly. Use: "In contrast to Ant, Grasshopper..."</div>
+    <textarea class="sa-textarea" id="q3" style="min-height:160px" placeholder="Ant and Grasshopper have very different personalities..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('qh3')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('qm3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="qh3">Structure: (1) Point about Ant + evidence + explain. (2) Point about Grasshopper + evidence + explain. (3) Contrast — use "In contrast..." or "Unlike Ant...". (4) How do their personalities lead to different outcomes? (5) What do their personalities teach the reader?</div>
+    <div class="model-box" id="qm3">
+      <div class="model-title">✅ Model Answer (5 marks)</div>
+      <div class="model-text">Ant and Grasshopper have very different personalities, which leads to very different outcomes. Ant is portrayed as diligent and far-sighted: she "scurries back and forth" collecting food all summer, never stopping to "admire the glorious day". The verb "scurry" suggests purposeful, energetic movement with clear goals, showing she is entirely focused on the future. In contrast, Grasshopper is carefree and irresponsible. He spends summer "chirruping and singing without a care in the world", suggesting he lives only for the present moment. When he "guffawed" at the idea of working in summer, his loud mocking laughter shows he thinks Ant is foolish — he completely misjudges the situation. These contrasting personalities create the central conflict: Ant's wisdom and responsibility are rewarded, while Grasshopper's laziness and short-sightedness are punished. The writer uses these two characters to show readers that preparing for the future, even when times are good, is a sign of wisdom rather than weakness.</div>
+      <div class="model-note">📝 Mark scheme: 1 mark each for: identifying Ant's quality with evidence and explanation; identifying Grasshopper's quality with evidence and explanation; direct contrast between the two; connecting personalities to outcomes; overall insight about the fable's message.</div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson()">🏆 Lesson 1.3 Complete! Save My Progress</button>
+  <div class="complete-msg" id="complete-msg">✅ Outstanding! Lesson 1.3 is saved. You have completed all three lessons! <a href="unit1_home.html" style="color:#2E7D32;font-weight:900">Back to Unit Home →</a></div>
+</div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// --- Story Stages ---
+const stageData = [
+  {num:'1', name:'Exposition', q:'Setting & characters', icon:'🌅',
+   detail:'The story opens in a sunny summer meadow. We are introduced to the two main characters: Ant (busy, hard-working) and Grasshopper (carefree, musical). The contrast between them is established immediately.'},
+  {num:'2', name:'Rising Action', q:'The issue develops', icon:'⚠️',
+   detail:'The central tension builds: Grasshopper teases Ant for working hard, and Ant warns him that summer won\'t last forever. Grasshopper laughs and ignores her warning. His choice to ignore Ant is the key decision that drives the story.'},
+  {num:'3', name:'Climax', q:'The turning point', icon:'❄️',
+   detail:'Winter arrives — cold, barren, and harsh. This is the moment when the consequence of Grasshopper\'s choice becomes clear. His song "sticks in his throat" as he shivers with no food or shelter.'},
+  {num:'4', name:'Resolution', q:'The problem is resolved', icon:'😔',
+   detail:'Grasshopper realises too late that he made a terrible mistake. He watches Ant eating from her stores but receives no help. The problem is "resolved" — but sadly, not in Grasshopper\'s favour.'},
+  {num:'5', name:'Moral', q:'The lesson we learn', icon:'💡',
+   detail:'Grasshopper wails "How foolish I have been!" This is the moral: we must prepare for the future while we have the chance. "Make hay while the sun shines." The fable teaches us that laziness in good times leads to suffering in hard times.'},
+];
+
+const stagesFlow = document.getElementById('stages-flow');
+const stageDetail = document.getElementById('stage-detail');
+stageData.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'stage-card';
+  if (i < stageData.length - 1) div.style.borderRight = '2px solid #eee';
+  div.innerHTML = `<div class="sc-num">${s.icon}</div><div class="sc-name">${s.name}</div><div class="sc-q">${s.q}</div>`;
+  div.addEventListener('click', () => {
+    document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('active-stage'));
+    div.classList.add('active-stage');
+    stageDetail.innerHTML = `<div class="sd-title">${s.icon} Stage ${s.num}: ${s.name}</div><div class="sd-body">${s.detail}</div>`;
+    stageDetail.classList.add('show');
+  });
+  stagesFlow.appendChild(div);
+});
+
+// --- Traits Sorter ---
+const traitData = [
+  {w:'hard-working', c:'ant'},{w:'fun-loving', c:'grass'},{w:'prudent', c:'ant'},
+  {w:'irresponsible', c:'grass'},{w:'sensible', c:'ant'},{w:'chirpy', c:'grass'},
+  {w:'serious', c:'ant'},{w:'happy-go-lucky', c:'grass'},{w:'down-to-earth', c:'ant'},
+  {w:'feckless', c:'grass'},{w:'practical', c:'ant'},{w:'cheery', c:'grass'},
+];
+
+const placements = {};
+const pool = document.getElementById('traits-pool');
+let pendingClick = null;
+
+traitData.forEach((t, i) => {
+  const chip = document.createElement('span');
+  chip.className = 'trait-chip';
+  chip.id = 'tc-' + i;
+  chip.textContent = t.w;
+  chip.dataset.index = i;
+  chip.addEventListener('click', () => {
+    if (chip.classList.contains('used')) return;
+    if (pendingClick === null) {
+      pendingClick = i;
+      chip.style.outline = '3px solid #FFD700';
+    } else {
+      pendingClick = null;
+      chip.style.outline = '';
+    }
+  });
+  pool.appendChild(chip);
+});
+
+['ant','grass'].forEach(zone => {
+  document.getElementById(zone + '-zone').addEventListener('click', () => {
+    if (pendingClick === null) return;
+    const idx = pendingClick;
+    const chip = document.getElementById('tc-' + idx);
+    const placed = document.getElementById(zone + '-placed');
+    const clone = document.createElement('span');
+    clone.className = 'trait-chip placed-' + zone;
+    clone.textContent = traitData[idx].w;
+    clone.dataset.index = idx;
+    clone.addEventListener('click', () => {
+      delete placements[idx];
+      pool.appendChild(chip);
+      chip.classList.remove('used');
+      chip.style.outline = '';
+      clone.remove();
+    });
+    placed.appendChild(clone);
+    placements[idx] = zone;
+    chip.classList.add('used');
+    chip.style.outline = '';
+    pendingClick = null;
+  });
+});
+
+function checkSort() {
+  let correct = 0; let total = 0;
+  traitData.forEach((t, i) => {
+    if (placements[i] !== undefined) {
+      total++;
+      if (placements[i] === t.c) correct++;
+    }
+  });
+  const result = document.getElementById('sort-result');
+  result.className = 'sort-result show ' + (correct === total && total === traitData.length ? 'sr-good' : 'sr-try');
+  if (total < traitData.length) {
+    result.textContent = `You've sorted ${total} of ${traitData.length} words. Keep going! Then check.`;
+  } else if (correct === traitData.length) {
+    result.textContent = `🎉 Perfect! All ${traitData.length} adjectives sorted correctly! Ant: hard-working, prudent, sensible, serious, down-to-earth, practical. Grasshopper: fun-loving, irresponsible, chirpy, happy-go-lucky, feckless, cheery.`;
+  } else {
+    result.textContent = `${correct}/${traitData.length} correct. Review the compare table to check your thinking, then try again. Click any wrongly placed word to return it to the pool.`;
+  }
+}
+
+// --- Short answer ---
+function toggleHint(id) { document.getElementById(id).classList.toggle('show'); }
+function toggleModel(id) { document.getElementById(id).classList.toggle('show'); }
+
+// --- Complete ---
+function completeLesson() {
+  localStorage.setItem('u1_done_1-3', 'true');
+  document.getElementById('complete-msg').classList.add('show');
+  document.querySelector('.complete-btn').disabled = true;
+  document.querySelector('.complete-btn').style.opacity = '.7';
+}
+if (localStorage.getItem('u1_done_1-3') === 'true') {
+  document.getElementById('complete-msg').classList.add('show');
+}
+</script>
+</body>
+</html>

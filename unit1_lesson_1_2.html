@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.2 – Check Understanding | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+
+.top-nav{background:#4527A0;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;text-decoration:none;display:inline-block}
+.tn-btn:hover{color:#fff;border-bottom-color:#E040FB}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-side:hover{background:rgba(255,255,255,.25) !important}
+
+.lesson-hdr{background:#1565C0;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px}
+.tab-btn:hover{color:#1565C0}
+.tab-btn.active{color:#1565C0;border-bottom-color:#1565C0;background:#E3F2FD}
+
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#1565C0;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p,.ib-purple li{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+
+/* MODAL VERBS SCALE */
+.modal-scale{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.07);margin-bottom:20px}
+.scale-title{font-family:'Fredoka One',cursive;color:#1565C0;font-size:1.1rem;margin-bottom:4px}
+.scale-sub{font-size:.82rem;color:#888;margin-bottom:16px}
+.scale-track{position:relative;margin:8px 0 28px}
+.scale-bar{height:10px;background:linear-gradient(90deg,#B3E5FC,#0D47A1);border-radius:5px;margin:0 8px}
+.scale-labels{display:flex;justify-content:space-between;font-size:.7rem;font-weight:800;color:#555;margin-top:4px;padding:0 8px}
+.modal-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.mpill{border-radius:20px;padding:8px 16px;font-weight:800;font-size:.88rem;cursor:pointer;border:2px solid;transition:all .2s;text-align:center}
+.mpill:hover{transform:translateY(-2px)}
+.mp-low{background:#E1F5FE;color:#0277BD;border-color:#B3E5FC}
+.mp-mid{background:#E3F2FD;color:#1565C0;border-color:#90CAF9}
+.mp-high{background:#1565C0;color:#fff;border-color:#0D47A1}
+.modal-detail{background:#F5F5F5;border-radius:12px;padding:14px;margin-top:12px;display:none}
+.modal-detail.show{display:block}
+.md-word{font-family:'Fredoka One',cursive;color:#1565C0;font-size:1.1rem;margin-bottom:6px}
+.md-meaning{font-size:.9rem;font-weight:700;color:#333;margin-bottom:6px}
+.md-examples{font-size:.85rem;color:#555;line-height:1.7}
+
+/* FILL IN BLANKS */
+.fib-card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:14px}
+.fib-num{font-family:'Fredoka One',cursive;color:#1565C0;font-size:.95rem;margin-bottom:8px}
+.fib-sent{font-size:1rem;font-weight:700;color:#222;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.fib-input{border:2px solid #90CAF9;border-radius:8px;padding:5px 10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:#1565C0;background:#E3F2FD;width:110px;text-align:center;transition:all .2s}
+.fib-input:focus{outline:none;border-color:#1565C0}
+.fib-input.correct{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32}
+.fib-input.wrong{background:#FFEBEE;border-color:#EF5350;color:#C62828}
+.fib-hint{font-size:.78rem;color:#1565C0;font-weight:700;margin-top:6px;background:#E3F2FD;border-radius:8px;padding:5px 10px;display:none}
+.fib-hint.show{display:block}
+.fib-fb{font-size:.84rem;font-weight:700;padding:8px 12px;border-radius:8px;margin-top:8px;display:none}
+.fib-fb.show{display:block}
+.fib-correct-text{background:#E8F5E9;color:#2E7D32;border:1.5px solid #A5D6A7}
+.fib-wrong-text{background:#FFEBEE;color:#C62828;border:1.5px solid #EF9A9A}
+
+.check-btn{background:#1565C0;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:8px;transition:all .2s}
+.check-btn:hover{background:#0D47A1;transform:scale(1.04)}
+
+/* VERB SHADES */
+.verb-scale{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.vs-title{font-family:'Fredoka One',cursive;color:#4527A0;font-size:1.1rem;margin-bottom:10px}
+.vs-track{display:flex;align-items:stretch;gap:0;border-radius:12px;overflow:hidden;border:2px solid #E0E0E0}
+.vs-item{flex:1;padding:12px 6px;text-align:center;cursor:pointer;transition:all .2s;border-right:1px solid #E0E0E0}
+.vs-item:last-child{border-right:none}
+.vs-item:hover{transform:scale(1.05);z-index:1}
+.vs-word{font-weight:800;font-size:.82rem;color:#333}
+.vs-def{font-size:.68rem;color:#888;margin-top:3px;line-height:1.3}
+.vs-detail{background:#EDE7FF;border-radius:12px;padding:14px;margin-top:10px;display:none}
+.vs-detail.show{display:block}
+
+/* SHORT ANSWER */
+.sacard{background:#fff;border-radius:16px;padding:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #1565C0}
+.sa-qnum{font-family:'Fredoka One',cursive;color:#1565C0;font-size:.95rem;margin-bottom:4px}
+.sa-marks{display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800;margin-left:6px;vertical-align:middle}
+.sa-question{font-weight:700;font-size:.95rem;color:#222;margin-bottom:12px;line-height:1.5}
+.sa-tip{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:.82rem;font-weight:700;color:#E65100}
+.sa-textarea{width:100%;border:2px solid #D1C4E9;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#F5F0FF;resize:vertical;min-height:100px;transition:border .2s}
+.sa-textarea:focus{outline:none;border-color:#1565C0;background:#fff}
+.sa-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn:hover{transform:scale(1.04)}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px;transition:all .2s;box-shadow:0 4px 16px rgba(46,125,50,.3)}
+.complete-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,125,50,.4)}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;font-size:1rem;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Unit Home</a>
+  <a href="unit1_lesson_1_1.html" class="tn-btn">← Lesson 1.1</a>
+  <span class="tn-btn" style="color:#FFD700;cursor:default">▶ Lesson 1.2</span>
+  <div class="tn-spacer"></div>
+  <a href="unit1_lesson_1_3.html" class="tn-btn tn-side">Next: Lesson 1.3 →</a>
+</div>
+
+<div class="lesson-hdr">
+  <div class="lh-badge">🔑 LESSON 1.2</div>
+  <div class="lh-title">Check Your Understanding</div>
+  <div class="lh-sub">Modal Verbs · Descriptive Verbs · Deeper Comprehension</div>
+  <div class="lh-goals">
+    <span class="goal-chip">🔑 Learn and use modal verbs</span>
+    <span class="goal-chip">🎨 Understand shades of meaning</span>
+    <span class="goal-chip">📖 Answer "How does the writer show..." questions</span>
+    <span class="goal-chip">✏️ Write exam-style answers</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('modals')">🔑 Modal Verbs</button>
+  <button class="tab-btn" onclick="showTab('practice')">🎯 Fill in the Blanks</button>
+  <button class="tab-btn" onclick="showTab('verbs')">🎨 Shades of Meaning</button>
+  <button class="tab-btn" onclick="showTab('comprehension')">✏️ Comprehension</button>
+  <button class="tab-btn" onclick="showTab('challenge')">⭐ Challenge</button>
+</div>
+
+<div class="main">
+
+<!-- ===== TAB 1: MODAL VERBS ===== -->
+<div class="tab-pane active" id="tab-modals">
+  <div class="st">🔑 What Are Modal Verbs?</div>
+  <div class="st-sub">Modal verbs are helper verbs that change how certain or necessary something is.</div>
+
+  <div class="info-box ib-blue">
+    <h4>📌 The Simple Explanation</h4>
+    <p>A modal verb changes another verb to show:<br>
+    • <strong>How certain</strong> something is (might it happen? will it definitely happen?)<br>
+    • <strong>How necessary</strong> something is (should you do it? must you do it?)<br>
+    • <strong>Ability</strong> (can you do it?)<br>
+    • <strong>Permission</strong> (may you do it?)<br><br>
+    <strong>Key rule:</strong> Modal verbs are ALWAYS followed by the base verb (the simplest form). ✅ "She <em>should</em> <u>go</u>" — NOT "She should goes" ❌</p>
+  </div>
+
+  <div class="modal-scale">
+    <div class="scale-title">📊 The Certainty Scale — How sure are we?</div>
+    <div class="scale-sub">Not sure at all ←————————————————————→ Absolutely certain</div>
+    <div class="scale-track">
+      <div class="scale-bar"></div>
+      <div class="scale-labels"><span>might</span><span>could</span><span>may</span><span>should</span><span>will</span><span>must</span></div>
+    </div>
+    <div class="modal-pills" id="modal-pills"></div>
+    <div class="modal-detail" id="modal-detail"></div>
+  </div>
+
+  <div class="info-box ib-orange">
+    <h4>📚 Examples from the Story</h4>
+    <p>• <strong>"Summer won't last forever"</strong> — Ant uses WILL (certain future). She knows winter is definitely coming.<br>
+    • <strong>"You should be doing the same"</strong> — Ant uses SHOULD (obligation/advice). She thinks it's important for Grasshopper to prepare.<br>
+    • <strong>"The grasshopper might collect food"</strong> — MIGHT (possible but not sure — and as we know, he won't!)<br>
+    • <strong>"I can dream"</strong> — CAN (ability). Shows what someone is able to do.</p>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>✅ Quick Check — Which modal fits best?</h4>
+    <p><strong>Obligation (you have to):</strong> must, should, ought to<br>
+    <strong>Possibility (maybe):</strong> might, may, could<br>
+    <strong>Ability (able to do):</strong> can, could<br>
+    <strong>Certainty (definitely will):</strong> will, shall, must</p>
+  </div>
+
+  <div class="info-box ib-purple">
+    <h4>⚠️ Exam Tip: Negative Modal Verbs</h4>
+    <p>Add NOT (or a contraction) to make a modal negative:<br>
+    • will → <strong>will not / won't</strong><br>
+    • should → <strong>should not / shouldn't</strong><br>
+    • can → <strong>cannot / can't</strong><br>
+    • must → <strong>must not / mustn't</strong><br>
+    • might → <strong>might not</strong> (no common contraction)</p>
+  </div>
+</div>
+
+<!-- ===== TAB 2: FILL IN BLANKS ===== -->
+<div class="tab-pane" id="tab-practice">
+  <div class="st">🎯 Fill in the Blanks</div>
+  <div class="st-sub">Choose the best modal verb to complete each sentence. Look at the certainty scale if you need help!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>💡 Word bank — modal verbs</h4>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+      <span style="background:#1565C0;color:#fff;border-radius:16px;padding:4px 14px;font-weight:800;font-size:.85rem">can</span>
+      <span style="background:#1976D2;color:#fff;border-radius:16px;padding:4px 14px;font-weight:800;font-size:.85rem">must</span>
+      <span style="background:#42A5F5;color:#0D47A1;border-radius:16px;padding:4px 14px;font-weight:800;font-size:.85rem">might</span>
+      <span style="background:#64B5F6;color:#0D47A1;border-radius:16px;padding:4px 14px;font-weight:800;font-size:.85rem">should</span>
+      <span style="background:#90CAF9;color:#0D47A1;border-radius:16px;padding:4px 14px;font-weight:800;font-size:.85rem">will</span>
+      <span style="background:#BBDEFB;color:#1565C0;border-radius:16px;padding:4px 14px;font-weight:800;font-size:.85rem">could</span>
+    </div>
+  </div>
+
+  <div id="fib-container"></div>
+
+  <button class="check-btn" onclick="checkFIB()" style="margin-top:4px">✅ Check All My Answers</button>
+  <div class="hint-box" id="fib-results" style="background:#E3F2FD;border-color:#90CAF9;margin-top:12px"></div>
+</div>
+
+<!-- ===== TAB 3: VERB SHADES ===== -->
+<div class="tab-pane" id="tab-verbs">
+  <div class="st">🎨 Shades of Meaning — Verbs</div>
+  <div class="st-sub">Different verbs can describe very similar things — but each has a slightly different meaning. This is called a "shade of meaning". Click on any word to explore it!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>📌 Why does this matter for your writing?</h4>
+    <p>Using the <strong>right verb</strong> makes your writing much more vivid and precise. Instead of always writing "said", a good writer uses words like "snapped", "whispered", "declared" — each one gives the reader a different picture!</p>
+  </div>
+
+  <div class="verb-scale">
+    <div class="vs-title">📣 Speaking verbs — from quiet to loud</div>
+    <div class="vs-track" id="speak-track"></div>
+    <div class="vs-detail" id="speak-detail"></div>
+  </div>
+
+  <div class="verb-scale">
+    <div class="vs-title">🏃 Moving verbs — different ways to move quickly</div>
+    <div class="vs-track" id="move-track"></div>
+    <div class="vs-detail" id="move-detail"></div>
+  </div>
+
+  <div class="info-box ib-orange" style="margin-top:8px">
+    <h4>✏️ Practice Task</h4>
+    <p>Rewrite these sentences using a MORE interesting verb from the scales above:<br><br>
+    1. <strong>"The ant walked quickly across the field."</strong><br>
+    → The ant ________ across the field.<br><br>
+    2. <strong>"'I won't help you,' said Ant quietly."</strong><br>
+    → 'I won't help you,' Ant ________.<br><br>
+    Write your new sentences in your notebook!</p>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>🌟 Synonyms for "said" — learn these for your writing!</h4>
+    <p>
+    <strong>Quiet / sad:</strong> murmured · whispered · sighed · muttered<br>
+    <strong>Angry / sharp:</strong> snapped · barked · hissed · growled<br>
+    <strong>Excited / loud:</strong> exclaimed · declared · announced · shouted<br>
+    <strong>Uncertain / gentle:</strong> quavered · faltered · suggested · wondered
+    </p>
+  </div>
+</div>
+
+<!-- ===== TAB 4: COMPREHENSION ===== -->
+<div class="tab-pane" id="tab-comprehension">
+  <div class="st">✏️ Comprehension Questions</div>
+  <div class="st-sub">These questions ask you HOW the writer creates effects. Use PEE in every answer!</div>
+
+  <div class="info-box ib-blue" style="margin-bottom:16px">
+    <h4>🔍 "How does the writer show...?" — How to answer</h4>
+    <p><strong>Step 1</strong> — Identify WHAT the writer is trying to show (e.g. Ant's annoyance).<br>
+    <strong>Step 2</strong> — Find a SPECIFIC WORD or phrase from the text as evidence.<br>
+    <strong>Step 3</strong> — Explain WHY that word/phrase shows the effect.<br><br>
+    <em>Example: "The writer shows Ant is angry through the word 'snapped'. This suggests she was sharp and annoyed, like a dog snapping its teeth."</em></p>
+  </div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 1 <span class="sa-marks">2 marks</span></div>
+    <div class="sa-question">Why did Ant say "Summer won't last forever"? What was she trying to do by saying this? Use evidence from the story.</div>
+    <div class="sa-tip">💡 Think about: what does the word "won't" tell us? What was Ant's purpose — to warn Grasshopper, threaten him, or help him?</div>
+    <textarea class="sa-textarea" id="c1" placeholder="Ant said 'Summer won't last forever' because..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('h1')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('m1')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">The modal verb "won't" (will not) shows certainty — Ant KNOWS winter is coming. Why would she tell this to Grasshopper? Look at what she says right after: "you should be doing the same".</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">✅ Model Answer (2 marks)</div>
+      <div class="model-text">Ant said "Summer won't last forever" to warn Grasshopper to prepare for winter. The modal verb "won't" shows Ant is completely certain that winter will come — she is not guessing. She follows this with "you should be doing the same", showing that her purpose was to advise Grasshopper to collect food while he still could.</div>
+      <div class="model-note">📝 Key skill: identifying a modal verb AND explaining the effect it creates.</div>
+    </div>
+  </div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 2 <span class="sa-marks">3 marks</span></div>
+    <div class="sa-question">"Grasshopper's song stuck in his throat." What does this expression mean literally and figuratively? What does it tell us about how Grasshopper felt?</div>
+    <div class="sa-tip">💡 Literally = exactly what the words say. Figuratively = what it really means in the story. Think about WHY his song would "stick".</div>
+    <textarea class="sa-textarea" id="c2" placeholder="Literally, this expression means... Figuratively, it means... This tells us that Grasshopper felt..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('h2')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('m2')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">Literally: Can a song really "stick" in a throat? What would that mean physically? Figuratively: If someone is very shocked or miserable, what happens to their voice? Think about a time you were so upset you couldn't speak.</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">✅ Model Answer (3 marks)</div>
+      <div class="model-text">Literally, this expression means that a piece of a song became stuck inside Grasshopper's throat like food getting stuck when you swallow — but this is impossible, so it is figurative. Figuratively, it means that Grasshopper was so miserable and shocked by the cold and hunger that he could no longer sing. He had lost his only talent and joy. This tells us that Grasshopper felt deeply ashamed and hopeless — a complete contrast to his carefree, singing self in summer.</div>
+      <div class="model-note">📝 Marks: 1 for literal meaning, 1 for figurative meaning, 1 for explaining Grasshopper's feelings with reference to contrast (summer vs winter).</div>
+    </div>
+  </div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 3 <span class="sa-marks">3 marks</span></div>
+    <div class="sa-question">Look at the verbs used to describe how Ant moves: "bustled", "scurry", "toiling". What do these verbs tell us about Ant's character? Explain the effect of each.</div>
+    <div class="sa-tip">💡 For each verb: (1) What does it mean exactly? (2) What image does it create? (3) What does it tell us about Ant?</div>
+    <textarea class="sa-textarea" id="c3" style="min-height:130px" placeholder="The verb 'bustled' means... This creates an image of... and tells us that Ant is...&#10;The verb 'scurry' means...&#10;The verb 'toiling' means..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('h3')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('m3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">"Bustled" — think of a busy person rushing about. "Scurry" — this is often used for small, fast animals (mice scurry). "Toiling" — this comes from "toil" meaning hard, exhausting work. Together, what picture of Ant do these verbs create?</div>
+    <div class="model-box" id="m3">
+      <div class="model-title">✅ Model Answer (3 marks)</div>
+      <div class="model-text">"Bustled" suggests Ant moved in a busy, energetic way — always in motion, never resting. "Scurry" creates an image of rapid, purposeful movement back and forth, like a small creature with urgent tasks to complete. "Toiling" suggests hard, exhausting physical work — it is a more serious word than simply "working", suggesting Ant pushed herself to her limits. Together, these three verbs portray Ant as determined, tireless, and completely focused on her goal — the opposite of Grasshopper, who simply hops and sings.</div>
+      <div class="model-note">📝 1 mark per verb with a clear explanation of the effect on meaning/character.</div>
+    </div>
+  </div>
+
+  <div class="sacard">
+    <div class="sa-qnum">Question 4 <span class="sa-marks">4 marks</span></div>
+    <div class="sa-question">What tense is the narrative (storytelling) part of the fable written in? How does this affect the way the story feels? Contrast this with the dialogue (speech). Give examples of each from the text.</div>
+    <div class="sa-tip">💡 Tense = past or present? Look at the verbs: "was", "bustled", "came" — are these past or present? Now look at dialogue: "Take it easy!" "Summer won't last!" — are these different?</div>
+    <textarea class="sa-textarea" id="c4" style="min-height:130px" placeholder="The narrative is written in... tense. For example... The dialogue is mainly in... tense. For example... This difference makes the story feel..."></textarea>
+    <div class="sa-actions">
+      <button class="btn btn-hint" onclick="toggleHint('h4')">💡 Hint</button>
+      <button class="btn btn-model" onclick="toggleModel('m4')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h4">Narrative verbs: "was bouncing", "bustled by", "came" — past tense (it already happened). Dialogue verbs: "Take it easy", "Why are you working", "Summer won't last" — present/future tense (happening NOW). The past tense makes a story feel like it already happened. The present tense dialogue makes it feel alive and immediate.</div>
+    <div class="model-box" id="m4">
+      <div class="model-title">✅ Model Answer (4 marks)</div>
+      <div class="model-text">The narrative part of the fable is written in the past tense. For example: "a grasshopper was bouncing about", "Winter came, bringing barren fare". This makes the story feel like a finished event — something that has already happened, which is appropriate for a traditional fable being retold. However, the dialogue is mainly written in the present tense. For example: "Why are you working so hard?" and "Summer won't last forever." Using present tense in dialogue makes the characters feel alive and immediate — as if the conversation is happening right now in front of us. This contrast between past narrative and present dialogue is a common storytelling technique.</div>
+      <div class="model-note">📝 Marks: 1 for identifying past tense + example. 1 for identifying present tense in dialogue + example. 1 for explaining the effect of past tense. 1 for explaining the effect of present tense in dialogue.</div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson()">🏆 Lesson 1.2 Complete! Save My Progress</button>
+  <div class="complete-msg" id="complete-msg">✅ Excellent! Lesson 1.2 is saved. <a href="unit1_lesson_1_3.html" style="color:#2E7D32;font-weight:900">Go to Lesson 1.3 →</a></div>
+</div>
+
+<!-- ===== TAB 5: CHALLENGE ===== -->
+<div class="tab-pane" id="tab-challenge">
+  <div class="st">⭐ Challenge Activities</div>
+  <div class="st-sub">Extra practice for those who want to go further!</div>
+
+  <div class="info-box ib-purple">
+    <h4>🔄 Challenge 1: Make It Negative!</h4>
+    <p>Rewrite each sentence by making the modal verb negative. Use a contraction where possible.<br><br>
+    <strong>Example:</strong> "Ant will collect enough food." → "Ant <u>won't</u> collect enough food."<br><br>
+    1. Grasshopper should think about the winter.<br>
+    → Grasshopper ________ think about the winter.<br><br>
+    2. Ant must be kind to Grasshopper.<br>
+    → Ant ________ be unkind to Grasshopper.<br><br>
+    3. They can share the food equally.<br>
+    → They ________ share the food equally.<br><br>
+    4. It might rain tomorrow.<br>
+    → It ________ rain tomorrow.<br><br>
+    <em>Write your answers in your notebook!</em></p>
+  </div>
+
+  <div class="info-box ib-blue" style="margin-top:12px">
+    <h4>🔑 Challenge 2: Write Your Own Sentences</h4>
+    <p>Use each of these modal verbs in a sentence about Ant, Grasshopper, or winter. Make sure the sentence makes sense!<br><br>
+    <strong>might:</strong> Write a sentence here → ________________________<br><br>
+    <strong>must:</strong> ________________________<br><br>
+    <strong>should:</strong> ________________________<br><br>
+    <strong>won't:</strong> ________________________</p>
+  </div>
+
+  <div class="info-box ib-green" style="margin-top:12px">
+    <h4>🎭 Challenge 3: Degrees of Possibility</h4>
+    <p>Put these sentences in order from LEAST likely to MOST likely:<br><br>
+    a. The grasshopper <strong>will</strong> survive the winter. (rank: ___)<br>
+    b. The grasshopper <strong>might</strong> find some food. (rank: ___)<br>
+    c. The grasshopper <strong>could</strong> ask Ant for help. (rank: ___)<br>
+    d. The grasshopper <strong>must</strong> learn a lesson. (rank: ___)<br><br>
+    <em>Discuss with a partner or write your reasoning in your notebook.</em></p>
+  </div>
+
+  <div class="info-box ib-orange" style="margin-top:12px">
+    <h4>🌟 Extension: Cambridge Dictionary Modal Verbs</h4>
+    <p>Visit the Cambridge Dictionary to explore more about modal verbs with examples:</p>
+    <a href="https://dictionary.cambridge.org/grammar/british-grammar/modal-verbs-and-modality" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#1565C0;color:#fff;border-radius:8px;padding:8px 16px;font-size:.82rem;font-weight:800;text-decoration:none;margin-top:8px">🔗 Cambridge Grammar — Modal Verbs</a>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// --- Modal verb pills ---
+const modals = [
+  {word:'might', level:'low', meaning:'Possible, but not very likely.', ex:'It might snow tomorrow. (We\'re not sure.) / Grasshopper might save food. (But probably won\'t!)'},
+  {word:'could', level:'low', meaning:'Possible — ability in the past, or polite possibility.', ex:'"Could you help me?" / "I could carry the corn if I tried."'},
+  {word:'may', level:'low', meaning:'Possible, or asking/giving permission.', ex:'"It may rain later." / "You may leave the table."'},
+  {word:'should', level:'mid', meaning:'A good idea, advice, or expectation.', ex:'"You should save food for winter." (It\'s important!) / "You should be preparing."'},
+  {word:'will', level:'high', meaning:'Certain or definite future; strong intention.', ex:'"Summer will end." (It definitely will.) / "I will help you."'},
+  {word:'must', level:'high', meaning:'Obligation — very necessary. No choice.', ex:'"You must store food!" (It\'s essential!) / "Ants must work hard."'},
+];
+const colors = {low:'mp-low', mid:'mp-mid', high:'mp-high'};
+const pillsContainer = document.getElementById('modal-pills');
+const detail = document.getElementById('modal-detail');
+modals.forEach(m => {
+  const pill = document.createElement('div');
+  pill.className = 'mpill ' + colors[m.level];
+  pill.textContent = m.word;
+  pill.addEventListener('click', () => {
+    pillsContainer.querySelectorAll('.mpill').forEach(p => p.style.outline = 'none');
+    pill.style.outline = '3px solid #0D47A1';
+    detail.innerHTML = `<div class="md-word">${m.word}</div><div class="md-meaning">${m.meaning}</div><div class="md-examples">${m.ex}</div>`;
+    detail.classList.add('show');
+  });
+  pillsContainer.appendChild(pill);
+});
+
+// --- Fill in blanks data ---
+const fibData = [
+  {before:'"He chirps beautifully. He', after:'have practised a lot."', answer:'must', alt:['must'], hint:'Which modal shows that something is logically certain, based on evidence?'},
+  {before:'"Ant is so talented. She', after:'even carry food on her back."', answer:'can', alt:['can','could'], hint:'"Can" or "could" show ability — being physically able to do something.'},
+  {before:'"It was so dark in the anthill that Ant', after:'see the doorway."', answer:"couldn't", alt:["couldn't",'could not'], hint:'This sentence needs a NEGATIVE modal about ability. She was not able to see.'},
+  {before:'"If she collects enough food, she', after:'just have enough to last the winter."', answer:'might', alt:['might','may','could'], hint:'It\'s not certain she\'ll have enough — it\'s a possibility. Which modal shows this?'},
+  {before:'"Grasshopper', after:'see the point of working in summer."', answer:"couldn't", alt:["couldn't",'could not'], hint:'He was unable to understand why Ant worked so hard. Use a negative ability modal.'},
+  {before:'"You', after:'start saving food now! Winter is coming!"', answer:'should', alt:['should','must','ought to'], hint:'Ant is giving strong advice or expressing obligation. "Must" or "should" both work!'},
+];
+
+const fibContainer = document.getElementById('fib-container');
+fibData.forEach((f, i) => {
+  const div = document.createElement('div');
+  div.className = 'fib-card';
+  div.innerHTML = `<div class="fib-num">Sentence ${i+1}</div>
+    <div class="fib-sent">
+      ${f.before}
+      <input class="fib-input" id="fib${i}" placeholder="modal verb..." type="text" spellcheck="false">
+      ${f.after}
+    </div>
+    <div class="fib-hint" id="fibh${i}">${f.hint}</div>
+    <div class="fib-fb" id="fibfb${i}"></div>
+    <button class="btn btn-hint" onclick="showFibHint(${i})" style="margin-top:8px;background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;padding:6px 14px">💡 Hint</button>`;
+  fibContainer.appendChild(div);
+});
+
+function showFibHint(i) { document.getElementById('fibh' + i).classList.toggle('show'); }
+
+function checkFIB() {
+  let correct = 0;
+  fibData.forEach((f, i) => {
+    const input = document.getElementById('fib' + i);
+    const fb = document.getElementById('fibfb' + i);
+    const val = input.value.trim().toLowerCase();
+    const isCorrect = f.alt.some(a => a.toLowerCase() === val);
+    input.classList.remove('correct','wrong');
+    input.classList.add(isCorrect ? 'correct' : 'wrong');
+    fb.classList.add('show');
+    if (isCorrect) {
+      fb.textContent = '✅ Correct! "' + f.answer + '" is the best choice here.';
+      fb.className = 'fib-fb show fib-correct-text';
+      correct++;
+    } else {
+      fb.textContent = '❌ The answer is "' + f.answer + '". ' + (f.alt.length > 1 ? 'Other acceptable answers: ' + f.alt.slice(1).join(', ') : '');
+      fb.className = 'fib-fb show fib-wrong-text';
+    }
+  });
+  const results = document.getElementById('fib-results');
+  results.style.display = 'block';
+  results.textContent = `Score: ${correct}/${fibData.length}. ${correct === fibData.length ? '🎉 Perfect! You\'ve mastered modal verbs!' : correct >= 4 ? '🌟 Great job! Review the ones you missed.' : '📚 Good effort! Re-read the explanations and try again.'}`;
+  results.style.background = correct >= 4 ? '#E8F5E9' : '#FFF8E1';
+  results.style.borderColor = correct >= 4 ? '#66BB6A' : '#FFD54F';
+}
+
+// --- Verb shades ---
+const speakVerbs = [
+  {w:'whisper', col:'#B3E5FC', def:'Very soft, quiet voice', use:'She whispered a secret to her friend.'},
+  {w:'murmur', col:'#81D4FA', def:'Soft, low continuous sound', use:'He murmured a reply without looking up.'},
+  {w:'say/said', col:'#4FC3F7', def:'Neutral — just speaking', use:'"I am ready," she said.'},
+  {w:'declare', col:'#29B6F6', def:'Say firmly, announce', use:'"I will not give up!" he declared.'},
+  {w:'exclaim', col:'#039BE5', def:'Say suddenly with emotion', use:'"What a surprise!" she exclaimed.'},
+  {w:'shout', col:'#0277BD', def:'Very loud, forceful voice', use:'"Watch out!" he shouted.'},
+];
+const moveVerbs = [
+  {w:'stroll', col:'#C8E6C9', def:'Walk slowly and casually', use:'She strolled through the park on Sunday.'},
+  {w:'walk', col:'#A5D6A7', def:'Move at a normal pace', use:'She walked to school every morning.'},
+  {w:'bustle', col:'#66BB6A', def:'Move busily and hurriedly', use:'She bustled around the kitchen.'},
+  {w:'scurry', col:'#43A047', def:'Run quickly with small steps', use:'The ant scurried back to her nest.'},
+  {w:'dash', col:'#2E7D32', def:'Run very fast, suddenly', use:'He dashed across the road.'},
+  {w:'sprint', col:'#1B5E20', def:'Run at full speed', use:'She sprinted to the finish line.'},
+];
+
+function buildVerbScale(containerId, detailId, verbs) {
+  const track = document.getElementById(containerId);
+  const detail = document.getElementById(detailId);
+  verbs.forEach(v => {
+    const item = document.createElement('div');
+    item.className = 'vs-item';
+    item.style.background = v.col;
+    item.innerHTML = `<div class="vs-word">${v.w}</div><div class="vs-def">${v.def}</div>`;
+    item.addEventListener('click', () => {
+      detail.innerHTML = `<strong style="color:#4527A0">"${v.w}"</strong> — ${v.def}<br><em style="color:#555">${v.use}</em>`;
+      detail.classList.add('show');
+    });
+    track.appendChild(item);
+  });
+}
+buildVerbScale('speak-track', 'speak-detail', speakVerbs);
+buildVerbScale('move-track', 'move-detail', moveVerbs);
+
+// --- Short answer toggles ---
+function toggleHint(id) { document.getElementById(id).classList.toggle('show'); }
+function toggleModel(id) { document.getElementById(id).classList.toggle('show'); }
+
+// --- Complete ---
+function completeLesson() {
+  localStorage.setItem('u1_done_1-2', 'true');
+  document.getElementById('complete-msg').classList.add('show');
+  document.querySelector('.complete-btn').disabled = true;
+  document.querySelector('.complete-btn').style.opacity = '.7';
+}
+if (localStorage.getItem('u1_done_1-2') === 'true') {
+  document.getElementById('complete-msg').classList.add('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1: There's a Lesson in That! | Cambridge Primary English Stage 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e;min-height:100vh}
+
+/* HEADER */
+.header{background:#4527A0;padding:44px 20px 70px;text-align:center;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:40px;background:#F5F0FF;border-radius:50% 50% 0 0/40px 40px 0 0}
+.hd-chars{font-size:3.5rem;display:block;margin-bottom:12px;letter-spacing:12px}
+.header h1{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,5vw,3rem);color:#fff;margin-bottom:8px}
+.header p{color:rgba(255,255,255,0.85);font-size:1rem;font-weight:600}
+.hd-tag{display:inline-block;background:rgba(255,255,255,0.15);color:#fff;border-radius:20px;padding:5px 16px;font-size:0.82rem;font-weight:700;margin-top:10px}
+
+/* MAIN */
+.main{max-width:980px;margin:0 auto;padding:32px 16px 60px}
+
+/* PROGRESS */
+.prog-card{background:#fff;border-radius:20px;padding:20px 24px;box-shadow:0 4px 20px rgba(0,0,0,.07);margin-bottom:28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.ps-item{text-align:center;min-width:60px}
+.ps-num{font-family:'Fredoka One',cursive;font-size:2rem;color:#7C4DFF;line-height:1}
+.ps-lbl{font-size:0.75rem;color:#888;font-weight:700;margin-top:2px}
+.prog-bar-col{flex:1;min-width:200px}
+.prog-bar-lbl{font-weight:800;color:#7C4DFF;font-size:0.9rem;margin-bottom:6px}
+.prog-bar{background:#EDE7FF;height:14px;border-radius:7px;overflow:hidden}
+.prog-fill{background:linear-gradient(90deg,#7C4DFF,#E040FB);height:100%;border-radius:7px;transition:width .8s ease;width:0%}
+.prog-msg{font-size:0.8rem;color:#888;margin-top:5px}
+
+/* HOW TO */
+.how-box{background:linear-gradient(135deg,#E8EAF6,#EDE7FF);border:2px solid #C5CAE9;border-radius:18px;padding:20px 24px;margin-bottom:28px}
+.how-box h3{font-family:'Fredoka One',cursive;color:#3949AB;font-size:1.3rem;margin-bottom:14px}
+.how-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.how-num{background:#3949AB;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;flex-shrink:0;margin-top:1px}
+.how-txt{font-size:0.88rem;font-weight:600;color:#1a1a2e;line-height:1.5}
+.how-txt strong{color:#3949AB}
+
+/* SECTION TITLE */
+.st{font-family:'Fredoka One',cursive;font-size:1.5rem;color:#4527A0;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+/* LESSON GRID */
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px;margin-bottom:36px}
+.lcard{background:#fff;border-radius:16px;padding:18px 16px;box-shadow:0 3px 14px rgba(0,0,0,.07);border:2.5px solid transparent;text-decoration:none;display:block;transition:all .2s;position:relative}
+.lcard.active:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(124,77,255,.2);border-color:#7C4DFF}
+.lcard.active{border-color:#EDE7FF;cursor:pointer}
+.lcard.completed{border-color:#4CAF50;background:#F1F8E9}
+.lcard.soon{opacity:.5;cursor:not-allowed}
+.lcard-num{font-size:0.72rem;font-weight:900;color:#7C4DFF;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.lcard-icon{font-size:2rem;margin-bottom:6px}
+.lcard-title{font-weight:800;font-size:0.9rem;color:#222;margin-bottom:4px;line-height:1.3}
+.lcard-desc{font-size:0.75rem;color:#888;line-height:1.5;margin-bottom:8px}
+.lbadge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.7rem;font-weight:800}
+.lb-active{background:#EDE7FF;color:#6C3FC5}
+.lb-done{background:#E8F5E9;color:#2E7D32}
+.lb-soon{background:#F5F5F5;color:#999}
+.lb-new{background:#FFF3E0;color:#E65100;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* OBJECTIVES */
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:36px}
+.obj-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.oj-icon{font-size:1.8rem;margin-bottom:8px}
+.oj-title{font-weight:800;font-size:0.9rem;color:#333;margin-bottom:6px}
+.oj-items{font-size:0.77rem;color:#666;line-height:1.7}
+
+/* KEY SKILLS INFO BOX */
+.key-box{background:#fff;border-radius:18px;padding:20px 24px;box-shadow:0 4px 16px rgba(0,0,0,.07);margin-bottom:28px}
+.key-box h3{font-family:'Fredoka One',cursive;color:#4527A0;font-size:1.2rem;margin-bottom:14px}
+.skill-chips{display:flex;flex-wrap:wrap;gap:8px}
+.skill-chip{padding:6px 14px;border-radius:20px;font-size:0.8rem;font-weight:700;border:2px solid}
+.sc-read{background:#E3F2FD;color:#1565C0;border-color:#BBDEFB}
+.sc-write{background:#E8F5E9;color:#2E7D32;border-color:#C8E6C9}
+.sc-gram{background:#FFF3E0;color:#E65100;border-color:#FFE0B2}
+.sc-vocab{background:#FCE4EC;color:#AD1457;border-color:#F8BBD0}
+.sc-exam{background:#EDE7FF;color:#4527A0;border-color:#D1C4E9}
+
+/* FOOTER */
+.footer{text-align:center;padding:20px;color:#aaa;font-size:0.8rem}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="hd-chars">🐜 🌿 🦗</span>
+  <h1>Unit 1: There's a Lesson in That!</h1>
+  <p>Fables · Grammar · Vocabulary · Creative Writing · Exam Skills</p>
+  <span class="hd-tag">📚 Cambridge Primary English · Stage 5</span>
+</div>
+
+<div class="main">
+
+  <!-- Progress -->
+  <div class="prog-card">
+    <div class="ps-item"><div class="ps-num" id="done-num">0</div><div class="ps-lbl">Lessons done</div></div>
+    <div class="ps-item"><div class="ps-num">11</div><div class="ps-lbl">Total lessons</div></div>
+    <div class="ps-item"><div class="ps-num" id="pct-num">0%</div><div class="ps-lbl">Complete</div></div>
+    <div class="prog-bar-col">
+      <div class="prog-bar-lbl">⭐ Your Unit 1 Progress</div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+      <div class="prog-msg" id="prog-msg">Start with Lesson 1.1 below!</div>
+    </div>
+  </div>
+
+  <!-- How to use -->
+  <div class="how-box">
+    <h3>📖 How to use this unit</h3>
+    <div class="how-row"><div class="how-num">1</div><div class="how-txt">Open each lesson in order — start with <strong>Lesson 1.1</strong>!</div></div>
+    <div class="how-row"><div class="how-num">2</div><div class="how-txt">Read the <strong>explanation</strong> carefully first, then do the practice activities.</div></div>
+    <div class="how-row"><div class="how-num">3</div><div class="how-txt">Click <strong>💡 Hint</strong> if you get stuck. It's okay to ask for help!</div></div>
+    <div class="how-row"><div class="how-num">4</div><div class="how-txt">Always <strong>try your answer first</strong> before looking at the model answer.</div></div>
+    <div class="how-row"><div class="how-num">5</div><div class="how-txt">Click <strong>"Lesson Complete"</strong> at the end of each lesson to save your progress.</div></div>
+  </div>
+
+  <!-- Lessons -->
+  <div class="st">📚 Your 11 Lessons</div>
+  <div class="lesson-grid" id="lesson-grid">
+    <a href="unit1_lesson_1_1.html" class="lcard active" id="lc-1-1">
+      <div class="lcard-num">Lesson 1.1</div>
+      <div class="lcard-icon">📖</div>
+      <div class="lcard-title">Read Aesop's Fable</div>
+      <div class="lcard-desc">The Ant &amp; Grasshopper · Vocabulary · Fable fact file · Quiz</div>
+      <span class="lbadge lb-new">▶ Start here!</span>
+    </a>
+    <a href="unit1_lesson_1_2.html" class="lcard active" id="lc-1-2">
+      <div class="lcard-num">Lesson 1.2</div>
+      <div class="lcard-icon">🔑</div>
+      <div class="lcard-title">Check Understanding</div>
+      <div class="lcard-desc">Modal verbs · Descriptive verbs · Comprehension Qs</div>
+      <span class="lbadge lb-active">Ready</span>
+    </a>
+    <a href="unit1_lesson_1_3.html" class="lcard active" id="lc-1-3">
+      <div class="lcard-num">Lesson 1.3</div>
+      <div class="lcard-icon">🐾</div>
+      <div class="lcard-title">Story Features</div>
+      <div class="lcard-desc">Anthropomorphism · Characters · Story stages · Writing</div>
+      <span class="lbadge lb-active">Ready</span>
+    </a>
+  </div>
+
+  <!-- Coming soon lessons (JS generated) -->
+  <div id="coming-soon-grid" class="lesson-grid" style="margin-top:-20px;margin-bottom:36px"></div>
+
+  <!-- Learning objectives -->
+  <div class="st">🎯 What You Will Learn in Unit 1</div>
+  <div class="obj-grid">
+    <div class="obj-card">
+      <div class="oj-icon">📖</div>
+      <div class="oj-title">Reading</div>
+      <div class="oj-items">3 fables from around the world<br>Find evidence in the text<br>Compare two story versions<br>Skim reading for main idea</div>
+    </div>
+    <div class="obj-card">
+      <div class="oj-icon">✏️</div>
+      <div class="oj-title">Writing</div>
+      <div class="oj-items">Fable fact file<br>Character description<br>Opinion paragraph (PEE)<br>Dialogue with speech marks<br>Your own fable!</div>
+    </div>
+    <div class="obj-card">
+      <div class="oj-icon">🔑</div>
+      <div class="oj-title">Grammar</div>
+      <div class="oj-items">Modal verbs<br>(can, must, might, should…)<br>Personal pronouns<br>Possessive pronouns<br>Dialogue punctuation</div>
+    </div>
+    <div class="obj-card">
+      <div class="oj-icon">📝</div>
+      <div class="oj-title">Vocabulary</div>
+      <div class="oj-items">30+ key words<br>Shades of meaning<br>Proverbs explained<br>Alliteration<br>Story stage language</div>
+    </div>
+    <div class="obj-card">
+      <div class="oj-icon">🏆</div>
+      <div class="oj-title">Exam Skills</div>
+      <div class="oj-items">PEE paragraph structure<br>Finding text evidence<br>2-mark, 4-mark questions<br>Extended writing tasks<br>Self-editing checklist</div>
+    </div>
+  </div>
+
+  <!-- Key skills -->
+  <div class="key-box">
+    <h3>🌟 Skills you will practise</h3>
+    <div class="skill-chips">
+      <span class="skill-chip sc-read">📖 Skim reading</span>
+      <span class="skill-chip sc-read">📖 Finding evidence</span>
+      <span class="skill-chip sc-read">📖 Comparing versions</span>
+      <span class="skill-chip sc-write">✏️ Fable writing</span>
+      <span class="skill-chip sc-write">✏️ Character paragraphs</span>
+      <span class="skill-chip sc-write">✏️ Dialogue writing</span>
+      <span class="skill-chip sc-gram">🔑 Modal verbs</span>
+      <span class="skill-chip sc-gram">🔑 Pronouns</span>
+      <span class="skill-chip sc-gram">🔑 Apostrophes</span>
+      <span class="skill-chip sc-vocab">📝 Vocabulary in context</span>
+      <span class="skill-chip sc-vocab">📝 Literal vs figurative</span>
+      <span class="skill-chip sc-vocab">📝 Alliteration</span>
+      <span class="skill-chip sc-exam">🏆 PEE paragraphs</span>
+      <span class="skill-chip sc-exam">🏆 Exam questions</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Cambridge Primary English Stage 5 · Unit 1 Learning Module</div>
+
+<script>
+const comingSoon = [
+  {num:'1.4', icon:'👁️', title:'Point of View', desc:'1st & 3rd person · Pronouns · Retell from Ant\'s view'},
+  {num:'1.5', icon:'🌟', title:'Proverbs', desc:'Literal vs figurative · Apostrophes · Cartoon strip'},
+  {num:'1.6', icon:'🔄', title:'A Twist in the Tale', desc:'Modern version · Compare stories · Summarising'},
+  {num:'1.7', icon:'💬', title:'All About Dialogue', desc:'Speech marks · Synonyms for said · Write dialogue'},
+  {num:'1.8', icon:'🎭', title:'Figurative Language', desc:'Figures of speech · Alliteration · Spot it game'},
+  {num:'1.9', icon:'🗣️', title:'Discussion Forum', desc:'Fact vs opinion · Alternative endings · Debate'},
+  {num:'1.10', icon:'🥥', title:'Test Your Knowledge', desc:'Philippine fable · Full comprehension · Analysis'},
+  {num:'1.11', icon:'📝', title:'Plan Your Fable', desc:'Story planning · Characters · Setting · Moral'},
+];
+
+const grid = document.getElementById('coming-soon-grid');
+comingSoon.forEach(l => {
+  const div = document.createElement('div');
+  div.className = 'lcard soon';
+  div.id = 'lc-' + l.num.replace('.', '-');
+  div.innerHTML = `<div class="lcard-num">Lesson ${l.num}</div>
+    <div class="lcard-icon">${l.icon}</div>
+    <div class="lcard-title">${l.title}</div>
+    <div class="lcard-desc">${l.desc}</div>
+    <span class="lbadge lb-soon">Coming soon</span>`;
+  grid.appendChild(div);
+});
+
+// Exam paper card
+const examCard = document.createElement('div');
+examCard.className = 'lcard soon';
+examCard.innerHTML = `<div class="lcard-num">Practice Paper</div>
+  <div class="lcard-icon">🧪</div>
+  <div class="lcard-title">Exam Practice Paper</div>
+  <div class="lcard-desc">Full comprehension + writing · Timed · Mark scheme</div>
+  <span class="lbadge lb-soon">Coming soon</span>`;
+grid.appendChild(examCard);
+
+// Progress from localStorage
+const keys = ['1-1','1-2','1-3','1-4','1-5','1-6','1-7','1-8','1-9','1-10','1-11'];
+function updateProg() {
+  let done = 0;
+  keys.forEach(k => {
+    if (localStorage.getItem('u1_done_' + k) === 'true') {
+      done++;
+      const card = document.getElementById('lc-' + k);
+      if (card && !card.classList.contains('soon')) {
+        card.classList.add('completed');
+        const b = card.querySelector('.lbadge');
+        if (b) { b.className = 'lbadge lb-done'; b.textContent = '✅ Completed'; }
+      }
+    }
+  });
+  const pct = Math.round(done / 11 * 100);
+  document.getElementById('done-num').textContent = done;
+  document.getElementById('pct-num').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  const msgs = ['Start with Lesson 1.1 below!','Great start! Keep going!','You\'re making good progress!','Halfway there!','Almost done — brilliant work!','Unit 1 complete! Well done! 🏆'];
+  document.getElementById('prog-msg').textContent = msgs[Math.min(Math.floor(done/2), msgs.length-1)];
+}
+updateProg();
+</script>
+</body>
+</html>
