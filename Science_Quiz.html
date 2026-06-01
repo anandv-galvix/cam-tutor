@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Quiz — Cambridge Primary Stage 5</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Trebuchet MS', Arial, sans-serif; background: #f0fdf4; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1565c0 100%); color: white; text-align: center; padding: 20px; }
+.header h1 { font-size: 26px; }
+.header p { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+.screen { display: none; max-width: 820px; margin: 0 auto; padding: 24px 20px; }
+.screen.active { display: block; animation: fadeIn 0.4s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
+
+/* WELCOME */
+.chapter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 20px 0; }
+.chapter-card { background: white; border-radius: 20px; padding: 22px 16px; box-shadow: 0 3px 16px rgba(0,0,0,0.09); cursor: pointer; transition: all 0.3s; border: 3px solid transparent; text-align: center; }
+.chapter-card:hover:not(.locked) { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.chapter-card.selected { border-color: #43a047; background: #f1f8e9; }
+.chapter-card.locked { opacity: 0.42; cursor: not-allowed; }
+.ch-icon { font-size: 42px; margin-bottom: 10px; }
+.ch-num { font-size: 11px; font-weight: bold; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.ch-title { font-size: 14px; font-weight: bold; color: #222; margin-bottom: 6px; line-height: 1.4; }
+.ch-count { font-size: 12px; color: #666; }
+.ch-badge { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+.ch-badge.avail { background: #e8f5e9; color: #2e7d32; }
+.ch-badge.locked { background: #f5f5f5; color: #aaa; }
+
+.info-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 18px 0; }
+.info-pill { flex: 1; min-width: 110px; background: white; border-radius: 14px; padding: 14px 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+.ip-icon { font-size: 24px; margin-bottom: 6px; }
+.ip-title { font-size: 13px; font-weight: bold; color: #333; }
+.ip-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+.start-btn { width: 100%; padding: 16px; border: none; border-radius: 16px; font-size: 18px; font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.25s; background: #43a047; color: white; }
+.start-btn:hover { background: #2e7d32; transform: scale(1.02); }
+
+/* QUIZ HEADER */
+.quiz-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.timer-wrap { display: flex; align-items: center; gap: 8px; background: white; border-radius: 50px; padding: 8px 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); flex: 1; min-width: 160px; }
+.timer-icon { font-size: 20px; }
+.timer-display { font-size: 24px; font-weight: bold; font-family: 'Courier New', monospace; color: #1565c0; min-width: 54px; }
+.timer-display.warning { color: #f57f17; }
+.timer-display.danger { color: #e53935; animation: pulse 0.5s infinite alternate; }
+@keyframes pulse { from{opacity:1;}to{opacity:0.5;} }
+.timer-bar-wrap { flex: 1; background: #e0e0e0; border-radius: 10px; height: 10px; overflow: hidden; }
+.timer-bar { height: 100%; border-radius: 10px; background: #43a047; transition: width 1s linear, background 1s; }
+.q-counter-wrap { background: white; border-radius: 50px; padding: 8px 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+.q-counter { font-size: 14px; font-weight: bold; color: #666; }
+.q-counter span { color: #1565c0; font-size: 17px; }
+.score-live { background: #e8f5e9; border-radius: 50px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #2e7d32; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+
+/* PROGRESS DOTS */
+.dot-strip { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.dot { width: 16px; height: 16px; border-radius: 50%; background: #e0e0e0; transition: all 0.3s; position: relative; }
+.dot.current { background: #1565c0; transform: scale(1.3); }
+.dot.done-right { background: #43a047; }
+.dot.done-wrong { background: #e53935; }
+.dot.done-fill-right { background: #7b1fa2; }
+.dot.done-fill-wrong { background: #e53935; }
+/* MCQ dot = round, Fill dot = square to distinguish type */
+.dot.fill-type { border-radius: 4px; }
+
+/* QUESTION CARD */
+.question-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 3px 16px rgba(0,0,0,0.08); margin-bottom: 14px; }
+.q-topic-tag { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 8px; }
+.q-type-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-left: 6px; margin-bottom: 8px; }
+.q-type-badge.mcq { background: #e3f2fd; color: #1565c0; }
+.q-type-badge.fill { background: #ede7f6; color: #6a1b9a; }
+.q-text { font-size: 19px; font-weight: bold; color: #222; line-height: 1.55; margin-bottom: 20px; }
+.q-blank { display: inline-block; min-width: 120px; border-bottom: 3px solid #7b1fa2; color: #7b1fa2; font-style: italic; padding: 0 4px; }
+
+/* MCQ OPTIONS */
+.options-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt { padding: 13px 14px; border: 2.5px solid #e0e0e0; border-radius: 14px; font-size: 14px; background: white; cursor: pointer; text-align: left; font-family: inherit; transition: all 0.2s; line-height: 1.4; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+.opt:hover:not(:disabled) { border-color: #43a047; background: #f1f8e9; transform: scale(1.02); }
+.opt:disabled { cursor: default; }
+.opt-letter { width: 26px; height: 26px; border-radius: 50%; background: #e0e0e0; color: #555; font-size: 13px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+.opt.correct { background: #e8f5e9!important; border-color: #43a047!important; }
+.opt.correct .opt-letter { background: #43a047; color: white; }
+.opt.wrong { background: #ffebee!important; border-color: #e53935!important; }
+.opt.wrong .opt-letter { background: #e53935; color: white; }
+.opt.reveal { background: #e8f5e9!important; border-color: #43a047!important; }
+.opt.reveal .opt-letter { background: #43a047; color: white; }
+
+/* FILL INPUT */
+.fill-wrap { margin-top: 6px; }
+.fill-hint { font-size: 13px; color: #888; margin-bottom: 10px; font-style: italic; }
+.fill-input-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.fill-input {
+  flex: 1; min-width: 200px; padding: 14px 18px;
+  border: 2.5px solid #ab47bc; border-radius: 14px;
+  font-size: 18px; font-family: inherit; font-weight: bold;
+  color: #333; background: white; outline: none;
+  transition: all 0.25s; letter-spacing: 1px;
+}
+.fill-input:focus { border-color: #7b1fa2; box-shadow: 0 0 0 3px rgba(123,31,162,0.15); }
+.fill-input.correct { border-color: #43a047!important; background: #e8f5e9!important; color: #1b5e20!important; }
+.fill-input.wrong { border-color: #e53935!important; background: #ffebee!important; color: #b71c1c!important; }
+.fill-input:disabled { cursor: default; }
+.check-btn {
+  padding: 14px 22px; border: none; border-radius: 14px;
+  font-size: 15px; font-weight: bold; cursor: pointer;
+  font-family: inherit; background: #7b1fa2; color: white;
+  transition: all 0.25s; white-space: nowrap;
+}
+.check-btn:hover { background: #6a1b9a; transform: scale(1.04); }
+.check-btn:disabled { background: #bdbdbd; cursor: default; transform: none; }
+
+.letter-hints { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.letter-box {
+  width: 34px; height: 38px; border: 2px solid #ce93d8;
+  border-radius: 8px; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; font-weight: bold;
+  color: #7b1fa2; background: #f3e5f5; letter-spacing: 0;
+}
+.letter-box.revealed { background: #e8f5e9; border-color: #43a047; color: #1b5e20; }
+.letter-box.blank { background: white; color: transparent; }
+
+/* FEEDBACK */
+.feedback-box { border-radius: 14px; padding: 14px 16px; font-size: 14px; margin-top: 14px; display: none; line-height: 1.65; }
+.feedback-box.show { display: flex; align-items: flex-start; gap: 10px; animation: fadeIn 0.3s; }
+.feedback-box.ok { background: #e8f5e9; color: #2e7d32; border-left: 4px solid #43a047; }
+.feedback-box.bad { background: #ffebee; color: #444; border-left: 4px solid #e53935; }
+.fb-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+
+.next-btn { display: none; width: 100%; margin-top: 12px; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.25s; background: #1565c0; color: white; }
+.next-btn:hover { background: #0d47a1; transform: scale(1.02); }
+.next-btn.show { display: block; animation: fadeIn 0.3s; }
+
+/* RESULTS */
+.timeout-banner { background: #e53935; color: white; border-radius: 16px; padding: 16px 20px; margin-bottom: 16px; text-align: center; font-size: 17px; font-weight: bold; display: none; }
+.timeout-banner.show { display: block; animation: fadeIn 0.4s; }
+.result-hero { background: white; border-radius: 24px; padding: 34px 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 18px; }
+.result-stars { font-size: 50px; margin-bottom: 10px; }
+.result-score { font-size: 70px; font-weight: bold; color: #1565c0; line-height: 1; }
+.result-out-of { font-size: 17px; color: #888; margin: 4px 0 14px; }
+.result-msg { font-size: 22px; font-weight: bold; color: #222; margin-bottom: 6px; }
+.result-sub { font-size: 14px; color: #666; line-height: 1.6; }
+.result-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.stat-pill { flex: 1; min-width: 100px; background: white; border-radius: 16px; padding: 16px 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+.sp-icon { font-size: 24px; margin-bottom: 6px; }
+.sp-val { font-size: 22px; font-weight: bold; color: #222; }
+.sp-label { font-size: 11px; color: #888; margin-top: 2px; }
+.review-section { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 3px 16px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.review-title { font-size: 16px; font-weight: bold; color: #222; margin-bottom: 14px; }
+.review-item { border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+.review-item.right { background: #f1f8e9; border-left: 4px solid #43a047; }
+.review-item.wrong { background: #ffebee; border-left: 4px solid #e53935; }
+.ri-q { font-size: 13px; font-weight: bold; color: #333; margin-bottom: 5px; }
+.ri-a { font-size: 12px; color: #555; }
+.correct-ans { color: #2e7d32; font-weight: bold; }
+.your-ans { color: #c62828; font-weight: bold; }
+.ri-type { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 10px; margin-left: 5px; vertical-align: middle; }
+.ri-type.mcq { background: #e3f2fd; color: #1565c0; }
+.ri-type.fill { background: #ede7f6; color: #7b1fa2; }
+.action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.btn { flex: 1; min-width: 130px; padding: 13px 18px; border: none; border-radius: 50px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.25s; text-align: center; }
+.btn:hover { transform: scale(1.04); }
+.btn-green { background: #43a047; color: white; }
+.btn-blue { background: #1565c0; color: white; }
+.btn-orange { background: #ff6d00; color: white; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧪 Science Quiz Challenge</h1>
+  <p>Cambridge Primary Science Stage 5 &nbsp;|&nbsp; Test your knowledge!</p>
+</div>
+
+<!-- ══════ WELCOME ══════ -->
+<div class="screen active" id="screen-welcome">
+  <h2 style="font-size:22px;font-weight:bold;color:#1b5e20;margin-bottom:6px;">📚 Choose a Chapter</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:16px;">Each quiz draws <strong>20 random questions</strong> — a mix of multiple choice and <strong>fill-in-the-blank</strong> spelling questions!</p>
+  <div class="chapter-grid">
+    <div class="chapter-card selected" id="ch1-card" onclick="selectChapter(1)">
+      <div class="ch-icon">🌸</div>
+      <div class="ch-num">Chapter 1</div>
+      <div class="ch-title">Life Cycles of Flowering Plants</div>
+      <div class="ch-count">60 questions · 5 topics</div>
+      <div class="ch-badge avail">✅ Available</div>
+    </div>
+    <div class="chapter-card" id="ch2-card" onclick="selectChapter(2)">
+      <div class="ch-icon">🔊</div>
+      <div class="ch-num">Chapter 2</div>
+      <div class="ch-title">Sound</div>
+      <div class="ch-count">60 questions · 4 topics</div>
+      <div class="ch-badge avail">✅ Available</div>
+    </div>
+    <div class="chapter-card locked">
+      <div class="ch-icon">💧</div>
+      <div class="ch-num">Chapter 3</div>
+      <div class="ch-title">States &amp; Properties of Matter</div>
+      <div class="ch-count">Coming Soon</div>
+      <div class="ch-badge locked">🔒 Coming Soon</div>
+    </div>
+    <div class="chapter-card locked">
+      <div class="ch-icon">🍎</div>
+      <div class="ch-num">Chapter 4</div>
+      <div class="ch-title">The Digestive System</div>
+      <div class="ch-count">Coming Soon</div>
+      <div class="ch-badge locked">🔒 Coming Soon</div>
+    </div>
+  </div>
+  <div class="info-row">
+    <div class="info-pill"><div class="ip-icon">⏱️</div><div class="ip-title">15 Minutes</div><div class="ip-sub">Countdown timer</div></div>
+    <div class="info-pill"><div class="ip-icon">🎲</div><div class="ip-title">20 Questions</div><div class="ip-sub">Random each time</div></div>
+    <div class="info-pill"><div class="ip-icon">🔵</div><div class="ip-title">Multiple Choice</div><div class="ip-sub">4-option questions</div></div>
+    <div class="info-pill"><div class="ip-icon">🟣</div><div class="ip-title">Fill-in-Blank</div><div class="ip-sub">Spell the answer!</div></div>
+    <div class="info-pill"><div class="ip-icon">🏆</div><div class="ip-title">Full Review</div><div class="ip-sub">See all answers</div></div>
+  </div>
+  <div id="chapterInfoBox" style="background:white;border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.07);margin-bottom:20px;font-size:14px;color:#444;line-height:1.8;"></div>
+  <button class="start-btn" id="startBtn" onclick="startQuiz()">🚀 Start Quiz — Chapter 1</button>
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-header">
+    <div class="timer-wrap">
+      <div class="timer-icon">⏱️</div>
+      <div class="timer-display" id="timerDisplay">15:00</div>
+      <div class="timer-bar-wrap"><div class="timer-bar" id="timerBar" style="width:100%;"></div></div>
+    </div>
+    <div class="q-counter-wrap"><div class="q-counter">Q <span id="qNumDisplay">1</span> / 20</div></div>
+    <div class="score-live" id="scoreLive">⭐ 0</div>
+  </div>
+  <div class="dot-strip" id="dotStrip"></div>
+  <div class="question-card">
+    <div style="margin-bottom:8px;">
+      <span class="q-topic-tag" id="qTopicTag"></span>
+      <span class="q-type-badge" id="qTypeBadge"></span>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div id="qBody"></div>
+    <div class="feedback-box" id="feedbackBox">
+      <div class="fb-icon" id="fbIcon"></div>
+      <div id="fbBody"></div>
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question ➜</button>
+  </div>
+</div>
+
+<!-- ══════ RESULTS ══════ -->
+<div class="screen" id="screen-results">
+  <div class="timeout-banner" id="timeoutBanner">⏰ Time's up! Here are your results.</div>
+  <div class="result-hero">
+    <div class="result-stars" id="resultStars">⭐⭐⭐⭐⭐</div>
+    <div class="result-score" id="resultScore">0</div>
+    <div class="result-out-of" id="resultOutOf">out of 20</div>
+    <div class="result-msg" id="resultMsg"></div>
+    <div class="result-sub" id="resultSub"></div>
+  </div>
+  <div class="result-stats">
+    <div class="stat-pill"><div class="sp-icon">✅</div><div class="sp-val" id="statCorrect">0</div><div class="sp-label">Correct</div></div>
+    <div class="stat-pill"><div class="sp-icon">❌</div><div class="sp-val" id="statWrong">0</div><div class="sp-label">Wrong</div></div>
+    <div class="stat-pill"><div class="sp-icon">🔵</div><div class="sp-val" id="statMcq">0</div><div class="sp-label">MCQ correct</div></div>
+    <div class="stat-pill"><div class="sp-icon">🟣</div><div class="sp-val" id="statFill">0</div><div class="sp-label">Fill-in correct</div></div>
+    <div class="stat-pill"><div class="sp-icon">⏱️</div><div class="sp-val" id="statTime">0:00</div><div class="sp-label">Time Used</div></div>
+    <div class="stat-pill"><div class="sp-icon">🎯</div><div class="sp-val" id="statPct">0%</div><div class="sp-label">Accuracy</div></div>
+  </div>
+  <div class="review-section" id="reviewSection"></div>
+  <div class="action-row">
+    <button class="btn btn-orange" onclick="restartQuiz()">🔄 Try Again (New Mix!)</button>
+    <button class="btn btn-blue" onclick="goHome()">🏠 Choose Chapter</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// CHAPTER META
+// ════════════════════════════════════════════════
+const CHAPTER_META = {
+  1: { icon:'🌸', title:'Life Cycles of Flowering Plants',
+       info:'<strong>📖 Topics:</strong> 🌸 Parts of a Flower &nbsp;·&nbsp; 🐝 Pollination &amp; Fertilisation &nbsp;·&nbsp; 🌬️ Seed Dispersal &nbsp;·&nbsp; 🌱 Germination &nbsp;·&nbsp; 🔄 Life Cycle<br><strong>Question types:</strong> Multiple choice (🔵) + Fill-in-the-blank spelling (🟣)' },
+  2: { icon:'🔊', title:'Sound',
+       info:'<strong>📖 Topics:</strong> 🌊 How Sounds Are Made &nbsp;·&nbsp; 📊 Volume &amp; Pitch &nbsp;·&nbsp; 🔇 Changing Volume &nbsp;·&nbsp; 🎸 Changing Pitch<br><strong>Question types:</strong> Multiple choice (🔵) + Fill-in-the-blank spelling (🟣)' }
+};
+
+// ════════════════════════════════════════════════
+// CHAPTER 1 BANK — 50 MCQ + 10 FILL = 60 total
+// ════════════════════════════════════════════════
+const BANK_CH1 = [
+// ── MCQ: Parts of a Flower (12) ──
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What is the MALE part of the flower called?',opts:['Carpel','Sepal','Stamen','Stigma'],ans:2,explain:'The <strong>stamen</strong> is the male part. It makes pollen and consists of the anther and filament.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What is the FEMALE part of the flower called?',opts:['Petal','Stamen','Sepal','Carpel'],ans:3,explain:'The <strong>carpel</strong> is the female part. It contains the stigma, style and ovary.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What does the ANTHER produce?',opts:['Nectar','Seeds','Pollen','Fruit'],ans:2,explain:'The <strong>anther</strong> sits on top of the filament and produces <strong>pollen</strong> — a fine yellow powder.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What is the MAIN function of petals?',opts:['Protect the bud','Contain eggs','Make pollen','Attract insects to the flower'],ans:3,explain:'<strong>Petals</strong> are brightly coloured and often scented to <strong>attract insects</strong> like bees and butterflies.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What do SEPALS do?',opts:['Attract insects','Make pollen','Protect the flower bud','Contain eggs'],ans:2,explain:'<strong>Sepals</strong> are small green leaf-like structures that <strong>protect the flower bud</strong> before it opens.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'Which part of the carpel is sticky and catches pollen?',opts:['Ovary','Filament','Stigma','Sepal'],ans:2,explain:'The <strong>stigma</strong> is the sticky tip of the carpel. It catches pollen brought by insects or wind.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What does the OVARY contain?',opts:['Pollen grains','Tiny eggs','Nectar','Spores'],ans:1,explain:'The <strong>ovary</strong> contains tiny <strong>eggs</strong>. After fertilisation they become seeds and the ovary becomes fruit.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What is the FILAMENT?',opts:['The sticky tip that catches pollen','The stalk that holds up the anther','The female part','A green leaf protecting the bud'],ans:1,explain:'The <strong>filament</strong> is the thin stalk holding the anther up so insects can brush against it.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'How many MAIN PARTS does a flower have?',opts:['Two','Three','Four','Five'],ans:2,explain:'A flower has <strong>four main parts</strong>: petals, sepals, stamen and carpel — arranged in rings.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'Which part of the flower grows into a FRUIT after fertilisation?',opts:['Petal','Stigma','Sepal','Ovary'],ans:3,explain:'After fertilisation, the <strong>ovary</strong> grows bigger and becomes the <strong>fruit</strong>.'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'The stamen is made up of which TWO parts?',opts:['Stigma and style','Petal and sepal','Anther and filament','Ovary and style'],ans:2,explain:'The <strong>stamen</strong> has two parts: the <strong>anther</strong> (makes pollen) and the <strong>filament</strong> (its stalk).'},
+{type:'mcq',topic:'🌸 Parts of a Flower',tag:'#fce4ec:#c62828',q:'What is the sweet liquid inside flowers that attracts insects?',opts:['Pollen','Sap','Nectar','Water'],ans:2,explain:'<strong>Nectar</strong> is the sweet liquid inside flowers. Insects come to collect it and accidentally pick up pollen on their way in!'},
+// ── MCQ: Pollination (10) ──
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'What is POLLINATION?',opts:['When seeds start to grow','When a bee eats nectar','Movement of pollen from stamen to stigma','When fruit falls from a plant'],ans:2,explain:'<strong>Pollination</strong> is the movement of <strong>pollen from the stamen to the stigma</strong> of the same type of flower.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'Flowers pollinated by INSECTS usually have which feature?',opts:['Small dull petals','No scent','Brightly coloured petals and scent','Lots of smooth light pollen'],ans:2,explain:'Insect-pollinated flowers have <strong>bright petals and scent</strong> to attract insects, plus nectar as a reward.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'Flowers pollinated by WIND usually have which feature?',opts:['Bright colours and sweet scent','Small dull petals and lots of light pollen','Sticky pollen and nectar','Large heavy seeds'],ans:1,explain:'Wind-pollinated flowers have <strong>small dull petals</strong> and make <strong>lots of light smooth pollen</strong> that blows away easily.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'What is FERTILISATION?',opts:['When seeds are spread','When pollen and egg join together','When a seedling grows','When fruit ripens'],ans:1,explain:'<strong>Fertilisation</strong> is when a pollen grain and an egg <strong>join together</strong> in the ovary to form a seed.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'Where does FERTILISATION take place?',opts:['In the petal','In the stigma','In the ovary','In the sepal'],ans:2,explain:'Fertilisation takes place in the <strong>ovary</strong>, at the base of the carpel.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'What happens to petals and stamens AFTER fertilisation?',opts:['They grow bigger','They turn green','They die and fall off','They become seeds'],ans:2,explain:'After fertilisation, <strong>petals and stamens die and fall off</strong>. Their job is done — the ovary now grows into fruit.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'What percentage of the plants we eat are pollinated by bees?',opts:['20%','50%','80%','100%'],ans:2,explain:'<strong>80% of the plants we eat</strong> are pollinated by bees — making them incredibly important for our food supply!'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'Why do wind-pollinated flowers produce HUGE amounts of pollen?',opts:['To feed insects','Most is blown away — only some reaches another flower','To make fruits bigger','To make seeds heavier'],ans:1,explain:'Wind-pollinated flowers produce huge amounts because <strong>most pollen is blown away and wasted</strong>. Only a tiny fraction lands on the right stigma.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'Some insect-pollinated flowers have special marks on their petals. What do these do?',opts:['Trap insects inside','Guide insects toward the nectar','Repel birds','Protect from rain'],ans:1,explain:'Special <strong>guide marks on petals</strong> act like a runway, directing insects straight to the nectar inside.'},
+{type:'mcq',topic:'🐝 Pollination',tag:'#fff8e1:#e65100',q:'Which of these is a pollinator?',opts:['Earthworm','Butterfly','Fish','Snail'],ans:1,explain:'<strong>Butterflies</strong> (and bees) are important pollinators. They carry pollen from flower to flower as they feed on nectar.'},
+// ── MCQ: Seed Dispersal (10) ──
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'What is SEED DISPERSAL?',opts:['When seeds germinate','When seeds are spread away from the parent plant','When fruit becomes ripe','When flowers are pollinated'],ans:1,explain:'<strong>Seed dispersal</strong> is when seeds are spread <strong>away from the parent plant</strong> to find space, light and water.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'Which feature helps a DANDELION seed travel by wind?',opts:['Sharp hooks','Bright colours','A parachute of hairs','A hard outer shell'],ans:2,explain:'Dandelion seeds have a <strong>parachute of tiny hairs</strong> that lets them float away on the breeze.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'How does a COCONUT travel to spread its seeds?',opts:['By wind','By exploding','By floating on water','By sticking to animal fur'],ans:2,explain:'The <strong>coconut</strong> has a spongy covering that helps it float. Ocean currents carry it to new shores.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'How do seeds with HOOKS and SPINES spread?',opts:['They float on water','They stick to animal fur or clothing','They explode','They blow in the wind'],ans:1,explain:'Hooked seeds <strong>stick to animal fur or clothing</strong> and are carried far away before falling off.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'Why are fruits dispersed by ANIMALS often colourful, juicy and sweet?',opts:['To protect seeds from rain','To make them heavier','To attract animals to eat them','To help them float'],ans:2,explain:'Colourful juicy fruits <strong>attract animals to eat them</strong>. Seeds pass through the body and are deposited far away.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'How do BEAN POD seeds get dispersed?',opts:['Animals eat them','They float on water','The pod dries and explodes shooting seeds out','Wind blows them'],ans:2,explain:'Bean pods dry out in hot weather and <strong>split open violently</strong>, shooting seeds outward — explosive dispersal!'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'What are the TWO jobs of a FRUIT?',opts:['Make pollen and attract insects','Protect seeds and help spread them','Feed the plant and attract pollinators','Make nectar and protect the bud'],ans:1,explain:'A fruit has two jobs: <strong>protect the seeds</strong> inside and <strong>help spread them</strong> away from the parent plant.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'Seeds dispersed by WIND need to be which type?',opts:['Heavy and round','Sticky and sweet','Colourful and juicy','Light and small'],ans:3,explain:'Wind-dispersed seeds must be <strong>light and small</strong>. Some have wings (maple) or parachutes (dandelion).'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'What special feature does a coconut have that helps it FLOAT?',opts:['Parachute of hairs','Spongy outer covering','Thin papery wings','Bright colour'],ans:1,explain:'The coconut has a <strong>spongy outer covering</strong> that traps air, helping it float on water.'},
+{type:'mcq',topic:'🌬️ Seed Dispersal',tag:'#e8f5e9:#1b5e20',q:'Why do seeds need to be spread AWAY from the parent plant?',opts:['To find insects','So seedlings have enough space, light and water to grow','Because the parent eats them','To find warmer soil'],ans:1,explain:'If all seeds grew next to the parent, they would compete for <strong>space, light and water</strong> and grow poorly.'},
+// ── MCQ: Germination (10) ──
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'What is GERMINATION?',opts:['When a flower produces fruit','When a seed starts to grow into a new plant','When pollen reaches the stigma','When a plant produces seeds'],ans:1,explain:'<strong>Germination</strong> is when a <strong>seed starts to grow</strong> into a new plant. It begins when the seed absorbs water.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'Which THREE conditions does a seed need to germinate?',opts:['Sunlight, soil and warmth','Pollen, water and light','Water, warmth and air','Fertiliser, water and insects'],ans:2,explain:'Seeds need <strong>water</strong>, <strong>warmth</strong> and <strong>air</strong>. They do NOT need light to germinate!'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'Does a seed need LIGHT to start germinating?',opts:['Yes, always','No — seeds can germinate in the dark','Only in summer','Only if soil is warm'],ans:1,explain:'<strong>No!</strong> Seeds do NOT need light to germinate. They can start growing in complete darkness underground.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'What happens to a seed when it first absorbs water?',opts:['It dries out and cracks','It swells up and the seed coat splits','It turns green','It grows leaves immediately'],ans:1,explain:'When a seed absorbs water, it <strong>swells up</strong>. As it gets bigger, the seed coat <strong>splits open</strong>.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'Which part of the new plant grows FIRST when a seed germinates?',opts:['The leaf','The flower','The root','The stem'],ans:2,explain:'The <strong>root</strong> is always first to emerge from a germinating seed. It grows downward into the soil.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'In which direction does the ROOT grow during germination?',opts:['Upward toward light','Sideways','Downward toward gravity','Any direction'],ans:3,explain:'The root always grows <strong>downward</strong> — toward gravity — to anchor the plant and absorb water.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'What does the seed use for ENERGY during germination?',opts:['Sunlight','The food store inside the seed','Water from the soil','Pollen from flowers'],ans:1,explain:'The seed has a <strong>food store</strong> inside that provides energy to grow until the first leaves appear.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'What happens to the seed AFTER the seedling has grown?',opts:['It stays the same','It turns into a flower','It shrivels up because its food store is used','It becomes a fruit'],ans:2,explain:'After germination, the seed <strong>shrivels up</strong> because the seedling has used up all of its food store.'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'The oldest seed ever to germinate was how old?',opts:['100 years','500 years','1,300 years','10,000 years'],ans:2,explain:'The oldest seed was <strong>1,300 years old</strong> — a lotus flower found at the bottom of a lake in China!'},
+{type:'mcq',topic:'🌱 Germination',tag:'#e0f7fa:#006064',q:'Why is warmth important for germination?',opts:['Seeds need heat to make food','Chemical processes inside the seed need the right temperature to start','Seeds need to melt the seed coat','Warm soil is softer'],ans:1,explain:'Seeds need <strong>the right temperature</strong> for the chemical processes inside to activate and start growth. Too cold = no germination!'},
+// ── MCQ: Life Cycle (8) ──
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'What is a LIFE CYCLE?',opts:['A single stage in a plant\'s life','A series of stages that repeat over and over','The distance a seed travels','The time a flower lasts'],ans:1,explain:'A <strong>life cycle</strong> is a series of stages that <strong>repeat continuously</strong> — from seed to plant to flower to seed again!'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'How do NON-FLOWERING plants like ferns reproduce?',opts:['By making fruits','By pollination','By making tiny spores','By germinating seeds'],ans:2,explain:'Non-flowering plants like ferns use <strong>spores</strong> instead of seeds. Spores are tiny and can grow into new plants.'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'What is the CORRECT order of a flowering plant\'s life cycle?',opts:['Flower → Germination → Pollination','Germination → Grows → Flowers → Pollination → Fruit → Seed dispersal','Seed dispersal → Fruit → Germination','Fruit → Pollination → Flower'],ans:1,explain:'Correct: <strong>Germination → Grows → Flowers → Pollination → Fruit → Seed dispersal → Germination again!</strong>'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'Why do flowering plants produce FLOWERS?',opts:['To make food','To attract rain','To reproduce by making seeds','To provide shade for roots'],ans:2,explain:'Flowers help the plant <strong>reproduce</strong>. They attract pollinators, get pollinated, and form fruit with seeds.'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'Why is a life cycle drawn as a CIRCLE rather than a straight line?',opts:['It looks nicer','It repeats continuously with no definite end','Plants grow in circles','Flowers are round'],ans:1,explain:'A life cycle is drawn as a circle because the stages <strong>repeat continuously</strong> — there is no definite end.'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'Which part of the flower becomes the FRUIT?',opts:['Petal','Sepal','Stamen','Ovary'],ans:3,explain:'After fertilisation, the <strong>ovary</strong> grows bigger and becomes the <strong>fruit</strong>.'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'What do SEEDS inside a fruit grow into?',opts:['New fruits','New flowers directly','New plants','Pollen grains'],ans:2,explain:'Seeds grow into <strong>new plants</strong>! The new plants flower, produce fruit, and the cycle repeats.'},
+{type:'mcq',topic:'🔄 Life Cycle',tag:'#ede7f6:#4a148c',q:'What are non-flowering plants that produce seeds inside CONES called?',opts:['Mosses','Ferns','Conifers (like pine trees)','Algae'],ans:2,explain:'<strong>Conifers</strong> like pine trees are non-flowering plants — but they do produce seeds! The seeds form inside cones, not flowers.'},
+// ── FILL-IN-THE-BLANK: Chapter 1 (10) ──
+{type:'fill',topic:'🌸 Spelling: Flower Parts',tag:'#ede7f6:#7b1fa2',q:'The sticky tip of the carpel that catches pollen is called the ___________.',ans:'stigma',alts:[],hint:'It starts with "st..." and ends in "...a"'},
+{type:'fill',topic:'🌸 Spelling: Flower Parts',tag:'#ede7f6:#7b1fa2',q:'The fine yellow powder made by the anther is called ___________.',ans:'pollen',alts:[],hint:'Bees collect this and it starts with "p"'},
+{type:'fill',topic:'🌸 Spelling: Flower Parts',tag:'#ede7f6:#7b1fa2',q:'The thin stalk that holds up the anther is called the ___________.',ans:'filament',alts:[],hint:'It starts with "fil..." — 8 letters'},
+{type:'fill',topic:'🌸 Spelling: Flower Parts',tag:'#ede7f6:#7b1fa2',q:'The female part of the flower is called the ___________.',ans:'carpel',alts:[],hint:'It starts with "c" and has 6 letters'},
+{type:'fill',topic:'🌸 Spelling: Flower Parts',tag:'#ede7f6:#7b1fa2',q:'The small green leaf-like structures that protect the flower bud are called ___________.',ans:'sepals',alts:['sepal'],hint:'Plural — they start with "s" and end in "...als"'},
+{type:'fill',topic:'🐝 Spelling: Pollination',tag:'#ede7f6:#7b1fa2',q:'The movement of pollen from the stamen to the stigma is called ___________.',ans:'pollination',alts:[],hint:'12 letters — starts with the same word as "pollen"'},
+{type:'fill',topic:'🐝 Spelling: Pollination',tag:'#ede7f6:#7b1fa2',q:'The process when a pollen grain and egg join together to form a seed is called ___________.',ans:'fertilisation',alts:['fertilization'],hint:'13 letters — starts with "ferti..."'},
+{type:'fill',topic:'🌱 Spelling: Germination',tag:'#ede7f6:#7b1fa2',q:'The process when a seed starts to grow into a new plant is called ___________.',ans:'germination',alts:[],hint:'11 letters — starts with "germ..."'},
+{type:'fill',topic:'🌬️ Spelling: Seed Dispersal',tag:'#ede7f6:#7b1fa2',q:'When seeds are spread away from the parent plant, it is called seed ___________.',ans:'dispersal',alts:[],hint:'9 letters — starts with "dis..."'},
+{type:'fill',topic:'🌱 Spelling: Germination',tag:'#ede7f6:#7b1fa2',q:'Young plants that have just germinated and grown from seeds are called ___________.',ans:'seedlings',alts:['seedling'],hint:'Plural — starts with "seed..." and ends in "...ings"'},
+];
+
+// ════════════════════════════════════════════════
+// CHAPTER 2 BANK — 50 MCQ + 10 FILL = 60 total
+// ════════════════════════════════════════════════
+const BANK_CH2 = [
+// ── MCQ: How Sounds Are Made (13) ──
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'What causes a sound to be made?',opts:['Movement of air only','Vibrations — back and forth movement','Heat energy','Gravity'],ans:1,explain:'Every sound is made by something <strong>vibrating</strong> — moving back and forth very quickly.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'What is a VIBRATION?',opts:['A very slow movement','A very quick back and forth movement','A type of water wave','A loud bang'],ans:1,explain:'A <strong>vibration</strong> is a very quick <strong>back and forth movement</strong>. All sounds are made by vibrating objects.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'Sound travels BEST through which type of material?',opts:['Gas (air)','Liquid (water)','Solid (wood or metal)','They are all the same'],ans:2,explain:'Sound travels <strong>best through solids</strong>! Particles are packed tightly together so vibrations pass along most quickly.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'Why does sound travel FASTEST through solids?',opts:['Solids are heavier','Particles in solids are packed closest together','Solids have no air','Solids are hotter'],ans:1,explain:'In solids, particles are <strong>packed very tightly together</strong>, so vibrations pass from particle to particle extremely quickly.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'Can you hear sounds in OUTER SPACE?',opts:['Yes, very clearly','Yes, but very quietly','No — there is no air for vibrations to travel through','Only loud sounds'],ans:2,explain:'<strong>No!</strong> In outer space there are no particles, so sound vibrations cannot travel. Space is completely silent!'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'If you hold your hand on your throat and hum, what do you feel?',opts:['Nothing','Warmth','Vibrations','Electricity'],ans:2,explain:'You feel <strong>vibrations</strong>! Your vocal cords are vibrating to create the sound.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'What makes rice grains JUMP on a drum skin when you bang a tin tray near it?',opts:['The wind from clapping','Vibrations travelling through air making the drum skin vibrate','The heat from the sound','Gravity'],ans:1,explain:'<strong>Vibrations travel through the air</strong>, reach the drum skin, make it vibrate, and the rice grains jump!'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'Which material does sound travel through WORST?',opts:['Steel','Water','Air (gas)','Wood'],ans:2,explain:'Sound travels <strong>worst through gases</strong> like air, because particles are far apart. Best → solids, then liquids, then gases.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'Dolphins communicate underwater. What does this show?',opts:['They use light signals','Sound travels well through liquids','They surface to communicate','They use vibrations in sand'],ans:1,explain:'This shows <strong>sound travels through liquids</strong> — dolphins can hear each other from hundreds of kilometres away!'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'When you pluck a guitar string, what makes the sound?',opts:['The string heats up','The string vibrates back and forth rapidly','The string changes colour','Air pushes the string'],ans:1,explain:'Plucking a guitar string makes it <strong>vibrate back and forth rapidly</strong>. This vibration travels through air to your ears.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'If you put your ear on a desk and someone taps the other end, how does it sound?',opts:['Quieter than through air','The same','Much louder than through air','You hear nothing'],ans:2,explain:'It sounds <strong>much louder</strong> because sound travels better through solid wood than air. Proves solids carry sound best!'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'What THREE types of material can sound travel through?',opts:['Only gases','Only solids and liquids','Solids, liquids and gases','Only solids'],ans:2,explain:'Sound can travel through <strong>solids, liquids and gases</strong> — but best through solids and worst through gases.'},
+{type:'mcq',topic:'🌊 How Sounds Are Made',tag:'#fce4ec:#c62828',q:'What is the INDEPENDENT VARIABLE when testing how well sound travels through different materials?',opts:['How loud the sound is','The type of material the sound travels through','How far you stand from the source','The time of day'],ans:1,explain:'The <strong>independent variable</strong> is what you CHANGE — the <strong>type of material</strong> the sound travels through.'},
+// ── MCQ: Volume & Pitch (12) ──
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'What is VOLUME in terms of sound?',opts:['The size of the source','How loud or quiet a sound is','How high or low a sound is','How far a sound travels'],ans:1,explain:'<strong>Volume</strong> describes how <strong>loud or quiet</strong> a sound is. We measure it in decibels (dB).'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'What unit do we use to measure sound VOLUME?',opts:['Metres (m)','Hertz (Hz)','Decibels (dB)','Newtons (N)'],ans:2,explain:'We measure sound volume in <strong>decibels (dB)</strong>. A whisper is about 30 dB; sounds above 85 dB can damage ears!'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'What type of vibrations make a LOUD sound?',opts:['Very fast vibrations','Very slow vibrations','Very large (big) vibrations','Very small vibrations'],ans:2,explain:'<strong>Loud sounds</strong> are made by <strong>bigger vibrations</strong>. The larger the movement, the louder the sound.'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'Above what decibel level can sounds start to DAMAGE your ears?',opts:['60 dB','75 dB','85 dB','100 dB'],ans:2,explain:'Sounds above <strong>85 dB</strong> can permanently damage your hearing — always protect your ears in noisy places!'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'What does PITCH describe?',opts:['How loud or quiet a sound is','How high or low a sound is','How far a sound travels','How fast sound moves'],ans:1,explain:'<strong>Pitch</strong> tells us if a sound is <strong>high or low</strong>. A whistle has high pitch; thunder has very low pitch.'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'What type of vibrations make a HIGH-PITCHED sound?',opts:['Large vibrations','Small vibrations','Fast vibrations','Slow vibrations'],ans:2,explain:'<strong>Fast vibrations</strong> make high-pitched sounds. Think of a bat (high) vs an elephant (low)!'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'What type of vibrations make a LOW-PITCHED sound?',opts:['Large vibrations','Small vibrations','Fast vibrations','Slow vibrations'],ans:3,explain:'<strong>Slow vibrations</strong> make low-pitched sounds — like the deep rumble of thunder or a bass drum.'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'Which animal makes very LOW-pitched sounds humans cannot hear?',opts:['Bats','Dogs','Elephants','Dolphins'],ans:2,explain:'<strong>Elephants</strong> use very low-pitched infrasound. Other elephants detect these sounds up to 7.5 km away!'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'Which animal uses very HIGH-pitched ECHOLOCATION sounds to navigate?',opts:['Bats','Cats','Horses','Birds'],ans:0,explain:'<strong>Bats</strong> use very high-pitched ultrasound (echolocation) that humans cannot hear, to navigate and hunt in the dark!'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'A rock concert is about 100 dB. Is this dangerous?',opts:['No, that is fine','Only for children','Yes — above the 85 dB danger level','Only if you sit at the front'],ans:2,explain:'<strong>Yes, dangerous!</strong> At 100 dB, above the 85 dB danger level, prolonged exposure causes permanent hearing damage.'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'How would vibrations change if singers sing MORE QUIETLY?',opts:['Vibrations get larger','Vibrations get faster','Vibrations get smaller','Vibrations stop'],ans:2,explain:'Singing more quietly means <strong>smaller vibrations</strong>. Louder singing = bigger vibrations.'},
+{type:'mcq',topic:'📊 Volume & Pitch',tag:'#fff3e0:#e65100',q:'Which describes a HIGH-PITCHED sound?',opts:['Deep rumble of thunder','Bass drum beat','High whistle or squeak','Low engine sound'],ans:2,explain:'A <strong>high whistle or squeak</strong> is high-pitched. It is caused by fast vibrations.'},
+// ── MCQ: Changing Volume (13) ──
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'In a sound system, what does the MICROPHONE do?',opts:['Makes sound louder','Picks up the sound','Sends sound out loudly','Cancels background noise'],ans:1,explain:'The <strong>microphone</strong> picks up sound and converts it ready for the amplifier.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'In a sound system, what does the AMPLIFIER do?',opts:['Picks up the sound','Sends sound through speakers','Makes the sound louder','Turns sound into electricity'],ans:2,explain:'The <strong>amplifier</strong> <strong>makes the sound louder</strong>!'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'What is the correct ORDER of a sound system?',opts:['Amplifier → Microphone → Loudspeaker','Microphone → Loudspeaker → Amplifier','Microphone → Amplifier → Loudspeaker','Loudspeaker → Amplifier → Microphone'],ans:2,explain:'Correct: <strong>Microphone</strong> (picks up) → <strong>Amplifier</strong> (makes louder) → <strong>Loudspeaker</strong> (sends out).'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'Why does sound get QUIETER as it travels further away?',opts:['Air gets colder','Vibrations spread out in all directions and weaken','More air to travel through','Sound bounces off walls'],ans:1,explain:'As sound travels away, vibrations <strong>spread out in all directions</strong> and become weaker.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'What does MUFFLING mean?',opts:['Making a sound louder','Making a sound higher pitched','Making a sound quieter by absorbing vibrations','Changing direction of sound'],ans:2,explain:'<strong>Muffling</strong> means <strong>making a sound quieter</strong> using soft materials that absorb vibrations.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'What do EAR DEFENDERS do?',opts:['Improve hearing','Muffle loud sounds to protect ears','Amplify quiet sounds','Change the pitch'],ans:1,explain:'<strong>Ear defenders</strong> have thick pads that <strong>muffle loud sounds</strong> and protect your hearing.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'Why does an EMPTY ROOM sound echoey?',opts:['Because it is cold','Hard floors and walls reflect sound instead of absorbing it','Because there is no furniture','Because of the shape'],ans:1,explain:'<strong>Hard surfaces reflect sound</strong> (echoes). Soft materials like carpets absorb vibrations, reducing echoes.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'What is NOISE POLLUTION?',opts:['Sound from musical instruments','Too much loud noise in the environment that causes harm','Sound of running water','Any sound above 60 dB'],ans:1,explain:'<strong>Noise pollution</strong> is too much loud noise in the environment. It causes stress, disrupts sleep and can damage hearing.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'What is a SILENCER used for on a car?',opts:['To make the engine quieter','To make the car go faster','To change the engine pitch','To protect the tyres'],ans:0,explain:'A car <strong>silencer</strong> on the exhaust <strong>muffles the engine noise</strong>. Without it engines would be incredibly loud!'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'Does a cardboard TUBE make sound louder or quieter?',opts:['Quieter','Louder — it focuses vibrations into a narrower path','The same','Depends on the material'],ans:1,explain:'A tube makes sound <strong>louder</strong> by focusing vibrations into a narrow path so they do not spread out.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'Which type of material muffles sound BEST?',opts:['Hard materials like metal','Smooth materials like glass','Soft materials like foam or fabric','Thin materials like paper'],ans:2,explain:'<strong>Soft materials</strong> like foam and fabric are best at muffling sound — they absorb vibrations.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'Sources of NOISE POLLUTION include which of the following?',opts:['Bird song','Rustling leaves','Traffic, airports and factories','Whispering'],ans:2,explain:'<strong>Traffic, airports and factories</strong> are major sources of noise pollution. They cause stress and can damage hearing.'},
+{type:'mcq',topic:'🔇 Changing Volume',tag:'#e8f5e9:#1b5e20',q:'What is the DEPENDENT VARIABLE in a muffling experiment?',opts:['The type of muffling material used','The source of sound','The volume (loudness) of sound heard through the material','The distance from the source'],ans:2,explain:'The <strong>dependent variable</strong> is what you MEASURE — the <strong>volume of sound heard</strong> through each material.'},
+// ── MCQ: Changing Pitch (12) ──
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'What happens to PITCH when you TIGHTEN a guitar string?',opts:['Pitch gets lower','Pitch stays the same','Pitch gets higher','String breaks'],ans:2,explain:'Tightening makes string vibrate <strong>faster → higher pitch</strong>! Loosening → slower vibrations → lower pitch.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'A THICKER guitar string has which type of pitch?',opts:['Higher pitch','Lower pitch','Same pitch as thin strings','No pitch'],ans:1,explain:'A <strong>thicker string</strong> vibrates more slowly → <strong>lower pitch</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'What happens to pitch when you PRESS A STRING DOWN on the guitar neck?',opts:['The string gets longer and pitch gets lower','The string gets shorter and pitch gets higher','Pitch stays the same','String breaks'],ans:1,explain:'Pressing down shortens the string. <strong>Shorter string</strong> → faster vibrations → <strong>higher pitch</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'How do WIND INSTRUMENTS make sounds?',opts:['By hitting strings','By blowing — making the air column inside vibrate','By pressing keys that hit metal bars','By rubbing a bow across strings'],ans:1,explain:'Wind instruments make sound by <strong>blowing</strong>, which makes the <strong>air column inside vibrate</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'A wind instrument with a LONGER air column produces which pitch?',opts:['Higher pitch','Lower pitch','Same pitch','Louder sound only'],ans:1,explain:'A <strong>longer air column</strong> vibrates more slowly → <strong>lower pitch</strong>!'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'A wind instrument with a SHORTER air column produces which pitch?',opts:['Lower pitch','Higher pitch','Same pitch','Louder sound only'],ans:1,explain:'A <strong>shorter air column</strong> vibrates faster → <strong>higher pitch</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'MORE water in a bottle means which air column and which pitch?',opts:['Longer air column, lower pitch','Shorter air column, higher pitch','Longer air column, higher pitch','Shorter air column, lower pitch'],ans:1,explain:'More water = <strong>shorter air column</strong> → faster vibrations → <strong>higher pitch</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'What do you call adjusting a stringed instrument so it sounds perfectly in tune?',opts:['Amplifying','Muffling','Tuning','Pitching'],ans:2,explain:'Adjusting the pegs until strings sound exactly right is called <strong>tuning</strong> the instrument.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'Tighter strings vibrate HOW compared to loose strings?',opts:['More slowly','The same way','Faster','They do not vibrate'],ans:2,explain:'Tighter strings vibrate <strong>faster</strong> → higher pitch. Looser strings → slower → lower pitch.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'What happens to the pitch on a wind instrument when you cover MORE holes?',opts:['Pitch gets higher','Pitch gets lower — the air column gets longer','Pitch stays the same','Sound disappears'],ans:1,explain:'Covering more holes makes the air column <strong>longer</strong> → slower vibrations → <strong>lower pitch</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'On a guitar, what does LOOSENING a string do to pitch?',opts:['Makes pitch higher','Makes pitch lower','Keeps pitch the same','String snaps'],ans:1,explain:'Loosening a string makes it vibrate <strong>more slowly → lower pitch</strong>.'},
+{type:'mcq',topic:'🎸 Changing Pitch',tag:'#ede7f6:#4a148c',q:'A THINNER guitar string has which type of pitch?',opts:['Lower pitch','Higher pitch','Same as thick strings','No sound'],ans:1,explain:'A <strong>thinner string</strong> vibrates faster → <strong>higher pitch</strong>.'},
+// ── FILL-IN-THE-BLANK: Chapter 2 (10) ──
+{type:'fill',topic:'🌊 Spelling: Sound',tag:'#ede7f6:#7b1fa2',q:'Sound is made when an object moves back and forth very quickly. This movement is called a ___________.',ans:'vibration',alts:['vibrations'],hint:'10 letters — starts with "vibr..."'},
+{type:'fill',topic:'📊 Spelling: Volume',tag:'#ede7f6:#7b1fa2',q:'The unit used to measure how loud or quiet a sound is, is called the ___________.',ans:'decibel',alts:['decibels'],hint:'7 letters — starts with "dec..."'},
+{type:'fill',topic:'📊 Spelling: Pitch',tag:'#ede7f6:#7b1fa2',q:'How high or low a sound is, is called its ___________.',ans:'pitch',alts:[],hint:'5 letters — starts with "p"'},
+{type:'fill',topic:'📊 Spelling: Volume',tag:'#ede7f6:#7b1fa2',q:'How loud or quiet a sound is, is called its ___________.',ans:'volume',alts:[],hint:'6 letters — starts with "v"'},
+{type:'fill',topic:'🔇 Spelling: Muffling',tag:'#ede7f6:#7b1fa2',q:'Making a sound quieter using soft materials that absorb vibrations is called ___________.',ans:'muffling',alts:['muffle','muffled'],hint:'8 letters — starts with "muff..."'},
+{type:'fill',topic:'🔇 Spelling: Sound System',tag:'#ede7f6:#7b1fa2',q:'The part of a sound system that makes the sound louder is called the ___________.',ans:'amplifier',alts:['amplifiers'],hint:'9 letters — starts with "ampl..."'},
+{type:'fill',topic:'🔇 Spelling: Sound System',tag:'#ede7f6:#7b1fa2',q:'The part of a sound system that picks up the sound is called the ___________.',ans:'microphone',alts:['microphones'],hint:'10 letters — starts with "micro..."'},
+{type:'fill',topic:'🔇 Spelling: Noise Pollution',tag:'#ede7f6:#7b1fa2',q:'Too much loud noise in the environment that causes harm is called noise ___________.',ans:'pollution',alts:[],hint:'9 letters — starts with "poll..."'},
+{type:'fill',topic:'🎸 Spelling: Instruments',tag:'#ede7f6:#7b1fa2',q:'Adjusting the pegs on a guitar to make the strings sound exactly right is called ___________.',ans:'tuning',alts:['tune'],hint:'6 letters — starts with "tun..."'},
+{type:'fill',topic:'🌊 Spelling: Sound',tag:'#ede7f6:#7b1fa2',q:'The technique bats use where they send out high-pitched sounds and listen to the echoes to navigate is called ___________.',ans:'echolocation',alts:[],hint:'12 letters — starts with "echo..."'},
+];
+
+const ALL_BANKS = { 1: BANK_CH1, 2: BANK_CH2 };
+
+// ════════════════════════════════════════════════
+// QUIZ STATE
+// ════════════════════════════════════════════════
+const TOTAL_Q = 20, TOTAL_SECS = 900;
+let selectedChapter = 1, quizQuestions = [], currentIdx = 0;
+let score = 0, secsLeft = TOTAL_SECS, timerInterval = null;
+let answers = [], startTime = null;
+let mcqCorrect = 0, fillCorrect = 0;
+
+function selectChapter(num) {
+  if (![1,2].includes(num)) return;
+  selectedChapter = num;
+  document.querySelectorAll('.chapter-card:not(.locked)').forEach(c => c.classList.remove('selected'));
+  document.getElementById('ch'+num+'-card').classList.add('selected');
+  document.getElementById('chapterInfoBox').innerHTML = CHAPTER_META[num].info;
+  document.getElementById('startBtn').textContent = '🚀 Start Quiz — Chapter ' + num + ': ' + CHAPTER_META[num].title;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  // Ensure ~25% fill questions (5 fill, 15 MCQ from random draw)
+  const bank = ALL_BANKS[selectedChapter];
+  const fills = shuffle(bank.filter(q => q.type === 'fill')).slice(0, 5);
+  const mcqs  = shuffle(bank.filter(q => q.type === 'mcq')).slice(0, 15);
+  quizQuestions = shuffle([...fills, ...mcqs]);
+  currentIdx = 0; score = 0; secsLeft = TOTAL_SECS;
+  answers = []; mcqCorrect = 0; fillCorrect = 0;
+  startTime = Date.now();
+  showScreen('quiz');
+  buildDots();
+  renderQuestion();
+  startTimer();
+}
+
+function buildDots() {
+  const strip = document.getElementById('dotStrip');
+  strip.innerHTML = '';
+  quizQuestions.forEach((q, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' current':'') + (q.type==='fill'?' fill-type':'');
+    d.id = 'dot-'+i;
+    d.title = q.type === 'fill' ? 'Fill-in-blank' : 'Multiple choice';
+    strip.appendChild(d);
+  });
+}
+
+function updateDot(idx, ok, type) {
+  const d = document.getElementById('dot-'+idx);
+  if (d) {
+    d.classList.remove('current');
+    d.classList.add(type==='fill' ? (ok?'done-fill-right':'done-fill-wrong') : (ok?'done-right':'done-wrong'));
+  }
+  const n = document.getElementById('dot-'+(idx+1));
+  if (n) n.classList.add('current');
+}
+
+function renderQuestion() {
+  const q = quizQuestions[currentIdx];
+  document.getElementById('qNumDisplay').textContent = currentIdx+1;
+  document.getElementById('scoreLive').textContent = '⭐ '+score;
+  const [bg, fg] = q.tag.split(':');
+  const tag = document.getElementById('qTopicTag');
+  tag.textContent = q.topic;
+  tag.style.cssText = `background:${bg};color:${fg};display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:bold;`;
+  const badge = document.getElementById('qTypeBadge');
+  if (q.type === 'fill') { badge.textContent = '🟣 Fill-in-the-blank'; badge.className = 'q-type-badge fill'; }
+  else { badge.textContent = '🔵 Multiple Choice'; badge.className = 'q-type-badge mcq'; }
+
+  // Render question text with blank highlighted
+  const qTextEl = document.getElementById('qText');
+  if (q.type === 'fill') {
+    qTextEl.innerHTML = q.q.replace('___________', '<span class="q-blank">___________</span>');
+  } else {
+    qTextEl.textContent = q.q;
+  }
+
+  document.getElementById('feedbackBox').className = 'feedback-box';
+  document.getElementById('nextBtn').className = 'next-btn';
+
+  if (q.type === 'mcq') renderMCQ(q);
+  else renderFill(q);
+}
+
+function renderMCQ(q) {
+  const body = document.getElementById('qBody');
+  body.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'options-wrap';
+  ['A','B','C','D'].forEach((L,i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = `<span class="opt-letter">${L}</span><span>${q.opts[i]}</span>`;
+    b.onclick = () => answerMCQ(i, q);
+    wrap.appendChild(b);
+  });
+  body.appendChild(wrap);
+}
+
+function answerMCQ(chosen, q) {
+  document.querySelectorAll('.opt').forEach(o => o.disabled = true);
+  const ok = chosen === q.ans;
+  if (ok) { score++; mcqCorrect++; }
+  document.querySelectorAll('.opt')[chosen].classList.add(ok?'correct':'wrong');
+  if (!ok) document.querySelectorAll('.opt')[q.ans].classList.add('reveal');
+  answers.push({q:q.q, topic:q.topic, type:'mcq', correct:ok, yourAns:q.opts[chosen], correctAns:q.opts[q.ans], explain:q.explain});
+  updateDot(currentIdx, ok, 'mcq');
+  showFeedback(ok, q.explain);
+}
+
+function renderFill(q) {
+  const body = document.getElementById('qBody');
+  body.innerHTML = `
+    <div class="fill-wrap">
+      <div class="fill-hint">💡 Hint: ${q.hint}</div>
+      <div class="fill-input-row">
+        <input class="fill-input" id="fillInput" type="text" placeholder="Type your answer here..." autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter') checkFill()"/>
+        <button class="check-btn" id="checkBtn" onclick="checkFill()">Check ✓</button>
+      </div>
+      <div class="letter-hints" id="letterHints"></div>
+    </div>`;
+  buildLetterBoxes(q.ans);
+  document.getElementById('fillInput').focus();
+}
+
+function buildLetterBoxes(ans) {
+  const wrap = document.getElementById('letterHints');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  [...ans].forEach(() => {
+    const b = document.createElement('div');
+    b.className = 'letter-box blank';
+    b.textContent = '?';
+    wrap.appendChild(b);
+  });
+}
+
+function checkFill() {
+  const q = quizQuestions[currentIdx];
+  const input = document.getElementById('fillInput');
+  const btn = document.getElementById('checkBtn');
+  if (!input || !btn) return;
+  const userVal = input.value.trim().toLowerCase();
+  if (!userVal) return;
+  input.disabled = true;
+  btn.disabled = true;
+  const accepted = [q.ans.toLowerCase(), ...(q.alts||[]).map(a=>a.toLowerCase())];
+  const ok = accepted.includes(userVal);
+  if (ok) { score++; fillCorrect++; }
+  input.classList.add(ok?'correct':'wrong');
+  // Reveal letter boxes
+  const boxes = document.querySelectorAll('.letter-box');
+  [...q.ans].forEach((ch, i) => {
+    if (boxes[i]) {
+      boxes[i].textContent = ch.toUpperCase();
+      boxes[i].classList.remove('blank');
+      boxes[i].classList.add('revealed');
+    }
+  });
+  answers.push({q:q.q, topic:q.topic, type:'fill', correct:ok, yourAns:input.value.trim(), correctAns:q.ans, explain:ok?'Perfect spelling! 🎉':'The correct spelling is: <strong>'+q.ans+'</strong>'});
+  updateDot(currentIdx, ok, 'fill');
+  showFeedback(ok, ok ? 'Perfect spelling! Well done!' : 'The correct answer is: <strong>' + q.ans + '</strong>');
+}
+
+function showFeedback(ok, explain) {
+  document.getElementById('fbIcon').textContent = ok ? '🎉' : '💡';
+  document.getElementById('fbBody').innerHTML = (ok?'<strong>Brilliant!</strong> ':'<strong>Not quite!</strong> ') + explain;
+  document.getElementById('feedbackBox').className = 'feedback-box show '+(ok?'ok':'bad');
+  document.getElementById('nextBtn').className = 'next-btn show';
+  document.getElementById('nextBtn').textContent = currentIdx===TOTAL_Q-1 ? 'See Results 🏆' : 'Next Question ➜';
+  document.getElementById('scoreLive').textContent = '⭐ '+score;
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= TOTAL_Q) endQuiz(false);
+  else renderQuestion();
+}
+
+function startTimer() {
+  updateTimerUI();
+  timerInterval = setInterval(() => {
+    secsLeft--;
+    updateTimerUI();
+    if (secsLeft <= 0) { clearInterval(timerInterval); endQuiz(true); }
+  }, 1000);
+}
+
+function updateTimerUI() {
+  const m = Math.floor(secsLeft/60), s = secsLeft%60;
+  const d = document.getElementById('timerDisplay');
+  d.textContent = m+':'+ String(s).padStart(2,'0');
+  d.className = 'timer-display' + (secsLeft<=60?' danger':secsLeft<=180?' warning':'');
+  const pct = (secsLeft/TOTAL_SECS)*100;
+  const bar = document.getElementById('timerBar');
+  bar.style.width = pct+'%';
+  bar.style.background = secsLeft<=60?'#e53935':secsLeft<=180?'#f57f17':'#43a047';
+}
+
+function endQuiz(timeout) {
+  clearInterval(timerInterval);
+  const elapsed = Math.round((Date.now()-startTime)/1000);
+  const attempted = answers.length;
+  const pct = attempted>0 ? Math.round(score/attempted*100) : 0;
+  document.getElementById('timeoutBanner').className = timeout?'timeout-banner show':'timeout-banner';
+  document.getElementById('resultScore').textContent = score;
+  document.getElementById('resultOutOf').textContent = 'out of '+attempted;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = attempted-score;
+  document.getElementById('statMcq').textContent = mcqCorrect;
+  document.getElementById('statFill').textContent = fillCorrect;
+  const em=Math.floor(elapsed/60), es=elapsed%60;
+  document.getElementById('statTime').textContent = em+':'+ String(es).padStart(2,'0');
+  document.getElementById('statPct').textContent = pct+'%';
+  const ratio = score/(attempted||1);
+  let stars,msg,sub;
+  if(ratio>=0.9){stars='⭐⭐⭐⭐⭐';msg='Amazing! You\'re a Science Star! 🏆';sub='Outstanding — both answers AND spellings mastered!';}
+  else if(ratio>=0.75){stars='⭐⭐⭐⭐';msg='Great work! Keep it up! 🎉';sub='Really impressive! Check the spellings you got wrong below.';}
+  else if(ratio>=0.55){stars='⭐⭐⭐';msg='Good effort! Getting there! 💪';sub='Solid attempt — practise the spellings and tricky topics!';}
+  else if(ratio>=0.35){stars='⭐⭐';msg='Keep practising! You can do it! 🌱';sub='Read through the chapter and practise spelling the key words!';}
+  else{stars='⭐';msg='Don\'t give up — every attempt helps! 📚';sub='Try reading the chapter sections, then have another go!';}
+  document.getElementById('resultStars').textContent = stars;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultSub').textContent = sub;
+  buildReview();
+  showScreen('results');
+}
+
+function buildReview() {
+  const sec = document.getElementById('reviewSection');
+  if (!answers.length) { sec.innerHTML=''; return; }
+  const wrong = answers.filter(a=>!a.correct);
+  const right = answers.filter(a=>a.correct);
+  let html = `<div class="review-title">📋 Your Answers — ${answers.length} attempted</div>`;
+  if (wrong.length) {
+    html += `<div style="font-size:13px;font-weight:bold;color:#c62828;margin-bottom:10px;">❌ Needs Review (${wrong.length})</div>`;
+    wrong.forEach(a => {
+      const badge = `<span class="ri-type ${a.type}">${a.type==='fill'?'🟣 Spelling':'🔵 MCQ'}</span>`;
+      html += `<div class="review-item wrong"><div class="ri-q">${a.q}${badge}</div><div class="ri-a">Your answer: <span class="your-ans">${a.yourAns||'(skipped)'}</span> &nbsp;·&nbsp; Correct: <span class="correct-ans">${a.correctAns}</span></div></div>`;
+    });
+  }
+  if (right.length) {
+    html += `<div style="font-size:13px;font-weight:bold;color:#2e7d32;margin:14px 0 10px;">✅ Got Right (${right.length})</div>`;
+    right.forEach(a => {
+      const badge = `<span class="ri-type ${a.type}">${a.type==='fill'?'🟣 Spelling':'🔵 MCQ'}</span>`;
+      html += `<div class="review-item right"><div class="ri-q">${a.q}${badge}</div><div class="ri-a">Your answer: <span class="correct-ans">${a.correctAns}</span> ✓</div></div>`;
+    });
+  }
+  sec.innerHTML = html;
+}
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+}
+
+function restartQuiz() { clearInterval(timerInterval); startQuiz(); }
+function goHome() { clearInterval(timerInterval); showScreen('welcome'); }
+
+window.addEventListener('DOMContentLoaded', () => { selectChapter(1); });
+</script>
+</body>
+</html>
