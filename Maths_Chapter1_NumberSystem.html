@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1: The Number System 🔢</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #fef9c3 0%, #dbeafe 50%, #fce7f3 100%); min-height: 100vh; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(90deg, #d97706, #f59e0b, #fbbf24);
+    color: white; padding: 24px 20px; text-align: center;
+    box-shadow: 0 4px 20px rgba(217,119,6,0.4);
+  }
+  .header h1 { font-size: clamp(1.4rem,5vw,2.2rem); font-weight: 900; text-shadow: 2px 3px 6px rgba(0,0,0,0.2); }
+  .header p { margin-top: 6px; font-size: 0.95rem; opacity: 0.95; }
+  .back-btn { display:inline-block; margin-bottom:12px; background:rgba(255,255,255,0.25); color:white; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:0.85rem; font-weight:700; }
+  .back-btn:hover { background:rgba(255,255,255,0.4); }
+
+  /* PROGRESS */
+  .prog-wrap { background:rgba(255,255,255,0.3); border-radius:20px; height:12px; margin:12px auto; max-width:420px; }
+  .prog-bar { height:12px; border-radius:20px; background:#1e293b; transition:width 0.5s; width:0%; }
+  .prog-label { font-size:0.82rem; color:white; margin-top:4px; }
+
+  /* TABS */
+  .tabs { display:flex; background:white; border-bottom:3px solid #d97706; overflow-x:auto; }
+  .tab-btn { flex:1; padding:12px 8px; border:none; background:none; cursor:pointer; font-size:0.8rem; font-weight:700; color:#666; transition:all 0.2s; white-space:nowrap; min-width:80px; font-family:inherit; }
+  .tab-btn.active { background:#d97706; color:white; }
+  .tab-btn:hover:not(.active) { background:#fef9c3; color:#d97706; }
+
+  /* SECTIONS */
+  .section { display:none; padding:20px; max-width:920px; margin:0 auto; }
+  .section.active { display:block; }
+
+  /* CARDS */
+  .card { background:white; border-radius:18px; padding:22px; margin-bottom:18px; box-shadow:0 4px 16px rgba(0,0,0,0.08); }
+  .card h2 { color:#d97706; margin-bottom:12px; font-size:1.2rem; }
+  .card h3 { color:#92400e; margin-bottom:8px; font-size:1rem; }
+
+  /* PLACE VALUE GRID */
+  .pv-grid { overflow-x:auto; margin:14px 0; }
+  .pv-table { border-collapse:collapse; min-width:100%; font-size:0.85rem; }
+  .pv-table th { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; padding:10px 8px; text-align:center; font-weight:900; }
+  .pv-table td { border:2px solid #fde68a; padding:10px 8px; text-align:center; font-size:1.1rem; font-weight:700; cursor:pointer; transition:background 0.2s; min-width:52px; }
+  .pv-table td:hover { background:#fef9c3; }
+  .pv-table td.decimal-col { background:#fffbeb; }
+  .pv-table .decimal-point { background:#d97706; color:white; font-size:1.4rem; padding:8px 4px; }
+
+  .digit-display { font-size:2rem; font-weight:900; color:#d97706; text-align:center; margin:10px 0; letter-spacing:4px; }
+  .digit-value-box { display:none; background:#fef9c3; border:2px solid #f59e0b; border-radius:12px; padding:12px; margin:8px 0; font-size:0.9rem; text-align:center; }
+
+  /* MULTIPLY/DIVIDE MACHINE */
+  .machine-wrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px; }
+  .machine-display { background:#1e293b; color:#fbbf24; font-size:2.2rem; font-weight:900; padding:18px 30px; border-radius:16px; letter-spacing:6px; min-width:220px; text-align:center; font-family:monospace; }
+  .machine-btns { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .m-btn { padding:10px 20px; border:none; border-radius:25px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+  .m-btn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.15); }
+  .m-btn.x10 { background:linear-gradient(135deg,#10b981,#059669); color:white; }
+  .m-btn.x100 { background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; }
+  .m-btn.x1000 { background:linear-gradient(135deg,#8b5cf6,#7c3aed); color:white; }
+  .m-btn.d10 { background:linear-gradient(135deg,#f43f5e,#e11d48); color:white; }
+  .m-btn.d100 { background:linear-gradient(135deg,#f97316,#ea580c); color:white; }
+  .m-btn.d1000 { background:linear-gradient(135deg,#a855f7,#9333ea); color:white; }
+  .m-btn.reset { background:#e2e8f0; color:#475569; }
+  .machine-explain { font-size:0.85rem; color:#475569; text-align:center; min-height:24px; font-style:italic; }
+
+  /* NUMBER LINE */
+  .nl-section { margin:14px 0; }
+  #numberLineCanvas { max-width:100%; border-radius:10px; display:block; margin:0 auto; }
+  .nl-controls { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+  .nl-input { padding:8px 14px; border:2px solid #d97706; border-radius:12px; font-size:1rem; font-weight:700; width:100px; text-align:center; font-family:inherit; }
+  .nl-result { text-align:center; font-size:1rem; font-weight:700; color:#d97706; min-height:28px; margin-top:8px; }
+
+  /* INFO BOXES */
+  .info-box { background:#fffbeb; border-left:4px solid #d97706; border-radius:0 12px 12px 0; padding:14px 16px; margin:12px 0; font-size:0.9rem; line-height:1.6; }
+  .info-box.green { background:#f0fff4; border-color:#10b981; }
+  .info-box.blue { background:#eff6ff; border-color:#3b82f6; }
+  .info-box.purple { background:#faf5ff; border-color:#8b5cf6; }
+
+  .rule-box { background:linear-gradient(135deg,#fef9c3,#fde68a); border-radius:16px; padding:18px; margin:14px 0; }
+  .rule-box h3 { color:#92400e; margin-bottom:10px; }
+  .rule-item { display:flex; align-items:center; gap:10px; padding:8px 0; font-size:0.9rem; border-bottom:1px solid rgba(217,119,6,0.2); }
+  .rule-item:last-child { border-bottom:none; }
+  .rule-num { background:#d97706; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0; }
+
+  .think-box { background:linear-gradient(135deg,#fce7f3,#fbcfe8); border-radius:16px; padding:20px; margin:14px 0; }
+  .think-box h3 { color:#9d174d; margin-bottom:10px; }
+  .think-box p { color:#831843; font-size:0.9rem; line-height:1.6; }
+
+  /* BADGE */
+  .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:700; margin:2px; }
+  .badge.yellow { background:#fef9c3; color:#92400e; }
+  .badge.green { background:#d1fae5; color:#065f46; }
+  .badge.blue { background:#dbeafe; color:#1e40af; }
+  .badge.red { background:#fee2e2; color:#991b1b; }
+
+  /* QUIZ */
+  .quiz-q { background:white; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.07); }
+  .quiz-q p { font-weight:700; margin-bottom:12px; color:#1e293b; font-size:0.95rem; }
+  .options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .opt-btn { padding:10px 14px; border:2px solid #e2e8f0; border-radius:12px; background:white; cursor:pointer; font-size:0.85rem; font-weight:700; transition:all 0.2s; text-align:left; font-family:inherit; }
+  .opt-btn:hover { border-color:#d97706; background:#fffbeb; }
+  .opt-btn.correct { background:#d1fae5; border-color:#10b981; color:#065f46; }
+  .opt-btn.wrong { background:#fee2e2; border-color:#f87171; color:#991b1b; }
+  .opt-btn:disabled { cursor:not-allowed; opacity:0.8; }
+  .feedback { font-size:0.85rem; margin-top:8px; font-weight:700; min-height:20px; }
+  .feedback.ok { color:#065f46; }
+  .feedback.err { color:#991b1b; }
+
+  /* BUTTONS */
+  .btn { display:inline-block; padding:10px 22px; border-radius:25px; border:none; font-size:0.9rem; font-weight:800; cursor:pointer; transition:all 0.2s; margin:4px; font-family:inherit; }
+  .btn-primary { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(217,119,6,0.4); }
+  .btn-secondary { background:#e2e8f0; color:#4a5568; }
+
+  /* SCORE */
+  .score-box { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border-radius:18px; padding:22px; text-align:center; margin:16px 0; }
+  .score-box h3 { font-size:1.5rem; }
+  .stars { font-size:1.6rem; letter-spacing:4px; }
+
+  /* CONFETTI */
+  #confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
+
+  .center { text-align:center; }
+  @media(max-width:600px) { .options { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+
+<div class="header">
+  <a href="index.html" class="back-btn">← Back to Home</a>
+  <h1>🔢 Unit 1: The Number System</h1>
+  <p>Place Value • Decimals • Rounding — Cambridge Primary Maths Stage 5</p>
+  <div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
+  <div class="prog-label" id="progLabel">⭐ 0 / 10 stars</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('placevalue',this)">📍 Place Value</button>
+  <button class="tab-btn" onclick="showTab('machine',this)">⚙️ ×÷ Machine</button>
+  <button class="tab-btn" onclick="showTab('rounding',this)">🔵 Rounding</button>
+  <button class="tab-btn" onclick="showTab('practice',this)">✏️ Practice</button>
+  <button class="tab-btn" onclick="showTab('quiz',this)">🧠 Quiz</button>
+</div>
+
+<!-- ===== PLACE VALUE TAB ===== -->
+<div id="tab-placevalue" class="section active">
+  <div class="card">
+    <h2>📍 Understanding Place Value</h2>
+    <p style="color:#64748b;font-size:0.9rem;margin-bottom:14px">The <strong>value</strong> of a digit depends on its <strong>position</strong> in the number. Click any digit below to see its value! 👇</p>
+
+    <div class="digit-display" id="pvDisplay">1 2 3 4 5 . 6 7</div>
+
+    <div class="pv-grid">
+      <table class="pv-table">
+        <thead>
+          <tr>
+            <th>100 000s</th><th>10 000s</th><th>1 000s</th><th>100s</th><th>10s</th><th>1s</th>
+            <th style="background:#92400e">.</th>
+            <th>Tenths<br><small>1/10</small></th><th>Hundredths<br><small>1/100</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="pvRow">
+            <td onclick="showVal(this,'1','100 000','One Hundred Thousand','100 000')">1</td>
+            <td onclick="showVal(this,'2','10 000','Twenty Thousand','20 000')">2</td>
+            <td onclick="showVal(this,'3','1 000','Three Thousand','3 000')">3</td>
+            <td onclick="showVal(this,'4','100','Four Hundred','400')">4</td>
+            <td onclick="showVal(this,'5','10','Fifty','50')">5</td>
+            <td onclick="showVal(this,'6','1','Six','6')">6</td>
+            <td class="decimal-point">.</td>
+            <td class="decimal-col" onclick="showVal(this,'7','1/10','Seven Tenths','0.7')">7</td>
+            <td class="decimal-col" onclick="showVal(this,'8','1/100','Eight Hundredths','0.08')">8</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="digit-value-box" id="digitValueBox"></div>
+
+    <div class="info-box" style="margin-top:14px">
+      <strong>💡 Key Idea:</strong> Moving one place to the <strong>left</strong> makes a number <strong>10 times bigger</strong>. Moving one place to the <strong>right</strong> makes it <strong>10 times smaller</strong>!
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏷️ Real Life Decimals!</h2>
+    <p style="color:#64748b;font-size:0.9rem;margin-bottom:14px">Decimal numbers are everywhere! Can you spot them? 🌍</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:10px 0;">
+      <div style="background:linear-gradient(135deg,#fef9c3,#fde68a);border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:2rem">💊</div>
+        <div style="font-weight:800;font-size:1.1rem;color:#92400e;margin:4px 0">5.5 ml</div>
+        <div style="font-size:0.78rem;color:#78350f">Medicine dose</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:2rem">💰</div>
+        <div style="font-weight:800;font-size:1.1rem;color:#1e40af;margin:4px 0">$2.99</div>
+        <div style="font-size:0.78rem;color:#1e3a8a">Price tag</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:2rem">📏</div>
+        <div style="font-weight:800;font-size:1.1rem;color:#065f46;margin:4px 0">1.75 m</div>
+        <div style="font-size:0.78rem;color:#064e3b">Height</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:2rem">🌡️</div>
+        <div style="font-weight:800;font-size:1.1rem;color:#9d174d;margin:4px 0">37.5 °C</div>
+        <div style="font-size:0.78rem;color:#831843">Temperature</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔍 Decomposing Numbers</h2>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:12px">Breaking a number into its parts. Try the examples! 🧩</p>
+    <div class="info-box">
+      <strong>Example:</strong> 12 345.67 = 10 000 + 2 000 + 300 + 40 + 5 + 0.6 + 0.07<br>
+      <span class="badge yellow">Ten Thousands: 10 000</span>
+      <span class="badge green">Thousands: 2 000</span>
+      <span class="badge blue">Hundreds: 300</span>
+      <span class="badge yellow">Tens: 40</span>
+      <span class="badge green">Ones: 5</span>
+      <span class="badge blue">Tenths: 0.6</span>
+      <span class="badge red">Hundredths: 0.07</span>
+    </div>
+
+    <div style="margin-top:14px">
+      <label style="font-size:0.85rem;font-weight:700;color:#d97706">Try decomposing this number: </label>
+      <select id="decompSelect" onchange="showDecomp()" style="padding:8px;border-radius:10px;border:2px solid #d97706;font-size:0.9rem;font-weight:700;margin:6px 0;font-family:inherit;">
+        <option value="345.09">345.09</option>
+        <option value="5378.12">5 378.12</option>
+        <option value="12345.67">12 345.67</option>
+        <option value="100001.01">100 001.01</option>
+      </select>
+      <div id="decompResult" class="info-box green" style="margin-top:8px;display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MULTIPLY/DIVIDE MACHINE ===== -->
+<div id="tab-machine" class="section">
+  <div class="card">
+    <h2>⚙️ The ×÷ Machine</h2>
+    <p style="color:#64748b;font-size:0.9rem;margin-bottom:16px">Enter a number and multiply or divide! Watch how the digits move! 🚀</p>
+
+    <div class="machine-wrap">
+      <div>
+        <label style="font-size:0.85rem;font-weight:700;color:#d97706">Enter a number:</label><br>
+        <input type="number" id="machineInput" value="5.6" step="0.01" style="margin-top:6px;padding:10px 16px;border:2px solid #d97706;border-radius:12px;font-size:1.2rem;font-weight:800;width:160px;text-align:center;font-family:inherit;" oninput="updateMachine()">
+      </div>
+      <div class="machine-display" id="machineDisplay">5.6</div>
+      <div class="machine-btns">
+        <button class="m-btn x10" onclick="applyOp('×10')">× 10</button>
+        <button class="m-btn x100" onclick="applyOp('×100')">× 100</button>
+        <button class="m-btn x1000" onclick="applyOp('×1000')">× 1000</button>
+        <button class="m-btn d10" onclick="applyOp('÷10')">÷ 10</button>
+        <button class="m-btn d100" onclick="applyOp('÷100')">÷ 100</button>
+        <button class="m-btn d1000" onclick="applyOp('÷1000')">÷ 1000</button>
+        <button class="m-btn reset" onclick="resetMachine()">🔄 Reset</button>
+      </div>
+      <div class="machine-explain" id="machineExplain">Press a button to transform the number!</div>
+    </div>
+
+    <div class="rule-box" style="margin-top:14px">
+      <h3>📏 The Rules</h3>
+      <div class="rule-item">
+        <div class="rule-num">×</div>
+        <div>Multiplying by <strong>10, 100, 1000</strong> — digits shift <strong>LEFT</strong> by 1, 2, or 3 places</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">÷</div>
+        <div>Dividing by <strong>10, 100, 1000</strong> — digits shift <strong>RIGHT</strong> by 1, 2, or 3 places</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Quick Fire Challenges!</h2>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:14px">Work out the missing numbers! Tap to reveal the answer. 🔍</p>
+    <div id="challengeGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;"></div>
+  </div>
+
+  <div class="think-box">
+    <h3>🧠 Think Like a Mathematician!</h3>
+    <p>Sofia multiplies a number by 10, then by 10 again, then by 10 once more. Her answer is <strong>20 000</strong>.</p>
+    <p style="margin-top:8px">What number did she start with? 🤔</p>
+    <button class="btn btn-primary" onclick="document.getElementById('sofiaAns').style.display='block'" style="margin-top:12px">💡 Reveal Answer</button>
+    <div id="sofiaAns" style="display:none;margin-top:10px;background:white;border-radius:10px;padding:10px;color:#92400e;font-weight:700;">
+      20 000 ÷ 10 ÷ 10 ÷ 10 = 20 000 ÷ 1000 = <strong>20</strong> 🎉
+    </div>
+  </div>
+</div>
+
+<!-- ===== ROUNDING TAB ===== -->
+<div id="tab-rounding" class="section">
+  <div class="card">
+    <h2>🔵 Rounding to the Nearest Whole Number</h2>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:14px">Rounding makes numbers easier to work with! 🐘</p>
+
+    <div class="info-box blue">
+      <strong>Real Life Example:</strong> It's easier to say "an African elephant is about <strong>3 metres</strong> tall" than "the average elephant is 3.3 metres tall"!
+    </div>
+
+    <div class="rule-box" style="margin-top:14px">
+      <h3>📏 The Rounding Rule</h3>
+      <div class="rule-item">
+        <div class="rule-num" style="background:#10b981">↓</div>
+        <div>If the <strong>tenths digit</strong> is <strong>0, 1, 2, 3 or 4</strong> → Round <strong>DOWN</strong> (keep the whole number)</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num" style="background:#f43f5e">↑</div>
+        <div>If the <strong>tenths digit</strong> is <strong>5, 6, 7, 8 or 9</strong> → Round <strong>UP</strong> (add 1 to the whole number)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📊 Interactive Number Line</h2>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:12px">Type a decimal number and see where it falls! 🎯</p>
+    <div class="nl-section">
+      <canvas id="numberLineCanvas" width="600" height="120"></canvas>
+    </div>
+    <div class="nl-controls">
+      <input type="number" id="nlInput" class="nl-input" value="3.7" step="0.1" min="0" max="10" oninput="drawNumberLine()">
+      <button class="btn btn-primary" onclick="drawNumberLine()">Plot it! 📍</button>
+    </div>
+    <div class="nl-result" id="nlResult"></div>
+  </div>
+
+  <div class="card">
+    <h2>🦒 Animal Heights — Round Them!</h2>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:14px">Click each animal to round its height! 🐾</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;" id="animalGrid"></div>
+  </div>
+
+  <div class="think-box">
+    <h3>🧠 Zara's Puzzle!</h3>
+    <p>Zara is thinking of a decimal number <strong>less than 1</strong>.</p>
+    <p style="margin-top:6px">👉 The hundredths digit is <strong>four more</strong> than the tenths digit.</p>
+    <p style="margin-top:4px">👉 The tenths digit + hundredths digit = <strong>10</strong>.</p>
+    <p style="margin-top:8px">What number is Zara thinking of? 🤔</p>
+    <button class="btn btn-primary" onclick="document.getElementById('zaraAns').style.display='block'" style="margin-top:12px">💡 Reveal Answer</button>
+    <div id="zaraAns" style="display:none;margin-top:10px;background:white;border-radius:10px;padding:10px;color:#92400e;font-weight:700;">
+      Tenths = 3, Hundredths = 7 (3 + 4 = 7, 3 + 7 = 10) → <strong>0.37</strong> 🎉
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRACTICE TAB ===== -->
+<div id="tab-practice" class="section">
+  <div class="card">
+    <h2>✏️ Worked Examples</h2>
+    <div class="info-box">
+      <strong>Example 1:</strong> Write 10 000 + 2 000 + 300 + 40 + 5 + 0.6 + 0.07 in digits and words.<br>
+      <span style="color:#d97706;font-weight:800">Answer:</span> <strong>12 345.67</strong> → "Twelve thousand, three hundred and forty-five point six seven"
+    </div>
+    <div class="info-box green" style="margin-top:10px">
+      <strong>Example 2:</strong> Round 3.9 m to the nearest whole number.<br>
+      <span style="color:#065f46;font-weight:800">Answer:</span> Tenths digit = 9 (≥5) → Round UP → <strong>4 m</strong>
+    </div>
+    <div class="info-box blue" style="margin-top:10px">
+      <strong>Example 3:</strong> What is 3.45 × 100?<br>
+      <span style="color:#1e40af;font-weight:800">Answer:</span> Digits shift 2 places left → <strong>345</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎲 Dice Rounding Game!</h2>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:14px">Roll to make a decimal number, then round it! 🎲</p>
+    <div style="text-align:center;">
+      <div style="display:flex;gap:20px;justify-content:center;align-items:center;margin:16px 0;">
+        <div id="dice1" style="font-size:3.5rem;cursor:pointer;" onclick="rollDice()">🎲</div>
+        <div style="font-size:1.5rem;font-weight:900;color:#d97706">.</div>
+        <div id="dice2" style="font-size:3.5rem;cursor:pointer;" onclick="rollDice()">🎲</div>
+      </div>
+      <button class="btn btn-primary" onclick="rollDice()">🎲 Roll the Dice!</button>
+      <div id="diceResult" style="margin-top:14px;font-size:1rem;font-weight:700;color:#d97706;min-height:50px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ TAB ===== -->
+<div id="tab-quiz" class="section">
+  <div class="card">
+    <h2>🧠 Quiz Time!</h2>
+    <p style="color:#64748b;font-size:0.9rem;margin-bottom:16px">10 questions — earn a star for each correct answer! ⭐</p>
+    <div id="quizContainer"></div>
+    <div id="quizScore" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+// ===== STARS =====
+let stars = 0;
+function addStar() {
+  stars = Math.min(stars + 1, 10);
+  document.getElementById('progBar').style.width = (stars * 10) + '%';
+  document.getElementById('progLabel').textContent = `⭐ ${stars} / 10 stars`;
+  if (stars >= 10) launchConfetti();
+}
+
+// ===== TABS =====
+function showTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===== PLACE VALUE =====
+function showVal(cell, digit, position, name, value) {
+  const box = document.getElementById('digitValueBox');
+  box.style.display = 'block';
+  box.innerHTML = `The digit <strong style="color:#d97706;font-size:1.4rem">${digit}</strong> is in the <strong>${position}</strong> column.<br>
+    Its value is <strong style="color:#d97706">${value}</strong> — that's ${name}! 🎯`;
+  document.querySelectorAll('.pv-table td').forEach(td => td.style.background = '');
+  cell.style.background = '#fde68a';
+}
+
+// ===== DECOMPOSE =====
+function showDecomp() {
+  const val = document.getElementById('decompSelect').value;
+  const num = parseFloat(val);
+  const parts = [];
+  const n = val.replace(' ', '');
+  const [whole, dec] = n.split('.');
+  const digits = whole.split('').reverse();
+  const places = ['ones','tens','hundreds','thousands','ten-thousands','hundred-thousands'];
+  const mults = [1, 10, 100, 1000, 10000, 100000];
+  digits.forEach((d, i) => {
+    if (d !== '0') parts.push(`<span class="badge yellow">${parseInt(d) * mults[i]}</span>`);
+  });
+  if (dec) {
+    if (dec[0] && dec[0] !== '0') parts.push(`<span class="badge blue">0.${dec[0]}</span>`);
+    if (dec[1] && dec[1] !== '0') parts.push(`<span class="badge green">0.0${dec[1]}</span>`);
+  }
+  const box = document.getElementById('decompResult');
+  box.style.display = 'block';
+  box.innerHTML = `<strong>${val}</strong> = ${parts.join(' + ')}`;
+}
+
+// ===== MACHINE =====
+let machineVal = 5.6;
+function updateMachine() {
+  machineVal = parseFloat(document.getElementById('machineInput').value) || 0;
+  document.getElementById('machineDisplay').textContent = formatNum(machineVal);
+  document.getElementById('machineExplain').textContent = 'Press a button to transform the number!';
+}
+function formatNum(n) {
+  if (Math.abs(n) >= 1e9) return n.toExponential(2);
+  let s = parseFloat(n.toPrecision(10)).toString();
+  return s;
+}
+function applyOp(op) {
+  const orig = machineVal;
+  if (op === '×10') machineVal = Math.round(machineVal * 10 * 1e9) / 1e9;
+  else if (op === '×100') machineVal = Math.round(machineVal * 100 * 1e9) / 1e9;
+  else if (op === '×1000') machineVal = Math.round(machineVal * 1000 * 1e9) / 1e9;
+  else if (op === '÷10') machineVal = Math.round(machineVal / 10 * 1e9) / 1e9;
+  else if (op === '÷100') machineVal = Math.round(machineVal / 100 * 1e9) / 1e9;
+  else if (op === '÷1000') machineVal = Math.round(machineVal / 1000 * 1e9) / 1e9;
+  document.getElementById('machineDisplay').textContent = formatNum(machineVal);
+  const dir = op.startsWith('×') ? 'LEFT ←' : 'RIGHT →';
+  const places = op.includes('1000') ? 3 : op.includes('100') ? 2 : 1;
+  document.getElementById('machineExplain').textContent =
+    `${formatNum(orig)} ${op} = ${formatNum(machineVal)} — digits shifted ${places} place${places>1?'s':''} ${dir}`;
+}
+function resetMachine() {
+  const v = parseFloat(document.getElementById('machineInput').value) || 5.6;
+  machineVal = v;
+  document.getElementById('machineDisplay').textContent = formatNum(machineVal);
+  document.getElementById('machineExplain').textContent = 'Press a button to transform the number!';
+}
+
+// ===== CHALLENGES =====
+const challenges = [
+  { q: '358 × 100 = ?', a: '35 800' },
+  { q: '2700 ÷ ? = 27', a: '100' },
+  { q: '5600 ÷ 1000 = ?', a: '5.6' },
+  { q: '456 × 1000 = ?', a: '456 000' },
+  { q: '3.45 × 100 = ?', a: '345' },
+  { q: '16.8 ÷ 10 = ?', a: '1.68' },
+  { q: '6.5 × 10 = ?', a: '65' },
+  { q: '? ÷ 10 = 64', a: '640' },
+];
+function buildChallenges() {
+  const grid = document.getElementById('challengeGrid');
+  challenges.forEach(c => {
+    const div = document.createElement('div');
+    div.style.cssText = 'background:linear-gradient(135deg,#fffbeb,#fef9c3);border-radius:14px;padding:14px;text-align:center;cursor:pointer;border:2px solid #fde68a;transition:all 0.2s;';
+    div.innerHTML = `<div style="font-weight:800;font-size:1rem;color:#92400e">${c.q}</div>
+      <div style="color:#d97706;font-size:0.8rem;margin-top:8px">👆 Tap to reveal</div>
+      <div style="display:none;margin-top:8px;font-size:1.3rem;font-weight:900;color:#059669">✅ ${c.a}</div>`;
+    div.onclick = () => {
+      div.querySelectorAll('div')[1].style.display = 'none';
+      div.querySelectorAll('div')[2].style.display = 'block';
+      div.style.borderColor = '#10b981';
+    };
+    grid.appendChild(div);
+  });
+}
+buildChallenges();
+
+// ===== NUMBER LINE =====
+function drawNumberLine() {
+  const canvas = document.getElementById('numberLineCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const val = parseFloat(document.getElementById('nlInput').value);
+  if (isNaN(val)) return;
+  const lo = Math.floor(val), hi = lo + 1;
+  const margin = 60;
+  const lineY = H / 2 + 10;
+  ctx.clearRect(0, 0, W, H);
+  // Line
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(margin, lineY); ctx.lineTo(W - margin, lineY); ctx.stroke();
+  // Ticks
+  [lo, hi].forEach((n, i) => {
+    const x = margin + i * (W - 2 * margin);
+    ctx.strokeStyle = '#92400e'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(x, lineY - 14); ctx.lineTo(x, lineY + 14); ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 18px Nunito, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(n, x, lineY + 32);
+  });
+  // Midpoint tick
+  const midX = (margin + W - margin) / 2;
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(midX, lineY - 8); ctx.lineTo(midX, lineY + 8); ctx.stroke();
+  ctx.fillStyle = '#94a3b8'; ctx.font = '13px Nunito,sans-serif';
+  ctx.fillText((lo + 0.5).toFixed(1), midX, lineY - 16);
+  // Point
+  const frac = val - lo;
+  const px = margin + frac * (W - 2 * margin);
+  ctx.fillStyle = '#d97706';
+  ctx.beginPath(); ctx.arc(px, lineY, 10, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'white'; ctx.font = 'bold 13px Nunito,sans-serif';
+  ctx.fillText(val, px, lineY + 4);
+  // Label above
+  ctx.fillStyle = '#7c3aed'; ctx.font = 'bold 15px Nunito,sans-serif';
+  ctx.fillText(val, px, lineY - 22);
+  // Result
+  const tenths = Math.round((val % 1) * 10);
+  const rounded = tenths >= 5 ? hi : lo;
+  const dir = tenths >= 5 ? 'UP ↑' : 'DOWN ↓';
+  document.getElementById('nlResult').textContent =
+    `${val} rounds ${dir} to ${rounded} (tenths digit = ${tenths})`;
+}
+drawNumberLine();
+
+// ===== ANIMALS =====
+const animals = [
+  { emoji:'🐘', name:'Elephant', height:'3.3 m', rounded:3, dir:'down' },
+  { emoji:'🦒', name:'Giraffe', height:'5.5 m', rounded:6, dir:'up' },
+  { emoji:'🦅', name:'Ostrich', height:'2.7 m', rounded:3, dir:'up' },
+  { emoji:'🐆', name:'Cheetah', height:'0.8 m', rounded:1, dir:'up' },
+];
+function buildAnimalGrid() {
+  const grid = document.getElementById('animalGrid');
+  animals.forEach(a => {
+    const div = document.createElement('div');
+    div.style.cssText = 'background:white;border-radius:14px;padding:16px;text-align:center;cursor:pointer;border:3px solid #e2e8f0;transition:all 0.2s;';
+    div.innerHTML = `<div style="font-size:2.5rem">${a.emoji}</div>
+      <div style="font-weight:800;font-size:1rem;color:#1e293b;margin:6px 0">${a.name}</div>
+      <div style="font-size:1.1rem;font-weight:700;color:#d97706">${a.height}</div>
+      <div style="margin-top:8px;font-size:0.8rem;color:#94a3b8">👆 Tap to round!</div>
+      <div class="rounded-ans" style="display:none;margin-top:8px;font-size:1.1rem;font-weight:900;color:#10b981">≈ ${a.rounded} m ✅</div>`;
+    div.onclick = () => {
+      div.querySelector('.rounded-ans').style.display = 'block';
+      div.querySelector('div:nth-child(4)').style.display = 'none';
+      div.style.borderColor = '#10b981';
+    };
+    grid.appendChild(div);
+  });
+}
+buildAnimalGrid();
+
+// ===== DICE =====
+const diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+function rollDice() {
+  const d1 = Math.floor(Math.random() * 6) + 1;
+  const d2 = Math.floor(Math.random() * 6) + 1;
+  document.getElementById('dice1').textContent = diceFaces[d1 - 1];
+  document.getElementById('dice2').textContent = diceFaces[d2 - 1];
+  const num = parseFloat(`${d1}.${d2}`);
+  const rounded = d2 >= 5 ? d1 + 1 : d1;
+  const dir = d2 >= 5 ? 'UP ↑' : 'DOWN ↓';
+  document.getElementById('diceResult').innerHTML =
+    `Your number: <strong style="color:#d97706;font-size:1.4rem">${num}</strong><br>
+     Tenths digit = ${d2} → Round ${dir} → <strong style="color:#10b981">≈ ${rounded}</strong>`;
+}
+
+// ===== QUIZ =====
+const quizData = [
+  { q:'What is the value of digit 5 in 12 345.67?', opts:['5 000','500','50','5'], ans:2 },
+  { q:'358 × 100 = ?', opts:['3 580','35 800','3 580 000','358'], ans:1 },
+  { q:'Round 65.8 to the nearest whole number.', opts:['65','66','67','64'], ans:1 },
+  { q:'5600 ÷ 1000 = ?', opts:['560','56','5.6','0.56'], ans:2 },
+  { q:'Round 44.4 to the nearest whole number.', opts:['45','44','43','46'], ans:1 },
+  { q:'3.45 × 100 = ?', opts:['34.5','3450','345','0.345'], ans:2 },
+  { q:'What is the smallest number that rounds to 5?', opts:['4.5','5.0','4.0','5.4'], ans:0 },
+  { q:'Round 0.4 to the nearest whole number.', opts:['1','0','0.5','2'], ans:1 },
+  { q:'16.8 ÷ 10 = ?', opts:['168','1.68','0.168','16.08'], ans:1 },
+  { q:'Sofia × 10 × 10 × 10 = 20 000. What did she start with?', opts:['200','20','2000','2'], ans:1 },
+];
+let answered = {};
+function buildQuiz() {
+  const c = document.getElementById('quizContainer');
+  c.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    c.innerHTML += `<div class="quiz-q">
+      <p>⭐ Q${qi+1}: ${q.q}</p>
+      <div class="options">
+        ${q.opts.map((o,oi) => `<button class="opt-btn" onclick="answer(${qi},${oi})">${String.fromCharCode(65+oi)}. ${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${qi}"></div>
+    </div>`;
+  });
+}
+buildQuiz();
+function answer(qi, oi) {
+  if (answered[qi]) return;
+  answered[qi] = true;
+  const q = quizData[qi];
+  const btns = document.querySelectorAll(`#tab-quiz .quiz-q:nth-child(${qi+1}) .opt-btn`);
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('fb-' + qi);
+  if (oi === q.ans) {
+    btns[oi].classList.add('correct');
+    fb.textContent = '🎉 Correct! Brilliant!';
+    fb.className = 'feedback ok';
+    addStar();
+  } else {
+    btns[oi].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    fb.textContent = `❌ Not quite! Answer: ${q.opts[q.ans]}`;
+    fb.className = 'feedback err';
+  }
+  if (Object.keys(answered).length === quizData.length) showScore();
+}
+function showScore() {
+  const correct = Object.entries(answered).filter((_, i) => {
+    const fb = document.getElementById('fb-' + i);
+    return fb && fb.classList.contains('ok');
+  }).length;
+  let c = 0;
+  quizData.forEach((_,i) => {
+    const fb = document.getElementById('fb-'+i);
+    if (fb && fb.className.includes('ok')) c++;
+  });
+  const sd = document.getElementById('quizScore');
+  sd.style.display = 'block';
+  sd.innerHTML = `<div class="score-box">
+    <h3>🏆 Quiz Complete!</h3>
+    <div class="stars">${'⭐'.repeat(Math.min(c,5))}${'☆'.repeat(5-Math.min(c,5))}</div>
+    <p>You scored <strong>${c} / ${quizData.length}</strong></p>
+    <p>${c===10?'🎊 PERFECT! You are a Maths superstar!':c>=7?'🌟 Excellent work!':c>=5?'👍 Good effort!':'💪 Keep practising!'}</p>
+    <button class="btn btn-secondary" onclick="resetQuiz()" style="margin-top:12px">🔄 Try Again</button>
+  </div>`;
+  if (c >= 8) launchConfetti();
+}
+function resetQuiz() {
+  answered = {};
+  document.getElementById('quizScore').style.display = 'none';
+  buildQuiz();
+}
+
+// ===== CONFETTI =====
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const parts = [];
+  const cols = ['#d97706','#10b981','#3b82f6','#f43f5e','#8b5cf6','#fbbf24'];
+  for (let i = 0; i < 160; i++) {
+    parts.push({ x: Math.random()*canvas.width, y: -20, r: Math.random()*7+3,
+      color: cols[Math.floor(Math.random()*cols.length)], d: Math.random()*3+1, tilt: Math.random()*10 });
+  }
+  let f = 0;
+  function anim() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    parts.forEach(p => { p.y += p.d; p.tilt += 0.1;
+      ctx.beginPath(); ctx.fillStyle = p.color;
+      ctx.ellipse(p.x, p.y, p.r, p.r/2, p.tilt, 0, Math.PI*2); ctx.fill(); });
+    if (++f < 130) requestAnimationFrame(anim);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  anim();
+}
+</script>
+</body>
+</html>
