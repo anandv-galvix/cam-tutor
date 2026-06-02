@@ -8,7 +8,7 @@
   :root { color-scheme: light; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f0f4ff;
     color: #222;
     min-height: 100vh;
@@ -23,22 +23,19 @@
   .header h1 { font-size: 1.6em; margin-bottom: 4px; }
   .header p { font-size: 0.9em; opacity: 0.9; }
 
-  /* Progress Bar */
   .progress-wrap { background: rgba(255,255,255,0.2); border-radius: 20px; height: 12px; margin: 10px auto; max-width: 400px; }
   .progress-bar { height: 12px; border-radius: 20px; background: #f9c74f; transition: width 0.5s; }
   .progress-label { color: white; font-size: 0.8em; margin-top: 4px; }
 
-  /* Tabs */
   .tabs { display: flex; background: white; border-bottom: 3px solid #667eea; overflow-x: auto; }
   .tab-btn {
     flex: 1; padding: 12px 8px; border: none; background: none; cursor: pointer;
-    font-size: 0.8em; font-weight: 600; color: #666; transition: all 0.2s;
-    white-space: nowrap; min-width: 80px;
+    font-size: 0.78em; font-weight: 600; color: #666; transition: all 0.2s;
+    white-space: nowrap; min-width: 70px;
   }
   .tab-btn.active { background: #667eea; color: white; }
   .tab-btn:hover:not(.active) { background: #f0f4ff; color: #667eea; }
 
-  /* Sections */
   .section { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
   .section.active { display: block; }
 
@@ -49,7 +46,6 @@
   .card h2 { color: #667eea; margin-bottom: 12px; font-size: 1.2em; }
   .card h3 { color: #764ba2; margin-bottom: 8px; font-size: 1em; }
 
-  /* Triangle Explorer */
   .tri-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
   .tri-card {
     border-radius: 16px; padding: 16px; text-align: center; cursor: pointer;
@@ -82,7 +78,6 @@
   .badge.red { background: #fed7d7; color: #9b2c2c; }
   .badge.purple { background: #e9d8fd; color: #553c9a; }
 
-  /* Symmetry section */
   .sym-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
   .sym-card {
     border-radius: 14px; padding: 14px; text-align: center; cursor: pointer;
@@ -95,12 +90,10 @@
   .sym-answer { font-size: 0.8em; color: #667eea; margin-top: 4px; display: none; }
   .sym-card.answered .sym-answer { display: block; }
 
-  /* Pattern creator */
   .grid-container { display: flex; flex-direction: column; align-items: center; gap: 14px; }
   #patternGrid { border: 2px solid #667eea; border-radius: 8px; cursor: pointer; }
   .mirror-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
-  /* Quiz */
   .quiz-q {
     background: white; border-radius: 14px; padding: 18px;
     margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
@@ -120,7 +113,6 @@
   .feedback.ok { color: #276749; }
   .feedback.err { color: #9b2c2c; }
 
-  /* Buttons */
   .btn {
     display: inline-block; padding: 10px 22px; border-radius: 25px; border: none;
     font-size: 0.9em; font-weight: 700; cursor: pointer; transition: all 0.2s;
@@ -132,7 +124,6 @@
   .btn-green { background: linear-gradient(135deg, #48bb78, #38a169); color: white; }
   .btn-orange { background: linear-gradient(135deg, #ed8936, #dd6b20); color: white; }
 
-  /* Stars */
   .stars { font-size: 1.5em; letter-spacing: 3px; }
   .score-box {
     background: linear-gradient(135deg, #f6d365, #fda085); color: white;
@@ -141,10 +132,8 @@
   .score-box h3 { font-size: 1.4em; }
   .score-box p { margin-top: 6px; font-size: 0.9em; opacity: 0.9; }
 
-  /* Confetti canvas */
   #confettiCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
 
-  /* Think like a mathematician */
   .think-box {
     background: linear-gradient(135deg, #ffecd2, #fcb69f);
     border-radius: 16px; padding: 20px; margin: 14px 0;
@@ -152,14 +141,9 @@
   .think-box h3 { color: #744210; margin-bottom: 10px; }
   .think-box p { color: #553c00; font-size: 0.9em; line-height: 1.6; }
 
-  /* Angle types visual */
   .angle-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 10px 0; }
   .angle-item { text-align: center; }
   .angle-item .label { font-size: 0.75em; font-weight: 700; color: #4a5568; margin-top: 4px; }
-
-  /* number line */
-  .nl-wrap { margin: 14px 0; }
-  .nl-wrap canvas { max-width: 100%; border-radius: 8px; }
 
   .emoji-big { font-size: 2.5em; }
   .center { text-align: center; }
@@ -168,9 +152,139 @@
   .rule-list li { padding: 6px 0 6px 28px; position: relative; font-size: 0.9em; }
   .rule-list li::before { content: '✅'; position: absolute; left: 0; }
 
+  /* ===== SHORT ANSWER TAB ===== */
+  .sa-question {
+    background: white; border-radius: 14px; padding: 20px;
+    margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-left: 4px solid #667eea;
+  }
+  .sa-question p.q-text {
+    font-weight: 700; color: #333; margin-bottom: 12px; font-size: 0.95em; line-height: 1.5;
+  }
+  .sa-input-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .sa-input {
+    flex: 1; min-width: 180px; padding: 10px 16px; border: 2px solid #e2e8f0;
+    border-radius: 12px; font-size: 0.9em; font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .sa-input:focus { outline: none; border-color: #667eea; }
+  .sa-input.correct-input { border-color: #48bb78; background: #f0fff4; }
+  .sa-input.wrong-input { border-color: #fc8181; background: #fff5f5; }
+  .sa-check-btn {
+    padding: 10px 20px; border: none; border-radius: 12px; cursor: pointer;
+    font-size: 0.9em; font-weight: 700; background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white; transition: all 0.2s; white-space: nowrap;
+  }
+  .sa-check-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(102,126,234,0.4); }
+  .sa-check-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .sa-feedback {
+    margin-top: 10px; font-weight: 700; font-size: 0.9em; padding: 8px 12px;
+    border-radius: 10px; display: none;
+  }
+  .sa-feedback.correct { background: #c6f6d5; color: #276749; display: block; }
+  .sa-feedback.incorrect { background: #fed7d7; color: #9b2c2c; display: block; }
+  .sa-progress {
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    border-radius: 14px; padding: 16px 20px; margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+  }
+  .sa-progress .score-display { font-size: 1.1em; font-weight: 800; }
+  .sa-progress .stars-display { font-size: 1.3em; letter-spacing: 2px; }
+
+  /* ===== PRACTICE PAPER TAB ===== */
+  .paper-header {
+    background: white; border-radius: 16px; padding: 24px;
+    margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-top: 6px solid #667eea;
+  }
+  .paper-header h2 { color: #333; font-size: 1.3em; text-align: center; margin-bottom: 6px; }
+  .paper-header .subtitle { text-align: center; color: #667eea; font-size: 0.9em; margin-bottom: 18px; font-weight: 600; }
+  .paper-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .paper-field label { font-size: 0.8em; font-weight: 700; color: #4a5568; display: block; margin-bottom: 4px; }
+  .paper-field input {
+    width: 100%; border: none; border-bottom: 2px solid #e2e8f0; padding: 6px 4px;
+    font-family: inherit; font-size: 0.9em; background: transparent;
+    transition: border-color 0.2s;
+  }
+  .paper-field input:focus { outline: none; border-bottom-color: #667eea; }
+  .paper-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .paper-question {
+    background: white; border-radius: 14px; padding: 20px 24px;
+    margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .paper-question .q-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 14px; gap: 10px;
+  }
+  .paper-question .q-title { font-weight: 800; color: #333; font-size: 1em; flex: 1; }
+  .marks-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 700; white-space: nowrap;
+  }
+  .paper-question .sub-q {
+    padding: 10px 0; border-bottom: 1px solid #f0f4ff;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .paper-question .sub-q:last-child { border-bottom: none; }
+  .sub-label { font-weight: 700; color: #667eea; font-size: 0.9em; min-width: 20px; }
+  .sub-text { font-size: 0.9em; color: #333; flex: 1; line-height: 1.5; }
+  .answer-line {
+    border: none; border-bottom: 1px dotted #ccc; width: 100%;
+    min-height: 32px; margin-top: 8px; background: transparent;
+    font-family: inherit; font-size: 0.9em; resize: none;
+  }
+  .answer-line:focus { outline: none; border-bottom-color: #667eea; }
+  .answer-space {
+    min-height: 80px; border: 1px dashed #e2e8f0; border-radius: 8px;
+    margin-top: 10px; padding: 10px; background: #fafafa;
+    font-size: 0.85em; color: #aaa;
+  }
+  .worked-solutions {
+    background: #faf5ff; border-radius: 16px; padding: 24px;
+    margin-top: 20px; border: 2px solid #9f7aea;
+  }
+  .worked-solutions h3 { color: #764ba2; margin-bottom: 16px; font-size: 1.1em; }
+  .solution-item {
+    padding: 14px 0; border-bottom: 1px solid #e9d8fd;
+  }
+  .solution-item:last-child { border-bottom: none; }
+  .solution-item .s-header { font-weight: 800; color: #553c9a; margin-bottom: 8px; font-size: 0.95em; }
+  .solution-item .s-body { font-size: 0.88em; color: #444; line-height: 1.8; }
+  .solution-item .s-body .step {
+    background: white; border-radius: 8px; padding: 8px 12px; margin: 6px 0;
+    border-left: 3px solid #9f7aea;
+  }
+  .solution-item .s-body .answer {
+    background: #c6f6d5; border-radius: 8px; padding: 8px 12px; margin-top: 8px;
+    color: #276749; font-weight: 700;
+  }
+  .total-marks {
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    border-radius: 12px; padding: 16px 20px; margin: 20px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .total-marks span { font-size: 0.9em; opacity: 0.9; }
+  .total-marks strong { font-size: 1.3em; }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    .header, .tabs, .paper-controls, #confettiCanvas, .sa-question, #tab-triangles,
+    #tab-angles, #tab-symmetry, #tab-patterns, #tab-quiz, #tab-short-answer { display: none !important; }
+    #tab-paper { display: block !important; padding: 0; max-width: 100%; }
+    body { background: white; }
+    .paper-header { box-shadow: none; border-radius: 0; }
+    .paper-question { box-shadow: none; page-break-inside: avoid; }
+    .worked-solutions { display: none; }
+    .paper-header h2 { font-size: 1.5em; }
+    .answer-space { min-height: 100px; }
+    .answer-line { border-bottom: 1px solid #999; }
+  }
+
   @media(max-width: 600px) {
     .tri-grid { grid-template-columns: 1fr; }
     .options { grid-template-columns: 1fr; }
+    .paper-fields { grid-template-columns: 1fr; }
+    .sa-input-row { flex-direction: column; align-items: stretch; }
   }
 </style>
 </head>
@@ -179,8 +293,8 @@
 
 <div class="header" style="position:relative">
   <a href="index.html" style="display:inline-block;margin-bottom:10px;background:rgba(255,255,255,0.25);color:white;padding:6px 16px;border-radius:20px;text-decoration:none;font-size:0.85rem;font-weight:700;">← Back to Home</a>
-  <h1>🔺 Unit 2: 2D Shapes & Symmetry 🪞</h1>
-  <p>Cambridge Primary Mathematics • Stage 5</p>
+  <h1>🔺 Unit 2: 2D Shapes &amp; Symmetry 🪞</h1>
+  <p>Cambridge Primary Mathematics &bull; Stage 5</p>
   <div class="progress-wrap">
     <div class="progress-bar" id="progressBar" style="width:0%"></div>
   </div>
@@ -188,11 +302,13 @@
 </div>
 
 <div class="tabs">
-  <button class="tab-btn active" onclick="showTab('triangles')">🔺 Triangles</button>
-  <button class="tab-btn" onclick="showTab('angles')">📐 Angles</button>
-  <button class="tab-btn" onclick="showTab('symmetry')">🪞 Symmetry</button>
-  <button class="tab-btn" onclick="showTab('patterns')">🎨 Patterns</button>
-  <button class="tab-btn" onclick="showTab('quiz')">🧠 Quiz</button>
+  <button class="tab-btn active" onclick="showTab('triangles',this)">🔺 Triangles</button>
+  <button class="tab-btn" onclick="showTab('angles',this)">📐 Angles</button>
+  <button class="tab-btn" onclick="showTab('symmetry',this)">🪞 Symmetry</button>
+  <button class="tab-btn" onclick="showTab('patterns',this)">🎨 Patterns</button>
+  <button class="tab-btn" onclick="showTab('quiz',this)">🧠 Quiz</button>
+  <button class="tab-btn" onclick="showTab('short-answer',this)">📝 Short Answer</button>
+  <button class="tab-btn" onclick="showTab('paper',this)">📄 Practice Paper</button>
 </div>
 
 <!-- ============ TRIANGLES TAB ============ -->
@@ -201,11 +317,9 @@
     <h2>🔺 Meet the Triangle Family!</h2>
     <p style="color:#666; margin-bottom:14px; font-size:0.9em">Click each triangle to discover its superpowers! 👇</p>
     <div class="tri-grid">
-      <!-- Equilateral -->
-      <div class="tri-card equilateral" onclick="showTriInfo('equilateral')">
+      <div class="tri-card equilateral" onclick="showTriInfo('equilateral',event)">
         <svg width="90" height="80" viewBox="0 0 90 80">
           <polygon points="45,5 85,75 5,75" fill="#38a169" opacity="0.8" stroke="#276749" stroke-width="2"/>
-          <!-- tick marks -->
           <line x1="25" y1="40" x2="20" y2="45" stroke="#276749" stroke-width="2"/>
           <line x1="27" y1="43" x2="22" y2="48" stroke="#276749" stroke-width="2"/>
           <line x1="65" y1="40" x2="70" y2="45" stroke="#276749" stroke-width="2"/>
@@ -216,8 +330,7 @@
         <div class="tri-name">Equilateral</div>
         <div class="tri-desc">All sides equal ✓</div>
       </div>
-      <!-- Isosceles -->
-      <div class="tri-card isosceles" onclick="showTriInfo('isosceles')">
+      <div class="tri-card isosceles" onclick="showTriInfo('isosceles',event)">
         <svg width="90" height="80" viewBox="0 0 90 80">
           <polygon points="45,5 80,75 10,75" fill="#ed8936" opacity="0.8" stroke="#dd6b20" stroke-width="2"/>
           <line x1="27" y1="40" x2="22" y2="45" stroke="#dd6b20" stroke-width="2"/>
@@ -226,8 +339,7 @@
         <div class="tri-name">Isosceles</div>
         <div class="tri-desc">2 sides equal ✓</div>
       </div>
-      <!-- Scalene -->
-      <div class="tri-card scalene" onclick="showTriInfo('scalene')">
+      <div class="tri-card scalene" onclick="showTriInfo('scalene',event)">
         <svg width="90" height="80" viewBox="0 0 90 80">
           <polygon points="15,75 75,75 60,10" fill="#48bb78" opacity="0.8" stroke="#38a169" stroke-width="2"/>
         </svg>
@@ -278,7 +390,6 @@
     <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
       <div>
         <svg width="200" height="120" viewBox="0 0 200 120">
-          <!-- Tessellating equilateral triangles -->
           <polygon points="10,110 50,110 30,40" fill="#a8edea" stroke="#667eea" stroke-width="1.5"/>
           <polygon points="50,110 90,110 70,40" fill="#fed6e3" stroke="#667eea" stroke-width="1.5"/>
           <polygon points="90,110 130,110 110,40" fill="#a8edea" stroke="#667eea" stroke-width="1.5"/>
@@ -372,10 +483,8 @@
     <h2>🪞 What is Symmetry?</h2>
     <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
       <svg width="150" height="130" viewBox="0 0 150 130">
-        <!-- Butterfly-like symmetric shape -->
         <ellipse cx="50" cy="65" rx="35" ry="50" fill="#fed6e3" stroke="#f687b3" stroke-width="2" opacity="0.8"/>
         <ellipse cx="100" cy="65" rx="35" ry="50" fill="#a8edea" stroke="#38b2ac" stroke-width="2" opacity="0.8"/>
-        <!-- mirror line -->
         <line x1="75" y1="5" x2="75" y2="125" stroke="#667eea" stroke-width="3" stroke-dasharray="6,4"/>
         <text x="60" y="125" font-size="10" fill="#667eea" font-weight="bold">mirror</text>
         <text x="64" y="136" font-size="10" fill="#667eea" font-weight="bold">line</text>
@@ -399,16 +508,13 @@
     <h2>🌸 Symmetry in Rangoli Patterns</h2>
     <p style="font-size:0.9em; color:#666; margin-bottom:14px">Rangoli patterns use symmetry beautifully! How many lines of symmetry can you spot?</p>
     <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
-      <!-- Pattern 1: 4-fold symmetry -->
       <div style="text-align:center;">
         <svg width="140" height="140" viewBox="0 0 140 140">
           <rect width="140" height="140" fill="#fff9f0" rx="10"/>
-          <!-- 4-fold symmetric rangoli -->
           <polygon points="70,10 90,50 130,70 90,90 70,130 50,90 10,70 50,50" fill="#fed6e3" stroke="#f687b3" stroke-width="1.5"/>
           <polygon points="70,25 85,55 115,70 85,85 70,115 55,85 25,70 55,55" fill="#a8edea" stroke="#38b2ac" stroke-width="1.5"/>
           <circle cx="70" cy="70" r="18" fill="#ffecd2" stroke="#ed8936" stroke-width="2"/>
           <circle cx="70" cy="70" r="8" fill="#667eea"/>
-          <!-- mirror lines -->
           <line x1="70" y1="0" x2="70" y2="140" stroke="#9f7aea" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
           <line x1="0" y1="70" x2="140" y2="70" stroke="#9f7aea" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
           <line x1="0" y1="0" x2="140" y2="140" stroke="#9f7aea" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
@@ -417,7 +523,6 @@
         <div style="font-size:0.8em; margin-top:8px; font-weight:700; color:#764ba2;">Pattern A</div>
         <div style="font-size:0.75em; color:#667eea;">8 lines of symmetry! 🌟</div>
       </div>
-      <!-- Pattern 2: 2-fold symmetry -->
       <div style="text-align:center;">
         <svg width="140" height="140" viewBox="0 0 140 140">
           <rect width="140" height="140" fill="#f0fff4" rx="10"/>
@@ -477,29 +582,23 @@
       <div style="text-align:center;">
         <svg width="220" height="130" viewBox="0 0 220 130">
           <rect width="220" height="130" fill="#f8f9fa" rx="8"/>
-          <!-- Grid left -->
           <rect x="10" y="10" width="88" height="88" fill="#e2e8f0" rx="4"/>
-          <!-- shaded squares -->
           <rect x="10" y="10" width="22" height="22" fill="#667eea" rx="2"/>
           <rect x="32" y="10" width="22" height="22" fill="#667eea" rx="2"/>
           <rect x="10" y="32" width="22" height="22" fill="#48bb78" rx="2"/>
           <rect x="54" y="54" width="22" height="22" fill="#ed8936" rx="2"/>
-          <!-- mirror line -->
           <line x1="110" y1="5" x2="110" y2="125" stroke="#764ba2" stroke-width="3" stroke-dasharray="6,4"/>
           <text x="100" y="122" font-size="9" fill="#764ba2" font-weight="bold">mirror</text>
-          <!-- Grid right (reflection) -->
           <rect x="122" y="10" width="88" height="88" fill="#e2e8f0" rx="4"/>
           <rect x="188" y="10" width="22" height="22" fill="#667eea" rx="2"/>
           <rect x="166" y="10" width="22" height="22" fill="#667eea" rx="2"/>
           <rect x="188" y="32" width="22" height="22" fill="#48bb78" rx="2"/>
           <rect x="144" y="54" width="22" height="22" fill="#ed8936" rx="2"/>
-          <!-- arrow -->
           <text x="91" y="68" font-size="18">↔</text>
         </svg>
         <div style="font-size:0.78em; color:#667eea; font-weight:700; margin-top:4px;">Reflection in a vertical mirror line</div>
       </div>
     </div>
-
     <div class="info-box green" style="margin-top:14px;">
       <strong>Remember the rules! 📏</strong><br>
       • Each point reflects to the <strong>same distance</strong> on the other side<br>
@@ -519,10 +618,307 @@
   </div>
 </div>
 
+<!-- ============ SHORT ANSWER TAB ============ -->
+<div id="tab-short-answer" class="section">
+  <div class="sa-progress">
+    <div>
+      <div class="score-display">📝 Short Answer Practice</div>
+      <div style="font-size:0.85em; opacity:0.9; margin-top:4px;">Type your answer and press Check to see if you're right!</div>
+    </div>
+    <div>
+      <div class="stars-display" id="saStarsDisplay">☆☆☆☆☆☆☆☆</div>
+      <div style="font-size:0.8em; text-align:right; margin-top:4px;" id="saScoreText">0 / 8 correct</div>
+    </div>
+  </div>
+  <div id="saContainer"></div>
+  <div id="saComplete" style="display:none;">
+    <div class="score-box">
+      <h3>🎉 All questions answered!</h3>
+      <div class="stars" id="saFinalStars"></div>
+      <p id="saFinalMsg" style="margin-top:8px;"></p>
+      <button class="btn btn-primary" onclick="resetShortAnswer()" style="margin-top:12px;">🔄 Try Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRACTICE PAPER TAB ============ -->
+<div id="tab-paper" class="section">
+  <div class="paper-header">
+    <h2>Unit 2 Practice Paper</h2>
+    <div class="subtitle">2D Shapes &amp; Symmetry &bull; Cambridge Primary Mathematics Stage 5</div>
+    <div class="paper-fields">
+      <div class="paper-field">
+        <label>Name:</label>
+        <input type="text" placeholder="Write your name here">
+      </div>
+      <div class="paper-field">
+        <label>Date:</label>
+        <input type="text" placeholder="DD / MM / YYYY">
+      </div>
+      <div class="paper-field">
+        <label>Score:</label>
+        <input type="text" placeholder="     / 20">
+      </div>
+    </div>
+    <div class="total-marks" style="margin-top:16px; border-radius:10px;">
+      <span>Total marks available</span>
+      <strong>20 marks</strong>
+    </div>
+  </div>
+
+  <div class="paper-controls">
+    <button class="btn btn-primary" onclick="toggleSolutions()">📖 Show / Hide Worked Solutions</button>
+    <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Paper</button>
+  </div>
+
+  <!-- Question 1 -->
+  <div class="paper-question">
+    <div class="q-header">
+      <div class="q-title">Question 1 — Name each type of triangle.</div>
+      <div class="marks-badge">3 marks</div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">a)</div>
+      <div class="sub-text">
+        A triangle where all three sides measure 5 cm. What type of triangle is it?
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">b)</div>
+      <div class="sub-text">
+        A triangle with sides of 3 cm, 3 cm and 5 cm. What type of triangle is it?
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">c)</div>
+      <div class="sub-text">
+        A triangle with sides of 3 cm, 4 cm and 5 cm. What type of triangle is it?
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="paper-question">
+    <div class="q-header">
+      <div class="q-title">Question 2 — How many lines of symmetry does each shape have?</div>
+      <div class="marks-badge">4 marks</div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">a)</div>
+      <div class="sub-text">
+        An equilateral triangle.
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">b)</div>
+      <div class="sub-text">
+        An isosceles triangle.
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">c)</div>
+      <div class="sub-text">
+        A scalene triangle.
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">d)</div>
+      <div class="sub-text">
+        A square.
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 3 -->
+  <div class="paper-question">
+    <div class="q-header">
+      <div class="q-title">Question 3 — True or False? Circle your answer.</div>
+      <div class="marks-badge">3 marks</div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">a)</div>
+      <div class="sub-text">
+        A scalene triangle can have a right angle. &nbsp;&nbsp;
+        <strong>TRUE</strong> &nbsp;/&nbsp; <strong>FALSE</strong>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">b)</div>
+      <div class="sub-text">
+        An equilateral triangle can have an obtuse angle. &nbsp;&nbsp;
+        <strong>TRUE</strong> &nbsp;/&nbsp; <strong>FALSE</strong>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">c)</div>
+      <div class="sub-text">
+        All triangles can tessellate. &nbsp;&nbsp;
+        <strong>TRUE</strong> &nbsp;/&nbsp; <strong>FALSE</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 4 -->
+  <div class="paper-question">
+    <div class="q-header">
+      <div class="q-title">Question 4 — Draw or describe the following triangles, and state their type.</div>
+      <div class="marks-badge">4 marks</div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">a)</div>
+      <div class="sub-text">
+        Draw or describe a triangle that has <strong>0 lines of symmetry</strong>. State what type it is.
+        <div class="answer-space">Draw here or write a description...</div>
+        <textarea class="answer-line" rows="1" placeholder="Type of triangle: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">b)</div>
+      <div class="sub-text">
+        Draw or describe a triangle that has <strong>exactly 1 line of symmetry</strong>. State what type it is.
+        <div class="answer-space">Draw here or write a description...</div>
+        <textarea class="answer-line" rows="1" placeholder="Type of triangle: "></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 5 -->
+  <div class="paper-question">
+    <div class="q-header">
+      <div class="q-title">Question 5 — A triangle has angles of 60°, 60° and 60°.</div>
+      <div class="marks-badge">3 marks</div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">a)</div>
+      <div class="sub-text">
+        What type of triangle is it?
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">b)</div>
+      <div class="sub-text">
+        How many lines of symmetry does it have?
+        <textarea class="answer-line" rows="1" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label">c)</div>
+      <div class="sub-text">
+        Can this triangle tessellate? Explain your answer.
+        <textarea class="answer-line" rows="2" placeholder="Answer: "></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 6 -->
+  <div class="paper-question">
+    <div class="q-header">
+      <div class="q-title">Question 6 — Explain why a triangle cannot have two right angles. Show your working using numbers.</div>
+      <div class="marks-badge">3 marks</div>
+    </div>
+    <div class="sub-q">
+      <div class="sub-label"></div>
+      <div class="sub-text">
+        <div class="answer-space" style="min-height:120px;">Working and explanation here...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Worked Solutions (hidden by default) -->
+  <div id="workedSolutions" class="worked-solutions" style="display:none;">
+    <h3>📖 Worked Solutions</h3>
+
+    <div class="solution-item">
+      <div class="s-header">Question 1 — Triangle Types (3 marks)</div>
+      <div class="s-body">
+        <div class="step">a) All three sides = 5 cm → all sides are <strong>equal</strong></div>
+        <div class="answer">Answer: Equilateral triangle ✓ (1 mark)</div>
+        <div class="step">b) Two sides = 3 cm, one side = 5 cm → <strong>two sides are equal</strong></div>
+        <div class="answer">Answer: Isosceles triangle ✓ (1 mark)</div>
+        <div class="step">c) Sides are 3 cm, 4 cm, 5 cm → all sides are <strong>different</strong></div>
+        <div class="answer">Answer: Scalene triangle ✓ (1 mark)</div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div class="s-header">Question 2 — Lines of Symmetry (4 marks)</div>
+      <div class="s-body">
+        <div class="step">a) Equilateral triangle: 3 equal sides → fold along any of the 3 "height" lines → 3 matches</div>
+        <div class="answer">Answer: 3 lines of symmetry ✓ (1 mark)</div>
+        <div class="step">b) Isosceles triangle: exactly 2 equal sides → only 1 fold works (down the middle between equal sides)</div>
+        <div class="answer">Answer: 1 line of symmetry ✓ (1 mark)</div>
+        <div class="step">c) Scalene triangle: all sides different, all angles different → no fold works</div>
+        <div class="answer">Answer: 0 lines of symmetry ✓ (1 mark)</div>
+        <div class="step">d) A square: fold vertically ✓, horizontally ✓, diagonally both ways ✓✓ → 4 folds work</div>
+        <div class="answer">Answer: 4 lines of symmetry ✓ (1 mark)</div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div class="s-header">Question 3 — True or False (3 marks)</div>
+      <div class="s-body">
+        <div class="step">a) A scalene triangle can have a right angle.<br>A scalene triangle has all different angles. One of those different angles can be 90°, as long as the other two are different from each other and the total is 180°. (e.g. 90°, 60°, 30° = 180°)</div>
+        <div class="answer">Answer: TRUE ✓ (1 mark)</div>
+        <div class="step">b) An equilateral triangle can have an obtuse angle.<br>An equilateral triangle always has angles of exactly 60°, 60°, 60°. An obtuse angle is more than 90°. 60° is not obtuse.</div>
+        <div class="answer">Answer: FALSE ✓ (1 mark)</div>
+        <div class="step">c) All triangles can tessellate.<br>Every triangle — equilateral, isosceles and scalene — can tile a surface with no gaps or overlaps. You can always flip a triangle to fit next to itself.</div>
+        <div class="answer">Answer: TRUE ✓ (1 mark)</div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div class="s-header">Question 4 — Draw/Describe Triangles (4 marks)</div>
+      <div class="s-body">
+        <div class="step">a) 0 lines of symmetry → needs to have all different sides and angles</div>
+        <div class="answer">Answer: A <strong>scalene</strong> triangle (e.g. sides 3 cm, 4 cm, 5 cm). No line can fold it so both halves match. ✓✓ (2 marks: 1 for triangle description, 1 for correct type name)</div>
+        <div class="step">b) Exactly 1 line of symmetry → needs exactly 2 equal sides</div>
+        <div class="answer">Answer: An <strong>isosceles</strong> triangle (e.g. sides 5 cm, 5 cm, 3 cm). Only the fold down the middle between the two equal sides works. ✓✓ (2 marks)</div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div class="s-header">Question 5 — Triangle with 60°, 60°, 60° (3 marks)</div>
+      <div class="s-body">
+        <div class="step">a) All three angles are equal (60° = 60° = 60°) → all angles equal means all sides are equal</div>
+        <div class="answer">Answer: Equilateral triangle ✓ (1 mark)</div>
+        <div class="step">b) Equilateral triangles have 3 lines of symmetry (one from each vertex to the midpoint of the opposite side)</div>
+        <div class="answer">Answer: 3 lines of symmetry ✓ (1 mark)</div>
+        <div class="step">c) Can it tessellate? All triangles can tessellate — you can fit equilateral triangles together by flipping them to fill the space with no gaps.</div>
+        <div class="answer">Answer: Yes, it can tessellate. All triangles tessellate. ✓ (1 mark)</div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div class="s-header">Question 6 — Why Can't a Triangle Have Two Right Angles? (3 marks)</div>
+      <div class="s-body">
+        <div class="step"><strong>Rule:</strong> All angles in any triangle must add up to exactly 180°.</div>
+        <div class="step"><strong>Working:</strong><br>
+          One right angle = 90°<br>
+          Two right angles = 90° + 90° = 180°<br>
+          But that uses up ALL of the 180° for just two angles!<br>
+          The third angle would have to be: 180° − 180° = 0°<br>
+          An angle of 0° is impossible — the triangle would just be a straight line, not a triangle at all.
+        </div>
+        <div class="answer">
+          Full answer: The angles in a triangle always add up to 180°. Two right angles = 90° + 90° = 180°. There would be no degrees left for the third angle (it would be 0°), so the shape cannot be a triangle. ✓✓✓ (3 marks: 1 for the rule, 1 for the calculation, 1 for a clear explanation)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ===================== STATE =====================
 let totalStars = 0;
-let maxStars = 10;
+let maxStars = 18; // 10 quiz + 8 short answer
 let selectedColor = '#667eea';
 let patternColors = [
   '#667eea','#48bb78','#ed8936','#fc8181','#f6e05e',
@@ -532,11 +928,11 @@ let gridData = Array(5).fill(null).map(() => Array(5).fill('#fff'));
 let quizAnswered = {};
 
 // ===================== TABS =====================
-function showTab(name) {
+function showTab(name, btnEl) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  event.target.classList.add('active');
+  if (btnEl) btnEl.classList.add('active');
 }
 
 // ===================== TRIANGLE INFO =====================
@@ -572,7 +968,7 @@ const triData = {
     color: '#f7ffe6', border: '#68d391'
   }
 };
-function showTriInfo(type) {
+function showTriInfo(type, ev) {
   const d = triData[type];
   const box = document.getElementById('triInfoBox');
   box.style.display = 'block';
@@ -580,7 +976,7 @@ function showTriInfo(type) {
   box.style.borderColor = d.border;
   box.innerHTML = `<strong>${d.emoji} ${d.title}</strong><br>${d.text}`;
   document.querySelectorAll('.tri-card').forEach(c => c.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
+  if (ev && ev.currentTarget) ev.currentTarget.classList.add('selected');
 }
 
 // ===================== IDENTIFY TRIANGLES =====================
@@ -732,7 +1128,6 @@ function checkSymmetry() {
 }
 
 function autoSymmetry() {
-  // Mirror left half to right
   for (let r=0; r<COLS; r++) {
     for (let c=0; c<Math.floor(COLS/2); c++) {
       gridData[r][COLS-1-c] = gridData[r][c];
@@ -826,7 +1221,7 @@ function answerQ(qi, oi) {
     opts[oi].classList.add('correct');
     fb.textContent = '🎉 Correct! Well done!';
     fb.className = 'feedback ok';
-    addStar(true);
+    addStar();
   } else {
     opts[oi].classList.add('wrong');
     opts[q.ans].classList.add('correct');
@@ -838,13 +1233,6 @@ function answerQ(qi, oi) {
 
 function checkQuizComplete() {
   if (Object.keys(quizAnswered).length === quizData.length) {
-    const score = Object.values(quizAnswered).length; // all answered
-    let correct = 0;
-    quizData.forEach((q,qi) => {
-      const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
-      if (opts[q.ans] && opts[q.ans].classList.contains('correct') && !document.querySelector(`#opts-${qi} .opt-btn.wrong`)) correct++;
-    });
-    // Count by checking feedback
     let c = 0;
     quizData.forEach((_,qi) => {
       const fb = document.getElementById(`fb-${qi}`);
@@ -871,12 +1259,160 @@ function resetQuiz() {
   buildQuiz();
 }
 
-// ===================== STARS & PROGRESS =====================
-function addStar(fromQuiz) {
-  if (fromQuiz) {
-    totalStars = Math.min(totalStars + 1, maxStars);
-    updateProgress();
+// ===================== SHORT ANSWER =====================
+const shortAnswerData = [
+  {
+    q: 'An equilateral triangle has all sides equal. How many lines of symmetry does it have?',
+    accepted: ['3'],
+    display: '3'
+  },
+  {
+    q: 'A triangle has sides of length 4 cm, 4 cm and 6 cm. What type of triangle is it?',
+    accepted: ['isosceles'],
+    display: 'Isosceles'
+  },
+  {
+    q: 'How many lines of symmetry does a scalene triangle have?',
+    accepted: ['0'],
+    display: '0'
+  },
+  {
+    q: 'What do we call the angle that is exactly 90°?',
+    accepted: ['right angle', 'right'],
+    display: 'Right angle'
+  },
+  {
+    q: 'Can a triangle have two right angles? Type yes or no.',
+    accepted: ['no'],
+    display: 'No'
+  },
+  {
+    q: 'What is the name for shapes fitting together with no gaps and no overlaps?',
+    accepted: ['tessellation', 'tessellate'],
+    display: 'Tessellation'
+  },
+  {
+    q: 'How many lines of symmetry does an isosceles triangle have?',
+    accepted: ['1'],
+    display: '1'
+  },
+  {
+    q: 'All three angles in any triangle add up to how many degrees?',
+    accepted: ['180', '180°', '180 degrees'],
+    display: '180°'
   }
+];
+
+let saAnswered = 0;
+let saCorrect = 0;
+
+function buildShortAnswer() {
+  const container = document.getElementById('saContainer');
+  container.innerHTML = '';
+  saAnswered = 0;
+  saCorrect = 0;
+  updateSAProgress();
+
+  shortAnswerData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'sa-question';
+    div.id = `sa-q-${i}`;
+    div.innerHTML = `
+      <p class="q-text">Q${i+1}: ${item.q}</p>
+      <div class="sa-input-row">
+        <input type="text" class="sa-input" id="sa-input-${i}" placeholder="Type your answer here..."
+               onkeydown="if(event.key==='Enter') checkSA(${i})">
+        <button class="sa-check-btn" id="sa-btn-${i}" onclick="checkSA(${i})">Check ✓</button>
+      </div>
+      <div class="sa-feedback" id="sa-fb-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkSA(i) {
+  const input = document.getElementById(`sa-input-${i}`);
+  const fb = document.getElementById(`sa-fb-${i}`);
+  const btn = document.getElementById(`sa-btn-${i}`);
+  if (btn.disabled) return;
+
+  const userAnswer = input.value.trim().toLowerCase();
+  if (!userAnswer) {
+    fb.className = 'sa-feedback incorrect';
+    fb.textContent = '⚠️ Please type an answer first!';
+    return;
+  }
+
+  const item = shortAnswerData[i];
+  const isCorrect = item.accepted.some(a => userAnswer === a.toLowerCase() || userAnswer.replace(/[°\s]/g,'') === a.toLowerCase().replace(/[°\s]/g,''));
+
+  btn.disabled = true;
+  input.disabled = true;
+  saAnswered++;
+
+  if (isCorrect) {
+    input.classList.add('correct-input');
+    fb.className = 'sa-feedback correct';
+    fb.innerHTML = `✅ Correct! ⭐ Star earned!`;
+    saCorrect++;
+    addStar();
+  } else {
+    input.classList.add('wrong-input');
+    fb.className = 'sa-feedback incorrect';
+    fb.innerHTML = `❌ Not quite. The correct answer is: <strong>${item.display}</strong>`;
+  }
+
+  updateSAProgress();
+
+  if (saAnswered === shortAnswerData.length) {
+    showSAComplete();
+  }
+}
+
+function updateSAProgress() {
+  const stars = '⭐'.repeat(saCorrect) + '☆'.repeat(shortAnswerData.length - saCorrect);
+  document.getElementById('saStarsDisplay').textContent = stars;
+  document.getElementById('saScoreText').textContent = `${saCorrect} / ${shortAnswerData.length} correct`;
+}
+
+function showSAComplete() {
+  const completeDiv = document.getElementById('saComplete');
+  completeDiv.style.display = 'block';
+  document.getElementById('saFinalStars').textContent = '⭐'.repeat(saCorrect) + '☆'.repeat(shortAnswerData.length - saCorrect);
+  const msgs = [
+    [8, '🎊 Perfect score! You are a shapes superstar!'],
+    [6, '🌟 Brilliant work! Nearly perfect!'],
+    [4, '👍 Good effort! Review the answers above and try again.'],
+    [0, '💪 Keep practising — you\'re getting there!']
+  ];
+  const msg = msgs.find(([min]) => saCorrect >= min);
+  document.getElementById('saFinalMsg').textContent = msg[1];
+  if (saCorrect >= 7) launchConfetti();
+  completeDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetShortAnswer() {
+  document.getElementById('saComplete').style.display = 'none';
+  buildShortAnswer();
+}
+
+buildShortAnswer();
+
+// ===================== PRACTICE PAPER =====================
+function toggleSolutions() {
+  const el = document.getElementById('workedSolutions');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+// ===================== STARS & PROGRESS =====================
+function addStar() {
+  totalStars = Math.min(totalStars + 1, maxStars);
+  updateProgress();
 }
 
 function updateProgress() {

@@ -126,7 +126,109 @@
   #confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
 
   .center { text-align:center; }
-  @media(max-width:600px) { .options { grid-template-columns:1fr; } }
+
+  /* ===== SHORT ANSWER TAB ===== */
+  .sa-question {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-left: 5px solid #d97706;
+    transition: border-color 0.3s;
+  }
+  .sa-question.answered-correct { border-color: #10b981; }
+  .sa-question.answered-wrong { border-color: #f87171; }
+  .sa-qnum { display:inline-block; background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border-radius:50%; width:32px; height:32px; line-height:32px; text-align:center; font-weight:900; font-size:0.9rem; margin-right:8px; }
+  .sa-qtext { font-weight:700; color:#1e293b; font-size:1rem; margin-bottom:14px; }
+  .sa-input-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .sa-input { padding:10px 16px; border:2px solid #d97706; border-radius:12px; font-size:1.1rem; font-weight:700; font-family:inherit; width:180px; text-align:center; outline:none; }
+  .sa-input:focus { border-color:#f59e0b; box-shadow:0 0 0 3px rgba(217,119,6,0.15); }
+  .sa-check-btn { padding:10px 20px; background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border:none; border-radius:25px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+  .sa-check-btn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(217,119,6,0.35); }
+  .sa-check-btn:disabled { background:#e2e8f0; color:#94a3b8; cursor:not-allowed; transform:none; box-shadow:none; }
+  .sa-feedback { margin-top:10px; font-size:0.95rem; font-weight:700; min-height:24px; }
+  .sa-feedback.sa-ok { color:#065f46; }
+  .sa-feedback.sa-err { color:#991b1b; }
+  .sa-star { display:inline-block; animation:starPop 0.4s ease; }
+  @keyframes starPop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.4)} 100%{transform:scale(1);opacity:1} }
+  .sa-score-banner { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border-radius:18px; padding:20px; text-align:center; margin-top:20px; }
+
+  /* ===== PRACTICE PAPER TAB ===== */
+  .paper-header-bar {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: white; border-radius: 16px; padding: 20px 24px; margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .paper-header-bar h2 { font-size: 1.1rem; font-weight: 900; }
+  .paper-header-bar p { font-size: 0.82rem; opacity: 0.85; margin-top: 4px; }
+  .paper-btn-row { display:flex; gap:10px; flex-wrap:wrap; }
+  .paper-meta { background:white; border-radius:14px; padding:18px; margin-bottom:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  .paper-meta-field { display:flex; flex-direction:column; gap:4px; }
+  .paper-meta-field label { font-size:0.78rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; }
+  .paper-meta-field input { border:none; border-bottom:2px solid #e2e8f0; padding:6px 4px; font-size:1rem; font-weight:700; font-family:inherit; background:transparent; outline:none; }
+  .paper-meta-field input:focus { border-color:#d97706; }
+
+  .pp-question {
+    background: white;
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .pp-qheader { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+  .pp-qnum { font-size:1rem; font-weight:900; color:#d97706; }
+  .pp-marks { background:#fef9c3; color:#92400e; padding:4px 12px; border-radius:20px; font-size:0.78rem; font-weight:700; white-space:nowrap; }
+  .pp-qbody { font-size:0.95rem; line-height:1.8; color:#1e293b; }
+  .pp-subq { padding:6px 0; display:flex; align-items:baseline; gap:8px; }
+  .pp-subq-label { font-weight:700; color:#d97706; min-width:20px; }
+  .pp-answer-line { flex:1; border-bottom:2px dotted #cbd5e1; min-width:160px; height:24px; }
+  .pp-working-area { border:2px dashed #e2e8f0; border-radius:10px; padding:14px; min-height:80px; margin-top:10px; background:#f8fafc; font-size:0.85rem; color:#94a3b8; }
+
+  .solutions-section { display:none; }
+  .solutions-section.visible { display:block; }
+  .sol-card { background:linear-gradient(135deg,#f0fff4,#dcfce7); border-radius:14px; padding:18px 20px; margin-bottom:14px; border-left:5px solid #10b981; }
+  .sol-card h4 { color:#065f46; font-size:0.95rem; margin-bottom:10px; }
+  .sol-step { font-size:0.88rem; color:#1e293b; line-height:1.7; padding:3px 0; }
+  .sol-step strong { color:#d97706; }
+  .sol-final { background:#d1fae5; border-radius:8px; padding:8px 12px; margin-top:8px; font-weight:700; color:#065f46; font-size:0.9rem; }
+
+  .btn-toggle-sol { background:linear-gradient(135deg,#10b981,#059669); color:white; }
+  .btn-toggle-sol:hover { box-shadow:0 6px 20px rgba(16,185,129,0.4); transform:translateY(-2px); }
+  .btn-print { background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; }
+  .btn-print:hover { box-shadow:0 6px 20px rgba(59,130,246,0.4); transform:translateY(-2px); }
+
+  .total-marks-bar { background:linear-gradient(135deg,#1e293b,#334155); color:white; border-radius:12px; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .total-marks-bar span { font-size:0.9rem; }
+  .total-marks-bar strong { font-size:1.1rem; }
+
+  @media(max-width:600px) {
+    .options { grid-template-columns:1fr; }
+    .paper-meta { grid-template-columns:1fr; }
+    .sa-input-row { flex-direction:column; align-items:flex-start; }
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    body { background: white !important; }
+    .header, .tabs, .back-btn, .prog-wrap, .prog-label,
+    .paper-btn-row, .btn-toggle-sol, .btn-print,
+    #tab-placevalue, #tab-machine, #tab-rounding,
+    #tab-practice, #tab-quiz, #tab-shortanswer,
+    #confettiCanvas { display:none !important; }
+    #tab-paper { display:block !important; padding: 0 !important; max-width:100% !important; }
+    .paper-header-bar { background: white !important; color: black !important; border: 2px solid black; border-radius:0; padding:12px; }
+    .paper-header-bar h2 { font-size:1.3rem; color:black; }
+    .paper-header-bar p { color:#333; }
+    .paper-meta { border: 2px solid black; border-radius:0; box-shadow:none; }
+    .paper-meta-field input { border-bottom: 2px solid black; }
+    .pp-question { box-shadow:none; border:1px solid #ccc; border-radius:0; page-break-inside:avoid; }
+    .pp-answer-line { border-bottom: 2px solid #333; }
+    .pp-working-area { border: 2px solid #ccc; background:white; color:#888; }
+    .pp-marks { background: #eee; color: black; border: 1px solid #999; }
+    .solutions-section { display: none !important; }
+    .total-marks-bar { background:white !important; color:black !important; border:2px solid black; border-radius:0; }
+  }
 </style>
 </head>
 <body>
@@ -137,7 +239,7 @@
   <h1>🔢 Unit 1: The Number System</h1>
   <p>Place Value • Decimals • Rounding — Cambridge Primary Maths Stage 5</p>
   <div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
-  <div class="prog-label" id="progLabel">⭐ 0 / 10 stars</div>
+  <div class="prog-label" id="progLabel">⭐ 0 / 18 stars</div>
 </div>
 
 <div class="tabs">
@@ -146,6 +248,8 @@
   <button class="tab-btn" onclick="showTab('rounding',this)">🔵 Rounding</button>
   <button class="tab-btn" onclick="showTab('practice',this)">✏️ Practice</button>
   <button class="tab-btn" onclick="showTab('quiz',this)">🧠 Quiz</button>
+  <button class="tab-btn" onclick="showTab('shortanswer',this)">📝 Short Answer</button>
+  <button class="tab-btn" onclick="showTab('paper',this)">📄 Practice Paper</button>
 </div>
 
 <!-- ===== PLACE VALUE TAB ===== -->
@@ -393,14 +497,280 @@
   </div>
 </div>
 
+<!-- ===== SHORT ANSWER TAB ===== -->
+<div id="tab-shortanswer" class="section">
+  <div class="card">
+    <h2>📝 Short Answer Questions</h2>
+    <p style="color:#64748b;font-size:0.9rem;margin-bottom:16px">Type your answer and press <strong>Check ✓</strong> to see if you're right. Earn a star for each correct answer! ⭐</p>
+  </div>
+
+  <div id="saContainer"></div>
+
+  <div id="saFinalScore" style="display:none;">
+    <div class="sa-score-banner">
+      <div style="font-size:2rem;margin-bottom:8px">🏆</div>
+      <div style="font-size:1.4rem;font-weight:900" id="saScoreText"></div>
+      <div style="font-size:1rem;margin-top:6px;opacity:0.9" id="saScoreMsg"></div>
+      <button class="btn btn-secondary" onclick="resetShortAnswer()" style="margin-top:14px">🔄 Try Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRACTICE PAPER TAB ===== -->
+<div id="tab-paper" class="section">
+
+  <div class="paper-header-bar">
+    <div>
+      <h2>📄 Unit 1 Practice Paper — The Number System</h2>
+      <p>Cambridge Primary Mathematics Stage 5 &nbsp;|&nbsp; Time: 30 minutes &nbsp;|&nbsp; Total: 20 marks</p>
+    </div>
+    <div class="paper-btn-row">
+      <button class="btn btn-toggle-sol" onclick="toggleSolutions()">✏️ Show Worked Solutions</button>
+      <button class="btn btn-print" onclick="window.print()">🖨️ Print Paper</button>
+    </div>
+  </div>
+
+  <div class="paper-meta">
+    <div class="paper-meta-field">
+      <label>Name</label>
+      <input type="text" placeholder="Write your name here">
+    </div>
+    <div class="paper-meta-field">
+      <label>Date</label>
+      <input type="text" placeholder="e.g. 2 June 2026">
+    </div>
+    <div class="paper-meta-field">
+      <label>Score</label>
+      <input type="text" placeholder="__ / 20">
+    </div>
+  </div>
+
+  <div class="total-marks-bar">
+    <span>Instructions: Show all working clearly. Circle your final answer where required.</span>
+    <strong>Total: 20 marks</strong>
+  </div>
+
+  <!-- Question 1 -->
+  <div class="pp-question">
+    <div class="pp-qheader">
+      <span class="pp-qnum">Question 1</span>
+      <span class="pp-marks">3 marks</span>
+    </div>
+    <div class="pp-qbody">
+      <p style="margin-bottom:12px">Write the value of the digit <strong>3</strong> in each of these numbers.</p>
+      <div class="pp-subq">
+        <span class="pp-subq-label">a)</span>
+        <span>606 456.<strong>3</strong>5</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">b)</span>
+        <span><strong>3</strong> 030.03</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">c)</span>
+        <span>100 <strong>3</strong>00.7</span>
+        <div class="pp-answer-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="pp-question">
+    <div class="pp-qheader">
+      <span class="pp-qnum">Question 2</span>
+      <span class="pp-marks">4 marks</span>
+    </div>
+    <div class="pp-qbody">
+      <p style="margin-bottom:12px">Write each of the following in digits.</p>
+      <div class="pp-subq">
+        <span class="pp-subq-label">a)</span>
+        <span>100 000 + 3 000 + 500 + 7 + 0.9</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq" style="margin-top:8px">
+        <span class="pp-subq-label">b)</span>
+        <span>600 000 + 60 000 + 600 + 6 + 0.06</span>
+        <div class="pp-answer-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 3 -->
+  <div class="pp-question">
+    <div class="pp-qheader">
+      <span class="pp-qnum">Question 3</span>
+      <span class="pp-marks">3 marks</span>
+    </div>
+    <div class="pp-qbody">
+      <p style="margin-bottom:12px">Write the missing numbers.</p>
+      <div class="pp-subq">
+        <span class="pp-subq-label">a)</span>
+        <span>358 × 100 =</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">b)</span>
+        <span>2 700 ÷</span>
+        <div class="pp-answer-line" style="max-width:80px"></div>
+        <span>= 27</span>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">c)</span>
+        <div class="pp-answer-line" style="max-width:80px"></div>
+        <span>× 1 000 = 8 000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 4 -->
+  <div class="pp-question">
+    <div class="pp-qheader">
+      <span class="pp-qnum">Question 4</span>
+      <span class="pp-marks">4 marks</span>
+    </div>
+    <div class="pp-qbody">
+      <p style="margin-bottom:12px">Round each number to the nearest whole number.</p>
+      <div class="pp-subq">
+        <span class="pp-subq-label">a)</span>
+        <span>65.8 ≈</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">b)</span>
+        <span>101.1 ≈</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">c)</span>
+        <span>44.4 ≈</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">d)</span>
+        <span>55.5 ≈</span>
+        <div class="pp-answer-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 5 -->
+  <div class="pp-question">
+    <div class="pp-qheader">
+      <span class="pp-qnum">Question 5</span>
+      <span class="pp-marks">3 marks</span>
+    </div>
+    <div class="pp-qbody">
+      <p>Sofia multiplies a number by 10, then by 10 again, then by 10 once more. Her answer is <strong>20 000</strong>.</p>
+      <p style="margin-top:8px">What number did Sofia start with? Show your working.</p>
+      <div class="pp-working-area" style="min-height:100px;margin-top:12px">
+        Working space...
+      </div>
+      <div class="pp-subq" style="margin-top:12px">
+        <span style="font-weight:700">Answer:</span>
+        <div class="pp-answer-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 6 -->
+  <div class="pp-question">
+    <div class="pp-qheader">
+      <span class="pp-qnum">Question 6</span>
+      <span class="pp-marks">3 marks</span>
+    </div>
+    <div class="pp-qbody">
+      <p>A decimal number with one decimal place rounds to <strong>231</strong> when rounded to the nearest whole number.</p>
+      <p style="margin-top:8px;margin-bottom:12px">What is the <em>smallest</em> possible value of this number? What is the <em>largest</em> possible value? Explain your reasoning.</p>
+      <div class="pp-subq">
+        <span class="pp-subq-label">Smallest:</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq">
+        <span class="pp-subq-label">Largest:</span>
+        <div class="pp-answer-line"></div>
+      </div>
+      <div class="pp-subq" style="display:block;margin-top:10px">
+        <span class="pp-subq-label" style="display:block;margin-bottom:6px">Explanation:</span>
+        <div class="pp-working-area">Write your explanation here...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Worked Solutions (hidden by default) -->
+  <div id="solutionsSection" class="solutions-section" style="margin-top:24px;">
+    <div class="card" style="border:3px solid #10b981;">
+      <h2 style="color:#065f46;">✏️ Worked Solutions</h2>
+      <p style="color:#64748b;font-size:0.88rem;margin-bottom:16px">Step-by-step answers for each question.</p>
+
+      <div class="sol-card">
+        <h4>Question 1 — Value of Digit 3 (3 marks)</h4>
+        <div class="sol-step">a) 606 456.<strong>3</strong>5 → The 3 is in the <strong>tenths</strong> column → value = <strong>0.3</strong></div>
+        <div class="sol-step">b) <strong>3</strong> 030.03 → The 3 is in the <strong>millions… wait</strong> — 3 030.03 is a 4-digit number → The 3 is in the <strong>thousands</strong> column → value = <strong>3 000</strong></div>
+        <div class="sol-step">c) 100 <strong>3</strong>00.7 → The 3 is in the <strong>hundreds</strong> column → value = <strong>300</strong></div>
+        <div class="sol-final">Answers: a) 0.3 &nbsp;|&nbsp; b) 3 000 &nbsp;|&nbsp; c) 300</div>
+      </div>
+
+      <div class="sol-card">
+        <h4>Question 2 — Write in Digits (4 marks)</h4>
+        <div class="sol-step">a) 100 000 + 3 000 + 500 + 7 + 0.9</div>
+        <div class="sol-step">= 100 000 + 3 000 + 500 + 7 + 0.9 = <strong>103 507.9</strong></div>
+        <div class="sol-step" style="margin-top:8px">b) 600 000 + 60 000 + 600 + 6 + 0.06</div>
+        <div class="sol-step">= 660 606.06</div>
+        <div class="sol-final">Answers: a) 103 507.9 &nbsp;|&nbsp; b) 660 606.06</div>
+      </div>
+
+      <div class="sol-card">
+        <h4>Question 3 — Missing Numbers (3 marks)</h4>
+        <div class="sol-step">a) 358 × 100 → digits shift 2 places LEFT → <strong>35 800</strong></div>
+        <div class="sol-step">b) 2 700 ÷ ? = 27 → 2 700 ÷ 27 = 100, so the missing number is <strong>100</strong></div>
+        <div class="sol-step">c) ? × 1 000 = 8 000 → 8 000 ÷ 1 000 = <strong>8</strong></div>
+        <div class="sol-final">Answers: a) 35 800 &nbsp;|&nbsp; b) 100 &nbsp;|&nbsp; c) 8</div>
+      </div>
+
+      <div class="sol-card">
+        <h4>Question 4 — Rounding (4 marks)</h4>
+        <div class="sol-step">a) 65.8 → tenths digit = 8 (≥5) → Round UP → <strong>66</strong></div>
+        <div class="sol-step">b) 101.1 → tenths digit = 1 (&lt;5) → Round DOWN → <strong>101</strong></div>
+        <div class="sol-step">c) 44.4 → tenths digit = 4 (&lt;5) → Round DOWN → <strong>44</strong></div>
+        <div class="sol-step">d) 55.5 → tenths digit = 5 (≥5) → Round UP → <strong>56</strong></div>
+        <div class="sol-final">Answers: a) 66 &nbsp;|&nbsp; b) 101 &nbsp;|&nbsp; c) 44 &nbsp;|&nbsp; d) 56</div>
+      </div>
+
+      <div class="sol-card">
+        <h4>Question 5 — Sofia's Number (3 marks)</h4>
+        <div class="sol-step">Sofia multiplied by 10 three times, so she multiplied by 10 × 10 × 10 = <strong>1 000</strong></div>
+        <div class="sol-step">To find the starting number, divide by 1 000:</div>
+        <div class="sol-step">20 000 ÷ 1 000 = <strong>20</strong></div>
+        <div class="sol-step" style="margin-top:4px">Check: 20 × 10 = 200 → × 10 = 2 000 → × 10 = 20 000 ✓</div>
+        <div class="sol-final">Answer: Sofia started with <strong>20</strong></div>
+      </div>
+
+      <div class="sol-card">
+        <h4>Question 6 — Smallest and Largest (3 marks)</h4>
+        <div class="sol-step">We need a 1 d.p. number that rounds to 231.</div>
+        <div class="sol-step"><strong>Rounds UP to 231:</strong> tenths digit must be 5, 6, 7, 8 or 9 → but whole part must be 230 → e.g. 230.5, 230.6 … 230.9</div>
+        <div class="sol-step"><strong>Rounds DOWN to 231:</strong> tenths digit must be 0, 1, 2, 3 or 4 → whole part is 231 → e.g. 231.0, 231.1 … 231.4</div>
+        <div class="sol-step" style="margin-top:6px"><strong>Smallest possible:</strong> 230.5 (tenths = 5 → rounds UP to 231)</div>
+        <div class="sol-step"><strong>Largest possible:</strong> 231.4 (tenths = 4 → rounds DOWN to 231)</div>
+        <div class="sol-final">Smallest: 230.5 &nbsp;|&nbsp; Largest: 231.4</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end tab-paper -->
+
 <script>
 // ===== STARS =====
 let stars = 0;
+const MAX_STARS = 18; // 10 quiz + 8 short answer
 function addStar() {
-  stars = Math.min(stars + 1, 10);
-  document.getElementById('progBar').style.width = (stars * 10) + '%';
-  document.getElementById('progLabel').textContent = `⭐ ${stars} / 10 stars`;
-  if (stars >= 10) launchConfetti();
+  stars = Math.min(stars + 1, MAX_STARS);
+  document.getElementById('progBar').style.width = (stars / MAX_STARS * 100) + '%';
+  document.getElementById('progLabel').textContent = `⭐ ${stars} / ${MAX_STARS} stars`;
+  if (stars >= MAX_STARS) launchConfetti();
 }
 
 // ===== TABS =====
@@ -424,14 +794,11 @@ function showVal(cell, digit, position, name, value) {
 // ===== DECOMPOSE =====
 function showDecomp() {
   const val = document.getElementById('decompSelect').value;
-  const num = parseFloat(val);
-  const parts = [];
   const n = val.replace(' ', '');
   const [whole, dec] = n.split('.');
-  const digits = whole.split('').reverse();
-  const places = ['ones','tens','hundreds','thousands','ten-thousands','hundred-thousands'];
+  const parts = [];
   const mults = [1, 10, 100, 1000, 10000, 100000];
-  digits.forEach((d, i) => {
+  whole.split('').reverse().forEach((d, i) => {
     if (d !== '0') parts.push(`<span class="badge yellow">${parseInt(d) * mults[i]}</span>`);
   });
   if (dec) {
@@ -516,10 +883,8 @@ function drawNumberLine() {
   const margin = 60;
   const lineY = H / 2 + 10;
   ctx.clearRect(0, 0, W, H);
-  // Line
   ctx.strokeStyle = '#d97706'; ctx.lineWidth = 4;
   ctx.beginPath(); ctx.moveTo(margin, lineY); ctx.lineTo(W - margin, lineY); ctx.stroke();
-  // Ticks
   [lo, hi].forEach((n, i) => {
     const x = margin + i * (W - 2 * margin);
     ctx.strokeStyle = '#92400e'; ctx.lineWidth = 3;
@@ -527,23 +892,19 @@ function drawNumberLine() {
     ctx.fillStyle = '#1e293b'; ctx.font = 'bold 18px Nunito, sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(n, x, lineY + 32);
   });
-  // Midpoint tick
   const midX = (margin + W - margin) / 2;
   ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(midX, lineY - 8); ctx.lineTo(midX, lineY + 8); ctx.stroke();
   ctx.fillStyle = '#94a3b8'; ctx.font = '13px Nunito,sans-serif';
   ctx.fillText((lo + 0.5).toFixed(1), midX, lineY - 16);
-  // Point
   const frac = val - lo;
   const px = margin + frac * (W - 2 * margin);
   ctx.fillStyle = '#d97706';
   ctx.beginPath(); ctx.arc(px, lineY, 10, 0, Math.PI * 2); ctx.fill();
   ctx.fillStyle = 'white'; ctx.font = 'bold 13px Nunito,sans-serif';
   ctx.fillText(val, px, lineY + 4);
-  // Label above
   ctx.fillStyle = '#7c3aed'; ctx.font = 'bold 15px Nunito,sans-serif';
   ctx.fillText(val, px, lineY - 22);
-  // Result
   const tenths = Math.round((val % 1) * 10);
   const rounded = tenths >= 5 ? hi : lo;
   const dir = tenths >= 5 ? 'UP ↑' : 'DOWN ↓';
@@ -643,10 +1004,6 @@ function answer(qi, oi) {
   if (Object.keys(answered).length === quizData.length) showScore();
 }
 function showScore() {
-  const correct = Object.entries(answered).filter((_, i) => {
-    const fb = document.getElementById('fb-' + i);
-    return fb && fb.classList.contains('ok');
-  }).length;
   let c = 0;
   quizData.forEach((_,i) => {
     const fb = document.getElementById('fb-'+i);
@@ -667,6 +1024,163 @@ function resetQuiz() {
   answered = {};
   document.getElementById('quizScore').style.display = 'none';
   buildQuiz();
+}
+
+// ===== SHORT ANSWER =====
+const saData = [
+  {
+    q: 'Write 200 000 + 6 000 + 300 + 2 + 0.1 in digits.',
+    answer: '206302.1',
+    hint: 'Add up each part carefully. Don\'t forget the decimal!',
+    acceptFn: (v) => {
+      // Accept with or without spaces as thousands separators
+      const clean = v.replace(/\s/g, '');
+      return clean === '206302.1' || clean === '206,302.1';
+    }
+  },
+  {
+    q: 'What is the value of the digit 7 in 70 213.8?',
+    answer: '70000',
+    hint: 'The 7 is the leading digit. What column is it in?',
+    acceptFn: (v) => {
+      const clean = v.replace(/[\s,]/g, '');
+      return clean === '70000' || clean === '70,000';
+    }
+  },
+  {
+    q: '3.45 × 100 = ?',
+    answer: '345',
+    hint: 'Multiplying by 100 shifts digits 2 places to the left.',
+    acceptFn: (v) => v.trim() === '345'
+  },
+  {
+    q: 'Round 65.8 to the nearest whole number.',
+    answer: '66',
+    hint: 'Look at the tenths digit. Is it 5 or more?',
+    acceptFn: (v) => v.trim() === '66'
+  },
+  {
+    q: 'Sofia multiplies a number by 10 three times and gets 20 000. What number did she start with?',
+    answer: '20',
+    hint: 'Multiplying by 10 three times is the same as × 1000. So divide 20 000 by 1000.',
+    acceptFn: (v) => v.trim() === '20'
+  },
+  {
+    q: '16.8 ÷ 10 = ?',
+    answer: '1.68',
+    hint: 'Dividing by 10 shifts all digits one place to the right.',
+    acceptFn: (v) => v.trim() === '1.68'
+  },
+  {
+    q: 'Round 55.5 to the nearest whole number.',
+    answer: '56',
+    hint: 'The tenths digit is 5. Which direction do we round?',
+    acceptFn: (v) => v.trim() === '56'
+  },
+  {
+    q: 'What number is 1 000 times smaller than 4 400?',
+    answer: '4.4',
+    hint: 'Dividing by 1000 shifts digits 3 places to the right.',
+    acceptFn: (v) => v.trim() === '4.4'
+  },
+];
+
+let saAnswered = {};
+
+function buildShortAnswer() {
+  const container = document.getElementById('saContainer');
+  container.innerHTML = '';
+  saData.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'sa-question';
+    div.id = 'sa-q-' + i;
+    div.innerHTML = `
+      <div class="sa-qtext">
+        <span class="sa-qnum">${i + 1}</span>${q.q}
+      </div>
+      <div class="sa-input-row">
+        <input class="sa-input" type="text" id="sa-input-${i}" placeholder="Your answer…" onkeydown="if(event.key==='Enter')checkSA(${i})">
+        <button class="sa-check-btn" id="sa-btn-${i}" onclick="checkSA(${i})">Check ✓</button>
+      </div>
+      <div class="sa-feedback" id="sa-fb-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('saFinalScore').style.display = 'none';
+}
+
+function checkSA(i) {
+  if (saAnswered[i]) return;
+  const input = document.getElementById('sa-input-' + i);
+  const fb = document.getElementById('sa-fb-' + i);
+  const btn = document.getElementById('sa-btn-' + i);
+  const qDiv = document.getElementById('sa-q-' + i);
+  const val = input.value.trim();
+  if (!val) {
+    fb.textContent = '⚠️ Please type an answer first!';
+    fb.className = 'sa-feedback sa-err';
+    return;
+  }
+  saAnswered[i] = true;
+  input.disabled = true;
+  btn.disabled = true;
+
+  if (saData[i].acceptFn(val)) {
+    qDiv.classList.add('answered-correct');
+    fb.innerHTML = `<span class="sa-star">✅</span> Correct! <span class="sa-star">⭐ Star earned!</span>`;
+    fb.className = 'sa-feedback sa-ok';
+    addStar();
+  } else {
+    qDiv.classList.add('answered-wrong');
+    fb.innerHTML = `❌ Not quite. The correct answer is <strong>${saData[i].answer}</strong>. <em style="color:#64748b;font-size:0.85rem">${saData[i].hint}</em>`;
+    fb.className = 'sa-feedback sa-err';
+  }
+
+  if (Object.keys(saAnswered).length === saData.length) {
+    showSAScore();
+  }
+}
+
+function showSAScore() {
+  let correct = 0;
+  saData.forEach((_, i) => {
+    const fb = document.getElementById('sa-fb-' + i);
+    if (fb && fb.className.includes('sa-ok')) correct++;
+  });
+  const scoreDiv = document.getElementById('saFinalScore');
+  scoreDiv.style.display = 'block';
+  document.getElementById('saScoreText').textContent = `You scored ${correct} / ${saData.length}`;
+  const msgs = {
+    8: '🎊 PERFECT! Outstanding work — every answer correct!',
+    7: '🌟 Brilliant! Almost perfect!',
+    6: '👏 Great effort — you know most of this!',
+    5: '👍 Good work! Review the ones you missed.',
+    0: '💪 Keep practising — you can do this!'
+  };
+  const key = correct >= 8 ? 8 : correct >= 7 ? 7 : correct >= 6 ? 6 : correct >= 5 ? 5 : 0;
+  document.getElementById('saScoreMsg').textContent = msgs[key];
+  if (correct >= 7) launchConfetti();
+  scoreDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetShortAnswer() {
+  saAnswered = {};
+  buildShortAnswer();
+}
+
+buildShortAnswer();
+
+// ===== PRACTICE PAPER =====
+function toggleSolutions() {
+  const sec = document.getElementById('solutionsSection');
+  const btn = document.querySelector('.btn-toggle-sol');
+  sec.classList.toggle('visible');
+  if (sec.classList.contains('visible')) {
+    btn.textContent = '🙈 Hide Worked Solutions';
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    btn.textContent = '✏️ Show Worked Solutions';
+  }
 }
 
 // ===== CONFETTI =====

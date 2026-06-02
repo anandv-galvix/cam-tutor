@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3: Numbers & Sequences 🔢</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 50%, #fef3c7 100%); min-height: 100vh; }
+
+/* HEADER */
+.header { background: linear-gradient(90deg, #0f766e, #0d9488, #14b8a6); color: white; padding: 24px 20px; text-align: center; box-shadow: 0 4px 20px rgba(15,118,110,0.4); }
+.header h1 { font-size: clamp(1.4rem,5vw,2.2rem); font-weight: 900; text-shadow: 2px 3px 6px rgba(0,0,0,0.2); }
+.header p { margin-top: 6px; font-size: 0.95rem; opacity: 0.95; }
+.back-btn { display:inline-block; margin-bottom:12px; background:rgba(255,255,255,0.25); color:white; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:0.85rem; font-weight:700; }
+.back-btn:hover { background:rgba(255,255,255,0.4); }
+.prog-wrap { background:rgba(255,255,255,0.3); border-radius:20px; height:12px; margin:12px auto; max-width:440px; }
+.prog-bar { height:12px; border-radius:20px; background:#fbbf24; transition:width 0.5s; width:0%; }
+.prog-label { font-size:0.82rem; color:white; margin-top:4px; }
+
+/* TABS */
+.tabs { display:flex; background:white; border-bottom:3px solid #0f766e; overflow-x:auto; }
+.tab-btn { flex:1; padding:11px 6px; border:none; background:none; cursor:pointer; font-size:0.77rem; font-weight:700; color:#666; transition:all 0.2s; white-space:nowrap; min-width:72px; font-family:inherit; }
+.tab-btn.active { background:#0f766e; color:white; }
+.tab-btn:hover:not(.active) { background:#f0fdf4; color:#0f766e; }
+
+/* SECTIONS */
+.section { display:none; padding:20px; max-width:920px; margin:0 auto; }
+.section.active { display:block; }
+
+/* CARDS */
+.card { background:white; border-radius:18px; padding:22px; margin-bottom:18px; box-shadow:0 4px 16px rgba(0,0,0,0.08); }
+.card h2 { color:#0f766e; margin-bottom:12px; font-size:1.2rem; }
+.card h3 { color:#134e4a; margin-bottom:8px; font-size:1rem; }
+
+/* INFO BOXES */
+.info-box { background:#f0fdf4; border-left:4px solid #0f766e; border-radius:0 12px 12px 0; padding:14px 16px; margin:12px 0; font-size:0.9rem; line-height:1.6; }
+.info-box.amber { background:#fffbeb; border-color:#d97706; }
+.info-box.blue { background:#eff6ff; border-color:#3b82f6; }
+.info-box.pink { background:#fdf2f8; border-color:#ec4899; }
+.info-box.red { background:#fff1f2; border-color:#f43f5e; }
+
+.rule-box { background:linear-gradient(135deg,#ccfbf1,#99f6e4); border-radius:16px; padding:18px; margin:14px 0; }
+.rule-box h3 { color:#134e4a; margin-bottom:10px; }
+.rule-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; font-size:0.9rem; border-bottom:1px solid rgba(15,118,110,0.15); }
+.rule-item:last-child { border-bottom:none; }
+.rule-num { background:#0f766e; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0; font-size:0.85rem; }
+
+.think-box { background:linear-gradient(135deg,#fce7f3,#fbcfe8); border-radius:16px; padding:20px; margin:14px 0; }
+.think-box h3 { color:#9d174d; margin-bottom:10px; }
+.think-box p { color:#831843; font-size:0.9rem; line-height:1.6; }
+
+.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:700; margin:2px; }
+.badge.teal { background:#ccfbf1; color:#134e4a; }
+.badge.amber { background:#fef9c3; color:#92400e; }
+.badge.blue { background:#dbeafe; color:#1e40af; }
+.badge.red { background:#fee2e2; color:#991b1b; }
+.badge.purple { background:#f3e8ff; color:#6b21a8; }
+
+/* BUTTONS */
+.btn { display:inline-block; padding:10px 22px; border-radius:25px; border:none; font-size:0.9rem; font-weight:800; cursor:pointer; transition:all 0.2s; margin:4px; font-family:inherit; }
+.btn-teal { background:linear-gradient(135deg,#0f766e,#0d9488); color:white; }
+.btn-teal:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(15,118,110,0.4); }
+.btn-amber { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; }
+.btn-amber:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(217,119,6,0.4); }
+.btn-secondary { background:#e2e8f0; color:#4a5568; }
+
+/* SEQUENCE BUILDER */
+.seq-display { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:14px 0; min-height:60px; }
+.seq-term { background:linear-gradient(135deg,#0f766e,#0d9488); color:white; border-radius:12px; padding:12px 16px; font-size:1.2rem; font-weight:900; min-width:52px; text-align:center; transition:all 0.3s; }
+.seq-term.negative { background:linear-gradient(135deg,#e11d48,#f43f5e); }
+.seq-term.zero { background:linear-gradient(135deg,#6366f1,#8b5cf6); }
+.seq-arrow { font-size:1rem; color:#0f766e; font-weight:700; }
+.seq-controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:10px 0; }
+.seq-input { padding:8px 12px; border:2px solid #0f766e; border-radius:12px; font-size:1rem; font-weight:700; width:90px; text-align:center; font-family:inherit; }
+.seq-label { font-size:0.85rem; font-weight:700; color:#134e4a; }
+
+/* NUMBER LINE (sequences) */
+#seqCanvas { max-width:100%; border-radius:10px; display:block; margin:0 auto; }
+
+/* SQUARE/TRIANGULAR DOTS */
+.dot-pattern { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end; margin:14px 0; }
+.dot-grid { text-align:center; }
+.dot-grid canvas { display:block; margin:0 auto; }
+.dot-label { font-size:0.8rem; font-weight:700; color:#0f766e; margin-top:6px; }
+
+/* SIEVE GRID */
+.sieve-wrap { overflow-x:auto; margin:14px 0; }
+#sieveGrid { display:grid; grid-template-columns:repeat(10,1fr); gap:4px; max-width:460px; margin:0 auto; }
+.sieve-cell { aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:8px; font-size:0.8rem; font-weight:800; cursor:pointer; transition:all 0.2s; border:2px solid #e2e8f0; background:white; color:#1e293b; user-select:none; }
+.sieve-cell.eliminated { background:#f1f5f9; color:#cbd5e1; border-color:#f1f5f9; text-decoration:line-through; }
+.sieve-cell.prime { background:linear-gradient(135deg,#0f766e,#0d9488); color:white; border-color:#0f766e; }
+.sieve-cell.current { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border-color:#d97706; transform:scale(1.1); }
+.sieve-cell.one { background:#f3e8ff; color:#7c3aed; border-color:#c4b5fd; }
+.sieve-btn-row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:10px 0; }
+.sieve-legend { display:flex; gap:16px; flex-wrap:wrap; margin:10px 0; font-size:0.8rem; font-weight:700; }
+.legend-item { display:flex; align-items:center; gap:6px; }
+.legend-dot { width:18px; height:18px; border-radius:5px; flex-shrink:0; }
+
+/* QUIZ */
+.quiz-q { background:white; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.07); }
+.quiz-q p { font-weight:700; margin-bottom:12px; color:#1e293b; font-size:0.95rem; }
+.options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.opt-btn { padding:10px 14px; border:2px solid #e2e8f0; border-radius:12px; background:white; cursor:pointer; font-size:0.85rem; font-weight:700; transition:all 0.2s; text-align:left; font-family:inherit; }
+.opt-btn:hover { border-color:#0f766e; background:#f0fdf4; }
+.opt-btn.correct { background:#d1fae5; border-color:#10b981; color:#065f46; }
+.opt-btn.wrong { background:#fee2e2; border-color:#f87171; color:#991b1b; }
+.opt-btn:disabled { cursor:not-allowed; opacity:0.8; }
+.feedback { font-size:0.85rem; margin-top:8px; font-weight:700; min-height:20px; }
+.feedback.ok { color:#065f46; }
+.feedback.err { color:#991b1b; }
+
+/* SHORT ANSWER */
+.sa-q { background:white; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.07); border-left:4px solid #e2e8f0; transition:border-color 0.3s; }
+.sa-q.correct-border { border-color:#10b981; }
+.sa-q.wrong-border { border-color:#f87171; }
+.sa-q p { font-weight:700; color:#1e293b; font-size:0.95rem; margin-bottom:10px; }
+.sa-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.sa-input { padding:9px 14px; border:2px solid #0f766e; border-radius:12px; font-size:1rem; font-weight:700; font-family:inherit; width:180px; }
+.sa-input:focus { outline:none; border-color:#0d9488; box-shadow:0 0 0 3px rgba(15,118,110,0.15); }
+.sa-result { font-size:0.9rem; font-weight:700; min-height:22px; margin-top:8px; }
+.sa-result.ok { color:#065f46; }
+.sa-result.err { color:#991b1b; }
+.sa-stars { display:flex; gap:4px; flex-wrap:wrap; margin:14px 0; font-size:1.4rem; letter-spacing:2px; }
+
+/* PRACTICE PAPER */
+.paper { background:white; border-radius:18px; padding:30px; box-shadow:0 4px 20px rgba(0,0,0,0.1); font-size:0.9rem; line-height:1.7; }
+.paper-header { text-align:center; border-bottom:3px double #0f766e; padding-bottom:16px; margin-bottom:22px; }
+.paper-header h2 { font-size:1.3rem; color:#0f766e; font-weight:900; }
+.paper-header p { color:#475569; font-size:0.85rem; }
+.paper-fields { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:14px 0; }
+.paper-field { border-bottom:2px solid #334155; padding:4px 0; font-size:0.85rem; color:#475569; }
+.paper-field span { font-weight:700; color:#1e293b; }
+.pq { margin-bottom:24px; }
+.pq-header { display:flex; justify-content:space-between; align-items:center; background:#f0fdf4; border-radius:10px; padding:10px 14px; margin-bottom:10px; }
+.pq-header strong { color:#0f766e; font-size:1rem; }
+.marks { background:#0f766e; color:white; border-radius:20px; padding:3px 12px; font-size:0.8rem; font-weight:700; }
+.ans-line { border-bottom:1px dashed #94a3b8; margin:10px 0; height:28px; }
+.ans-box { border:1px dashed #94a3b8; border-radius:8px; padding:10px; min-height:60px; margin:8px 0; color:#94a3b8; font-size:0.8rem; }
+.sub-q { margin:8px 0 8px 16px; }
+.sub-q span { font-weight:700; color:#0f766e; margin-right:6px; }
+.sol-section { display:none; margin-top:20px; border-top:3px solid #0f766e; padding-top:18px; }
+.sol-item { background:#f0fdf4; border-radius:12px; padding:14px; margin-bottom:12px; }
+.sol-item strong { color:#0f766e; }
+.sol-item .working { background:white; border-radius:8px; padding:10px; margin-top:8px; font-size:0.85rem; color:#374151; }
+
+/* SCORE */
+.score-box { background:linear-gradient(135deg,#0f766e,#0d9488); color:white; border-radius:18px; padding:22px; text-align:center; margin:16px 0; }
+.score-box h3 { font-size:1.4rem; }
+.stars-row { font-size:1.5rem; letter-spacing:4px; margin:8px 0; }
+
+/* CONFETTI */
+#confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
+
+@media(max-width:600px) {
+  .options { grid-template-columns:1fr; }
+  .paper-fields { grid-template-columns:1fr; }
+  #sieveGrid { gap:3px; }
+  .sieve-cell { font-size:0.7rem; }
+}
+
+/* PRINT */
+@media print {
+  .header, .tabs, .section:not(#tab-paper), canvas, .btn, .sieve-wrap, .think-box { display:none !important; }
+  #tab-paper { display:block !important; padding:0; }
+  .sol-section { display:none !important; }
+  .paper { box-shadow:none; padding:0; }
+  body { background:white; }
+}
+</style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+
+<div class="header">
+  <a href="index.html" class="back-btn">← Back to Home</a>
+  <h1>🔢 Unit 3: Numbers &amp; Sequences</h1>
+  <p>Sequences • Square &amp; Triangular Numbers • Prime Numbers — Cambridge Primary Maths Stage 5</p>
+  <div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
+  <div class="prog-label" id="progLabel">⭐ 0 / 18 stars earned</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('sequences',this)">📈 Sequences</button>
+  <button class="tab-btn" onclick="showTab('squaretri',this)">🔷 Square &amp; △</button>
+  <button class="tab-btn" onclick="showTab('primes',this)">🔑 Primes</button>
+  <button class="tab-btn" onclick="showTab('quiz',this)">🧠 MCQ Quiz</button>
+  <button class="tab-btn" onclick="showTab('shortanswer',this)">📝 Short Answer</button>
+  <button class="tab-btn" onclick="showTab('paper',this)">📄 Practice Paper</button>
+</div>
+
+<!-- ===== TAB 1: SEQUENCES ===== -->
+<div id="tab-sequences" class="section active">
+
+  <div class="card">
+    <h2>📈 What is a Linear Sequence?</h2>
+    <p style="color:#475569;font-size:0.9rem;margin-bottom:14px">A sequence is a list of numbers that follow a rule. In a <strong>linear sequence</strong>, you add or subtract the <em>same amount</em> each time — that's the <strong>term-to-term rule</strong>! 🚀</p>
+    <div class="info-box">
+      <strong>Key Words:</strong><br>
+      <span class="badge teal">Term</span> — each number in the sequence<br>
+      <span class="badge amber">Term-to-term rule</span> — what you do to get from one term to the next<br>
+      <span class="badge blue">Linear sequence</span> — the jump size stays the same every time
+    </div>
+    <div class="info-box amber" style="margin-top:10px">
+      <strong>🥞 Pancake Example:</strong><br>
+      1 cup → 8 pancakes, 2 cups → 16 pancakes, 3 cups → 24 pancakes<br>
+      The sequence <strong>8, 16, 24, 32…</strong> has term-to-term rule: <strong>add 8</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎛️ Sequence Builder</h2>
+    <p style="color:#475569;font-size:0.9rem;margin-bottom:14px">Set your first term and jump size — watch the sequence appear! 🎯</p>
+    <div class="seq-controls">
+      <div>
+        <div class="seq-label">First term</div>
+        <input type="number" id="seqStart" class="seq-input" value="1" oninput="buildSeq()">
+      </div>
+      <div>
+        <div class="seq-label">Jump size (+ or −)</div>
+        <input type="number" id="seqJump" class="seq-input" value="4" oninput="buildSeq()">
+      </div>
+      <div>
+        <div class="seq-label">Terms to show</div>
+        <input type="number" id="seqCount" class="seq-input" value="8" min="3" max="12" oninput="buildSeq()">
+      </div>
+    </div>
+    <div class="seq-display" id="seqDisplay"></div>
+    <canvas id="seqCanvas" width="600" height="100"></canvas>
+    <div id="seqInfo" style="margin-top:10px;font-size:0.9rem;color:#134e4a;font-weight:700;"></div>
+  </div>
+
+  <div class="card">
+    <h2>📐 Finding the nth Term</h2>
+    <div class="rule-box">
+      <h3>Formula for the 10th term:</h3>
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>Start with the <strong>first term</strong></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>Add <strong>(position − 1) × jump size</strong></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">✓</div>
+        <div><strong>Example:</strong> First term = 1, jump = +4 → 10th term = 1 + 9 × 4 = <strong>37</strong></div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <p style="font-size:0.9rem;font-weight:700;color:#134e4a;margin-bottom:8px">🎯 Find the 10th term of your current sequence:</p>
+      <div id="nthTermBox" style="background:#f0fdf4;border-radius:12px;padding:14px;font-size:1rem;font-weight:700;color:#0f766e;text-align:center;"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌡️ Counting Through Zero — Negative Numbers!</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px">Some sequences go below zero! Negative numbers are less than zero — we write a minus sign in front. 🥶</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+      <div class="info-box">
+        <strong>Example:</strong> Start at 40, subtract 9 each time:<br>
+        40, 31, 22, 13, 4, <span style="color:#e11d48;font-weight:900">−5</span>, <span style="color:#e11d48;font-weight:900">−14</span>…<br>
+        <em>The sequence crosses zero and keeps going!</em>
+      </div>
+      <div class="info-box blue">
+        <strong>Example:</strong> Start at −15, add 11 each time:<br>
+        <span style="color:#e11d48;font-weight:900">−15</span>, <span style="color:#e11d48;font-weight:900">−4</span>, <span style="color:#0f766e;font-weight:900">7</span>, 18, 29…<br>
+        <em>The sequence crosses zero upward!</em>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <p style="font-size:0.85rem;font-weight:700;color:#134e4a;margin-bottom:8px">Try: Start = 40, Jump = −9 👇</p>
+      <button class="btn btn-teal" onclick="document.getElementById('seqStart').value=40;document.getElementById('seqJump').value=-9;document.getElementById('seqCount').value=10;buildSeq()">Load Example</button>
+      <button class="btn btn-amber" onclick="document.getElementById('seqStart').value=-15;document.getElementById('seqJump').value=11;document.getElementById('seqCount').value=8;buildSeq()">Try −15, +11</button>
+    </div>
+  </div>
+
+  <div class="think-box">
+    <h3>🧠 Think Like a Mathematician!</h3>
+    <p>Pierre counts back from 88 in steps of 8: 88, 80, 72, 64…</p>
+    <p style="margin-top:6px">Will the number <strong>1</strong> ever appear? How can you tell <em>without</em> counting all the way? 🤔</p>
+    <button class="btn btn-teal" onclick="document.getElementById('pierreAns').style.display='block'" style="margin-top:10px">💡 Reveal Answer</button>
+    <div id="pierreAns" style="display:none;margin-top:10px;background:white;border-radius:10px;padding:12px;color:#831843;font-size:0.9rem;">
+      All terms in Pierre's sequence are <strong>multiples of 8</strong> (88 = 11×8, 80 = 10×8, etc.). The number 1 is <strong>not</strong> a multiple of 8, so it will <strong>never</strong> appear! ✅
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: SQUARE & TRIANGULAR ===== -->
+<div id="tab-squaretri" class="section">
+
+  <div class="card">
+    <h2>🔷 Square Numbers</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px">A <strong>square number</strong> is what you get when you multiply a number by itself! You can arrange that many dots into a perfect square. ⬛</p>
+    <div class="dot-pattern" id="squareDots"></div>
+    <div class="rule-box" style="margin-top:14px">
+      <h3>Square Numbers from 1 to 100:</h3>
+      <div id="squareList" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;"></div>
+    </div>
+    <div class="info-box" style="margin-top:12px">
+      <strong>Pattern!</strong> Square numbers are made by adding consecutive odd numbers:<br>
+      1 = 1<br>
+      4 = 1 + 3<br>
+      9 = 1 + 3 + 5<br>
+      16 = 1 + 3 + 5 + 7 🌟
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔺 Triangular Numbers</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px">A <strong>triangular number</strong> is what you get when you arrange dots into a triangle shape — each row has one more dot than the last! 🔺</p>
+    <div class="dot-pattern" id="triDots"></div>
+    <div class="info-box blue" style="margin-top:14px">
+      <strong>Triangular numbers:</strong> 1, 3, 6, 10, 15, 21, 28, 36…<br>
+      The rule: add 1, then add 2, then add 3… (the jump size grows each time!)
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Both Square AND Triangular?</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:12px">Some numbers are <em>both</em> square and triangular! Can you spot them? 🔍</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+      <div style="background:linear-gradient(135deg,#fef9c3,#fde68a);border-radius:14px;padding:16px;text-align:center;min-width:120px;">
+        <div style="font-size:2.5rem">1</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#92400e;margin-top:4px">1² = 1 ✅<br>Triangle 1 ✅</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#ccfbf1,#99f6e4);border-radius:14px;padding:16px;text-align:center;min-width:120px;">
+        <div style="font-size:2.5rem">36</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#134e4a;margin-top:4px">6² = 36 ✅<br>Triangle 8 ✅</div>
+      </div>
+      <div class="info-box" style="flex:1;min-width:180px;">
+        The next one after 36 is <strong>1225</strong> — these are called <em>square triangular numbers</em>!
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔺 Pascal's Triangle</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px">Each number in Pascal's Triangle is the sum of the two numbers above it. Can you spot the triangular numbers hidden inside? 🔍</p>
+    <div id="pascalTriangle" style="text-align:center;margin:14px 0;"></div>
+    <div class="info-box pink">
+      <strong>Did you notice?</strong> The diagonal highlighted in the triangle gives:<br>
+      1, 3, 6, 10, 15, 21… — those are the <strong>triangular numbers!</strong> 🌟
+    </div>
+  </div>
+
+  <div class="think-box">
+    <h3>🧠 Think Like a Mathematician!</h3>
+    <p>15 × 15 = 225 (a 3-digit number). What is the <strong>smallest</strong> 2-digit number you can square to get a 3-digit number?</p>
+    <button class="btn btn-teal" onclick="document.getElementById('sqAns').style.display='block'" style="margin-top:10px">💡 Reveal Answer</button>
+    <div id="sqAns" style="display:none;margin-top:10px;background:white;border-radius:10px;padding:12px;color:#831843;font-size:0.9rem;">
+      10 × 10 = 100 ✅ (the first 3-digit number!)<br>
+      9 × 9 = 81 (still 2-digit, too small)<br>
+      So the answer is <strong>10</strong>! 🎉
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 3: PRIMES ===== -->
+<div id="tab-primes" class="section">
+
+  <div class="card">
+    <h2>🔑 Prime &amp; Composite Numbers</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px">A <strong>prime number</strong> has exactly <em>two</em> factors: 1 and itself. A <strong>composite number</strong> has more than two factors. 🏆</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;">
+      <div class="info-box">
+        <strong>🔑 Prime Numbers</strong><br>
+        Exactly 2 factors (1 and itself)<br>
+        Examples: 2, 3, 5, 7, 11, 13…<br>
+        <span class="badge teal">1 is NOT prime!</span>
+      </div>
+      <div class="info-box amber">
+        <strong>🧱 Composite Numbers</strong><br>
+        More than 2 factors<br>
+        Examples: 4, 6, 8, 9, 10, 12…<br>
+        <span class="badge amber">They can be broken up!</span>
+      </div>
+    </div>
+    <div class="info-box blue">
+      <strong>🌐 Real Life Prime Numbers!</strong> When you shop online, your credit card number is <em>protected by a secret code</em> based on huge prime numbers. Primes keep your information safe! 🛡️
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧮 Sieve of Eratosthenes — Find All Primes to 100!</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px">An ancient Greek called Eratosthenes invented this method 2,000 years ago! Follow the steps to sieve out all the composite numbers. 🏺</p>
+    <div class="sieve-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#f3e8ff;border:2px solid #c4b5fd;"></div> 1 (neither prime nor composite)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#0f766e,#0d9488);"></div> Prime ✅</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f1f5f9;border:2px solid #f1f5f9;"></div> Composite (crossed out)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#d97706,#f59e0b);"></div> Current sieve step</div>
+    </div>
+    <div class="sieve-wrap">
+      <div id="sieveGrid"></div>
+    </div>
+    <div class="sieve-btn-row">
+      <button class="btn btn-amber" onclick="sieveStep()">➡️ Next Step</button>
+      <button class="btn btn-teal" onclick="sieveAll()">⚡ Show All Primes</button>
+      <button class="btn btn-secondary" onclick="resetSieve()">🔄 Reset</button>
+    </div>
+    <div id="sieveMsg" style="text-align:center;font-weight:700;font-size:0.9rem;color:#0f766e;min-height:24px;margin-top:8px;"></div>
+    <div id="primeList" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+  </div>
+
+  <div class="card">
+    <h2>🕵️ Factor Detective</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:12px">Type a number (1–100) and find all its factors to decide: prime or composite? 🔍</p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+      <input type="number" id="factorInput" min="1" max="100" value="17" style="padding:10px;border:2px solid #0f766e;border-radius:12px;font-size:1.2rem;font-weight:800;width:100px;text-align:center;font-family:inherit;">
+      <button class="btn btn-teal" onclick="findFactors()">🔍 Find Factors!</button>
+    </div>
+    <div id="factorResult" style="font-size:0.95rem;font-weight:700;min-height:60px;"></div>
+  </div>
+
+  <div class="think-box">
+    <h3>🧠 Arun's Number Puzzle!</h3>
+    <p>Arun says: "My number is between 20 and 25. It's odd. It's prime."</p>
+    <p style="margin-top:6px">What is Arun's number? 🤔</p>
+    <button class="btn btn-teal" onclick="document.getElementById('arunAns').style.display='block'" style="margin-top:10px">💡 Reveal Answer</button>
+    <div id="arunAns" style="display:none;margin-top:10px;background:white;border-radius:10px;padding:12px;color:#831843;font-size:0.9rem;">
+      Numbers between 20 and 25: 21, 22, 23, 24<br>
+      Odd ones: 21, 23<br>
+      21 = 3 × 7 (composite) ❌<br>
+      23 has only factors 1 and 23 → <strong>PRIME!</strong> ✅<br>
+      Arun's number is <strong>23</strong> 🎉
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 4: MCQ QUIZ ===== -->
+<div id="tab-quiz" class="section">
+  <div class="card">
+    <h2>🧠 Multiple Choice Quiz</h2>
+    <p style="color:#475569;font-size:0.9rem;margin-bottom:16px">10 questions — earn a ⭐ for each correct answer! Good luck! 🍀</p>
+    <div id="quizContainer"></div>
+    <div id="quizScore" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ===== TAB 5: SHORT ANSWER ===== -->
+<div id="tab-shortanswer" class="section">
+  <div class="card">
+    <h2>📝 Short Answer Questions</h2>
+    <p style="color:#475569;font-size:0.9rem;margin-bottom:16px">Type your answer and press Check! Earn a star for each correct answer ⭐</p>
+    <div class="sa-stars" id="saStars"></div>
+    <div id="saContainer"></div>
+    <div id="saScore" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ===== TAB 6: PRACTICE PAPER ===== -->
+<div id="tab-paper" class="section">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+    <button class="btn btn-teal" onclick="window.print()">🖨️ Print Paper</button>
+    <button class="btn btn-amber" onclick="toggleSolutions()">📋 Show / Hide Worked Solutions</button>
+  </div>
+  <div class="paper">
+    <div class="paper-header">
+      <h2>Unit 3 Practice Paper — Numbers &amp; Sequences</h2>
+      <p>Cambridge Primary Mathematics Stage 5 &nbsp;|&nbsp; Total: <strong>25 marks</strong> &nbsp;|&nbsp; Time allowed: 30 minutes</p>
+      <div class="paper-fields" style="margin-top:14px;">
+        <div class="paper-field"><span>Name: </span>_______________________</div>
+        <div class="paper-field"><span>Date: </span>_______________________</div>
+        <div class="paper-field"><span>Score: </span>_________ / 25</div>
+      </div>
+    </div>
+
+    <div class="pq">
+      <div class="pq-header"><strong>Question 1</strong><span class="marks">4 marks</span></div>
+      <p>Write the first <strong>six terms</strong> of each sequence.</p>
+      <div class="sub-q"><span>a)</span> First term is <strong>7</strong>, term-to-term rule is <em>add 6</em>.</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>b)</span> First term is <strong>40</strong>, term-to-term rule is <em>subtract 9</em>.</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>c)</span> First term is <strong>−15</strong>, term-to-term rule is <em>add 11</em>.</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>d)</span> First term is <strong>100</strong>, term-to-term rule is <em>subtract 26</em>.</div>
+      <div class="ans-line"></div>
+    </div>
+
+    <div class="pq">
+      <div class="pq-header"><strong>Question 2</strong><span class="marks">4 marks</span></div>
+      <p>Find the <strong>missing numbers</strong> in each sequence. Show your working.</p>
+      <div class="sub-q"><span>a)</span> 1 , _____ , _____ , 7</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>b)</span> 1 , _____ , _____ , _____ , _____ , 21</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>c)</span> 88 , 80 , 72 , _____ , _____ , _____ , _____ , 32</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>d)</span> _____ , _____ , 9 , 13 , _____ , 21</div>
+      <div class="ans-line"></div>
+    </div>
+
+    <div class="pq">
+      <div class="pq-header"><strong>Question 3</strong><span class="marks">5 marks</span></div>
+      <p>Answer these questions about <strong>square numbers</strong>.</p>
+      <div class="sub-q"><span>a)</span> Write all the square numbers between 1 and 100.</div>
+      <div class="ans-line"></div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>b)</span> What is 8² (8 squared)?</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>c)</span> What is 9²?</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>d)</span> A square number is also a triangular number. Write two examples.</div>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>e)</span> Is 50 a square number? Explain your answer.</div>
+      <div class="ans-box">Write your explanation here:</div>
+    </div>
+
+    <div class="pq">
+      <div class="pq-header"><strong>Question 4</strong><span class="marks">4 marks</span></div>
+      <p>Write the first <strong>eight triangular numbers</strong> and describe the pattern of how you get from one to the next.</p>
+      <div class="ans-line"></div>
+      <div class="ans-line"></div>
+      <div class="ans-box">Pattern description:</div>
+    </div>
+
+    <div class="pq">
+      <div class="pq-header"><strong>Question 5</strong><span class="marks">5 marks</span></div>
+      <p>Circle the <strong>prime numbers</strong> in this list:</p>
+      <p style="font-size:1.1rem;font-weight:700;margin:10px 0;letter-spacing:2px;">11 &nbsp; 21 &nbsp; 31 &nbsp; 41 &nbsp; 51 &nbsp; 61 &nbsp; 71 &nbsp; 81 &nbsp; 91</p>
+      <div class="ans-line"></div>
+      <div class="sub-q"><span>b)</span> Explain how you know whether a number is prime.</div>
+      <div class="ans-box">Explanation:</div>
+    </div>
+
+    <div class="pq">
+      <div class="pq-header"><strong>Question 6</strong><span class="marks">3 marks</span></div>
+      <p>Marcus thinks of a prime number between 1 and 20. He says: <em>"If I add 1 to my number, it is a multiple of 9."</em></p>
+      <div class="sub-q"><span>a)</span> What is Marcus's number? Show your working.</div>
+      <div class="ans-box">Working:</div>
+      <div class="ans-line"></div>
+    </div>
+
+    <div class="sol-section" id="solSection">
+      <h3 style="color:#0f766e;margin-bottom:16px;">✅ Worked Solutions</h3>
+
+      <div class="sol-item">
+        <strong>Q1 — Sequences</strong>
+        <div class="working">
+          a) 7, 13, 19, 25, 31, 37<br>
+          b) 40, 31, 22, 13, 4, −5<br>
+          c) −15, −4, 7, 18, 29, 40<br>
+          d) 100, 74, 48, 22, −4, −30
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <strong>Q2 — Missing Numbers</strong>
+        <div class="working">
+          a) Jump = (7−1)÷3 = 2 → 1, <strong>3, 5</strong>, 7<br>
+          b) Jump = (21−1)÷5 = 4 → 1, <strong>5, 9, 13, 17</strong>, 21<br>
+          c) Jump = −8 → 88, 80, 72, <strong>64, 56, 48, 40</strong>, 32<br>
+          d) Jump = +4, so working backwards: 9−4=5, 5−4=1 → <strong>1, 5</strong>, 9, 13, <strong>17</strong>, 21
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <strong>Q3 — Square Numbers</strong>
+        <div class="working">
+          a) 1, 4, 9, 16, 25, 36, 49, 64, 81, 100<br>
+          b) 8² = 64<br>
+          c) 9² = 81<br>
+          d) 1 and 36 (both square and triangular)<br>
+          e) No — √50 ≈ 7.07 (not a whole number), so 50 is not a square number
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <strong>Q4 — Triangular Numbers</strong>
+        <div class="working">
+          1, 3, 6, 10, 15, 21, 28, 36<br>
+          Pattern: add 1, then add 2, then add 3… The jump size increases by 1 each time.
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <strong>Q5 — Prime Numbers</strong>
+        <div class="working">
+          Primes: <strong>11, 31, 41, 61, 71</strong><br>
+          Not prime: 21 (=3×7), 51 (=3×17), 81 (=3×27), 91 (=7×13)<br>
+          A prime number has exactly two factors: 1 and itself. If you can divide it evenly by any other number, it is composite.
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <strong>Q6 — Marcus's Prime</strong>
+        <div class="working">
+          Multiples of 9 up to 20: 9, 18 → subtract 1 → 8 (even, not prime) or 17<br>
+          17 is prime ✅ (factors: only 1 and 17)<br>
+          Marcus's number = <strong>17</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STARS =====
+let stars = 0;
+const MAX_STARS = 18;
+function addStar() {
+  stars = Math.min(stars + 1, MAX_STARS);
+  const pct = (stars / MAX_STARS) * 100;
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `⭐ ${stars} / ${MAX_STARS} stars earned`;
+  if (stars >= MAX_STARS) launchConfetti();
+}
+
+// ===== TABS =====
+function showTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===== SEQUENCE BUILDER =====
+function buildSeq() {
+  const start = parseFloat(document.getElementById('seqStart').value) || 0;
+  const jump = parseFloat(document.getElementById('seqJump').value) || 1;
+  const count = Math.min(Math.max(parseInt(document.getElementById('seqCount').value) || 6, 3), 12);
+  const terms = [];
+  for (let i = 0; i < count; i++) terms.push(start + i * jump);
+
+  // Display terms
+  const disp = document.getElementById('seqDisplay');
+  disp.innerHTML = terms.map((t, i) => {
+    const cls = t < 0 ? 'seq-term negative' : t === 0 ? 'seq-term zero' : 'seq-term';
+    return (i > 0 ? `<span class="seq-arrow">${jump >= 0 ? '+' + jump : jump}</span>` : '') +
+           `<div class="${cls}">${t}</div>`;
+  }).join('');
+
+  // Number line canvas
+  const canvas = document.getElementById('seqCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  const mn = Math.min(...terms), mx = Math.max(...terms);
+  const range = mx - mn || 1;
+  const pad = 50;
+  function px(v) { return pad + ((v - mn) / range) * (W - 2 * pad); }
+  ctx.strokeStyle = '#0f766e'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(pad, H / 2); ctx.lineTo(W - pad, H / 2); ctx.stroke();
+  // Zero line
+  if (mn < 0 && mx > 0) {
+    const zx = px(0);
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(zx, 10); ctx.lineTo(zx, H - 10); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#94a3b8'; ctx.font = '11px Nunito,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('0', zx, H - 4);
+  }
+  terms.forEach((t, i) => {
+    const x = px(t);
+    ctx.fillStyle = t < 0 ? '#e11d48' : t === 0 ? '#6366f1' : '#0f766e';
+    ctx.beginPath(); ctx.arc(x, H / 2, 8, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px Nunito,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(t, x, H / 2 - 16);
+  });
+
+  // nth term
+  const nth10 = start + 9 * jump;
+  document.getElementById('nthTermBox').textContent =
+    `10th term = ${start} + 9 × ${jump} = ${start} + ${9 * jump} = ${nth10}`;
+  document.getElementById('seqInfo').textContent =
+    `Term-to-term rule: ${jump >= 0 ? 'add ' + jump : 'subtract ' + Math.abs(jump)} | Sequence: ${terms.slice(0, 5).join(', ')}${terms.length > 5 ? ', …' : ''}`;
+}
+buildSeq();
+
+// ===== SQUARE DOTS =====
+function buildSquareDots() {
+  const cont = document.getElementById('squareDots');
+  cont.innerHTML = '';
+  for (let n = 1; n <= 5; n++) {
+    const size = n * n;
+    const c = document.createElement('canvas');
+    c.width = c.height = n * 14 + 4;
+    const ctx = c.getContext('2d');
+    for (let r = 0; r < n; r++) {
+      for (let col = 0; col < n; col++) {
+        ctx.fillStyle = '#0f766e';
+        ctx.beginPath();
+        ctx.arc(col * 14 + 9, r * 14 + 9, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    const wrap = document.createElement('div');
+    wrap.className = 'dot-grid';
+    const lbl = document.createElement('div');
+    lbl.className = 'dot-label';
+    lbl.textContent = `${n}² = ${size}`;
+    wrap.appendChild(c);
+    wrap.appendChild(lbl);
+    cont.appendChild(wrap);
+  }
+  // Square list
+  const list = document.getElementById('squareList');
+  for (let n = 1; n <= 10; n++) {
+    const sp = document.createElement('span');
+    sp.className = 'badge teal';
+    sp.textContent = `${n}² = ${n * n}`;
+    list.appendChild(sp);
+  }
+}
+buildSquareDots();
+
+// ===== TRIANGULAR DOTS =====
+function buildTriDots() {
+  const cont = document.getElementById('triDots');
+  cont.innerHTML = '';
+  const triNums = [1, 3, 6, 10, 15];
+  triNums.forEach((t, idx) => {
+    const rows = idx + 1;
+    const c = document.createElement('canvas');
+    c.width = rows * 14 + 4;
+    c.height = rows * 14 + 4;
+    const ctx = c.getContext('2d');
+    let dot = 0;
+    for (let r = 0; r < rows; r++) {
+      for (let col = 0; col <= r; col++) {
+        ctx.fillStyle = '#0d9488';
+        ctx.beginPath();
+        ctx.arc(col * 14 + 9, r * 14 + 9, 5, 0, Math.PI * 2);
+        ctx.fill();
+        dot++;
+      }
+    }
+    const wrap = document.createElement('div');
+    wrap.className = 'dot-grid';
+    const lbl = document.createElement('div');
+    lbl.className = 'dot-label';
+    lbl.textContent = `T${idx + 1} = ${t}`;
+    wrap.appendChild(c);
+    wrap.appendChild(lbl);
+    cont.appendChild(wrap);
+  });
+}
+buildTriDots();
+
+// ===== PASCAL'S TRIANGLE =====
+function buildPascal() {
+  const rows = 7;
+  const tri = [[1]];
+  for (let r = 1; r < rows; r++) {
+    const prev = tri[r - 1];
+    const row = [1];
+    for (let c = 1; c < r; c++) row.push(prev[c - 1] + prev[c]);
+    row.push(1);
+    tri.push(row);
+  }
+  // Triangular numbers appear at position 2 of each row (0-indexed: col=1)
+  const triSet = new Set([1, 3, 6, 10, 15, 21]);
+  const cont = document.getElementById('pascalTriangle');
+  cont.innerHTML = tri.map((row, r) => {
+    const cells = row.map((v, c) => {
+      const isTri = c === 1 && triSet.has(v);
+      const style = isTri
+        ? 'background:#0d9488;color:white;border-radius:8px;padding:4px 8px;font-weight:900;'
+        : 'padding:4px 8px;font-weight:700;color:#134e4a;';
+      return `<span style="${style}">${v}</span>`;
+    }).join(' ');
+    return `<div style="margin:3px 0;">${cells}</div>`;
+  }).join('');
+}
+buildPascal();
+
+// ===== SIEVE =====
+let sieveState = Array(101).fill('unknown'); // 'unknown','prime','composite','one'
+let sieveCurrent = 2;
+let sieveStep0 = 0;
+function initSieve() {
+  sieveState = Array(101).fill('unknown');
+  sieveState[0] = 'eliminated'; sieveState[1] = 'one';
+  sieveCurrent = 2; sieveStep0 = 0;
+  renderSieve();
+  document.getElementById('sieveMsg').textContent = 'Press "Next Step" to begin the sieve!';
+  document.getElementById('primeList').innerHTML = '';
+}
+function renderSieve() {
+  const grid = document.getElementById('sieveGrid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 100; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'sieve-cell';
+    cell.textContent = i;
+    if (sieveState[i] === 'prime') cell.classList.add('prime');
+    else if (sieveState[i] === 'composite' || sieveState[i] === 'eliminated') cell.classList.add('eliminated');
+    else if (sieveState[i] === 'one') cell.classList.add('one');
+    else if (i === sieveCurrent && sieveStep0 > 0) cell.classList.add('current');
+    grid.appendChild(cell);
+  }
+}
+function sieveStep() {
+  while (sieveCurrent <= 100) {
+    if (sieveState[sieveCurrent] === 'unknown') {
+      sieveState[sieveCurrent] = 'prime';
+      for (let m = sieveCurrent * 2; m <= 100; m += sieveCurrent) {
+        sieveState[m] = 'composite';
+      }
+      sieveStep0++;
+      document.getElementById('sieveMsg').textContent =
+        `Step ${sieveStep0}: ${sieveCurrent} is PRIME ✅ — crossed out all multiples of ${sieveCurrent}`;
+      sieveCurrent++;
+      renderSieve();
+      updatePrimeList();
+      return;
+    }
+    sieveCurrent++;
+  }
+  document.getElementById('sieveMsg').textContent = '🎉 Done! All primes up to 100 are highlighted in teal!';
+}
+function sieveAll() {
+  for (let n = 2; n <= 100; n++) {
+    if (sieveState[n] === 'unknown') {
+      sieveState[n] = 'prime';
+      for (let m = n * 2; m <= 100; m += n) sieveState[m] = 'composite';
+    }
+  }
+  renderSieve();
+  updatePrimeList();
+  document.getElementById('sieveMsg').textContent = '🎉 All primes up to 100 are shown! There are 25 primes.';
+}
+function resetSieve() { initSieve(); }
+function updatePrimeList() {
+  const list = document.getElementById('primeList');
+  list.innerHTML = '';
+  for (let i = 2; i <= 100; i++) {
+    if (sieveState[i] === 'prime') {
+      const sp = document.createElement('span');
+      sp.className = 'badge teal';
+      sp.textContent = i;
+      list.appendChild(sp);
+    }
+  }
+}
+initSieve();
+
+// ===== FACTOR DETECTIVE =====
+function findFactors() {
+  const n = parseInt(document.getElementById('factorInput').value);
+  if (!n || n < 1 || n > 100) return;
+  const factors = [];
+  for (let i = 1; i <= n; i++) if (n % i === 0) factors.push(i);
+  const isPrime = factors.length === 2;
+  const isComposite = factors.length > 2;
+  const isOne = n === 1;
+  const res = document.getElementById('factorResult');
+  let verdict = '';
+  if (isOne) verdict = `<span class="badge purple">Neither prime nor composite — special case!</span>`;
+  else if (isPrime) verdict = `<span class="badge teal">✅ PRIME! Exactly 2 factors.</span>`;
+  else verdict = `<span class="badge amber">🧱 COMPOSITE — has more than 2 factors.</span>`;
+  res.innerHTML = `<div style="margin-bottom:8px;font-size:0.9rem;color:#475569">Factors of <strong>${n}</strong>: ${factors.map(f => `<span class="badge blue">${f}</span>`).join(' ')}</div>
+    <div>Number of factors: <strong>${factors.length}</strong> &nbsp; ${verdict}</div>`;
+}
+findFactors();
+
+// ===== MCQ QUIZ =====
+const quizData = [
+  { q: 'What is the 10th term of a sequence starting at 1 with term-to-term rule "add 4"?', opts: ['37', '41', '45', '33'], ans: 0 },
+  { q: 'A sequence is: 40, 31, 22, 13… What is the term-to-term rule?', opts: ['add 9', 'subtract 9', 'add 11', 'subtract 11'], ans: 1 },
+  { q: 'Which of these is a square number?', opts: ['18', '24', '36', '50'], ans: 2 },
+  { q: 'What is 9² (9 squared)?', opts: ['18', '72', '81', '99'], ans: 2 },
+  { q: 'Which of these is a prime number?', opts: ['21', '27', '31', '51'], ans: 2 },
+  { q: 'The first four triangular numbers are 1, 3, 6, 10. What is the 5th?', opts: ['12', '13', '14', '15'], ans: 3 },
+  { q: 'How many factors does a prime number have?', opts: ['1', '2', '3', 'more than 3'], ans: 1 },
+  { q: 'A sequence starts at −15 and adds 11 each time. What is the 3rd term?', opts: ['−4', '7', '−26', '4'], ans: 1 },
+  { q: 'Which number is BOTH square and triangular?', opts: ['9', '25', '36', '49'], ans: 2 },
+  { q: 'Is 1 a prime number?', opts: ['Yes', 'No — it has only 1 factor', 'No — it is composite', 'Yes — it is special'], ans: 1 },
+];
+let quizAnswered = {};
+function buildQuiz() {
+  const c = document.getElementById('quizContainer');
+  c.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    c.innerHTML += `<div class="quiz-q">
+      <p>Q${qi + 1}: ${q.q}</p>
+      <div class="options">
+        ${q.opts.map((o, oi) => `<button class="opt-btn" onclick="answerQ(${qi},${oi})">${String.fromCharCode(65+oi)}. ${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="qfb-${qi}"></div>
+    </div>`;
+  });
+}
+buildQuiz();
+function answerQ(qi, oi) {
+  if (quizAnswered[qi]) return;
+  quizAnswered[qi] = oi;
+  const q = quizData[qi];
+  const btns = document.querySelectorAll(`#tab-quiz .quiz-q:nth-child(${qi+1}) .opt-btn`);
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qfb-' + qi);
+  if (oi === q.ans) {
+    btns[oi].classList.add('correct');
+    fb.textContent = '🎉 Correct! Brilliant!';
+    fb.className = 'feedback ok';
+    addStar();
+  } else {
+    btns[oi].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    fb.textContent = `❌ Not quite — the answer is: ${q.opts[q.ans]}`;
+    fb.className = 'feedback err';
+  }
+  if (Object.keys(quizAnswered).length === quizData.length) showQuizScore();
+}
+function showQuizScore() {
+  let c = 0;
+  quizData.forEach((_, i) => { const fb = document.getElementById('qfb-'+i); if (fb && fb.className.includes('ok')) c++; });
+  const sd = document.getElementById('quizScore');
+  sd.style.display = 'block';
+  sd.innerHTML = `<div class="score-box">
+    <h3>🏆 Quiz Complete!</h3>
+    <div class="stars-row">${'⭐'.repeat(Math.min(c,5))}${'☆'.repeat(5-Math.min(c,5))}</div>
+    <p>You scored <strong>${c} / ${quizData.length}</strong></p>
+    <p>${c===10?'🎊 PERFECT! You are a sequences superstar!':c>=7?'🌟 Excellent work!':c>=5?'👍 Good effort — keep practising!':'💪 Review the tabs and try again!'}</p>
+    <button class="btn btn-secondary" onclick="resetQuiz()" style="margin-top:12px">🔄 Try Again</button>
+  </div>`;
+  if (c >= 8) launchConfetti();
+}
+function resetQuiz() {
+  quizAnswered = {};
+  document.getElementById('quizScore').style.display = 'none';
+  buildQuiz();
+}
+
+// ===== SHORT ANSWER =====
+const saData = [
+  { q: 'Write the first 5 terms: first term = 1, rule = add 4.', ans: ['1,5,9,13,17','1, 5, 9, 13, 17'], hint: '1, 5, 9, 13, 17' },
+  { q: 'What is the 10th term of a sequence starting at 7 with rule "add 6"?', ans: ['61'], hint: '7 + 9 × 6 = 7 + 54 = 61' },
+  { q: 'What is 6² (6 squared)?', ans: ['36'], hint: '6 × 6 = 36' },
+  { q: 'What is the 4th triangular number?', ans: ['10'], hint: '1, 3, 6, 10' },
+  { q: 'Is 41 a prime number? Type yes or no.', ans: ['yes'], hint: 'Yes — 41 has only two factors: 1 and 41' },
+  { q: 'A sequence: 88, 80, 72, 64… What comes next?', ans: ['56'], hint: 'Subtract 8 each time: 64 − 8 = 56' },
+  { q: 'How many prime numbers are there between 1 and 20?', ans: ['8'], hint: '2,3,5,7,11,13,17,19 — that is 8 primes' },
+  { q: 'A number is both square and triangular. Name one (other than 1).', ans: ['36'], hint: '36 = 6² and is the 8th triangular number' },
+];
+let saAnswered = {};
+function buildSA() {
+  updateSaStars();
+  const c = document.getElementById('saContainer');
+  c.innerHTML = '';
+  saData.forEach((q, i) => {
+    c.innerHTML += `<div class="sa-q" id="sa-${i}">
+      <p>Q${i+1}: ${q.q}</p>
+      <div class="sa-row">
+        <input class="sa-input" id="sa-inp-${i}" placeholder="Your answer…" onkeydown="if(event.key==='Enter')checkSA(${i})">
+        <button class="btn btn-teal" onclick="checkSA(${i})">Check ✓</button>
+      </div>
+      <div class="sa-result" id="sa-res-${i}"></div>
+    </div>`;
+  });
+}
+buildSA();
+function normalise(s) { return s.toLowerCase().replace(/\s+/g,'').replace(/,/g,','); }
+function checkSA(i) {
+  if (saAnswered[i]) return;
+  const raw = document.getElementById('sa-inp-' + i).value.trim();
+  const q = saData[i];
+  const norm = normalise(raw);
+  const correct = q.ans.some(a => normalise(a) === norm);
+  const card = document.getElementById('sa-' + i);
+  const res = document.getElementById('sa-res-' + i);
+  document.getElementById('sa-inp-' + i).disabled = true;
+  saAnswered[i] = true;
+  if (correct) {
+    card.classList.add('correct-border');
+    res.innerHTML = '✅ Correct! ⭐ Star earned!';
+    res.className = 'sa-result ok';
+    addStar();
+  } else {
+    card.classList.add('wrong-border');
+    res.innerHTML = `❌ Not quite. Answer: <strong>${q.hint}</strong>`;
+    res.className = 'sa-result err';
+  }
+  updateSaStars();
+  if (Object.keys(saAnswered).length === saData.length) showSaScore();
+}
+function updateSaStars() {
+  const earned = Object.values(saAnswered).length;
+  const correct = Object.keys(saAnswered).filter(i => {
+    const res = document.getElementById('sa-res-' + i);
+    return res && res.className.includes('ok');
+  }).length;
+  document.getElementById('saStars').innerHTML =
+    Array(saData.length).fill(0).map((_, i) => {
+      if (!saAnswered[i]) return '<span style="font-size:1.4rem;opacity:0.3">☆</span>';
+      const ok = document.getElementById('sa-res-' + i)?.className.includes('ok');
+      return `<span style="font-size:1.4rem">${ok ? '⭐' : '❌'}</span>`;
+    }).join('');
+}
+function showSaScore() {
+  let c = 0;
+  saData.forEach((_, i) => { const r = document.getElementById('sa-res-'+i); if (r && r.className.includes('ok')) c++; });
+  const sd = document.getElementById('saScore');
+  sd.style.display = 'block';
+  sd.innerHTML = `<div class="score-box" style="margin-top:16px;">
+    <h3>📝 Short Answer Complete!</h3>
+    <div class="stars-row">${'⭐'.repeat(c)}${'☆'.repeat(saData.length - c)}</div>
+    <p>You got <strong>${c} / ${saData.length}</strong> correct!</p>
+    <p>${c===8?'🎊 Perfect score! Outstanding!':c>=6?'🌟 Excellent!':c>=4?'👍 Good work!':'💪 Keep practising!'}</p>
+    <button class="btn btn-secondary" onclick="resetSA()" style="margin-top:12px">🔄 Try Again</button>
+  </div>`;
+  if (c >= 6) launchConfetti();
+}
+function resetSA() {
+  saAnswered = {};
+  document.getElementById('saScore').style.display = 'none';
+  buildSA();
+}
+
+// ===== PRACTICE PAPER =====
+function toggleSolutions() {
+  const s = document.getElementById('solSection');
+  s.style.display = s.style.display === 'block' ? 'none' : 'block';
+}
+
+// ===== CONFETTI =====
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const parts = [];
+  const cols = ['#0f766e','#f59e0b','#3b82f6','#e11d48','#8b5cf6','#10b981','#fbbf24'];
+  for (let i = 0; i < 160; i++) {
+    parts.push({ x: Math.random()*canvas.width, y: -20, r: Math.random()*7+3,
+      c: cols[Math.floor(Math.random()*cols.length)], d: Math.random()*3+1.5, t: Math.random()*10 });
+  }
+  let f = 0;
+  function anim() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    parts.forEach(p => { p.y += p.d; p.t += 0.1;
+      ctx.beginPath(); ctx.fillStyle = p.c;
+      ctx.ellipse(p.x, p.y, p.r, p.r/2, p.t, 0, Math.PI*2); ctx.fill(); });
+    if (++f < 140) requestAnimationFrame(anim);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  anim();
+}
+</script>
+</body>
+</html>
