@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.7 – It's All About Dialogue | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#C2185B;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#F48FB1}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-side:hover{background:rgba(255,255,255,.25) !important}
+.lesson-hdr{background:#C2185B;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#C2185B}
+.tab-btn.active{color:#C2185B;border-bottom-color:#C2185B;background:#FCE4EC}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#C2185B;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-pink{background:#FCE4EC;border-color:#F48FB1}
+.ib-pink h4{color:#880E4F;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-pink p,.ib-pink li{color:#880E4F;font-size:.9rem;font-weight:600;line-height:1.6}
+.rules-card{background:#fff;border:3px solid #C2185B;border-radius:16px;padding:20px;margin-bottom:16px}
+.rules-card h3{font-family:'Fredoka One',cursive;color:#C2185B;font-size:1.2rem;margin-bottom:14px}
+.rule-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;padding:10px;background:#FCE4EC;border-radius:10px}
+.rule-num{background:#C2185B;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;flex-shrink:0}
+.rule-text{font-size:.9rem;font-weight:700;color:#333;line-height:1.5}
+.rule-text strong{color:#C2185B}
+.annotated{background:#fff;border:2px solid #E0E0E0;border-radius:12px;padding:18px;margin-bottom:16px;font-family:monospace;font-size:.9rem;line-height:2}
+.ann-line{margin-bottom:20px}
+.ann-sentence{font-size:1rem;font-weight:700;color:#222;line-height:2}
+.ann-labels{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.ann-label{background:#C2185B;color:#fff;border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:800;font-family:'Nunito',sans-serif}
+.ann-label.blue{background:#1565C0}
+.ann-label.green{background:#2E7D32}
+.ann-label.orange{background:#E65100}
+.mistakes-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:10px}
+.mistake-row{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.mistake-row:last-child{border-bottom:none}
+.wrong{color:#C62828;font-size:.88rem;font-weight:700}
+.right{color:#2E7D32;font-size:.88rem;font-weight:700;margin-top:4px}
+.sa-textarea{width:100%;border:2px solid #F48FB1;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#FCE4EC;resize:vertical;min-height:80px}
+.sa-textarea:focus{outline:none;border-color:#C2185B;background:#fff}
+.fix-item{background:#fff;border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:14px;border-left:4px solid #C2185B}
+.fix-num{font-family:'Fredoka One',cursive;color:#C2185B;font-size:.85rem;margin-bottom:6px}
+.broken-sent{background:#FCE4EC;border-radius:8px;padding:8px 12px;font-size:.9rem;font-weight:700;color:#333;margin-bottom:10px;border-left:3px solid #C2185B}
+.check-btn{background:#C2185B;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem;margin-top:8px}
+.feedback-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#1B5E20;line-height:1.5}
+.feedback-box.show{display:block}
+.feedback-box.wrong-fb{background:#FFEBEE;border-color:#EF9A9A;color:#B71C1C}
+.said-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.said-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.07);cursor:pointer;border:2px solid transparent;transition:all .2s}
+.said-card:hover{border-color:#C2185B;transform:translateY(-2px)}
+.said-card.expanded{border-color:#C2185B;background:#FCE4EC}
+.sc-word{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#C2185B;margin-bottom:4px}
+.sc-tone{display:inline-block;background:#FCE4EC;color:#880E4F;border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:800;margin-bottom:6px}
+.sc-def{font-size:.82rem;font-weight:600;color:#555;line-height:1.4;display:none}
+.sc-ex{font-size:.82rem;font-style:italic;color:#888;margin-top:6px;display:none;line-height:1.4}
+.said-card.expanded .sc-def,.said-card.expanded .sc-ex{display:block}
+.prac-item{background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:12px}
+.prac-sent{font-size:.92rem;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px}
+.prac-sent .blank{background:#FCE4EC;border-bottom:2px solid #C2185B;padding:0 6px;border-radius:4px;color:#C2185B}
+.dropdown-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.syn-select{border:2px solid #F48FB1;border-radius:8px;padding:7px 12px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;background:#fff;cursor:pointer}
+.syn-select:focus{outline:none;border-color:#C2185B}
+.prac-check{background:#C2185B;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.84rem}
+.write-frame{background:#fff;border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:14px}
+.wf-label{font-family:'Fredoka One',cursive;color:#C2185B;font-size:.95rem;margin-bottom:4px}
+.wf-starter{background:#FCE4EC;border-radius:8px;padding:8px 12px;font-size:.88rem;font-weight:700;color:#880E4F;margin-bottom:8px;font-style:italic}
+.rules-chip{background:#C2185B;color:#fff;border-radius:20px;padding:8px 16px;font-size:.82rem;font-weight:800;display:inline-block;margin:4px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.7}
+.exam-q{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-left:5px solid #C2185B}
+.eq-marks{display:inline-block;background:#C2185B;color:#fff;border-radius:10px;padding:3px 10px;font-size:.78rem;font-weight:800;margin-bottom:8px}
+.eq-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:12px}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+.complete-msg a{color:#C2185B;text-decoration:none;font-weight:900}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Home</a>
+  <a href="unit1_lesson_1_6.html" class="tn-btn">← Lesson 1.6</a>
+  <span class="tn-btn" style="color:#FFD700">▶ Lesson 1.7</span>
+  <a href="unit1_lesson_1_8.html" class="tn-btn">Lesson 1.8 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Stage 5</div>
+  <div class="lh-title">Lesson 1.7 – It's All About Dialogue</div>
+  <div class="lh-sub">Speech punctuation · Synonyms for said · Writing conversations</div>
+  <div class="lh-goals">
+    <span class="goal-chip">💬 5 Dialogue Rules</span>
+    <span class="goal-chip">🔧 Fix Sentences</span>
+    <span class="goal-chip">📣 Synonyms for Said</span>
+    <span class="goal-chip">✍️ Write Dialogue</span>
+    <span class="goal-chip">🧠 Exam Practice</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">💬 Dialogue Rules</button>
+  <button class="tab-btn" onclick="switchTab(1)">🔧 Fix the Dialogue</button>
+  <button class="tab-btn" onclick="switchTab(2)">📣 Synonyms for Said</button>
+  <button class="tab-btn" onclick="switchTab(3)">✍️ Write Dialogue</button>
+  <button class="tab-btn" onclick="switchTab(4)">🧠 Comprehension</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: Dialogue Rules -->
+<div class="tab-pane active" id="tab0">
+  <div class="st">💬 The 5 Rules of Dialogue</div>
+  <div class="st-sub">Learn these rules and you'll never get speech punctuation wrong again!</div>
+
+  <div class="rules-card">
+    <h3>📋 The 5 Golden Rules</h3>
+    <div class="rule-item">
+      <div class="rule-num">1</div>
+      <div class="rule-text">Put <strong>speech marks " "</strong> BEFORE and AFTER the spoken words — they show exactly what was said out loud.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">2</div>
+      <div class="rule-text">Start the <strong>FIRST WORD</strong> inside the speech marks with a <strong>CAPITAL LETTER</strong>.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">3</div>
+      <div class="rule-text">Put a <strong>COMMA</strong> after the words that INTRODUCE the speech — the comma comes before the opening speech mark.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">4</div>
+      <div class="rule-text">Put punctuation (<strong>comma, ! or ?</strong>) INSIDE the closing speech mark. <strong>NEVER</strong> put a full stop before the closing mark if the sentence continues.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">5</div>
+      <div class="rule-text">Start a <strong>NEW LINE</strong> every time a DIFFERENT PERSON speaks.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#C2185B;font-size:1.1rem;margin-bottom:14px">🔍 Annotated Examples</h3>
+    <div class="annotated">
+      <div class="ann-line">
+        <div class="ann-sentence">Ant said, <span style="color:#C2185B">"</span><span style="color:#1565C0">S</span>ummer won't last forever<span style="color:#2E7D32">!</span><span style="color:#C2185B">"</span></div>
+        <div class="ann-labels">
+          <span class="ann-label">comma before speech mark (Rule 3)</span>
+          <span class="ann-label blue">Capital S (Rule 2)</span>
+          <span class="ann-label">speech marks (Rule 1)</span>
+          <span class="ann-label green">! inside speech mark (Rule 4)</span>
+        </div>
+      </div>
+      <div class="ann-line" style="margin-top:16px">
+        <div class="ann-sentence"><span style="color:#C2185B">"</span><span style="color:#1565C0">T</span>ake it easy,<span style="color:#E65100">"</span> said Grasshopper, <span style="color:#C2185B">"</span><span style="color:#555">t</span>he day is long.<span style="color:#2E7D32">"</span></div>
+        <div class="ann-labels">
+          <span class="ann-label blue">Capital T (Rule 2)</span>
+          <span class="ann-label orange">comma inside speech mark (Rule 4)</span>
+          <span class="ann-label" style="background:#555">lowercase t — speech continues (Rule 2)</span>
+          <span class="ann-label green">full stop inside final mark (Rule 4)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#C2185B;font-size:1.1rem;margin-bottom:12px">❌ Common Mistakes — Don't Do These!</h3>
+    <div class="mistakes-card">
+      <div class="mistake-row">
+        <div>
+          <div class="wrong">❌ "summer won't last forever," said ant.</div>
+          <div class="right">✅ "Summer won't last forever," said Ant. <span style="color:#888;font-size:.78rem">(Capital S, capital A for the name)</span></div>
+        </div>
+      </div>
+      <div class="mistake-row">
+        <div>
+          <div class="wrong">❌ "Take it easy". said Grasshopper</div>
+          <div class="right">✅ "Take it easy," said Grasshopper. <span style="color:#888;font-size:.78rem">(comma inside speech mark, not a full stop)</span></div>
+        </div>
+      </div>
+      <div class="mistake-row">
+        <div>
+          <div class="wrong">❌ "why are you working so hard?" Asked the grasshopper</div>
+          <div class="right">✅ "Why are you working so hard?" asked the grasshopper. <span style="color:#888;font-size:.78rem">(lowercase 'asked' — not a new sentence)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: Fix the Dialogue -->
+<div class="tab-pane" id="tab1">
+  <div class="st">🔧 Fix the Dialogue</div>
+  <div class="st-sub">These sentences have missing or wrong punctuation. Type the corrected version!</div>
+
+  <div class="fix-item">
+    <div class="fix-num">Sentence 1</div>
+    <div class="broken-sent">take it easy there ant said grasshopper</div>
+    <textarea class="sa-textarea" id="fix1" placeholder='Type the corrected sentence here...'></textarea>
+    <button class="check-btn" onclick="checkFix(1)">Check ✓</button>
+    <div class="feedback-box" id="fb1"></div>
+  </div>
+
+  <div class="fix-item">
+    <div class="fix-num">Sentence 2</div>
+    <div class="broken-sent">she said summer wont last forever</div>
+    <textarea class="sa-textarea" id="fix2" placeholder='Type the corrected sentence here...'></textarea>
+    <button class="check-btn" onclick="checkFix(2)">Check ✓</button>
+    <div class="feedback-box" id="fb2"></div>
+  </div>
+
+  <div class="fix-item">
+    <div class="fix-num">Sentence 3</div>
+    <div class="broken-sent">"why would you help me" asked geoffrey nervously</div>
+    <textarea class="sa-textarea" id="fix3" placeholder='Type the corrected sentence here...'></textarea>
+    <button class="check-btn" onclick="checkFix(3)">Check ✓</button>
+    <div class="feedback-box" id="fb3"></div>
+  </div>
+
+  <div class="fix-item">
+    <div class="fix-num">Sentence 4</div>
+    <div class="broken-sent">Ant replied i am storing food for winter</div>
+    <textarea class="sa-textarea" id="fix4" placeholder='Type the corrected sentence here...'></textarea>
+    <button class="check-btn" onclick="checkFix(4)">Check ✓</button>
+    <div class="feedback-box" id="fb4"></div>
+  </div>
+
+  <div class="fix-item">
+    <div class="fix-num">Sentence 5</div>
+    <div class="broken-sent">"how foolish i have been he wailed</div>
+    <textarea class="sa-textarea" id="fix5" placeholder='Type the corrected sentence here...'></textarea>
+    <button class="check-btn" onclick="checkFix(5)">Check ✓</button>
+    <div class="feedback-box" id="fb5"></div>
+  </div>
+
+  <div class="fix-item">
+    <div class="fix-num">Sentence 6</div>
+    <div class="broken-sent">"dearie me said auntie anthea you look awfully feeble."</div>
+    <textarea class="sa-textarea" id="fix6" placeholder='Type the corrected sentence here...'></textarea>
+    <button class="check-btn" onclick="checkFix(6)">Check ✓</button>
+    <div class="feedback-box" id="fb6"></div>
+  </div>
+</div>
+
+<!-- TAB 3: Synonyms for Said -->
+<div class="tab-pane" id="tab2">
+  <div class="st">📣 Synonyms for "Said"</div>
+  <div class="st-sub">Don't just say "said" — click each word to see what it really means and how to use it!</div>
+
+  <div class="info-box ib-pink">
+    <h4>Why does it matter?</h4>
+    <p>The word you choose instead of "said" tells the reader HOW the character is feeling — without you having to explain it. It makes your writing much more interesting!</p>
+  </div>
+
+  <div class="said-grid" id="saidGrid"></div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#C2185B;font-size:1.1rem;margin-bottom:14px">✏️ Practice: Choose the Best Synonym</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Pick the best word from the dropdown for each sentence.</p>
+
+    <div class="prac-item" id="prac1">
+      <div class="prac-sent">"I will NOT help you," <span class="blank">_____</span> the ant.</div>
+      <div class="dropdown-row">
+        <select class="syn-select" id="ps1">
+          <option value="">Choose...</option>
+          <option>whispered</option><option>snapped</option><option>declared</option><option>wailed</option><option>guffawed</option>
+        </select>
+        <button class="prac-check" onclick="checkPrac(1,['snapped','declared'])">Check</button>
+      </div>
+      <div class="feedback-box" id="pfb1"></div>
+    </div>
+
+    <div class="prac-item" id="prac2">
+      <div class="prac-sent">"H-h-how can I repay you?" <span class="blank">_____</span> Geoffrey.</div>
+      <div class="dropdown-row">
+        <select class="syn-select" id="ps2">
+          <option value="">Choose...</option>
+          <option>quavered</option><option>barked</option><option>guffawed</option><option>faltered</option><option>declared</option>
+        </select>
+        <button class="prac-check" onclick="checkPrac(2,['quavered','faltered'])">Check</button>
+      </div>
+      <div class="feedback-box" id="pfb2"></div>
+    </div>
+
+    <div class="prac-item" id="prac3">
+      <div class="prac-sent">"What a delicious treat!" she <span class="blank">_____</span>, clapping her hands.</div>
+      <div class="dropdown-row">
+        <select class="syn-select" id="ps3">
+          <option value="">Choose...</option>
+          <option>muttered</option><option>exclaimed</option><option>declared</option><option>wailed</option><option>barked</option>
+        </select>
+        <button class="prac-check" onclick="checkPrac(3,['exclaimed','declared'])">Check</button>
+      </div>
+      <div class="feedback-box" id="pfb3"></div>
+    </div>
+
+    <div class="prac-item" id="prac4">
+      <div class="prac-sent">"How foolish I have been!" he <span class="blank">_____</span>.</div>
+      <div class="dropdown-row">
+        <select class="syn-select" id="ps4">
+          <option value="">Choose...</option>
+          <option>guffawed</option><option>barked</option><option>wailed</option><option>whispered</option><option>lured</option>
+        </select>
+        <button class="prac-check" onclick="checkPrac(4,['wailed'])">Check</button>
+      </div>
+      <div class="feedback-box" id="pfb4"></div>
+    </div>
+
+    <div class="prac-item" id="prac5">
+      <div class="prac-sent">"I know a secret," she <span class="blank">_____</span>, leaning close.</div>
+      <div class="dropdown-row">
+        <select class="syn-select" id="ps5">
+          <option value="">Choose...</option>
+          <option>barked</option><option>whispered</option><option>murmured</option><option>snapped</option><option>exclaimed</option>
+        </select>
+        <button class="prac-check" onclick="checkPrac(5,['whispered','murmured'])">Check</button>
+      </div>
+      <div class="feedback-box" id="pfb5"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: Write Dialogue -->
+<div class="tab-pane" id="tab3">
+  <div class="st">✍️ Write Dialogue</div>
+  <div class="st-sub">Use everything you've learned to write a proper conversation!</div>
+
+  <div class="info-box ib-pink">
+    <h4>Your task</h4>
+    <p>Write a conversation between Ant and Grasshopper AFTER the story ends — when Grasshopper comes to beg for food in winter. Use the writing frame below to help you!</p>
+  </div>
+
+  <div style="margin-bottom:12px">
+    <span class="rules-chip">✓ New line for each speaker</span>
+    <span class="rules-chip">✓ Speech marks around spoken words</span>
+    <span class="rules-chip">✓ Interesting synonym for said</span>
+    <span class="rules-chip">✓ Stay in character!</span>
+  </div>
+
+  <div class="write-frame">
+    <div class="wf-label">Panel 1 — Set the scene (narrator)</div>
+    <div class="wf-starter">One freezing winter's morning, Grasshopper arrived at Ant's door...</div>
+    <textarea class="sa-textarea" id="wp1" placeholder="Continue the scene-setting (you can change the starter or add more detail)..."></textarea>
+  </div>
+
+  <div class="write-frame">
+    <div class="wf-label">Panel 2 — Grasshopper speaks first (he is cold and desperate)</div>
+    <div class="wf-starter">"____________," begged Grasshopper, shivering in the cold.</div>
+    <textarea class="sa-textarea" id="wp2" placeholder='Write what Grasshopper says (remember: speech marks, capital letter, stay in character)...'></textarea>
+  </div>
+
+  <div class="write-frame">
+    <div class="wf-label">Panel 3 — Ant replies (she is serious and disapproving)</div>
+    <div class="wf-starter">"____________," _____ Ant.</div>
+    <textarea class="sa-textarea" id="wp3" placeholder="Write what Ant says — she should be firm! Choose an interesting synonym for 'said'..."></textarea>
+  </div>
+
+  <div class="write-frame">
+    <div class="wf-label">Panel 4 — Grasshopper responds (he is ashamed)</div>
+    <div class="wf-starter">"____________," _____ Grasshopper.</div>
+    <textarea class="sa-textarea" id="wp4" placeholder="Write Grasshopper's response — he is ashamed and sorry now..."></textarea>
+  </div>
+
+  <div class="write-frame">
+    <div class="wf-label">Panel 5 — The narrator's final line</div>
+    <div class="wf-starter">Only then did Grasshopper understand...</div>
+    <textarea class="sa-textarea" id="wp5" placeholder="Write the final narrator line — what lesson did Grasshopper learn?"></textarea>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-model" onclick="toggleBox('writeModel')">📖 Show Model Answer</button>
+  </div>
+  <div class="model-box" id="writeModel">
+    <div class="model-title">⭐ Model Answer</div>
+    <div class="model-text">
+      One freezing winter's morning, Grasshopper arrived at Ant's door. He was thin and pale, and his teeth chattered like tiny drums.<br><br>
+      "Please," <strong>begged</strong> Grasshopper, shivering in the cold, "just a few scraps of food — anything at all!"<br><br>
+      "I warned you," <strong>snapped</strong> Ant, crossing her arms firmly, "that summer would not last forever."<br><br>
+      "I know," <strong>wailed</strong> Grasshopper, hanging his head low, "and I am deeply, truly sorry that I laughed at you."<br><br>
+      Only then did Grasshopper understand that music fills your heart but hard work fills your belly — and that it is wise to think of tomorrow, even on the sunniest of days.
+    </div>
+    <div class="model-note">✏️ Notice: new line for each speaker, speech marks used correctly, interesting synonyms (begged, snapped, wailed), punctuation inside speech marks.</div>
+  </div>
+</div>
+
+<!-- TAB 5: Comprehension -->
+<div class="tab-pane" id="tab4">
+  <div class="st">🧠 Comprehension Practice</div>
+  <div class="st-sub">Answer these exam-style questions. Always look back at the rules you've learned!</div>
+
+  <div class="exam-q">
+    <div class="eq-marks">2 marks</div>
+    <div class="eq-q">Q1. Explain TWO rules for punctuating direct speech. Give an example of each from the story.</div>
+    <textarea class="sa-textarea" id="eq1" placeholder="Write your answer here..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m1')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">Think about WHERE the speech marks go and WHERE the punctuation (like ! or ,) goes.</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">⭐ Model Answer (2 marks)</div>
+      <div class="model-text"><strong>Rule 1</strong> — Speech marks go around the spoken words: <em>"Summer won't last forever!"</em> — the speech marks show exactly what Ant said aloud.<br><br><strong>Rule 2</strong> — Punctuation goes INSIDE the closing speech mark: the exclamation mark in <em>"forever!"</em> sits inside the final speech mark, not outside it.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q2. Look at these synonyms for 'said': <em>snapped, guffawed, wailed</em>. For each one, explain what it tells the reader about the character's mood and what it adds to the story.</div>
+    <textarea class="sa-textarea" id="eq2" placeholder="Write your answer here..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m2')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">For each word, ask: what emotion is the character feeling? How does this word show it WITHOUT telling us directly?</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">⭐ Model Answer (3 marks)</div>
+      <div class="model-text"><strong>Snapped</strong> suggests Ant was sharp and irritated when replying to Grasshopper — it shows her frustration without needing to explain it.<br><br><strong>Guffawed</strong> shows Grasshopper laughed loudly and mockingly at the idea of working in summer — it makes him seem carefree and dismissive.<br><br><strong>Wailed</strong> expresses Grasshopper's deep misery in winter — the long vowel sound echoes the drawn-out sadness.<br><br>Together, these verbs make the characters' personalities vivid without using extra words.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q3. Write a two-line conversation between Ant and Grasshopper using correct speech punctuation. Use a different synonym for 'said' in each line. Then label the punctuation features you have used.</div>
+    <textarea class="sa-textarea" id="eq3" placeholder="Write your conversation and labels here..." style="min-height:130px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">Line 1: Ant speaks — choose a word like 'declared' or 'snapped'. Line 2: Grasshopper replies — try 'wailed' or 'faltered'. Remember: comma inside speech mark, capital letter first word!</div>
+    <div class="model-box" id="m3">
+      <div class="model-title">⭐ Model Answer (3 marks)</div>
+      <div class="model-text">"I warned you that summer would end," <strong>declared</strong> Ant, shaking her head firmly.<br>"I know," <strong>wailed</strong> Grasshopper, "and how I wish I had listened to you!"<br><br>
+      <strong>Labels:</strong><br>
+      • <em>declared</em> — synonym for said<br>
+      • comma inside speech mark after 'end'<br>
+      • capital W after full stop at start of second speech<br>
+      • <em>wailed</em> — synonym for said<br>
+      • comma separates interrupted speech</div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="markDone()">🎉 Mark Lesson 1.7 as Complete!</button>
+  <div class="complete-msg" id="completeMsg">
+    ✅ Well done! Lesson 1.7 is complete!<br><br>
+    Ready for the next lesson? <a href="unit1_lesson_1_8.html">👉 Go to Lesson 1.8 – Figurative Language is All Around</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+// Tab switching
+function switchTab(n){
+  document.querySelectorAll('.tab-pane').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+}
+
+// Toggle reveal boxes
+function toggleBox(id){
+  document.getElementById(id).classList.toggle('show');
+}
+
+// Fix the Dialogue answers
+const fixAnswers = {
+  1: { answer: '"Take it easy there, Ant," said Grasshopper.', rules: 'Rules broken: Capital T needed, comma before closing speech mark, capital A for the name Ant.' },
+  2: { answer: 'She said, "Summer won\'t last forever."', rules: 'Rules broken: Speech marks needed around the spoken words, comma after "said", capital S inside speech marks.' },
+  3: { answer: '"Why would you help me?" asked Geoffrey nervously.', rules: 'Rules broken: Capital W needed, lowercase "asked" (it follows the speech, not a new sentence), capital G for Geoffrey.' },
+  4: { answer: 'Ant replied, "I am storing food for winter."', rules: 'Rules broken: Comma needed after "replied", speech marks needed, capital I inside speech marks.' },
+  5: { answer: '"How foolish I have been!" he wailed.', rules: 'Rules broken: Missing closing speech mark, capital H needed, exclamation mark needed.' },
+  6: { answer: '"Dearie me," said Auntie Anthea, "you look awfully feeble."', rules: 'Rules broken: Comma needed after "me" inside speech mark, speech continues with lowercase "you", full stop at very end.' }
+};
+
+function checkFix(n){
+  const val = document.getElementById('fix'+n).value.trim();
+  const fb = document.getElementById('fb'+n);
+  const correct = fixAnswers[n].answer;
+  fb.classList.remove('wrong-fb');
+  fb.innerHTML = '<strong>✅ Correct answer:</strong> ' + correct + '<br><br><strong>📌 ' + fixAnswers[n].rules + '</strong>';
+  fb.classList.add('show');
+}
+
+// Said cards data
+const saidWords = [
+  {word:'whispered',tone:'secret / shy / scared',def:'Spoke very softly, almost secretly',ex:'"Don\'t tell anyone," she whispered, glancing around nervously.'},
+  {word:'murmured',tone:'calm / gentle',def:'Spoke quietly and in a soft, continuous way',ex:'"Everything will be fine," he murmured gently.'},
+  {word:'snapped',tone:'irritated / cross',def:'Spoke sharply and angrily, like a sudden bite',ex:'"I told you already!" snapped Ant, turning away.'},
+  {word:'declared',tone:'confident / proud',def:'Stated something firmly and publicly',ex:'"I shall not give up," declared Ant proudly.'},
+  {word:'exclaimed',tone:'excited / shocked',def:'Spoke suddenly with surprise or strong emotion',ex:'"It\'s snowing!" she exclaimed, rushing to the window.'},
+  {word:'wailed',tone:'miserable / hopeless',def:'Cried out in deep sadness or pain',ex:'"How foolish I have been!" he wailed miserably.'},
+  {word:'quavered',tone:'nervous / scared',def:'Spoke in a shaky, trembling voice',ex:'"Is anyone there?" she quavered, stepping into the dark.'},
+  {word:'lured',tone:'sneaky / cunning',def:'Spoke in a tempting, persuasive way to attract',ex:'"Just one bite," lured the fox with a silky smile.'},
+  {word:'guffawed',tone:'amused / mocking',def:'Laughed loudly, often mockingly',ex:'Grasshopper guffawed at the idea of working in summer.'},
+  {word:'muttered',tone:'annoyed / secretive',def:'Spoke quietly under one\'s breath',ex:'"Not fair," he muttered, kicking the ground.'},
+  {word:'faltered',tone:'uncertain / nervous',def:'Spoke hesitantly, stopping and starting',ex:'"I — I\'m not sure..." she faltered, looking away.'},
+  {word:'barked',tone:'harsh / commanding',def:'Spoke sharply and loudly like giving an order',ex:'"Silence!" barked the teacher, and everyone froze.'}
+];
+
+function buildSaidGrid(){
+  const g = document.getElementById('saidGrid');
+  saidWords.forEach((w,i)=>{
+    const d = document.createElement('div');
+    d.className = 'said-card';
+    d.innerHTML = `<div class="sc-word">${w.word}</div><div class="sc-tone">${w.tone}</div><div class="sc-def">${w.def}</div><div class="sc-ex"><em>"${w.ex}"</em></div>`;
+    d.onclick = ()=>d.classList.toggle('expanded');
+    g.appendChild(d);
+  });
+}
+buildSaidGrid();
+
+function checkPrac(n, correct){
+  const val = document.getElementById('ps'+n).value;
+  const fb = document.getElementById('pfb'+n);
+  if(!val){fb.innerHTML='Please choose an answer first!';fb.classList.add('show','wrong-fb');return;}
+  if(correct.includes(val)){
+    fb.innerHTML = '✅ Great choice! <strong>'+val+'</strong> is perfect here — it shows the character\'s emotion clearly.';
+    fb.classList.remove('wrong-fb');
+  } else {
+    fb.innerHTML = '🤔 That works, but a better choice would be <strong>'+correct.join(' or ')+'</strong> — it fits the mood more precisely.';
+    fb.classList.add('wrong-fb');
+  }
+  fb.classList.add('show');
+}
+
+// Complete lesson
+function markDone(){
+  localStorage.setItem('u1_done_1-7','true');
+  document.getElementById('completeMsg').classList.add('show');
+}
+if(localStorage.getItem('u1_done_1-7')==='true'){
+  document.getElementById('completeMsg').classList.add('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.10 – Test Your Knowledge | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#5D4037;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#BCAAA4}
+.tn-btn.home{color:#FFD700}
+.lesson-hdr{background:#5D4037;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#5D4037}
+.tab-btn.active{color:#5D4037;border-bottom-color:#5D4037;background:#EFEBE9}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#5D4037;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p,.ib-purple li{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-brown{background:#EFEBE9;border-color:#BCAAA4}
+.ib-brown h4{color:#4E342E;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-brown p,.ib-brown li{color:#4E342E;font-size:.88rem;font-weight:600;line-height:1.6}
+.sa-textarea{width:100%;border:2px solid #BCAAA4;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#EFEBE9;resize:vertical;min-height:100px}
+.sa-textarea:focus{outline:none;border-color:#5D4037;background:#fff}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.7}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+.complete-msg a{color:#5D4037;text-decoration:none;font-weight:900}
+/* Story styles */
+.story-block{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #5D4037}
+.story-text{font-size:.95rem;font-weight:600;color:#333;line-height:1.9}
+.vocab-word{border-bottom:2px dashed #5D4037;cursor:pointer;font-weight:800;color:#5D4037;position:relative}
+.vocab-tooltip{display:none;position:absolute;background:#5D4037;color:#fff;border-radius:8px;padding:6px 10px;font-size:.78rem;font-weight:700;white-space:nowrap;z-index:200;top:calc(100% + 6px);left:0;min-width:160px}
+.vocab-word:hover .vocab-tooltip,.vocab-word.open .vocab-tooltip{display:block}
+/* MCQ styles */
+.mcq-q{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,.07)}
+.mcq-q p{font-weight:800;color:#333;font-size:.92rem;margin-bottom:12px}
+.mcq-option{display:block;padding:9px 14px;border-radius:10px;border:2px solid #BCAAA4;margin-bottom:6px;cursor:pointer;font-size:.88rem;font-weight:700;color:#333;transition:all .2s}
+.mcq-option:hover{border-color:#5D4037;background:#EFEBE9}
+.mcq-option.correct{background:#E8F5E9;border-color:#66BB6A;color:#2E7D32}
+.mcq-option.wrong{background:#FFEBEE;border-color:#EF9A9A;color:#C62828}
+/* Table notes */
+.notes-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.notes-table th{background:#5D4037;color:#fff;font-family:'Fredoka One',cursive;padding:10px 14px;text-align:left;font-size:.9rem}
+.notes-table td{border:2px solid #EFEBE9;padding:8px 12px;vertical-align:top}
+.notes-table tr:nth-child(even) td{background:#FBF8F7}
+.notes-label{font-weight:800;color:#5D4037;font-size:.88rem;width:150px}
+/* Fable checklist */
+.fable-check{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,.07);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.fc-text{flex:1;font-size:.9rem;font-weight:700;color:#333;min-width:200px}
+.fc-btns{display:flex;gap:8px}
+.fc-btn{border:2px solid;border-radius:10px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.88rem;transition:all .2s}
+.fc-yes{border-color:#2E7D32;color:#2E7D32;background:#fff}
+.fc-no{border-color:#C62828;color:#C62828;background:#fff}
+.fc-yes.sel{background:#E8F5E9}
+.fc-no.sel{background:#FFEBEE}
+.verdict-box{background:#FFF3E0;border:2px solid #FFB74D;border-radius:14px;padding:16px;margin-top:12px;display:none}
+.verdict-box.show{display:block}
+/* Geography card */
+.geo-card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.geo-flag{font-size:2rem;margin-bottom:8px}
+.geo-title{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#5D4037;margin-bottom:10px}
+.geo-fact{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:.9rem;font-weight:600;color:#333}
+.geo-fact-icon{font-size:1rem;flex-shrink:0;margin-top:2px}
+.map-link{display:block;background:#5D4037;color:#fff;border-radius:12px;padding:12px 18px;text-decoration:none;font-weight:800;text-align:center;margin-top:12px;font-size:.9rem}
+.map-link:hover{background:#4E342E}
+.word-bank{background:#EFEBE9;border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.wb-title{font-family:'Fredoka One',cursive;color:#5D4037;font-size:.9rem;margin-bottom:8px}
+.wb-words{display:flex;flex-wrap:wrap;gap:6px}
+.wb-chip{background:#5D4037;color:#fff;border-radius:8px;padding:3px 10px;font-size:.78rem;font-weight:800}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Home</a>
+  <a href="unit1_lesson_1_9.html" class="tn-btn">← Lesson 1.9</a>
+  <span class="tn-btn" style="color:#FFD700">▶ Lesson 1.10</span>
+  <a href="unit1_lesson_1_11.html" class="tn-btn">Lesson 1.11 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Stage 5</div>
+  <div class="lh-title">Lesson 1.10 – Test Your Knowledge</div>
+  <div class="lh-sub">The Man with the Coconuts · Fable Analysis · Comprehension</div>
+  <div class="lh-goals">
+    <span class="goal-chip">📖 Read an unseen fable</span>
+    <span class="goal-chip">🌏 Cross-cultural stories</span>
+    <span class="goal-chip">🔍 Identify fable features</span>
+    <span class="goal-chip">✏️ Write an analytical paragraph</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('read')">📖 Read the Story</button>
+  <button class="tab-btn" onclick="showTab('stages')">📊 Story Stages</button>
+  <button class="tab-btn" onclick="showTab('fable')">🔍 Is This a Fable?</button>
+  <button class="tab-btn" onclick="showTab('write')">✏️ Write a Paragraph</button>
+  <button class="tab-btn" onclick="showTab('geo')">🌏 Geography</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: Read the Story -->
+<div class="tab-pane active" id="tab-read">
+  <div class="st">📖 Read the Story</div>
+  <div class="st-sub">Read carefully — at least twice — before answering questions.</div>
+
+  <div class="info-box ib-brown">
+    <h4>🌏 About This Story</h4>
+    <p>This fable comes from the <strong>PHILIPPINES</strong> — an island nation in South East Asia. It was collected by <strong>Mabel Cook Cole</strong> in 1916. It shows that fables are found in <strong>EVERY culture</strong> around the world, not just Ancient Greece!</p>
+  </div>
+
+  <div class="story-block">
+    <h3 style="font-family:'Fredoka One',cursive;color:#5D4037;font-size:1.3rem;margin-bottom:16px">The Man with the Coconuts</h3>
+    <div class="story-text">
+      <p style="margin-bottom:14px">One day a man who had been to gather his coconuts 
+        <span class="vocab-word" onclick="this.classList.toggle('open')">laden<span class="vocab-tooltip">💡 laden = heavily loaded; weighed down with things</span></span> 
+        his horse heavily with the fruit. On the way home, he met a boy whom he asked how long it would take to reach the house.</p>
+      <p style="margin-bottom:14px">"If you go slowly," said the boy, looking at the load on the horse, "you will arrive very soon; but if you go fast, it will take you all day."</p>
+      <p style="margin-bottom:14px">The man could not believe this strange speech, so he hurried his horse. But the coconuts fell off and he had to stop to pick them up. Then he hurried his horse all the more to make up for lost time, but the coconuts fell off again.</p>
+      <p style="margin-bottom:14px">Many times he did this, and it was night when he reached home.</p>
+      <p style="font-style:italic;color:#888;font-size:.85rem">— Mabel Cook Cole, 1916</p>
+    </div>
+  </div>
+
+  <div class="info-box ib-orange">
+    <h4>💡 Vocabulary Tip</h4>
+    <p>Tap or click on the <strong style="color:#5D4037;border-bottom:2px dashed #5D4037">underlined words</strong> in the story to see their meanings!</p>
+  </div>
+
+  <h3 style="font-family:'Fredoka One',cursive;color:#5D4037;font-size:1.1rem;margin:20px 0 12px">🧠 Quick Comprehension Check</h3>
+  <p style="font-size:.88rem;font-weight:600;color:#555;margin-bottom:14px">Click the answer you think is correct.</p>
+
+  <div class="mcq-q" id="q1">
+    <p>1. What did the boy warn the man about?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q1',false)">a) The weather</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q1',true)">b) Going too fast with a heavy load</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q1',false)">c) The horse was tired</label>
+    <div class="hint-box" id="q1-fb"></div>
+  </div>
+
+  <div class="mcq-q" id="q2">
+    <p>2. Why did the man take so long to get home?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q2',false)">a) He stopped to rest</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q2',true)">b) He lost his coconuts by rushing and had to keep picking them up</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q2',false)">c) He went the wrong way</label>
+    <div class="hint-box" id="q2-fb"></div>
+  </div>
+
+  <div class="mcq-q" id="q3">
+    <p>3. What is the lesson of the story?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q3',false)">a) Horses are unreliable</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q3',true)">b) Slow and steady wins the race</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'q3',true)">c) Listen to wise advice, even from children</label>
+    <div class="hint-box" id="q3-fb" style="display:none"></div>
+  </div>
+  <div class="info-box ib-green" style="margin-top:8px"><p>💡 For question 3, both <strong>b</strong> and <strong>c</strong> are acceptable answers!</p></div>
+</div>
+
+<!-- TAB 2: Story Stages Analysis -->
+<div class="tab-pane" id="tab-stages">
+  <div class="st">📊 Story Stages Analysis</div>
+  <div class="st-sub">Complete the notes table — what happens at each stage of the story?</div>
+
+  <div class="info-box ib-blue">
+    <h4>📝 How to use this table</h4>
+    <p>Fill in your notes for each stage. When you're ready, click <strong>Check My Notes</strong> to see model answers. Don't worry if yours are different — what matters is that you understood the story!</p>
+  </div>
+
+  <div class="card">
+    <div style="margin-bottom:16px">
+      <div style="font-weight:800;color:#5D4037;font-size:.92rem;margin-bottom:6px">📍 Setting — Where and when does the story take place?</div>
+      <textarea class="sa-textarea" placeholder="Describe the setting..."></textarea>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-weight:800;color:#5D4037;font-size:.92rem;margin-bottom:6px">👥 Characters — Who are they? Describe each briefly.</div>
+      <textarea class="sa-textarea" placeholder="Describe the man and the boy..."></textarea>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-weight:800;color:#5D4037;font-size:.92rem;margin-bottom:6px">⚠️ Problem / Issue — What goes wrong?</div>
+      <textarea class="sa-textarea" placeholder="What problem does the man create?"></textarea>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-weight:800;color:#5D4037;font-size:.92rem;margin-bottom:6px">✅ Resolution — How does it end?</div>
+      <textarea class="sa-textarea" placeholder="How does the story end?"></textarea>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-weight:800;color:#5D4037;font-size:.92rem;margin-bottom:6px">💡 Lesson / Moral — What do we learn?</div>
+      <textarea class="sa-textarea" placeholder="What is the moral of the story?"></textarea>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-weight:800;color:#5D4037;font-size:.92rem;margin-bottom:6px">📜 Proverb — Which proverb fits? (e.g. "More haste, less speed")</div>
+      <textarea class="sa-textarea" placeholder="Which proverb matches the moral?"></textarea>
+    </div>
+
+    <button class="btn-model" onclick="toggleModel('stages-model')">✅ Check My Notes (Model Answers)</button>
+    <div class="model-box" id="stages-model">
+      <div class="model-title">📋 Model Answers</div>
+      <div class="model-text">
+        <p style="margin-bottom:8px"><strong>📍 Setting:</strong> A road in the Philippines; the man is travelling home with his horse loaded with coconuts.</p>
+        <p style="margin-bottom:8px"><strong>👥 Characters:</strong> The man — impatient and disbelieving; the boy — wise and observant. The horse carries the coconuts but is just an animal (not a character who acts like a human).</p>
+        <p style="margin-bottom:8px"><strong>⚠️ Problem:</strong> The man ignores the boy's advice and hurries his horse; the coconuts keep falling off and he must stop to pick them up every time.</p>
+        <p style="margin-bottom:8px"><strong>✅ Resolution:</strong> He arrives home at night — much later than he would have if he had gone slowly, exactly as the boy predicted.</p>
+        <p style="margin-bottom:8px"><strong>💡 Lesson:</strong> Rushing causes more problems than it solves; patience saves time in the long run.</p>
+        <p><strong>📜 Proverb:</strong> "More haste, less speed" or "Slow and steady wins the race."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: Is This a Fable? -->
+<div class="tab-pane" id="tab-fable">
+  <div class="st">🔍 Is This a Fable?</div>
+  <div class="st-sub">Not all short moral stories are fables. Let's check if The Man with the Coconuts qualifies!</div>
+
+  <div class="info-box ib-purple">
+    <h4>🧐 What makes a FABLE?</h4>
+    <p>A fable has SPECIFIC features. Click YES or NO for each feature below to check whether this story qualifies. Then see the verdict!</p>
+  </div>
+
+  <div id="fable-checks">
+    <div class="fable-check">
+      <div class="fc-text">Does it have <strong>animal characters who act like humans</strong>?</div>
+      <div class="fc-btns">
+        <button class="fc-btn fc-yes" onclick="fcAnswer(this,'fc1','no')">YES</button>
+        <button class="fc-btn fc-no" onclick="fcAnswer(this,'fc1','no')">NO</button>
+      </div>
+    </div>
+    <div class="fable-check">
+      <div class="fc-text">Does it have a <strong>clear moral / lesson</strong>?</div>
+      <div class="fc-btns">
+        <button class="fc-btn fc-yes" onclick="fcAnswer(this,'fc2','yes')">YES</button>
+        <button class="fc-btn fc-no" onclick="fcAnswer(this,'fc2','yes')">NO</button>
+      </div>
+    </div>
+    <div class="fable-check">
+      <div class="fc-text">Is it a <strong>short, simple story</strong>?</div>
+      <div class="fc-btns">
+        <button class="fc-btn fc-yes" onclick="fcAnswer(this,'fc3','yes')">YES</button>
+        <button class="fc-btn fc-no" onclick="fcAnswer(this,'fc3','yes')">NO</button>
+      </div>
+    </div>
+    <div class="fable-check">
+      <div class="fc-text">Does it use strong <strong>figurative language or alliteration</strong>?</div>
+      <div class="fc-btns">
+        <button class="fc-btn fc-yes" onclick="fcAnswer(this,'fc4','no')">YES</button>
+        <button class="fc-btn fc-no" onclick="fcAnswer(this,'fc4','no')">NO</button>
+      </div>
+    </div>
+    <div class="fable-check">
+      <div class="fc-text">Does the <strong>main character learn something</strong>?</div>
+      <div class="fc-btns">
+        <button class="fc-btn fc-yes" onclick="fcAnswer(this,'fc5','yes')">YES</button>
+        <button class="fc-btn fc-no" onclick="fcAnswer(this,'fc5','yes')">NO</button>
+      </div>
+    </div>
+    <div class="fable-check">
+      <div class="fc-text">Does it come from a <strong>folklore / oral tradition</strong>?</div>
+      <div class="fc-btns">
+        <button class="fc-btn fc-yes" onclick="fcAnswer(this,'fc6','yes')">YES</button>
+        <button class="fc-btn fc-no" onclick="fcAnswer(this,'fc6','yes')">NO</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-model" onclick="showVerdict()" style="margin-top:12px">🔍 Show Verdict</button>
+  <div class="verdict-box" id="verdict-box">
+    <div style="font-family:'Fredoka One',cursive;color:#E65100;font-size:1.1rem;margin-bottom:10px">⚖️ The Verdict</div>
+    <p style="font-size:.9rem;font-weight:700;color:#333;line-height:1.7">Although <em>The Man with the Coconuts</em> has <strong>SOME fable features</strong> (a moral, brevity, folklore tradition), it is <strong>UNUSUAL</strong> because the main character is a <strong>HUMAN</strong>, not an animal. This makes it more of a <strong>FOLK TALE</strong> or <strong>PARABLE</strong> than a strict fable. Aesop's fables almost always use animals. However, the moral lesson still qualifies it as <strong>fable-like</strong>.</p>
+  </div>
+
+  <h3 style="font-family:'Fredoka One',cursive;color:#5D4037;font-size:1.1rem;margin:24px 0 12px">🧠 5-Question Quiz</h3>
+
+  <div class="mcq-q" id="qz1">
+    <p>1. What does <em>"laden"</em> mean in the story?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz1',false)">a) Empty</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz1',true)">b) Heavily loaded</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz1',false)">c) Very old</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz1',false)">d) Broken</label>
+    <div class="hint-box" id="qz1-fb"></div>
+  </div>
+  <div class="mcq-q" id="qz2">
+    <p>2. Why did the boy say going slowly would be faster?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz2',false)">a) The road was dangerous</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz2',false)">b) The horse was tired</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz2',true)">c) The coconuts would stay on if he went slowly</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz2',false)">d) The man was too heavy</label>
+    <div class="hint-box" id="qz2-fb"></div>
+  </div>
+  <div class="mcq-q" id="qz3">
+    <p>3. What happened each time the man rushed?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz3',false)">a) He got home faster</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz3',true)">b) The coconuts fell off</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz3',false)">c) The horse ran away</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz3',false)">d) He met more people</label>
+    <div class="hint-box" id="qz3-fb"></div>
+  </div>
+  <div class="mcq-q" id="qz4">
+    <p>4. What type of character is "the boy"?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz4',false)">a) A villain</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz4',false)">b) A fool</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz4',true)">c) A wise adviser</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz4',false)">d) A helper who joins the journey</label>
+    <div class="hint-box" id="qz4-fb"></div>
+  </div>
+  <div class="mcq-q" id="qz5">
+    <p>5. What is the moral of this story?</p>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz5',false)">a) Coconuts are difficult to carry</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz5',false)">b) Horses need rest</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz5',true)">c) Patience and steady progress achieve more than rushing</label>
+    <label class="mcq-option" onclick="mcqAnswer(this,'qz5',false)">d) Children are always wiser than adults</label>
+    <div class="hint-box" id="qz5-fb"></div>
+  </div>
+</div>
+
+<!-- TAB 4: Write an Analytical Paragraph -->
+<div class="tab-pane" id="tab-write">
+  <div class="st">✏️ Write an Analytical Paragraph</div>
+  <div class="st-sub">Explain whether you would classify this story as a fable. Give reasons and use evidence!</div>
+
+  <div class="info-box ib-orange">
+    <h4>📐 TOPIC SENTENCE Structure</h4>
+    <p>Start with: <em>"The story [title] can/cannot be considered a fable because..."</em><br>
+    Then: add <strong>evidence</strong> → give your <strong>explanation</strong> → write your <strong>conclusion</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="font-family:'Fredoka One',cursive;color:#5D4037;font-size:1rem;margin-bottom:14px">📋 Writing Frame</h4>
+
+    <div style="margin-bottom:12px">
+      <div style="font-weight:800;color:#5D4037;font-size:.88rem;margin-bottom:5px">Topic Sentence:</div>
+      <div style="font-size:.85rem;font-weight:600;color:#888;margin-bottom:5px;font-style:italic">"The story 'The Man with the Coconuts' [can/cannot] be considered a fable because..."</div>
+      <textarea class="sa-textarea" placeholder="Start your paragraph here..."></textarea>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <div style="font-weight:800;color:#5D4037;font-size:.88rem;margin-bottom:5px">Evidence 1:</div>
+      <div style="font-size:.85rem;font-weight:600;color:#888;margin-bottom:5px;font-style:italic">"One fable feature present is... For example,..."</div>
+      <textarea class="sa-textarea" placeholder="Give your first piece of evidence..."></textarea>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <div style="font-weight:800;color:#5D4037;font-size:.88rem;margin-bottom:5px">Evidence 2 (contrast):</div>
+      <div style="font-size:.85rem;font-weight:600;color:#888;margin-bottom:5px;font-style:italic">"However, unlike a typical fable,... This is because..."</div>
+      <textarea class="sa-textarea" placeholder="Give your contrasting point..."></textarea>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <div style="font-weight:800;color:#5D4037;font-size:.88rem;margin-bottom:5px">Conclusion:</div>
+      <div style="font-size:.85rem;font-weight:600;color:#888;margin-bottom:5px;font-style:italic">"Therefore, this story is [best described as...] because..."</div>
+      <textarea class="sa-textarea" placeholder="Write your conclusion..."></textarea>
+    </div>
+  </div>
+
+  <div class="word-bank">
+    <div class="wb-title">📚 Word Bank</div>
+    <div class="wb-words">
+      <span class="wb-chip">folk tale</span>
+      <span class="wb-chip">parable</span>
+      <span class="wb-chip">moral</span>
+      <span class="wb-chip">lesson</span>
+      <span class="wb-chip">animal characters</span>
+      <span class="wb-chip">human protagonist</span>
+      <span class="wb-chip">folklore</span>
+      <span class="wb-chip">oral tradition</span>
+      <span class="wb-chip">clear message</span>
+      <span class="wb-chip">anthropomorphised</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-model" onclick="toggleModel('write-model')">📝 Show Model Answer</button>
+  </div>
+  <div class="model-box" id="write-model">
+    <div class="model-title">📝 Model Answer</div>
+    <div class="model-text">"The story 'The Man with the Coconuts' can be considered a fable-like story, though it does not fully meet all the criteria. One fable feature present is a clear moral lesson: the story teaches us that rushing leads to more delay, not less — similar to the lesson in <em>The Ant and the Grasshopper</em>. Furthermore, it comes from the folklore tradition of the Philippines and was passed down orally. However, unlike a typical Aesop fable, the main character is a human man, not an animal acting like a human. In Aesop's fables, animal characters are essential. Therefore, this story is best described as a folk tale or parable, which shares the purpose of a fable (teaching a lesson) but lacks the defining feature of anthropomorphised animal characters."</div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson('u1_done_1-10','unit1_lesson_1_11.html','Lesson 1.11')">✅ Mark Lesson 1.10 as Complete!</button>
+  <div class="complete-msg" id="complete-msg">🎉 Well done! Lesson 1.10 is complete! <a href="unit1_lesson_1_11.html">Next: Lesson 1.11 →</a></div>
+</div>
+
+<!-- TAB 5: Geography & Culture -->
+<div class="tab-pane" id="tab-geo">
+  <div class="st">🌏 Geography & Culture</div>
+  <div class="st-sub">Stories come from places — and understanding where helps you understand the story!</div>
+
+  <div class="geo-card">
+    <div class="geo-flag">🇵🇭</div>
+    <div class="geo-title">The Philippines</div>
+    <div class="geo-fact"><span class="geo-fact-icon">🗺️</span><div>Located in <strong>South East Asia</strong>, made up of over <strong>7,600 islands</strong> in the Pacific Ocean.</div></div>
+    <div class="geo-fact"><span class="geo-fact-icon">🏙️</span><div><strong>Capital:</strong> Manila — one of the most densely populated cities in the world.</div></div>
+    <div class="geo-fact"><span class="geo-fact-icon">💬</span><div><strong>Languages:</strong> Filipino (Tagalog) and English — both are official languages!</div></div>
+    <div class="geo-fact"><span class="geo-fact-icon">🥥</span><div><strong>Coconuts</strong> are one of the most important crops — used for food, coconut oil, coconut water, and making materials like rope and baskets. This makes the story feel very REAL and LOCAL.</div></div>
+    <div class="geo-fact"><span class="geo-fact-icon">📖</span><div>The Philippines has a <strong>rich storytelling tradition</strong> — many folk tales, riddles, and proverbs have been passed down through generations.</div></div>
+    <a class="map-link" href="https://www.google.com/maps/place/Philippines" target="_blank">🗺️ Find the Philippines on Google Maps →</a>
+  </div>
+
+  <div class="info-box ib-blue">
+    <h4>💡 Where in the World?</h4>
+    <p>The Philippines is east of Vietnam, south of China, and north of Indonesia. It sits in the Pacific Ocean. Because it is an island nation with a hot climate, <strong>coconuts</strong> grow abundantly — so the story of a man carrying coconuts home would be completely normal and relatable to Filipino readers!</p>
+  </div>
+
+  <div class="card">
+    <h4 style="font-family:'Fredoka One',cursive;color:#5D4037;font-size:1rem;margin-bottom:10px">🤔 Cross-Curricular Question</h4>
+    <p style="font-size:.9rem;font-weight:700;color:#333;margin-bottom:14px">How does knowing <em>where</em> a story comes from help you understand it better? Does the setting of <em>The Man with the Coconuts</em> matter for the story?</p>
+    <textarea class="sa-textarea" placeholder="Think about: Would the story work as well if it were set in England? Would it use coconuts? What would be different?"></textarea>
+  </div>
+</div>
+
+</main>
+
+<script>
+function showTab(name){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  const tabs=['read','stages','fable','write','geo'];
+  const idx=tabs.indexOf(name);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+
+function mcqAnswer(el,qid,correct){
+  const q=document.getElementById(qid);
+  if(q.dataset.answered) return;
+  q.dataset.answered='true';
+  el.classList.add(correct?'correct':'wrong');
+  const fb=document.getElementById(qid+'-fb');
+  if(fb){
+    fb.style.display='block';
+    fb.style.background=correct?'#E8F5E9':'#FFEBEE';
+    fb.style.color=correct?'#2E7D32':'#C62828';
+    fb.textContent=correct?'✅ Correct! Well done!':'❌ Not quite — try reading the hint: the boy\'s advice was about the coconuts staying on if you go slowly.';
+  }
+}
+
+function toggleModel(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('show');
+}
+function toggleHint(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('show');
+}
+
+function fcAnswer(btn,id,correct){
+  btn.classList.add('sel');
+}
+
+function showVerdict(){
+  document.getElementById('verdict-box').classList.add('show');
+  document.getElementById('verdict-box').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function completeLesson(key,nextUrl,nextLabel){
+  localStorage.setItem(key,'true');
+  const msg=document.getElementById('complete-msg');
+  if(msg) msg.classList.add('show');
+  msg.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>

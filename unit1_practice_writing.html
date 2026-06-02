@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Writing Paper | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F3E5F5;color:#1a1a2e}
+.top-nav{background:#4A148C;display:flex;align-items:center;padding:0 16px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.85);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block}
+.tn-btn:hover{color:#fff}.tn-btn.cur{color:#FFD700;cursor:default}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;border-bottom:none !important;color:#fff !important}
+.paper-hdr{background:#4A148C;padding:28px 20px 56px;text-align:center;position:relative}
+.paper-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F3E5F5;border-radius:50% 50% 0 0/36px 36px 0 0}
+.ph-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.ph-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.ph-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-p{background:#EDE7FF;border-color:#CE93D8}.ib-p h4{color:#4A148C;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}.ib-p p,.ib-p li{color:#4A148C;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}.ib-green p{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+/* TIMER */
+.timer-bar{background:#fff;border:2px solid #E1BEE7;border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.timer-display{font-family:'Fredoka One',cursive;font-size:1.8rem;color:#4A148C;min-width:80px}
+.timer-label{font-size:.85rem;font-weight:700;color:#888}
+.timer-btn{background:#4A148C;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.timer-btn:hover{background:#6A1B9A}
+.timer-btn.pause{background:#F57F17}
+.timer-progress{flex:1;background:#E1BEE7;height:8px;border-radius:4px;min-width:100px;overflow:hidden}
+.timer-fill{background:#4A148C;height:100%;border-radius:4px;transition:width 1s linear}
+/* TASK CARDS */
+.task-card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-bottom:24px}
+.task-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.task-num{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#4A148C}
+.task-marks{background:#EDE7FF;color:#4A148C;border-radius:12px;padding:4px 12px;font-size:.82rem;font-weight:800}
+.task-time{background:#FFF8E1;color:#E65100;border-radius:12px;padding:4px 12px;font-size:.82rem;font-weight:800}
+.task-title{font-family:'Fredoka One',cursive;color:#4A148C;font-size:1.1rem;width:100%}
+.task-desc{font-weight:700;font-size:.95rem;color:#222;background:#F3E5F5;border-radius:10px;padding:12px 16px;margin-bottom:14px;line-height:1.5}
+.req-list{background:#EDE7FF;border-radius:10px;padding:12px 16px;margin-bottom:14px}
+.req-title{font-weight:800;color:#4A148C;font-size:.85rem;margin-bottom:6px}
+.req-item{font-size:.83rem;color:#4A148C;font-weight:700;line-height:1.7}
+.sa-textarea{width:100%;border:2px solid #CE93D8;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#F3E5F5;resize:vertical;transition:border .2s}
+.sa-textarea:focus{outline:none;border-color:#4A148C;background:#fff}
+.wc-row{display:flex;align-items:center;gap:10px;margin-top:6px}
+.wc-bar{flex:1;background:#E1BEE7;height:8px;border-radius:4px;overflow:hidden}
+.wc-fill{background:#4A148C;height:100%;border-radius:4px;transition:width .3s}
+.wc-num{font-size:.78rem;font-weight:800;color:#4A148C;white-space:nowrap}
+/* checklist */
+.cl-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.cl-item{display:flex;align-items:flex-start;gap:8px;padding:6px 10px;border-radius:8px;background:#F3E5F5;cursor:pointer;transition:background .2s}
+.cl-item:hover{background:#EDE7FF}
+.cl-item.checked{background:#E8F5E9}
+.cl-item input{width:15px;height:15px;accent-color:#4A148C;cursor:pointer;flex-shrink:0;margin-top:2px}
+.cl-item label{font-size:.78rem;font-weight:700;color:#333;cursor:pointer;line-height:1.3}
+/* mark scheme */
+.btn-scheme{background:#EDE7FF;color:#4A148C;border:2px solid #CE93D8;border-radius:10px;padding:8px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;margin-top:10px}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:8px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;margin-top:10px}
+.scheme-box,.model-box{border-radius:10px;padding:14px;margin-top:10px;display:none;line-height:1.6;font-size:.88rem;font-weight:600}
+.scheme-box{background:#EDE7FF;border:2px solid #CE93D8;color:#4A148C}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;color:#1B5E20}
+.scheme-box.show,.model-box.show{display:block}
+.scheme-title,.model-title{font-weight:800;margin-bottom:6px;font-size:.9rem}
+/* SCORE */
+.total-box{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-top:8px;text-align:center}
+.total-title{font-family:'Fredoka One',cursive;color:#4A148C;font-size:1.3rem;margin-bottom:16px}
+.mark-inputs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.mi-group{text-align:center}
+.mi-label{font-size:.78rem;font-weight:800;color:#888;margin-bottom:4px}
+.mi-input{width:60px;border:2px solid #CE93D8;border-radius:10px;padding:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;color:#4A148C;text-align:center;background:#F3E5F5}
+.mi-input:focus{outline:none;border-color:#4A148C;background:#fff}
+.mi-max{font-size:.72rem;color:#aaa;margin-top:3px}
+.calc-btn{background:#4A148C;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer}
+.calc-btn:hover{background:#6A1B9A}
+.result-box{background:#EDE7FF;border:2px solid #CE93D8;border-radius:14px;padding:16px;margin-top:14px;display:none;text-align:center}
+.result-box.show{display:block}
+.rb-score{font-family:'Fredoka One',cursive;font-size:2.4rem;color:#4A148C;margin-bottom:6px}
+.rb-msg{font-weight:700;color:#333;font-size:1rem;margin-bottom:4px}
+.rb-detail{font-size:.85rem;color:#666}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:14px 28px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;width:100%;margin-top:16px}
+@media(max-width:600px){.cl-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="unit1_home.html" class="tn-btn" style="color:#FFD700">🏠 Unit Home</a>
+  <a href="unit1_practice_comprehension.html" class="tn-btn">← Comprehension Paper</a>
+  <span class="tn-btn cur">▶ Writing Paper</span>
+</div>
+
+<div class="paper-hdr">
+  <div class="ph-badge">📝 PRACTICE PAPER 2</div>
+  <div class="ph-title">Writing Practice Paper</div>
+  <div class="ph-sub">Cambridge Primary English · Stage 5 · Unit 1 · 35 Marks · 45 Minutes</div>
+</div>
+
+<div class="main">
+
+  <div class="info-box ib-p">
+    <h4>📌 Instructions</h4>
+    <p>• There are <strong>THREE tasks</strong>. Complete them all.<br>
+    • Manage your time: <strong>Task 1 ≈ 10 min</strong>, <strong>Task 2 ≈ 15 min</strong>, <strong>Task 3 ≈ 20 min</strong>.<br>
+    • Plan before you write — especially for Task 3.<br>
+    • Check your work when you finish each task.<br>
+    • Click "▶ Start Timer" when you are ready to begin.</p>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-bar">
+    <div>
+      <div class="timer-label">⏱️ Time remaining</div>
+      <div class="timer-display" id="timer-display">45:00</div>
+    </div>
+    <div class="timer-progress"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+    <button class="timer-btn" id="tbtn-start" onclick="startTimer()">▶ Start Timer</button>
+    <button class="timer-btn pause" id="tbtn-pause" onclick="pauseTimer()" style="display:none">⏸ Pause</button>
+  </div>
+
+  <!-- TASK 1 -->
+  <div class="task-card">
+    <div class="task-header">
+      <span class="task-num">Task 1</span>
+      <span class="task-marks">5 marks</span>
+      <span class="task-time">⏱ ~10 minutes</span>
+      <div class="task-title">💬 Write a Dialogue</div>
+    </div>
+    <div class="task-desc">Write a conversation between TWO characters from a fable. One character wants something from the other. The other refuses at first, then agrees on a condition.</div>
+    <div class="req-list">
+      <div class="req-title">✅ Your dialogue must include:</div>
+      <div class="req-item">✓ At least 6 lines of dialogue (3 per character)<br>
+      ✓ Correct speech punctuation throughout (speech marks, commas, capitals)<br>
+      ✓ At least 2 interesting synonyms instead of "said"<br>
+      ✓ Each character's voice matching their personality<br>
+      ✓ Each new speaker on a new line</div>
+    </div>
+    <textarea class="sa-textarea" id="t1" oninput="wc('t1','wc1','wc1f',6,60)" style="min-height:220px" placeholder='One icy morning, Grasshopper arrived at Ant&apos;s door...&#10;&#10;"_______________," begged Grasshopper.&#10;"_______________," snapped Ant.'></textarea>
+    <div class="wc-row">
+      <div class="wc-bar"><div class="wc-fill" id="wc1f" style="width:0%"></div></div>
+      <span class="wc-num" id="wc1">0 words</span>
+    </div>
+    <div class="req-list" style="margin-top:10px">
+      <div class="req-title">🔍 Self-check before moving on:</div>
+      <div class="cl-grid" id="cl1"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn-scheme" onclick="toggle('s1')">📋 Mark Scheme</button>
+      <button class="btn-model" onclick="toggle('m1')">📖 Model Answer</button>
+    </div>
+    <div class="scheme-box" id="s1">
+      <div class="scheme-title">Mark Scheme — Task 1 (5 marks)</div>
+      5: All punctuation correct, fluent &amp; in-character, 2+ synonyms, 6+ lines.<br>
+      4: Mostly correct punctuation, minor errors, good character voice, 2 synonyms.<br>
+      3: Some punctuation correct, attempts synonyms, at least 6 lines, dialogue makes sense.<br>
+      2: Basic attempt, significant punctuation errors but meaning clear, some character voice.<br>
+      1: Minimal attempt, little punctuation awareness, fewer than 4 lines.
+    </div>
+    <div class="model-box" id="m1">
+      <div class="model-title">✅ Model Answer</div>
+      One freezing winter morning, Grasshopper arrived at Ant's door, shivering from head to tail.<br><br>
+      "Please," <em>begged</em> Grasshopper, his voice quavering with cold, "could you spare just a little food? I am so hungry I can barely stand."<br><br>
+      "You had all summer to prepare," <em>snapped</em> Ant, folding her arms firmly. "I warned you clearly, and you laughed at me."<br><br>
+      "I know," <em>faltered</em> Grasshopper, hanging his tiny head in shame. "I was foolish. I promise I will never make that mistake again."<br><br>
+      Ant was silent for a long moment. "Very well," she said quietly. "Come in — but next summer, you will work alongside me."<br><br>
+      "I promise," <em>whispered</em> Grasshopper, stepping gratefully into the warmth.<br><br>
+      <span style="font-size:.78rem;color:#388E3C">📝 Notice: 4 synonyms (begged, snapped, faltered, whispered), correct speech punctuation throughout, each speaker on new line, characters stay in-character.</span>
+    </div>
+  </div>
+
+  <!-- TASK 2 -->
+  <div class="task-card">
+    <div class="task-header">
+      <span class="task-num">Task 2</span>
+      <span class="task-marks">10 marks</span>
+      <span class="task-time">⏱ ~15 minutes</span>
+      <div class="task-title">📝 Write a Character Paragraph (PEE)</div>
+    </div>
+    <div class="task-desc">Write ONE well-developed paragraph describing the personality of either <strong>the Peacock</strong> (from the practice comprehension) or <strong>Ant</strong> (from The Ant and the Grasshopper).</div>
+    <div class="req-list">
+      <div class="req-title">✅ Your paragraph must include:</div>
+      <div class="req-item">✓ PEE structure (Point → Evidence → Explain)<br>
+      ✓ At least ONE quotation or reference from the text<br>
+      ✓ At least ONE example of figurative language (simile, metaphor, or alliteration)<br>
+      ✓ 6–8 sentences in length<br>
+      ✓ Correct grammar and punctuation throughout</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <label style="font-weight:800;color:#4A148C;font-size:.9rem"><input type="radio" name="t2choice" value="peacock" onchange="updateT2('peacock')"> 🦚 The Peacock</label>
+      <label style="font-weight:800;color:#4A148C;font-size:.9rem"><input type="radio" name="t2choice" value="ant" onchange="updateT2('ant')"> 🐜 Ant</label>
+    </div>
+    <div class="info-box ib-p" id="t2-hint-box" style="display:none;margin-bottom:10px">
+      <h4 id="t2-hint-title">Useful evidence:</h4>
+      <p id="t2-hint-text"></p>
+    </div>
+    <textarea class="sa-textarea" id="t2" oninput="wc('t2','wc2','wc2f',50,150)" style="min-height:200px" placeholder="[Character name] is a [adjective] character...&#10;This is shown when...&#10;The word '...' suggests...&#10;Furthermore..."></textarea>
+    <div class="wc-row">
+      <div class="wc-bar"><div class="wc-fill" id="wc2f" style="width:0%"></div></div>
+      <span class="wc-num" id="wc2">0 words</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn-scheme" onclick="toggle('s2')">📋 Mark Scheme</button>
+      <button class="btn-model" onclick="toggle('m2')">📖 Model Answer (Ant)</button>
+    </div>
+    <div class="scheme-box" id="s2">
+      <div class="scheme-title">Mark Scheme — Task 2 (10 marks)</div>
+      <strong>Content (4 marks):</strong> Clear main point (1) · well-chosen evidence from text (1) · developed explanation (1) · figurative language used effectively (1)<br><br>
+      <strong>Language (4 marks):</strong> Varied, precise vocabulary (2) · well-constructed sentences (1) · analytical language ("this suggests", "the writer uses") (1)<br><br>
+      <strong>Accuracy (2 marks):</strong> Grammar and spelling (1) · punctuation (1)
+    </div>
+    <div class="model-box" id="m2">
+      <div class="model-title">✅ Model Answer — Ant</div>
+      Ant is an exceptionally hard-working and forward-thinking character whose determination is shown in every action she takes. The writer uses energetic, purposeful verbs to describe her movement: she "scurried back and forth" and was "toiling just a little harder", both of which suggest relentless, mechanical effort rather than ordinary work. Ant is like a machine that never switches off — she does not pause even to "admire the glorious day." This simile emphasises her complete dedication; while Grasshopper enjoys the present, Ant sacrifices comfort for security. Her intelligence is equally impressive: the modal verb "won't" in "Summer won't last forever" shows absolute certainty about the future — she does not guess or hope, she knows. Overall, Ant represents the virtues of responsibility and wisdom, and her reward at the end of the fable is entirely earned through her own choices, not luck.
+      <div style="font-size:.76rem;color:#388E3C;margin-top:6px">📝 Features: clear point (hard-working, forward-thinking), two text references, simile ("like a machine"), modal verb analysis, concluding link to fable's message.</div>
+    </div>
+  </div>
+
+  <!-- TASK 3 -->
+  <div class="task-card">
+    <div class="task-header">
+      <span class="task-num">Task 3</span>
+      <span class="task-marks">20 marks</span>
+      <span class="task-time">⏱ ~20 minutes</span>
+      <div class="task-title">✍️ Write Your Own Fable</div>
+    </div>
+    <div class="task-desc">Write your own original fable. Plan it first in the boxes below, then write your complete fable in the writing space.</div>
+    <div class="req-list">
+      <div class="req-title">✅ Your fable must include:</div>
+      <div class="req-item">
+        ✓ Two or more animal characters with distinct personalities<br>
+        ✓ A clear problem, climax, and resolution<br>
+        ✓ A moral (lesson) stated at the end<br>
+        ✓ Dialogue (correctly punctuated with speech marks)<br>
+        ✓ At least ONE simile or metaphor<br>
+        ✓ At least ONE example of alliteration<br>
+        ✓ At least TWO modal verbs used correctly<br>
+        ✓ Past tense narrative, present tense dialogue<br>
+        ✓ Suggested length: 150–250 words
+      </div>
+    </div>
+
+    <!-- PLANNING BOX -->
+    <div style="background:#EDE7FF;border-radius:14px;padding:16px;margin-bottom:14px">
+      <div style="font-family:'Fredoka One',cursive;color:#4A148C;font-size:1rem;margin-bottom:10px">🗺️ Quick Plan (fill this in FIRST!)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:.78rem;font-weight:800;color:#7B1FA2;margin-bottom:4px">🐾 Characters</div>
+          <textarea class="sa-textarea" id="p1" style="min-height:60px;font-size:.82rem" placeholder="Animal 1: a [adj] [animal]&#10;Animal 2: a [adj] [animal]"></textarea>
+        </div>
+        <div>
+          <div style="font-size:.78rem;font-weight:800;color:#7B1FA2;margin-bottom:4px">⚠️ Problem</div>
+          <textarea class="sa-textarea" id="p2" style="min-height:60px;font-size:.82rem" placeholder="What goes wrong? What choice?"></textarea>
+        </div>
+        <div>
+          <div style="font-size:.78rem;font-weight:800;color:#7B1FA2;margin-bottom:4px">🌪️ What happens</div>
+          <textarea class="sa-textarea" id="p3" style="min-height:60px;font-size:.82rem" placeholder="Consequences → turning point"></textarea>
+        </div>
+        <div>
+          <div style="font-size:.78rem;font-weight:800;color:#7B1FA2;margin-bottom:4px">💡 Moral</div>
+          <textarea class="sa-textarea" id="p4" style="min-height:60px;font-size:.82rem" placeholder="The lesson is..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITING SPACE -->
+    <textarea class="sa-textarea" id="t3" oninput="wc('t3','wc3','wc3f',150,250)" style="min-height:320px" placeholder="Write your fable here...&#10;&#10;Remember: past tense for story, present tense for dialogue!"></textarea>
+    <div class="wc-row">
+      <div class="wc-bar"><div class="wc-fill" id="wc3f" style="width:0%"></div></div>
+      <span class="wc-num" id="wc3">0 / 150-250 words</span>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn-scheme" onclick="toggle('s3')">📋 Mark Scheme</button>
+      <button class="btn-model" onclick="toggle('m3')">📖 Model Fable</button>
+    </div>
+    <div class="scheme-box" id="s3">
+      <div class="scheme-title">Mark Scheme — Task 3 (20 marks)</div>
+      <strong>Content &amp; Ideas (8 marks):</strong><br>
+      Animal characters with human qualities (2) · Clear story structure — beginning/problem/climax/resolution (3) · Clear moral stated at end (1) · Creative and engaging (2)<br><br>
+      <strong>Language (7 marks):</strong><br>
+      Dialogue correctly punctuated with speech marks (2) · Figurative language — simile/metaphor/alliteration (2) · Modal verbs used correctly (1) · Varied vocabulary — synonyms for said, descriptive verbs (2)<br><br>
+      <strong>Grammar &amp; Accuracy (5 marks):</strong><br>
+      Correct tense use — past narrative, present dialogue (1) · Correct pronouns and possessives (1) · Sentence-level punctuation (2) · Spelling (1)
+    </div>
+    <div class="model-box" id="m3">
+      <div class="model-title">✅ Model Fable — The Proud Lion and the Wise Mouse</div>
+      One golden afternoon on the shimmering African savannah, a magnificent lion lay dozing under an acacia tree. His mane gleamed like a copper crown, and he believed himself to be the greatest creature in all the land.<br><br>
+      A tiny mouse scurried past and accidentally woke him.<br><br>
+      "How dare you disturb me, you insignificant creature!" the lion roared. "I ought to crush you where you stand."<br><br>
+      "Please spare me," squeaked the mouse, trembling like a leaf. "I will help you one day, I promise."<br><br>
+      The lion guffawed. "You? Help ME?" But he let the tiny mouse go.<br><br>
+      Weeks later, the lion fell into a hunter's net. He might roar all he liked — he could not free himself. Then the tiny mouse appeared and gnawed through the ropes with her sharp teeth.<br><br>
+      "I laughed at you," said the lion quietly, "and I was wrong."<br><br>
+      "And I thank you for sparing my life," replied the mouse. "We are even."<br><br>
+      <em>The moral: No act of kindness is ever too small. Even the mightiest may one day need the humblest.</em>
+      <div style="font-size:.76rem;color:#388E3C;margin-top:6px">📝 Features: simile ×2, modal verbs ×3 (ought to, might, could), alliteration (magnificent mane implied, wise mouse), dialogue punctuation correct throughout, past tense narrative, clear moral.</div>
+    </div>
+  </div>
+
+  <!-- SCORE CALCULATOR -->
+  <div class="total-box">
+    <div class="total-title">📊 Calculate Your Total Score</div>
+    <p style="font-size:.85rem;color:#888;font-weight:700;margin-bottom:14px">Use the mark schemes to estimate your mark for each task, then enter them below:</p>
+    <div class="mark-inputs">
+      <div class="mi-group">
+        <div class="mi-label">Task 1</div>
+        <input class="mi-input" id="sc1" type="number" min="0" max="5" placeholder="0">
+        <div class="mi-max">out of 5</div>
+      </div>
+      <div class="mi-group">
+        <div class="mi-label">Task 2</div>
+        <input class="mi-input" id="sc2" type="number" min="0" max="10" placeholder="0">
+        <div class="mi-max">out of 10</div>
+      </div>
+      <div class="mi-group">
+        <div class="mi-label">Task 3</div>
+        <input class="mi-input" id="sc3" type="number" min="0" max="20" placeholder="0">
+        <div class="mi-max">out of 20</div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcTotal()">📊 See My Total</button>
+    <div class="result-box" id="result-box">
+      <div class="rb-score" id="rb-score"></div>
+      <div class="rb-msg" id="rb-msg"></div>
+      <div class="rb-detail" id="rb-detail"></div>
+    </div>
+    <button class="complete-btn" onclick="markDone()">✅ Mark Writing Paper Complete</button>
+    <div style="background:#E8F5E9;border:2px solid #66BB6A;border-radius:12px;padding:14px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:10px" id="done-msg">
+      ✅ Brilliant work! You have completed both practice papers. <a href="unit1_home.html" style="color:#1B5E20">Back to Unit Home →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Timer
+let timerInterval=null,timerSeconds=45*60,timerRunning=false;const TOTAL=45*60;
+function startTimer(){
+  if(timerRunning)return;timerRunning=true;
+  document.getElementById('tbtn-start').style.display='none';
+  document.getElementById('tbtn-pause').style.display='';
+  timerInterval=setInterval(()=>{
+    timerSeconds--;
+    const m=Math.floor(timerSeconds/60),s=timerSeconds%60;
+    document.getElementById('timer-display').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    document.getElementById('timer-fill').style.width=(timerSeconds/TOTAL*100)+'%';
+    if(timerSeconds<=0){clearInterval(timerInterval);document.getElementById('timer-display').style.color='#C62828';}
+  },1000);
+}
+function pauseTimer(){
+  clearInterval(timerInterval);timerRunning=false;
+  document.getElementById('tbtn-start').style.display='';
+  document.getElementById('tbtn-start').textContent='▶ Resume';
+  document.getElementById('tbtn-pause').style.display='none';
+}
+
+// Word counter
+function wc(taId,numId,fillId,min,max){
+  const words=document.getElementById(taId).value.trim().split(/\s+/).filter(w=>w.length>0).length;
+  document.getElementById(numId).textContent=words+' words';
+  const pct=Math.min(words/max*100,100);
+  document.getElementById(fillId).style.width=pct+'%';
+  document.getElementById(fillId).style.background=words>=min&&words<=max?'#4A148C':words<min?'#E64A19':'#2E7D32';
+}
+
+// Task 1 checklist
+const cl1Items=['Speech marks around ALL spoken words','Each new speaker on a new line','Capital letter after opening speech mark','Comma / ! / ? inside closing speech mark','2+ synonyms for "said" used','Both characters sound like themselves'];
+const cl1=document.getElementById('cl1');
+cl1Items.forEach((t,i)=>{
+  const d=document.createElement('div');d.className='cl-item';
+  d.innerHTML=`<input type="checkbox" id="c1-${i}"><label for="c1-${i}">${t}</label>`;
+  d.addEventListener('click',()=>{const cb=d.querySelector('input');if(event.target!==cb)cb.checked=!cb.checked;d.classList.toggle('checked',cb.checked);});
+  cl1.appendChild(d);
+});
+
+// Task 2 character hints
+function updateT2(c){
+  const hints={
+    peacock:'Key quotes: "declared the peacock", "No creature is as magnificent as I am!", "his tail dragging in the mud". Figurative: "like a jewelled fan" (simile). Vocab to use: vain, arrogant, boastful, splendour.',
+    ant:'Key quotes: "scurried back and forth", "toiling just a little harder", "Summer won\'t last forever!" Modal verb "won\'t" shows certainty. Figurative: Ant is like a machine that never stops. Vocab: industrious, prudent, far-sighted, determined.'
+  };
+  const titles={peacock:'🦚 Useful evidence for the Peacock:',ant:'🐜 Useful evidence for Ant:'};
+  document.getElementById('t2-hint-title').textContent=titles[c];
+  document.getElementById('t2-hint-text').textContent=hints[c];
+  document.getElementById('t2-hint-box').style.display='block';
+}
+
+function toggle(id){document.getElementById(id).classList.toggle('show')}
+
+function calcTotal(){
+  const v1=Math.min(parseInt(document.getElementById('sc1').value)||0,5);
+  const v2=Math.min(parseInt(document.getElementById('sc2').value)||0,10);
+  const v3=Math.min(parseInt(document.getElementById('sc3').value)||0,20);
+  const total=v1+v2+v3;const pct=Math.round(total/35*100);
+  const r=document.getElementById('result-box');r.classList.add('show');
+  document.getElementById('rb-score').textContent=total+' / 35  ('+pct+'%)';
+  let msg,detail;
+  if(pct>=80){msg='🏆 Outstanding — exam ready!';detail='Exceptional writing skills across all three tasks. Well done!'}
+  else if(pct>=65){msg='🌟 Very strong performance!';detail='Great work. Review the mark scheme for any areas where you lost marks.'}
+  else if(pct>=50){msg='📚 Good progress!';detail='You are developing well. Focus on figurative language and PEE structure in Task 2, and dialogue punctuation in Task 1.'}
+  else{msg='💪 Keep practising!';detail='Re-read the model answers carefully. Focus on one skill at a time: start with dialogue punctuation, then PEE paragraphs.'}
+  document.getElementById('rb-msg').textContent=msg;
+  document.getElementById('rb-detail').textContent=detail;
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function markDone(){
+  localStorage.setItem('u1_done_paper-write','true');
+  document.getElementById('done-msg').style.display='block';
+}
+if(localStorage.getItem('u1_done_paper-write')==='true')document.getElementById('done-msg').style.display='block';
+</script>
+</body>
+</html>

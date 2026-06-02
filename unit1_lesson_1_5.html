@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.5 – Proverbs Tell a Tale | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#E65100;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#FFD54F}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-side:hover{background:rgba(255,255,255,.25) !important}
+.lesson-hdr{background:#E65100;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#E65100}
+.tab-btn.active{color:#E65100;border-bottom-color:#E65100;background:#FFF3E0}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#E65100;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-red{background:#FFEBEE;border-color:#EF9A9A}
+.ib-red h4{color:#B71C1C;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-red p{color:#B71C1C;font-size:.88rem;font-weight:600;line-height:1.6}
+
+/* proverb cards */
+.prov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:16px}
+.prov-card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 14px rgba(0,0,0,.07);cursor:pointer;border:2px solid #FFE0B2;transition:all .2s;position:relative;overflow:hidden}
+.prov-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.pc-icon{font-size:2.5rem;text-align:center;display:block;margin-bottom:8px}
+.pc-quote{font-weight:800;color:#333;font-size:.9rem;text-align:center;margin-bottom:10px;line-height:1.4}
+.pc-meaning{background:#FFF3E0;border-radius:10px;padding:10px;font-size:.84rem;font-weight:700;color:#BF360C;line-height:1.5;display:none;border:2px solid #FFCC80}
+.pc-meaning.show{display:block}
+.pc-reveal{font-size:.76rem;color:#E65100;font-weight:800;text-align:center;margin-top:8px}
+
+/* literal vs figurative game */
+.lf-sent{background:#fff;border:2px solid #FFE0B2;border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:all .2s}
+.lf-sent.correct{border-color:#66BB6A;background:#E8F5E9}
+.lf-sent.wrong{border-color:#EF5350;background:#FFEBEE}
+.lf-text{font-weight:700;color:#333;font-size:.9rem;margin-bottom:8px;line-height:1.5;font-style:italic}
+.lf-btns{display:flex;gap:8px;flex-wrap:wrap}
+.lf-btn{border:2px solid;border-radius:10px;padding:7px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;transition:all .2s}
+.lf-btn-lit{background:#E3F2FD;color:#1565C0;border-color:#90CAF9}
+.lf-btn-fig{background:#FFF3E0;color:#E65100;border-color:#FFB74D}
+.lf-btn:hover{transform:scale(1.03)}
+.lf-feedback{font-size:.82rem;font-weight:700;margin-top:6px;display:none}
+.lf-feedback.show{display:block}
+.lf-feedback.ok{color:#2E7D32}
+.lf-feedback.no{color:#C62828}
+.lf-score{background:#FFF3E0;border-radius:12px;padding:12px 16px;font-weight:800;color:#E65100;text-align:center;display:none;margin-top:12px;border:2px solid #FFB74D}
+.lf-score.show{display:block}
+
+/* apostrophes */
+.ap-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:.88rem}
+.ap-table th{background:#E65100;color:#fff;padding:8px 12px;text-align:left;font-weight:800}
+.ap-table td{padding:9px 12px;border:1px solid #FFE0B2;font-weight:600;color:#333;line-height:1.5}
+.ap-table tr:nth-child(even) td{background:#FFF8F0}
+
+.ap-q{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;border:2px solid #FFE0B2;transition:all .2s}
+.ap-q.correct{border-color:#66BB6A;background:#E8F5E9}
+.ap-q.wrong{border-color:#EF5350;background:#FFEBEE}
+.ap-text{font-weight:700;font-size:.9rem;color:#333;margin-bottom:8px;line-height:1.6}
+.ap-input{border:2px solid #FFB74D;border-radius:8px;padding:6px 12px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;width:140px}
+.ap-input:focus{outline:none;border-color:#E65100}
+.ap-feedback{font-size:.82rem;font-weight:700;margin-top:6px;display:none}
+.ap-feedback.show{display:block}
+.ap-feedback.ok{color:#2E7D32}
+.ap-feedback.no{color:#C62828}
+.check-all-btn{background:#E65100;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;margin-top:8px}
+.score-box{background:#FFF3E0;border:2px solid #FFB74D;border-radius:12px;padding:12px 16px;font-weight:800;color:#E65100;text-align:center;display:none;margin-top:10px}
+.score-box.show{display:block}
+
+/* match game */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.match-col h4{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:10px;text-align:center}
+.match-col h4.left{color:#E65100}
+.match-col h4.right{color:#1565C0}
+.match-item{background:#fff;border:2px solid #FFE0B2;border-radius:12px;padding:12px 14px;margin-bottom:8px;font-weight:700;font-size:.84rem;cursor:pointer;transition:all .2s;line-height:1.4;text-align:center;color:#333;user-select:none}
+.match-item:hover{transform:scale(1.02)}
+.match-item.selected{background:#E65100;color:#fff;border-color:#E65100}
+.match-item.matched{background:#E8F5E9;border-color:#66BB6A;color:#1B5E20;cursor:default}
+.match-item.wrong-flash{animation:shake .3s;border-color:#EF5350;background:#FFEBEE}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.match-score{background:#FFF3E0;border:2px solid #FFB74D;border-radius:12px;padding:12px;text-align:center;font-weight:800;color:#E65100;margin-top:8px}
+
+/* writing */
+.sa-textarea{width:100%;border:2px solid #FFB74D;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#FFF8F0;resize:vertical;min-height:100px}
+.sa-textarea:focus{outline:none;border-color:#E65100;background:#fff}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+
+/* exam */
+.exam-q{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-left:5px solid #E65100}
+.eq-marks{display:inline-block;background:#E65100;color:#fff;border-radius:10px;padding:3px 10px;font-size:.78rem;font-weight:800;margin-bottom:8px}
+.eq-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:12px}
+
+/* cartoon planner */
+.cartoon-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.cartoon-panel{background:#fff;border:2px solid #FFE0B2;border-radius:14px;padding:14px}
+.cp-num{font-family:'Fredoka One',cursive;color:#E65100;font-size:1.1rem;margin-bottom:4px}
+.cp-label{font-size:.8rem;font-weight:800;color:#888;margin-bottom:8px}
+.cp-ta{width:100%;border:2px solid #FFB74D;border-radius:8px;padding:8px;font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:600;background:#FFF8F0;resize:vertical;min-height:70px}
+.cp-ta:focus{outline:none;border-color:#E65100}
+
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+
+@media(max-width:600px){
+  .match-wrap{grid-template-columns:1fr}
+  .cartoon-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a class="tn-btn home" href="unit1_home.html">🏠 Unit 1</a>
+  <a class="tn-btn" href="unit1_lesson_1_1.html">1.1</a>
+  <a class="tn-btn" href="unit1_lesson_1_2.html">1.2</a>
+  <a class="tn-btn" href="unit1_lesson_1_3.html">1.3</a>
+  <a class="tn-btn" href="unit1_lesson_1_4.html">1.4</a>
+  <span class="tn-btn" style="color:#FFD700;border-bottom-color:#FFD700">▶ 1.5</span>
+  <div class="tn-spacer"></div>
+  <a class="tn-btn tn-side" href="unit1_lesson_1_4.html">← Lesson 1.4</a>
+  <a class="tn-btn tn-side" href="unit1_lesson_1_6.html">Lesson 1.6 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Cambridge Primary English Stage 5</div>
+  <h1 class="lh-title">Lesson 1.5 – Proverbs Tell a Tale</h1>
+  <p class="lh-sub">Proverbs · Literal vs Figurative · Apostrophes · Matching</p>
+  <div class="lh-goals">
+    <span class="goal-chip">🌟 What is a proverb?</span>
+    <span class="goal-chip">🎭 Literal vs figurative language</span>
+    <span class="goal-chip">✏️ Apostrophes for possession &amp; contraction</span>
+    <span class="goal-chip">🎯 Proverb match game</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('proverbs',this)">🌟 What is a Proverb?</button>
+  <button class="tab-btn" onclick="showTab('litfig',this)">🎭 Literal vs Figurative</button>
+  <button class="tab-btn" onclick="showTab('apostrophes',this)">✏️ Apostrophes</button>
+  <button class="tab-btn" onclick="showTab('match',this)">🎯 Match Game</button>
+  <button class="tab-btn" onclick="showTab('comprehension',this)">🧠 Comprehension</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: PROVERBS -->
+<div class="tab-pane active" id="tab-proverbs">
+  <h2 class="st">🌟 What is a Proverb?</h2>
+  <p class="st-sub">A proverb is a short, wise saying that gives advice or states a truth about life.</p>
+
+  <div class="info-box ib-orange">
+    <h4>Definition</h4>
+    <p>A <strong>proverb</strong> is a short, well-known saying that gives advice or states a truth about life. Think of it like a fable — but squeezed into ONE sentence!<br><br>
+    Proverbs have:<br>
+    ✦ A <strong>literal meaning</strong> (what the words actually say)<br>
+    ✦ A <strong>figurative/deeper meaning</strong> (the real lesson or advice)</p>
+  </div>
+
+  <p style="font-weight:800;color:#E65100;font-size:.9rem;margin-bottom:12px">👇 Click each proverb card to reveal its meaning!</p>
+
+  <div class="prov-grid">
+    <div class="prov-card" onclick="toggleProv(this)">
+      <span class="pc-icon">☀️🌾</span>
+      <div class="pc-quote">"Make hay while the sun shines."</div>
+      <div class="pc-meaning">💡 Meaning: Work hard and take your chances while the time is good — don't wait until it's too late!</div>
+      <div class="pc-reveal">👆 Click to reveal meaning</div>
+    </div>
+    <div class="prov-card" onclick="toggleProv(this)">
+      <span class="pc-icon">🧵⏰</span>
+      <div class="pc-quote">"A stitch in time saves nine."</div>
+      <div class="pc-meaning">💡 Meaning: Fix a small problem early, before it gets bigger and harder to fix. One stitch now saves nine later!</div>
+      <div class="pc-reveal">👆 Click to reveal meaning</div>
+    </div>
+    <div class="prov-card" onclick="toggleProv(this)">
+      <span class="pc-icon">👨‍🍳👨‍🍳👨‍🍳🍲</span>
+      <div class="pc-quote">"Too many cooks spoil the broth."</div>
+      <div class="pc-meaning">💡 Meaning: When too many people try to be in charge of something, it causes confusion and the result is worse!</div>
+      <div class="pc-reveal">👆 Click to reveal meaning</div>
+    </div>
+    <div class="prov-card" onclick="toggleProv(this)">
+      <span class="pc-icon">🐦🐦🐦</span>
+      <div class="pc-quote">"Birds of a feather flock together."</div>
+      <div class="pc-meaning">💡 Meaning: People who are similar to each other tend to be friends and spend time together.</div>
+      <div class="pc-reveal">👆 Click to reveal meaning</div>
+    </div>
+    <div class="prov-card" onclick="toggleProv(this)">
+      <span class="pc-icon">🥚🧺</span>
+      <div class="pc-quote">"Don't put all your eggs in one basket."</div>
+      <div class="pc-meaning">💡 Meaning: Don't risk everything on just one plan — spread your chances so if one thing fails, you still have others.</div>
+      <div class="pc-reveal">👆 Click to reveal meaning</div>
+    </div>
+    <div class="prov-card" onclick="toggleProv(this)">
+      <span class="pc-icon">🤝💙</span>
+      <div class="pc-quote">"A friend in need is a friend indeed."</div>
+      <div class="pc-meaning">💡 Meaning: A true friend is someone who helps you when you are in trouble — not just when everything is going well.</div>
+      <div class="pc-reveal">👆 Click to reveal meaning</div>
+    </div>
+  </div>
+
+  <div class="info-box ib-blue">
+    <h4>🔗 Proverbs and Fables</h4>
+    <p>Many fables END with a proverb — the moral of the story! The Ant and the Grasshopper's moral is basically the proverb: <em>"Make hay while the sun shines."</em> The grasshopper didn't, so he suffered!</p>
+  </div>
+</div>
+
+<!-- TAB 2: LITERAL VS FIGURATIVE -->
+<div class="tab-pane" id="tab-litfig">
+  <h2 class="st">🎭 Literal vs Figurative Language</h2>
+  <p class="st-sub">Does the language mean EXACTLY what it says, or something different?</p>
+
+  <div class="card">
+    <div class="info-box ib-blue" style="margin-bottom:10px">
+      <h4>LITERAL language</h4>
+      <p>Means exactly what it says — no hidden meaning. The words are used in their normal, dictionary sense.<br>
+      Example: <em>"The ant carried a grain of corn."</em> — She really did this!</p>
+    </div>
+    <div class="info-box ib-orange">
+      <h4>FIGURATIVE language</h4>
+      <p>Means something DIFFERENT from what the words literally say — there is a deeper or hidden meaning.<br>
+      Example: <em>"The grasshopper had his head in the clouds."</em> — His head wasn't actually in the clouds! It means he was daydreaming and not being realistic.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E65100;margin-bottom:14px;font-size:1.1rem">🎮 Literal or Figurative?</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Read each expression. Click <strong>LITERAL</strong> or <strong>FIGURATIVE</strong>.</p>
+
+    <div class="lf-sent" id="lf0">
+      <div class="lf-text">"Make hay while the sun shines."</div>
+      <div class="lf-btns">
+        <button class="lf-btn lf-btn-lit" onclick="checkLF(0,'lit')">📖 LITERAL</button>
+        <button class="lf-btn lf-btn-fig" onclick="checkLF(0,'fig')">🎭 FIGURATIVE</button>
+      </div>
+      <div class="lf-feedback" id="lff0"></div>
+    </div>
+
+    <div class="lf-sent" id="lf1">
+      <div class="lf-text">"The ant carried corn to her nest."</div>
+      <div class="lf-btns">
+        <button class="lf-btn lf-btn-lit" onclick="checkLF(1,'lit')">📖 LITERAL</button>
+        <button class="lf-btn lf-btn-fig" onclick="checkLF(1,'fig')">🎭 FIGURATIVE</button>
+      </div>
+      <div class="lf-feedback" id="lff1"></div>
+    </div>
+
+    <div class="lf-sent" id="lf2">
+      <div class="lf-text">"Grasshopper had his head in the clouds."</div>
+      <div class="lf-btns">
+        <button class="lf-btn lf-btn-lit" onclick="checkLF(2,'lit')">📖 LITERAL</button>
+        <button class="lf-btn lf-btn-fig" onclick="checkLF(2,'fig')">🎭 FIGURATIVE</button>
+      </div>
+      <div class="lf-feedback" id="lff2"></div>
+    </div>
+
+    <div class="lf-sent" id="lf3">
+      <div class="lf-text">"She shook her head and rolled her eyes."</div>
+      <div class="lf-btns">
+        <button class="lf-btn lf-btn-lit" onclick="checkLF(3,'lit')">📖 LITERAL</button>
+        <button class="lf-btn lf-btn-fig" onclick="checkLF(3,'fig')">🎭 FIGURATIVE</button>
+      </div>
+      <div class="lf-feedback" id="lff3"></div>
+    </div>
+
+    <div class="lf-sent" id="lf4">
+      <div class="lf-text">"Summer had been a blast!"</div>
+      <div class="lf-btns">
+        <button class="lf-btn lf-btn-lit" onclick="checkLF(4,'lit')">📖 LITERAL</button>
+        <button class="lf-btn lf-btn-fig" onclick="checkLF(4,'fig')">🎭 FIGURATIVE</button>
+      </div>
+      <div class="lf-feedback" id="lff4"></div>
+    </div>
+
+    <div class="lf-sent" id="lf5">
+      <div class="lf-text">"Grasshopper's song stuck in his throat."</div>
+      <div class="lf-btns">
+        <button class="lf-btn lf-btn-lit" onclick="checkLF(5,'lit')">📖 LITERAL</button>
+        <button class="lf-btn lf-btn-fig" onclick="checkLF(5,'fig')">🎭 FIGURATIVE</button>
+      </div>
+      <div class="lf-feedback" id="lff5"></div>
+    </div>
+
+    <div class="lf-score" id="lf-score"></div>
+  </div>
+</div>
+
+<!-- TAB 3: APOSTROPHES -->
+<div class="tab-pane" id="tab-apostrophes">
+  <h2 class="st">✏️ Apostrophes</h2>
+  <p class="st-sub">Apostrophes do TWO jobs — possession and contraction.</p>
+
+  <div class="card">
+    <div class="info-box ib-orange" style="margin-bottom:12px">
+      <h4>RULE 1 — Possession (belonging)</h4>
+      <p>Add <strong>'s</strong> to show something belongs to ONE person or thing.<br>
+      <em>the ant<strong>'s</strong> food</em> = the food belonging to ONE ant<br><br>
+      For plural nouns already ending in <strong>s</strong>: add just <strong>'</strong> (apostrophe only).<br>
+      <em>the ants<strong>'</strong> colony</em> = the colony belonging to MANY ants</p>
+    </div>
+    <div class="info-box ib-blue" style="margin-bottom:12px">
+      <h4>RULE 2 — Contraction (missing letters)</h4>
+      <p>An apostrophe shows where letters have been removed when two words are joined.<br>
+      <em>will + not = won<strong>'</strong>t</em><br>
+      <em>did + not = didn<strong>'</strong>t</em><br>
+      <em>it + is = it<strong>'</strong>s</em><br>
+      <em>summer + is = summer<strong>'</strong>s day</em> (in the phrase "summer's day" = the day OF summer)</p>
+    </div>
+    <div class="info-box ib-red">
+      <h4>⚠️ Special Case: its vs it's</h4>
+      <p><strong>its</strong> (NO apostrophe) = possessive. <em>"The ant carried its food."</em> (the food belonging to IT)<br>
+      <strong>it's</strong> (WITH apostrophe) = it IS. <em>"It's cold outside."</em> = "It is cold outside."<br>
+      Test: Replace with "it is" — does it make sense? If yes → it's. If no → its.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E65100;margin-bottom:14px;font-size:1.1rem">🎯 Fix the Apostrophes</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Rewrite the word with the correct apostrophe in the box. Then press <strong>Check Answers</strong>.</p>
+
+    <div id="ap-qs"></div>
+    <button class="check-all-btn" onclick="checkApostrophes()">Check Answers ✓</button>
+    <div class="score-box" id="ap-score"></div>
+  </div>
+</div>
+
+<!-- TAB 4: MATCH GAME -->
+<div class="tab-pane" id="tab-match">
+  <h2 class="st">🎯 Proverb Match Game</h2>
+  <p class="st-sub">Click a proverb, then click its meaning to match. Score 5/5!</p>
+
+  <div class="card">
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:16px">
+      <strong>How to play:</strong> Click a proverb on the LEFT. Then click its correct meaning on the RIGHT. Correct = turns green! Wrong = shakes and deselects. Try to match all 5!
+    </p>
+    <div class="match-wrap">
+      <div class="match-col">
+        <h4 class="left">🗣️ Proverbs</h4>
+        <div class="match-item" data-side="prov" data-id="1" onclick="matchClick(this)">"Make hay while the sun shines."</div>
+        <div class="match-item" data-side="prov" data-id="2" onclick="matchClick(this)">"A stitch in time saves nine."</div>
+        <div class="match-item" data-side="prov" data-id="3" onclick="matchClick(this)">"Too many cooks spoil the broth."</div>
+        <div class="match-item" data-side="prov" data-id="4" onclick="matchClick(this)">"Don't put all your eggs in one basket."</div>
+        <div class="match-item" data-side="prov" data-id="5" onclick="matchClick(this)">"A friend in need is a friend indeed."</div>
+      </div>
+      <div class="match-col">
+        <h4 class="right">💡 Meanings</h4>
+        <div class="match-item" data-side="mean" data-id="5" onclick="matchClick(this)">True friends help you when things are hard.</div>
+        <div class="match-item" data-side="mean" data-id="1" onclick="matchClick(this)">Work hard while the opportunity is there.</div>
+        <div class="match-item" data-side="mean" data-id="3" onclick="matchClick(this)">Too many leaders causes confusion.</div>
+        <div class="match-item" data-side="mean" data-id="2" onclick="matchClick(this)">Fix problems early before they grow.</div>
+        <div class="match-item" data-side="mean" data-id="4" onclick="matchClick(this)">Don't risk everything on just one plan.</div>
+      </div>
+    </div>
+    <div class="match-score" id="match-score">Score: 0 / 5 — Click a proverb to start!</div>
+  </div>
+</div>
+
+<!-- TAB 5: COMPREHENSION -->
+<div class="tab-pane" id="tab-comprehension">
+  <h2 class="st">🧠 Comprehension + Cartoon Plan</h2>
+  <p class="st-sub">Exam-style questions and creative planning.</p>
+
+  <div class="exam-q">
+    <div class="eq-marks">2 marks</div>
+    <div class="eq-q">Q1. What does the proverb "A friend in need is a friend indeed" mean? How could this proverb apply to the fable of Ant and Grasshopper?</div>
+    <textarea class="sa-textarea" placeholder="This proverb means..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m1')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">First explain what the proverb means (help in hard times). Then think about whether Ant and Grasshopper's relationship matches this — did Ant help Grasshopper when he was in need?</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">📋 Model Answer (2 marks)</div>
+      <div class="model-text">This proverb means that a true friend is someone who helps you when you are in trouble, not just when things are easy. In the fable, it could apply if Ant had chosen to help Grasshopper in winter — she would then have proved herself a true friend. However, Ant did NOT help Grasshopper, which shows their relationship was not one of close friendship.</div>
+      <div class="model-note">Mark scheme: 1 mark for explaining the proverb's meaning. 1 mark for connecting it to the fable with detail.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">2 marks</div>
+    <div class="eq-q">Q2. Explain the difference between literal and figurative language. Give one example of each from The Ant and the Grasshopper.</div>
+    <textarea class="sa-textarea" placeholder="Literal language means..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m2')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">Define BOTH terms first. Then give a quote for each type — make sure your examples are clearly from the fable. Check: does the literal example describe something that REALLY happened? Does the figurative example have a hidden meaning?</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">📋 Model Answer (2 marks)</div>
+      <div class="model-text">Literal language means exactly what it says — for example, "the ant scurried back and forth gathering food" is literal because the ant really did this. Figurative language means something different from what the words literally say — for example, "Grasshopper's song stuck in his throat" is figurative because a song cannot physically stick; it means he was too miserable to sing.</div>
+      <div class="model-note">Mark scheme: 1 mark for defining both terms. 1 mark for a correct example of each with explanation.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E65100;margin-bottom:8px;font-size:1.1rem">🎨 Cartoon Strip Planner</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Plan 4 cartoon panels to illustrate <strong>ANY proverb of your choice</strong>. Write what happens in each panel.</p>
+    <div class="info-box ib-orange" style="margin-bottom:14px">
+      <h4>My chosen proverb:</h4>
+      <p><input type="text" placeholder='e.g. "A stitch in time saves nine"' style="width:100%;border:2px solid #FFB74D;border-radius:8px;padding:8px;font-family:Nunito,sans-serif;font-weight:700;font-size:.9rem;background:#FFF8F0;margin-top:4px"></p>
+    </div>
+    <div class="cartoon-grid">
+      <div class="cartoon-panel">
+        <div class="cp-num">🖼️ Panel 1</div>
+        <div class="cp-label">Setting the scene</div>
+        <textarea class="cp-ta" placeholder="Describe what we see in Panel 1..."></textarea>
+      </div>
+      <div class="cartoon-panel">
+        <div class="cp-num">🖼️ Panel 2</div>
+        <div class="cp-label">The problem / warning</div>
+        <textarea class="cp-ta" placeholder="What problem or warning appears?"></textarea>
+      </div>
+      <div class="cartoon-panel">
+        <div class="cp-num">🖼️ Panel 3</div>
+        <div class="cp-label">The consequence</div>
+        <textarea class="cp-ta" placeholder="What happens because of the problem?"></textarea>
+      </div>
+      <div class="cartoon-panel">
+        <div class="cp-num">🖼️ Panel 4</div>
+        <div class="cp-label">The lesson / moral</div>
+        <textarea class="cp-ta" placeholder="What does the character (or reader) learn?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson('1-5','unit1_lesson_1_6.html','Lesson 1.6')">🎉 Mark Lesson Complete!</button>
+  <div class="complete-msg" id="complete-msg"></div>
+</div>
+
+</main>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function toggleHint(id) { document.getElementById(id).classList.toggle('show'); }
+function toggleModel(id) { document.getElementById(id).classList.toggle('show'); }
+function completeLesson(key, nextUrl, nextLabel) {
+  localStorage.setItem('u1_done_' + key, 'true');
+  const msg = document.getElementById('complete-msg');
+  msg.innerHTML = '✅ Lesson complete! <a href="' + nextUrl + '" style="color:#2E7D32;font-weight:900">Go to ' + nextLabel + ' →</a>';
+  msg.classList.add('show');
+  document.querySelector('.complete-btn').disabled = true;
+  document.querySelector('.complete-btn').style.opacity = '.7';
+}
+
+// Proverb cards
+function toggleProv(card) {
+  const m = card.querySelector('.pc-meaning');
+  const r = card.querySelector('.pc-reveal');
+  m.classList.toggle('show');
+  r.textContent = m.classList.contains('show') ? '👆 Click to hide' : '👆 Click to reveal meaning';
+}
+
+// Literal vs Figurative
+const lfAnswers = ['fig','lit','fig','lit','fig','fig'];
+const lfExplain = [
+  'FIGURATIVE! "Make hay while the sun shines" is a proverb — it doesn\'t really mean cutting grass. It means: work hard while you have the chance.',
+  'LITERAL! The ant really did carry corn to her nest. This is exactly what the words say — no hidden meaning.',
+  'FIGURATIVE! His head wasn\'t actually in the clouds. "Head in the clouds" is an idiom meaning he was daydreaming and not being sensible.',
+  'LITERAL! She really did shake her head (physically moving it) and roll her eyes (physical actions). These are literal body movements.',
+  'FIGURATIVE! "A blast" is slang meaning great fun. Summer wasn\'t a real explosion! This is figurative — "blast" has a hidden meaning here.',
+  'FIGURATIVE! A song cannot physically stick in a throat. This figurative expression means Grasshopper was too sad or shocked to sing.'
+];
+let lfCount = 0;
+function checkLF(i, choice) {
+  const sent = document.getElementById('lf'+i);
+  const fb = document.getElementById('lff'+i);
+  if(sent.classList.contains('correct') || sent.classList.contains('wrong')) return;
+  if(choice === lfAnswers[i]) {
+    sent.classList.add('correct');
+    fb.textContent = '✅ ' + lfExplain[i];
+    fb.className = 'lf-feedback show ok';
+    lfCount++;
+  } else {
+    sent.classList.add('wrong');
+    fb.textContent = '❌ Try the other option! ' + lfExplain[i];
+    fb.className = 'lf-feedback show no';
+    setTimeout(() => { sent.classList.remove('wrong'); fb.className='lf-feedback'; }, 2000);
+  }
+  const answered = document.querySelectorAll('.lf-sent.correct').length;
+  if(answered === 6) {
+    const sc = document.getElementById('lf-score');
+    sc.textContent = 'Score: ' + lfCount + ' / 6 — ' + (lfCount===6?'Perfect! 🌟':lfCount>=4?'Well done!':'Good try! Review the explanations.');
+    sc.classList.add('show');
+  }
+}
+
+// Apostrophes
+const apData = [
+  {sent: 'The grasshopper___s song stuck in his throat.', blank:'grasshopper', answer:"grasshopper's", explain:"grasshopper's — add 's to show the song belongs to ONE grasshopper."},
+  {sent: 'Summer won___t last forever.', blank:'won', answer:"won't", explain:"won't — contraction of 'will not'. The apostrophe replaces the 'no' in 'not'."},
+  {sent: 'The ant___s nest was full of food.', blank:'ant', answer:"ant's", explain:"ant's — add 's to show the nest belongs to ONE ant."},
+  {sent: 'It___s going to be a cold winter.', blank:'It', answer:"It's", explain:"It's — contraction of 'it is'. Replace 'It___s' with 'It is' — does it make sense? Yes! So use It's."},
+  {sent: 'The ants___ colony survived the winter.', blank:'ants', answer:"ants'", explain:"ants' — the ants already ends in s (plural). Just add an apostrophe after the s to show possession."},
+  {sent: 'Grasshopper didn___t listen to Ant.', blank:'didn', answer:"didn't", explain:"didn't — contraction of 'did not'. The apostrophe replaces the 'o' in 'not'."},
+];
+
+function buildApQs() {
+  const cont = document.getElementById('ap-qs');
+  apData.forEach((q,i) => {
+    cont.innerHTML += `<div class="ap-q" id="aq${i}">
+      <div class="ap-text">${q.sent.replace('___', '<span style="color:#E65100">___</span>')}</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:.84rem;font-weight:700;color:#888">Corrected word:</span>
+        <input class="ap-input" id="ai${i}" placeholder="Type here..." />
+      </div>
+      <div class="ap-feedback" id="af${i}"></div>
+    </div>`;
+  });
+}
+
+function checkApostrophes() {
+  let score = 0;
+  apData.forEach((q,i) => {
+    const inp = document.getElementById('ai'+i);
+    const fb = document.getElementById('af'+i);
+    const box = document.getElementById('aq'+i);
+    const val = inp.value.trim();
+    if(val.toLowerCase() === q.answer.toLowerCase()) {
+      score++;
+      box.classList.add('correct');
+      fb.textContent = '✅ Correct! ' + q.explain;
+      fb.className = 'ap-feedback show ok';
+    } else {
+      box.classList.add('wrong');
+      fb.textContent = '❌ The correct answer is "' + q.answer + '". ' + q.explain;
+      fb.className = 'ap-feedback show no';
+    }
+  });
+  const sc = document.getElementById('ap-score');
+  sc.textContent = 'Score: ' + score + ' / ' + apData.length + (score===apData.length?' — Perfect! 🌟':score>=4?' — Well done!':' — Review the apostrophe rules above.');
+  sc.classList.add('show');
+}
+
+// Match game
+let selectedProv = null;
+let selectedMean = null;
+let matchScore = 0;
+
+function matchClick(el) {
+  if(el.classList.contains('matched')) return;
+  const side = el.dataset.side;
+  const id = el.dataset.id;
+
+  if(side === 'prov') {
+    if(selectedProv) selectedProv.classList.remove('selected');
+    selectedProv = el;
+    el.classList.add('selected');
+  } else {
+    if(selectedMean) selectedMean.classList.remove('selected');
+    selectedMean = el;
+    el.classList.add('selected');
+  }
+
+  if(selectedProv && selectedMean) {
+    if(selectedProv.dataset.id === selectedMean.dataset.id) {
+      selectedProv.classList.remove('selected');
+      selectedMean.classList.remove('selected');
+      selectedProv.classList.add('matched');
+      selectedMean.classList.add('matched');
+      matchScore++;
+      selectedProv = null;
+      selectedMean = null;
+      const sc = document.getElementById('match-score');
+      sc.textContent = 'Score: ' + matchScore + ' / 5' + (matchScore===5?' — Amazing! All matched! 🌟':'');
+    } else {
+      const p = selectedProv, m = selectedMean;
+      p.classList.add('wrong-flash');
+      m.classList.add('wrong-flash');
+      setTimeout(() => {
+        p.classList.remove('selected','wrong-flash');
+        m.classList.remove('selected','wrong-flash');
+      }, 500);
+      selectedProv = null;
+      selectedMean = null;
+    }
+  }
+}
+
+buildApQs();
+</script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.9 – Hold a Discussion Forum | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#7B1FA2;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#CE93D8}
+.tn-btn.home{color:#FFD700}
+.lesson-hdr{background:#7B1FA2;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#7B1FA2}
+.tab-btn.active{color:#7B1FA2;border-bottom-color:#7B1FA2;background:#EDE7FF}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#7B1FA2;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p,.ib-purple li{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+/* Fact/Opinion */
+.fo-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:12px}
+.fo-statement{font-size:.92rem;font-weight:700;color:#333;margin-bottom:10px;line-height:1.5;font-style:italic}
+.fo-btns{display:flex;gap:10px}
+.fo-btn{flex:1;border:2px solid;border-radius:10px;padding:9px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.88rem;transition:all .2s}
+.fo-btn.fact{border-color:#1565C0;color:#1565C0;background:#fff}
+.fo-btn.opinion{border-color:#7B1FA2;color:#7B1FA2;background:#fff}
+.fo-btn.fact:hover{background:#E3F2FD}
+.fo-btn.opinion:hover{background:#EDE7FF}
+.fo-btn.correct{background:#2E7D32;color:#fff;border-color:#2E7D32}
+.fo-btn.wrong{background:#C62828;color:#fff;border-color:#C62828}
+.fo-fb{margin-top:10px;font-size:.85rem;font-weight:700;display:none;border-radius:8px;padding:8px 12px}
+.fo-fb.show{display:block}
+.fo-fb.correct-fb{background:#E8F5E9;color:#1B5E20}
+.fo-fb.wrong-fb{background:#FFEBEE;color:#B71C1C}
+/* Ending cards */
+.ending-card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-top:5px solid #7B1FA2}
+.ending-card.alt-b{border-color:#E64A19}
+.ec-badge{display:inline-block;border-radius:8px;padding:3px 12px;font-size:.78rem;font-weight:900;margin-bottom:10px;color:#fff;background:#7B1FA2}
+.alt-b .ec-badge{background:#E64A19}
+.ec-text{background:#EDE7FF;border-radius:10px;padding:12px 14px;font-size:.9rem;font-weight:600;color:#333;line-height:1.7;margin-bottom:12px;font-style:italic}
+.alt-b .ec-text{background:#FBE9E7}
+.ec-q{font-size:.88rem;font-weight:800;color:#7B1FA2;margin-bottom:8px}
+.alt-b .ec-q{color:#E64A19}
+.sa-textarea{width:100%;border:2px solid #CE93D8;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#EDE7FF;resize:vertical;min-height:90px}
+.sa-textarea:focus{outline:none;border-color:#7B1FA2;background:#fff}
+/* PEEL */
+.peel-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;padding:12px;border-radius:12px}
+.peel-step.p-step{background:#E3F2FD}
+.peel-step.e1-step{background:#FFF3E0}
+.peel-step.e2-step{background:#E8F5E9}
+.peel-step.l-step{background:#EDE7FF}
+.peel-letter{font-family:'Fredoka One',cursive;font-size:1.6rem;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.p-step .peel-letter{background:#1565C0}
+.e1-step .peel-letter{background:#E65100}
+.e2-step .peel-letter{background:#2E7D32}
+.l-step .peel-letter{background:#7B1FA2}
+.peel-content{flex:1}
+.peel-label{font-family:'Fredoka One',cursive;font-size:.95rem;color:#333;margin-bottom:4px}
+.peel-desc{font-size:.85rem;font-weight:600;color:#555;line-height:1.5}
+.peel-example{background:rgba(0,0,0,.04);border-radius:8px;padding:8px 10px;margin-top:6px;font-size:.85rem;font-weight:700;color:#333;font-style:italic;line-height:1.5}
+.word-bank{background:#EDE7FF;border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.wb-title{font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:.9rem;margin-bottom:8px}
+.wb-words{display:flex;flex-wrap:wrap;gap:6px}
+.wb-chip{background:#7B1FA2;color:#fff;border-radius:8px;padding:3px 10px;font-size:.78rem;font-weight:800}
+/* Discussion cards */
+.disc-card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #7B1FA2}
+.dc-num{display:inline-block;background:#7B1FA2;color:#fff;border-radius:50%;width:28px;height:28px;text-align:center;line-height:28px;font-size:.82rem;font-weight:900;margin-right:8px}
+.dc-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:14px}
+.dc-for{background:#E8F5E9;border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.dc-against{background:#FFEBEE;border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.dc-label{font-weight:900;font-size:.78rem;margin-bottom:4px}
+.dc-for .dc-label{color:#2E7D32}
+.dc-against .dc-label{color:#C62828}
+.dc-text{font-size:.85rem;font-weight:600;color:#333;line-height:1.5}
+/* Comprehension */
+.exam-q{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-left:5px solid #7B1FA2}
+.eq-marks{display:inline-block;background:#7B1FA2;color:#fff;border-radius:10px;padding:3px 10px;font-size:.78rem;font-weight:800;margin-bottom:8px}
+.eq-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:12px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.7}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+.complete-msg a{color:#7B1FA2;text-decoration:none;font-weight:900}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Home</a>
+  <a href="unit1_lesson_1_8.html" class="tn-btn">← Lesson 1.8</a>
+  <span class="tn-btn" style="color:#FFD700">▶ Lesson 1.9</span>
+  <a href="unit1_lesson_1_10.html" class="tn-btn">Lesson 1.10 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Stage 5</div>
+  <div class="lh-title">Lesson 1.9 – Hold a Discussion Forum</div>
+  <div class="lh-sub">Fact vs Opinion · Alternative Endings · PEEL Writing · Discussion</div>
+  <div class="lh-goals">
+    <span class="goal-chip">🔍 Fact vs Opinion</span>
+    <span class="goal-chip">💡 Alternative Endings</span>
+    <span class="goal-chip">📣 PEEL Structure</span>
+    <span class="goal-chip">🗣️ Discussion Cards</span>
+    <span class="goal-chip">🧠 Exam Practice</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">🔍 Fact vs Opinion</button>
+  <button class="tab-btn" onclick="switchTab(1)">💡 Alt. Endings</button>
+  <button class="tab-btn" onclick="switchTab(2)">📣 PEEL Writing</button>
+  <button class="tab-btn" onclick="switchTab(3)">🗣️ Discuss</button>
+  <button class="tab-btn" onclick="switchTab(4)">🧠 Comprehension</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: Fact vs Opinion -->
+<div class="tab-pane active" id="tab0">
+  <div class="st">🔍 Fact vs Opinion</div>
+  <div class="st-sub">Can you tell the difference? This is a very important skill for discussion and writing!</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="info-box ib-blue" style="margin-bottom:0">
+      <h4>✅ FACT</h4>
+      <p>Can be <strong>PROVEN</strong> to be true or false. Based on evidence, numbers, dates, things you can check.<br><br>
+      <strong>Examples:</strong><br>
+      ✅ "Aesop was a storyteller from Ancient Greece." (can be verified)<br>
+      ✅ "The ant stored food all summer." (stated in the text)</p>
+    </div>
+    <div class="info-box ib-purple" style="margin-bottom:0">
+      <h4>💭 OPINION</h4>
+      <p>Someone's <strong>PERSONAL VIEW</strong> or JUDGEMENT. Different people may disagree.<br><br>
+      <strong>Signal words:</strong> I think, I believe, it seems, in my opinion, probably, surely, arguably<br><br>
+      💭 "Ant was too unkind to Grasshopper." (judgement)<br>
+      💭 "The modern version is more entertaining." (personal view)</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:1.1rem;margin-bottom:14px">🎯 Practice: Fact or Opinion?</h3>
+  <p style="font-size:.88rem;font-weight:600;color:#555;margin-bottom:14px">Click FACT or OPINION for each statement. Get immediate feedback!</p>
+
+  <div id="foContainer"></div>
+</div>
+
+<!-- TAB 2: Alternative Endings -->
+<div class="tab-pane" id="tab1">
+  <div class="st">💡 Alternative Endings</div>
+  <div class="st-sub">The same story can have many different endings — and each one teaches a different lesson!</div>
+
+  <div class="info-box ib-purple">
+    <h4>What is the oral tradition?</h4>
+    <p>An <strong>oral tradition</strong> means stories are passed down by <strong>speaking</strong> — not writing. Because of this, the same story can have DIFFERENT VERSIONS and DIFFERENT ENDINGS depending on who is telling it and what they want to teach. Aesop's fables are a great example!</p>
+  </div>
+
+  <div class="ending-card">
+    <div class="ec-badge">Alternative Ending A</div>
+    <h3 style="font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:1.05rem;margin-bottom:10px">"The Kind Ant"</h3>
+    <div class="ec-text">
+      When winter came, Grasshopper arrived at Ant's door, shivering and hungry. Ant looked at him for a long time. "Come in," she said at last. "But next summer, you will work alongside me." Grasshopper agreed, and from that day, they became the most unlikely but devoted friends.
+    </div>
+    <div class="ec-q">💬 Discussion: What NEW moral does this ending teach?</div>
+    <textarea class="sa-textarea" placeholder='Think about: "A friend in need is a friend indeed" / "Everyone deserves a second chance" — do you agree?'></textarea>
+  </div>
+
+  <div class="ending-card alt-b">
+    <div class="ec-badge">Alternative Ending B</div>
+    <h3 style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:1.05rem;margin-bottom:10px">"The Clever Grasshopper"</h3>
+    <div class="ec-text">
+      Grasshopper shivered in the cold, but then had an idea. He gathered all the animals together and performed a concert so beautiful that they paid him with food. He survived the winter using the very talent Ant had dismissed.
+    </div>
+    <div class="ec-q">💬 Discussion: What does this ending suggest about talent and being clever?</div>
+    <textarea class="sa-textarea" style="border-color:#FFAB91;background:#FBE9E7" placeholder='Think about: "Use your talents" / "There is more than one way to prepare for the future" — do you agree?'></textarea>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:1.05rem;margin-bottom:10px">✏️ Your Opinion</h3>
+    <p style="font-size:.88rem;font-weight:700;color:#555;margin-bottom:10px">Which ending do you prefer? Which teaches the most useful lesson? Give reasons!</p>
+    <textarea class="sa-textarea" placeholder="I prefer Ending ___ because... The lesson it teaches is... I think this is more useful because..."></textarea>
+    <div style="margin-top:10px">
+      <button class="btn-model" onclick="toggleBox('endModel')">📖 Model Ideas</button>
+    </div>
+    <div class="model-box" id="endModel">
+      <div class="model-title">⭐ Model Ideas</div>
+      <div class="model-text">
+        <strong>Ending A ("The Kind Ant"):</strong> teaches that kindness and second chances are more important than being "right". The moral shifts from "be prepared" to "be compassionate".<br><br>
+        <strong>Ending B ("The Clever Grasshopper"):</strong> challenges the idea that only one type of preparation counts. Grasshopper's talent (music) turns out to be just as useful as Ant's hard work — just in a different way. This teaches us to value different skills.<br><br>
+        <strong>Which is more useful today?</strong> Ending A teaches empathy; Ending B teaches creativity and resourcefulness. Both are valuable 21st-century skills!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: PEEL Structure -->
+<div class="tab-pane" id="tab2">
+  <div class="st">📣 Opinion Paragraph Structure — PEEL</div>
+  <div class="st-sub">Use this structure every time you write an opinion paragraph and you'll always get top marks!</div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:1.1rem;margin-bottom:14px">The PEEL Structure</h3>
+    <div class="peel-step p-step">
+      <div class="peel-letter">P</div>
+      <div class="peel-content">
+        <div class="peel-label">Point — State your opinion clearly</div>
+        <div class="peel-desc">Start by saying clearly what you think. Don't sit on the fence — take a clear position!</div>
+        <div class="peel-example">"I think Ant was right not to help Grasshopper..."</div>
+      </div>
+    </div>
+    <div class="peel-step e1-step">
+      <div class="peel-letter">E</div>
+      <div class="peel-content">
+        <div class="peel-label">Evidence — Give a reason or example from the text</div>
+        <div class="peel-desc">Back up your point with something from the story — a quote or a specific event!</div>
+        <div class="peel-example">"...because she had warned him multiple times that 'summer won't last forever'..."</div>
+      </div>
+    </div>
+    <div class="peel-step e2-step">
+      <div class="peel-letter">E</div>
+      <div class="peel-content">
+        <div class="peel-label">Explain — Explain how it proves your point</div>
+        <div class="peel-desc">Connect the evidence back to your point — what does this evidence show or prove?</div>
+        <div class="peel-example">"This shows that Ant gave Grasshopper every chance to prepare — he simply chose not to listen."</div>
+      </div>
+    </div>
+    <div class="peel-step l-step">
+      <div class="peel-letter">L</div>
+      <div class="peel-content">
+        <div class="peel-label">Link — Connect back to the question</div>
+        <div class="peel-desc">End by bringing everything together and summing up your argument.</div>
+        <div class="peel-example">"Therefore, the consequences Grasshopper faced were entirely of his own making."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:1.1rem;margin-bottom:12px">⭐ Worked Example (Full PEEL)</h3>
+    <div style="background:#EDE7FF;border-radius:12px;padding:14px;font-size:.9rem;font-weight:600;color:#333;line-height:1.8;margin-bottom:14px">
+      <span style="background:#1565C0;color:#fff;border-radius:4px;padding:1px 6px;font-size:.72rem;font-weight:900">P</span> I think Ant was right not to help Grasshopper
+      <span style="background:#E65100;color:#fff;border-radius:4px;padding:1px 6px;font-size:.72rem;font-weight:900">E</span> because she had warned him multiple times that "summer won't last forever" and he had laughed and ignored her.
+      <span style="background:#2E7D32;color:#fff;border-radius:4px;padding:1px 6px;font-size:.72rem;font-weight:900">E</span> This shows that Ant gave Grasshopper every chance to prepare — he simply chose not to listen.
+      <span style="background:#7B1FA2;color:#fff;border-radius:4px;padding:1px 6px;font-size:.72rem;font-weight:900">L</span> Therefore, the consequences Grasshopper faced were entirely of his own making.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#7B1FA2;font-size:1.1rem;margin-bottom:12px">✏️ Now You Try — Write a PEEL Paragraph</h3>
+    <p style="font-size:.88rem;font-weight:700;color:#555;margin-bottom:12px">Question: <em>"Was Grasshopper right to enjoy summer instead of working?"</em></p>
+
+    <div class="word-bank">
+      <div class="wb-title">📚 Useful Words</div>
+      <div class="wb-words">
+        <span class="wb-chip">I believe</span><span class="wb-chip">in my opinion</span><span class="wb-chip">this suggests</span>
+        <span class="wb-chip">furthermore</span><span class="wb-chip">consequently</span><span class="wb-chip">in conclusion</span>
+        <span class="wb-chip">arguably</span><span class="wb-chip">it is clear that</span><span class="wb-chip">this shows</span><span class="wb-chip">therefore</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:8px">
+      <label style="font-size:.82rem;font-weight:900;color:#1565C0;display:block;margin-bottom:4px">P — My point (opinion):</label>
+      <textarea class="sa-textarea" id="peel_p" placeholder='I think / I believe / In my opinion...' style="min-height:60px"></textarea>
+    </div>
+    <div style="margin-bottom:8px">
+      <label style="font-size:.82rem;font-weight:900;color:#E65100;display:block;margin-bottom:4px">E — Evidence from the text:</label>
+      <textarea class="sa-textarea" id="peel_e1" placeholder='For example / The text tells us that / In the fable...' style="min-height:60px"></textarea>
+    </div>
+    <div style="margin-bottom:8px">
+      <label style="font-size:.82rem;font-weight:900;color:#2E7D32;display:block;margin-bottom:4px">E — Explain what this shows:</label>
+      <textarea class="sa-textarea" id="peel_e2" placeholder='This shows / This suggests / This means that...' style="min-height:60px"></textarea>
+    </div>
+    <div style="margin-bottom:8px">
+      <label style="font-size:.82rem;font-weight:900;color:#7B1FA2;display:block;margin-bottom:4px">L — Link back (conclusion):</label>
+      <textarea class="sa-textarea" id="peel_l" placeholder='Therefore / In conclusion / It is clear that...' style="min-height:60px"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-model" onclick="toggleBox('peelModel')">📖 Model Answer</button>
+    </div>
+    <div class="model-box" id="peelModel">
+      <div class="model-title">⭐ Model PEEL Paragraph</div>
+      <div class="model-text">
+        <strong>P:</strong> I think Grasshopper was NOT right to spend the whole summer singing and playing, despite it being an understandable choice.<br>
+        <strong>E:</strong> In the fable, Ant warned him clearly that "summer won't last forever", but he simply laughed and continued to dance.<br>
+        <strong>E:</strong> This shows that Grasshopper had full knowledge of the risk — he was not ignorant, he was simply careless. His enjoyment came at the cost of his own survival.<br>
+        <strong>L:</strong> Therefore, while it is human to want to enjoy the good times, it is also essential to plan ahead — and Grasshopper's choice to ignore this responsibility had serious consequences.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: Discussion Cards -->
+<div class="tab-pane" id="tab3">
+  <div class="st">🗣️ Discussion Cards</div>
+  <div class="st-sub">Read the question, explore both sides, then give YOUR opinion with reasons!</div>
+
+  <div class="info-box ib-purple">
+    <h4>How to discuss well</h4>
+    <p>In a good discussion, you look at BOTH SIDES — not just the side you agree with. Say what you think, but also understand why others might think differently. Use evidence from the text to support your ideas.</p>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">1</span> "Was Ant right to refuse help to Grasshopper?"</div>
+    <div class="dc-for">
+      <div class="dc-label">✅ Arguments FOR (Ant was right)</div>
+      <div class="dc-text">Ant had worked hard all summer and earned her food. Grasshopper had been warned but chose to ignore the advice. It would be unfair to reward laziness. Helping might just encourage the same behaviour again next year.</div>
+    </div>
+    <div class="dc-against">
+      <div class="dc-label">❌ Arguments AGAINST (Ant was wrong)</div>
+      <div class="dc-text">Grasshopper would have suffered terribly. A compassionate person helps someone in need, regardless of past behaviour. Perhaps one act of kindness would have changed him completely.</div>
+    </div>
+    <label style="font-size:.85rem;font-weight:800;color:#7B1FA2;display:block;margin:12px 0 6px">💬 My opinion (with reason):</label>
+    <textarea class="sa-textarea" placeholder="I think Ant was [right/wrong] because... Evidence: '...' This shows that..."></textarea>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">2</span> "Is Grasshopper really 'foolish', or is he just different?"</div>
+    <div class="dc-for">
+      <div class="dc-label">✅ He is foolish</div>
+      <div class="dc-text">He was warned and chose to ignore the warning. He had no plan for winter. His carefree attitude nearly cost him his life — that is the definition of being foolish.</div>
+    </div>
+    <div class="dc-against">
+      <div class="dc-label">❌ He is just different</div>
+      <div class="dc-text">Grasshopper simply has different priorities — he values music, joy and the present moment over future planning. His singing made others happy in summer. Perhaps he and Ant just have different personalities.</div>
+    </div>
+    <label style="font-size:.85rem;font-weight:800;color:#7B1FA2;display:block;margin:12px 0 6px">💬 My opinion (with reason):</label>
+    <textarea class="sa-textarea" placeholder="I think Grasshopper is [foolish / just different] because..."></textarea>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">3</span> "Which character would you rather have as a friend — Ant or Grasshopper? Why?"</div>
+    <div style="background:#EDE7FF;border-radius:10px;padding:10px 12px;margin-bottom:12px">
+      <div style="font-size:.85rem;font-weight:700;color:#4527A0;line-height:1.5">
+        <strong>Think about:</strong><br>
+        🐜 ANT is: hardworking, reliable, organised, serious, prepared, honest (maybe too harsh?)<br>
+        🦗 GRASSHOPPER is: fun, carefree, creative, musical, joyful, present-minded (but unreliable?)
+      </div>
+    </div>
+    <label style="font-size:.85rem;font-weight:800;color:#7B1FA2;display:block;margin-bottom:6px">💬 My opinion (with reason):</label>
+    <textarea class="sa-textarea" placeholder="I would rather be friends with [Ant / Grasshopper] because..."></textarea>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">4</span> "Does the fable's lesson still apply today? Give a modern example."</div>
+    <div style="background:#EDE7FF;border-radius:10px;padding:10px 12px;margin-bottom:12px">
+      <div style="font-size:.85rem;font-weight:700;color:#4527A0;line-height:1.5">
+        <strong>The fable's lesson:</strong> "Work hard in the good times so you are prepared for the hard times."<br><br>
+        <strong>Modern example:</strong> Students who revise regularly all term do better in exams than those who leave it all to the last minute (Ant = consistent reviser; Grasshopper = last-minute studier).
+      </div>
+    </div>
+    <label style="font-size:.85rem;font-weight:800;color:#7B1FA2;display:block;margin-bottom:6px">💬 Your modern example + opinion:</label>
+    <textarea class="sa-textarea" placeholder="I think the lesson still applies today. A modern example is... This is similar to the fable because..."></textarea>
+  </div>
+</div>
+
+<!-- TAB 5: Comprehension -->
+<div class="tab-pane" id="tab4">
+  <div class="st">🧠 Comprehension Practice</div>
+  <div class="st-sub">Three exam-style questions. Use everything you've learned in this lesson!</div>
+
+  <div class="exam-q">
+    <div class="eq-marks">1 mark</div>
+    <div class="eq-q">Q1. Is this statement a fact or an opinion? Explain your answer.<br><em>"Grasshopper was lazy and irresponsible."</em></div>
+    <textarea class="sa-textarea" id="eq1" placeholder="Fact or opinion? How do you know? Give a reason..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m1')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">Ask yourself: can you PROVE this is true? Or could someone else read the same story and disagree? Look for opinion signal words or judgement words.</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">⭐ Model Answer (1 mark)</div>
+      <div class="model-text">This is an <strong>OPINION</strong>. Words like "lazy" and "irresponsible" are judgements about Grasshopper's character — different people might interpret his behaviour differently. For example, someone might argue he was simply carefree rather than lazy. There is no objective test that can prove he was "irresponsible" — it is a personal judgement.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q2. Write a paragraph giving your opinion on whether Ant should have helped Grasshopper. Use the PEEL structure and include evidence from the text.</div>
+    <textarea class="sa-textarea" id="eq2" placeholder="Use PEEL: P (point) → E (evidence from text) → E (explain) → L (link back). Aim for 4–6 sentences." style="min-height:140px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m2')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">Start: "I think Ant should/should not have helped Grasshopper because..." Then find a quote. Then explain what it proves. Then conclude.</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">⭐ Model Answer (3 marks)</div>
+      <div class="model-text">
+        I think Ant should NOT have helped Grasshopper, because she had clearly warned him that "summer won't last forever" and he had laughed and ignored her. [P + E]<br><br>
+        This shows that Grasshopper made a conscious choice not to prepare, even with full knowledge of the risk — the consequences were therefore entirely self-inflicted. [E]<br><br>
+        Furthermore, helping Grasshopper without any condition would have taught him that laziness has no consequences, which would simply encourage the same behaviour the following year. [E]<br><br>
+        In conclusion, while Ant's refusal seems harsh, it is arguably the most effective way to teach a lasting lesson. [L]
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q3. Explain TWO ways in which the discussion forum activity develops 21st-century skills. How does discussing opinions make you a better learner?</div>
+    <textarea class="sa-textarea" id="eq3" placeholder="Think about: critical thinking, communication, listening, open-mindedness... Write 4–6 sentences." style="min-height:130px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">Think about what skills you USE when you discuss: do you think carefully? Do you listen? Do you organise your ideas? Name two skills and explain how discussions build them.</div>
+    <div class="model-box" id="m3">
+      <div class="model-title">⭐ Model Answer (3 marks)</div>
+      <div class="model-text">
+        First, discussing different opinions develops <strong>CRITICAL THINKING</strong> — when you consider multiple views, you learn to weigh evidence rather than accept the first idea you encounter. This helps you become a more careful and independent thinker.<br><br>
+        Second, preparing to present your ideas develops <strong>COMMUNICATION</strong> skills — you must organise your thoughts clearly so others can understand and evaluate them. Learning to back up your opinions with evidence is a skill used in every subject and in life beyond school.<br><br>
+        Both skills are essential not just in English, but in every subject — and in every career and situation where you need to think, explain or persuade.
+      </div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="markDone()">🎉 Mark Lesson 1.9 as Complete!</button>
+  <div class="complete-msg" id="completeMsg">
+    ✅ Brilliant! Lesson 1.9 is complete!<br><br>
+    Ready for the next lesson? <a href="unit1_lesson_1_10.html">👉 Go to Lesson 1.10</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(n){
+  document.querySelectorAll('.tab-pane').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+}
+function toggleBox(id){document.getElementById(id).classList.toggle('show');}
+
+// Fact vs Opinion data
+const foData = [
+  {stmt:'Aesop\'s fables are over 2,500 years old.',correct:'fact',fb:'✅ FACT! This is a historical claim that can be verified by looking it up. Numbers and dates are strong signals of a fact.'},
+  {stmt:'Grasshopper was foolish and irresponsible.',correct:'opinion',fb:'✅ OPINION! "Foolish" and "irresponsible" are character judgements. Different people can interpret the same actions differently.'},
+  {stmt:'The ant collected food including insects, flies and grains of wheat.',correct:'fact',fb:'✅ FACT! This is directly stated in the text and can be checked. It is a specific, verifiable detail.'},
+  {stmt:'Ant should have helped Grasshopper in winter.',correct:'opinion',fb:'✅ OPINION! "Should have" shows it is a moral judgement — not everyone would agree!'},
+  {stmt:'The fable ends with Grasshopper saying "How foolish I have been!"',correct:'fact',fb:'✅ FACT! You can check this by reading the text. It is a specific, verifiable detail from the story.'},
+  {stmt:'Auntie Anthea and Gentle Geoffrey is funnier than the original.',correct:'opinion',fb:'✅ OPINION! "Funnier" is a personal judgement — different readers will find different versions more entertaining.'},
+  {stmt:'The word "guffawed" means laughed loudly.',correct:'fact',fb:'✅ FACT! This is a dictionary definition — it can be checked and verified. Definitions are facts.'},
+  {stmt:'Fables are the best type of story to teach children.',correct:'opinion',fb:'✅ OPINION! "Best" is a judgement that different people will disagree about. There is no one correct answer.'}
+];
+
+function buildFO(){
+  const c = document.getElementById('foContainer');
+  foData.forEach((item,i)=>{
+    const d = document.createElement('div');
+    d.className = 'fo-card';
+    d.innerHTML = `
+      <div class="fo-statement">"${item.stmt}"</div>
+      <div class="fo-btns">
+        <button class="fo-btn fact" onclick="checkFO(${i},'fact',this)">✅ FACT</button>
+        <button class="fo-btn opinion" onclick="checkFO(${i},'opinion',this)">💭 OPINION</button>
+      </div>
+      <div class="fo-fb" id="fofb${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+buildFO();
+
+function checkFO(i,choice,btn){
+  const item = foData[i];
+  const fb = document.getElementById('fofb'+i);
+  const parent = btn.closest('.fo-card');
+  parent.querySelectorAll('.fo-btn').forEach(b=>b.disabled=true);
+  if(choice===item.correct){
+    btn.classList.add('correct');
+    fb.innerHTML = item.fb;
+    fb.classList.add('show','correct-fb');
+  } else {
+    btn.classList.add('wrong');
+    fb.innerHTML = '🤔 Not quite! It is a <strong>'+item.correct.toUpperCase()+'</strong>. '+item.fb;
+    fb.classList.add('show','wrong-fb');
+    parent.querySelectorAll('.fo-btn').forEach(b=>{if(b.classList.contains(item.correct))b.classList.add('correct');});
+  }
+}
+
+function markDone(){
+  localStorage.setItem('u1_done_1-9','true');
+  document.getElementById('completeMsg').classList.add('show');
+}
+if(localStorage.getItem('u1_done_1-9')==='true'){
+  document.getElementById('completeMsg').classList.add('show');
+}
+</script>
+</body>
+</html>

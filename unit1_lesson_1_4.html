@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.4 – Point of View | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#3F51B5;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#E040FB}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-side:hover{background:rgba(255,255,255,.25) !important}
+.lesson-hdr{background:#3F51B5;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#3F51B5}
+.tab-btn.active{color:#3F51B5;border-bottom-color:#3F51B5;background:#E8EAF6}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#3F51B5;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-indigo{background:#E8EAF6;border-color:#9FA8DA}
+.ib-indigo h4{color:#283593;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-indigo p,.ib-indigo li{color:#283593;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-red{background:#FFEBEE;border-color:#EF9A9A}
+.ib-red h4{color:#B71C1C;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-red p{color:#B71C1C;font-size:.88rem;font-weight:600;line-height:1.6}
+
+/* comparison table */
+.cmp-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:.88rem}
+.cmp-table th{background:#3F51B5;color:#fff;padding:10px 14px;text-align:left;font-family:'Fredoka One',cursive;font-size:1rem}
+.cmp-table td{padding:10px 14px;border-bottom:1px solid #E8EAF6;font-weight:600;color:#333;line-height:1.5}
+.cmp-table tr:nth-child(even) td{background:#F5F5FF}
+.tag{display:inline-block;border-radius:12px;padding:3px 10px;font-size:.75rem;font-weight:800;margin:2px}
+.tag-1st{background:#E8EAF6;color:#3F51B5}
+.tag-3rd{background:#E8F5E9;color:#2E7D32}
+
+/* spot the voice game */
+.voice-sent{background:#fff;border:2px solid #C5CAE9;border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:all .2s}
+.voice-sent.correct{border-color:#66BB6A;background:#E8F5E9}
+.voice-sent.wrong{border-color:#EF5350;background:#FFEBEE}
+.voice-text{font-weight:700;color:#333;font-size:.9rem;margin-bottom:8px;line-height:1.5}
+.voice-btns{display:flex;gap:8px}
+.v-btn{border:2px solid;border-radius:10px;padding:7px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;transition:all .2s}
+.v-btn-1st{background:#E8EAF6;color:#3F51B5;border-color:#9FA8DA}
+.v-btn-3rd{background:#E8F5E9;color:#2E7D32;border-color:#A5D6A7}
+.v-btn:hover{transform:scale(1.03)}
+.v-feedback{font-size:.82rem;font-weight:700;margin-top:6px;display:none}
+.v-feedback.show{display:block}
+.v-feedback.ok{color:#2E7D32}
+.v-feedback.no{color:#C62828}
+.voice-score{background:#E8EAF6;border-radius:12px;padding:12px 16px;font-weight:800;color:#3F51B5;text-align:center;display:none;margin-top:12px}
+.voice-score.show{display:block}
+
+/* pronouns table */
+.pro-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:.88rem}
+.pro-table th{background:#3F51B5;color:#fff;padding:8px 12px;text-align:center;font-weight:800}
+.pro-table td{padding:9px 12px;border:1px solid #E8EAF6;text-align:center;font-weight:700;color:#333}
+.pro-table tr:nth-child(even) td{background:#F5F5FF}
+.pro-table .pro-label{text-align:left;font-weight:800;color:#3F51B5}
+
+/* fill blanks */
+.fill-q{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;border:2px solid #E8EAF6;transition:all .2s}
+.fill-q.correct{border-color:#66BB6A;background:#E8F5E9}
+.fill-q.wrong{border-color:#EF5350;background:#FFEBEE}
+.fill-text{font-weight:700;font-size:.9rem;color:#333;margin-bottom:8px;line-height:1.6}
+.opt-btns{display:flex;gap:6px;flex-wrap:wrap}
+.opt-btn{border:2px solid #9FA8DA;background:#E8EAF6;color:#3F51B5;border-radius:10px;padding:6px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;transition:all .2s}
+.opt-btn:hover{background:#C5CAE9}
+.opt-btn.selected{background:#3F51B5;color:#fff}
+.fill-feedback{font-size:.82rem;font-weight:700;margin-top:6px;display:none}
+.fill-feedback.show{display:block}
+.fill-feedback.ok{color:#2E7D32}
+.fill-feedback.no{color:#C62828}
+.check-all-btn{background:#3F51B5;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;margin-top:8px;transition:all .2s}
+.check-all-btn:hover{background:#283593}
+.score-box{background:#E8EAF6;border:2px solid #9FA8DA;border-radius:12px;padding:12px 16px;font-weight:800;color:#3F51B5;text-align:center;display:none;margin-top:10px}
+.score-box.show{display:block}
+
+/* writing frame */
+.starter{background:#E8EAF6;border-left:4px solid #3F51B5;border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:6px;font-style:italic;font-weight:700;color:#3F51B5;font-size:.88rem;line-height:1.5}
+.sa-textarea{width:100%;border:2px solid #C5CAE9;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#F5F0FF;resize:vertical;min-height:100px}
+.sa-textarea:focus{outline:none;border-color:#3F51B5;background:#fff}
+.word-bank{background:#E8EAF6;border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.wb-title{font-weight:800;color:#3F51B5;font-size:.82rem;margin-bottom:6px}
+.wb-words{display:flex;flex-wrap:wrap;gap:6px}
+.wb-word{background:#3F51B5;color:#fff;border-radius:12px;padding:4px 12px;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s}
+.wb-word:hover{background:#283593;transform:scale(1.05)}
+
+/* hint/model */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+
+/* exam questions */
+.exam-q{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-left:5px solid #3F51B5}
+.eq-marks{display:inline-block;background:#3F51B5;color:#fff;border-radius:10px;padding:3px 10px;font-size:.78rem;font-weight:800;margin-bottom:8px}
+.eq-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:12px}
+
+@media(max-width:600px){
+  .voice-btns{flex-wrap:wrap}
+  .opt-btns{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a class="tn-btn home" href="unit1_home.html">🏠 Unit 1</a>
+  <a class="tn-btn" href="unit1_lesson_1_1.html">1.1</a>
+  <a class="tn-btn" href="unit1_lesson_1_2.html">1.2</a>
+  <a class="tn-btn" href="unit1_lesson_1_3.html">1.3</a>
+  <span class="tn-btn" style="color:#FFD700;border-bottom-color:#FFD700">▶ 1.4</span>
+  <a class="tn-btn" href="unit1_lesson_1_5.html">1.5</a>
+  <div class="tn-spacer"></div>
+  <a class="tn-btn tn-side" href="unit1_lesson_1_3.html">← Lesson 1.3</a>
+  <a class="tn-btn tn-side" href="unit1_lesson_1_5.html">Lesson 1.5 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Cambridge Primary English Stage 5</div>
+  <h1 class="lh-title">Lesson 1.4 – What About My Point of View?</h1>
+  <p class="lh-sub">Narrative voice · Pronouns · Possessives · POV writing</p>
+  <div class="lh-goals">
+    <span class="goal-chip">🎯 1st vs 3rd person</span>
+    <span class="goal-chip">🔑 Subject &amp; object pronouns</span>
+    <span class="goal-chip">💎 Possessive adjectives &amp; pronouns</span>
+    <span class="goal-chip">✏️ Retell from a character's POV</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('voice',this)">📖 Narrative Voice</button>
+  <button class="tab-btn" onclick="showTab('pronouns',this)">🔑 Pronouns</button>
+  <button class="tab-btn" onclick="showTab('possessive',this)">💎 Possessive</button>
+  <button class="tab-btn" onclick="showTab('retell',this)">✏️ Retell POV</button>
+  <button class="tab-btn" onclick="showTab('comprehension',this)">🧠 Comprehension</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: NARRATIVE VOICE -->
+<div class="tab-pane active" id="tab-voice">
+  <h2 class="st">📖 Narrative Voice</h2>
+  <p class="st-sub">Who is telling the story? That's the narrative voice!</p>
+
+  <div class="info-box ib-indigo">
+    <h4>Two Main Narrative Voices</h4>
+    <p><strong>1st Person Narrator</strong> — the storyteller IS a character in the story. They use <strong>I, me, we, us, my, our</strong>.<br>
+    Example: <em>"I ran as fast as I could."</em></p>
+    <br>
+    <p><strong>3rd Person Narrator</strong> — the storyteller is OUTSIDE the story. They use <strong>he, she, they, it, his, her, their</strong>.<br>
+    Example: <em>"She ran as fast as she could."</em></p>
+  </div>
+
+  <div class="card">
+    <div class="info-box ib-blue" style="margin-bottom:10px">
+      <h4>The Ant &amp; the Grasshopper — Which Voice?</h4>
+      <p>The story uses a <strong>3rd person narrator</strong> for the storytelling — the narrator is NOT a character. But the characters speak in <strong>1st person</strong> when they talk!</p>
+    </div>
+    <table class="cmp-table">
+      <tr><th>Part of story</th><th>Voice</th><th>Example</th></tr>
+      <tr><td>Narration (story)</td><td><span class="tag tag-3rd">3rd Person</span></td><td><em>"A grasshopper was bouncing about..."</em></td></tr>
+      <tr><td>Narration (story)</td><td><span class="tag tag-3rd">3rd Person</span></td><td><em>"She continued on her industrious way."</em></td></tr>
+      <tr><td>Character dialogue</td><td><span class="tag tag-1st">1st Person</span></td><td><em>"Come and chat with me," said Grasshopper.</em></td></tr>
+      <tr><td>Character dialogue</td><td><span class="tag tag-1st">1st Person</span></td><td><em>"I am too busy," said Ant.</em></td></tr>
+    </table>
+    <div class="info-box ib-orange" style="margin-top:4px">
+      <h4>💡 Key Rule</h4>
+      <p>Narrative voice = the voice TELLING the story, NOT the dialogue inside it. Characters always speak in 1st person even in a 3rd person story!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#3F51B5;margin-bottom:14px;font-size:1.1rem">🎮 Spot the Narrative Voice!</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Read each sentence. Click <strong>1st Person</strong> or <strong>3rd Person</strong>.</p>
+
+    <div class="voice-sent" id="vs0">
+      <div class="voice-text">"All summer long, <u>the grasshopper</u> had played his fiddle."</div>
+      <div class="voice-btns">
+        <button class="v-btn v-btn-1st" onclick="checkVoice(0,'1st')">1st Person (I/we)</button>
+        <button class="v-btn v-btn-3rd" onclick="checkVoice(0,'3rd')">3rd Person (he/she/they)</button>
+      </div>
+      <div class="v-feedback" id="vf0"></div>
+    </div>
+
+    <div class="voice-sent" id="vs1">
+      <div class="voice-text">"<u>I</u> have been singing all summer," said the grasshopper sadly.</div>
+      <div class="voice-btns">
+        <button class="v-btn v-btn-1st" onclick="checkVoice(1,'1st')">1st Person (I/we)</button>
+        <button class="v-btn v-btn-3rd" onclick="checkVoice(1,'3rd')">3rd Person (he/she/they)</button>
+      </div>
+      <div class="v-feedback" id="vf1"></div>
+    </div>
+
+    <div class="voice-sent" id="vs2">
+      <div class="voice-text">"<u>She</u> shook her head and said, 'Then you must dance!'"</div>
+      <div class="voice-btns">
+        <button class="v-btn v-btn-1st" onclick="checkVoice(2,'1st')">1st Person (I/we)</button>
+        <button class="v-btn v-btn-3rd" onclick="checkVoice(2,'3rd')">3rd Person (he/she/they)</button>
+      </div>
+      <div class="v-feedback" id="vf2"></div>
+    </div>
+
+    <div class="voice-sent" id="vs3">
+      <div class="voice-text">"<u>We</u> ants always prepare for the hard times ahead."</div>
+      <div class="voice-btns">
+        <button class="v-btn v-btn-1st" onclick="checkVoice(3,'1st')">1st Person (I/we)</button>
+        <button class="v-btn v-btn-3rd" onclick="checkVoice(3,'3rd')">3rd Person (he/she/they)</button>
+      </div>
+      <div class="v-feedback" id="vf3"></div>
+    </div>
+
+    <div class="voice-sent" id="vs4">
+      <div class="voice-text">"<u>The ant</u> closed her door and left <u>the grasshopper</u> shivering in the cold."</div>
+      <div class="voice-btns">
+        <button class="v-btn v-btn-1st" onclick="checkVoice(4,'1st')">1st Person (I/we)</button>
+        <button class="v-btn v-btn-3rd" onclick="checkVoice(4,'3rd')">3rd Person (he/she/they)</button>
+      </div>
+      <div class="v-feedback" id="vf4"></div>
+    </div>
+
+    <div class="voice-score" id="voice-score"></div>
+  </div>
+</div>
+
+<!-- TAB 2: PRONOUNS -->
+<div class="tab-pane" id="tab-pronouns">
+  <h2 class="st">🔑 Personal Pronouns</h2>
+  <p class="st-sub">Pronouns replace nouns so we don't repeat the same word.</p>
+
+  <div class="card">
+    <div class="info-box ib-indigo" style="margin-bottom:14px">
+      <h4>Subject vs Object Pronouns</h4>
+      <p><strong>Subject pronoun</strong> — the pronoun IS the one doing the action.<br>
+      Example: <em>"<u>She</u> carried the corn."</em> — She is doing the carrying.</p>
+      <br>
+      <p><strong>Object pronoun</strong> — the pronoun receives the action, or comes after a verb/preposition.<br>
+      Example: <em>"Ant ignored <u>him</u>."</em> — Him is being ignored.</p>
+    </div>
+    <table class="pro-table">
+      <tr><th>Person</th><th>Subject pronoun<br><small>(doing the action)</small></th><th>Object pronoun<br><small>(receives the action)</small></th></tr>
+      <tr><td class="pro-label">1st person singular</td><td>I</td><td>me</td></tr>
+      <tr><td class="pro-label">2nd person</td><td>you</td><td>you</td></tr>
+      <tr><td class="pro-label">3rd person singular (male)</td><td>he</td><td>him</td></tr>
+      <tr><td class="pro-label">3rd person singular (female)</td><td>she</td><td>her</td></tr>
+      <tr><td class="pro-label">3rd person singular (thing)</td><td>it</td><td>it</td></tr>
+      <tr><td class="pro-label">1st person plural</td><td>we</td><td>us</td></tr>
+      <tr><td class="pro-label">3rd person plural</td><td>they</td><td>them</td></tr>
+    </table>
+    <div class="info-box ib-orange">
+      <h4>💡 Quick Test</h4>
+      <p>To check: Can you use it at the START of a sentence doing something? → Subject pronoun.<br>
+      Does it come AFTER a verb? → Object pronoun.<br>
+      <em>"<u>She</u> saw <u>him</u>."</em> — She = subject, him = object.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#3F51B5;margin-bottom:14px;font-size:1.1rem">🎯 Choose the Correct Pronoun</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Click the correct pronoun for each blank. Then press <strong>Check Answers</strong>.</p>
+
+    <div id="pron-qs"></div>
+    <button class="check-all-btn" onclick="checkPronouns()">Check Answers ✓</button>
+    <div class="score-box" id="pron-score"></div>
+  </div>
+</div>
+
+<!-- TAB 3: POSSESSIVE -->
+<div class="tab-pane" id="tab-possessive">
+  <h2 class="st">💎 Possessives</h2>
+  <p class="st-sub">Two types — possessive adjectives and possessive pronouns!</p>
+
+  <div class="card">
+    <div class="info-box ib-indigo" style="margin-bottom:14px">
+      <h4>What's the difference?</h4>
+      <p><strong>Possessive Adjective</strong> — comes BEFORE a noun. It describes who owns something.<br>
+      Example: <em>"That is <u>my</u> book."</em> — "my" comes before "book".</p>
+      <br>
+      <p><strong>Possessive Pronoun</strong> — stands ALONE. It replaces the noun.<br>
+      Example: <em>"That book is <u>mine</u>."</em> — "mine" replaces "my book".</p>
+    </div>
+    <table class="pro-table">
+      <tr><th>Person</th><th>Possessive Adjective<br><small>(before a noun)</small></th><th>Possessive Pronoun<br><small>(stands alone)</small></th></tr>
+      <tr><td class="pro-label">1st singular</td><td>my</td><td>mine</td></tr>
+      <tr><td class="pro-label">2nd person</td><td>your</td><td>yours</td></tr>
+      <tr><td class="pro-label">3rd singular (male)</td><td>his</td><td>his</td></tr>
+      <tr><td class="pro-label">3rd singular (female)</td><td>her</td><td>hers</td></tr>
+      <tr><td class="pro-label">3rd singular (thing)</td><td>its</td><td>—</td></tr>
+      <tr><td class="pro-label">1st plural</td><td>our</td><td>ours</td></tr>
+      <tr><td class="pro-label">3rd plural</td><td>their</td><td>theirs</td></tr>
+    </table>
+    <div class="info-box ib-red" style="margin-top:4px">
+      <h4>⚠️ Common Mistake: its vs it's</h4>
+      <p><strong>its</strong> (no apostrophe) = possessive adjective. <em>"The ant carried <u>its</u> food."</em><br>
+      <strong>it's</strong> (with apostrophe) = it IS. <em>"<u>It's</u> a cold winter."</em> = "It is a cold winter."<br>
+      Never write "it's" to mean possession!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#3F51B5;margin-bottom:14px;font-size:1.1rem">🎯 Choose the Correct Form</h3>
+    <p style="font-size:.88rem;color:#555;font-weight:600;margin-bottom:14px">Click the correct word. Then press <strong>Check Answers</strong>.</p>
+    <div id="poss-qs"></div>
+    <button class="check-all-btn" onclick="checkPossessives()">Check Answers ✓</button>
+    <div class="score-box" id="poss-score"></div>
+  </div>
+</div>
+
+<!-- TAB 4: RETELL POV -->
+<div class="tab-pane" id="tab-retell">
+  <h2 class="st">✏️ Retell from Grasshopper's Point of View</h2>
+  <p class="st-sub">Retell the opening of the fable as GRASSHOPPER using 1st person (I, me, my).</p>
+
+  <div class="info-box ib-indigo">
+    <h4>Your Task</h4>
+    <p>The original story is told by a 3rd person narrator. Retell the OPENING from Grasshopper's perspective — use "I" as if you ARE the grasshopper. Use the sentence starters and word bank below!</p>
+  </div>
+
+  <div class="card">
+    <div class="word-bank">
+      <div class="wb-title">📚 Word Bank — click to copy a word:</div>
+      <div class="wb-words">
+        <span class="wb-word" onclick="insertWord('chirruping')">chirruping</span>
+        <span class="wb-word" onclick="insertWord('fathom')">fathom</span>
+        <span class="wb-word" onclick="insertWord('plentiful')">plentiful</span>
+        <span class="wb-word" onclick="insertWord('foolish')">foolish</span>
+        <span class="wb-word" onclick="insertWord('wistfully')">wistfully</span>
+      </div>
+    </div>
+
+    <div class="info-box ib-blue" style="margin-bottom:12px">
+      <h4>Sentence Starters — use these to help you!</h4>
+      <p>
+        1. "One fine summer's day, I was bouncing about..."<br>
+        2. "When I saw Ant lugging that huge ear of corn, I couldn't fathom why she was..."<br>
+        3. "I teased her, saying '...'"<br>
+        4. "Looking back now, I realise I was..."
+      </p>
+    </div>
+
+    <label style="font-weight:800;color:#3F51B5;font-size:.88rem;display:block;margin-bottom:6px">Write your retelling here (aim for 80–120 words):</label>
+    <textarea class="sa-textarea" id="retell-ta" placeholder="One fine summer's day, I was bouncing about..." style="min-height:160px"></textarea>
+
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('retell-hint')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('retell-model')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="retell-hint">
+      Remember: change "the grasshopper" → "I", "he" → "I", "his" → "my". Keep the STORY events the same, just change who is speaking them. You can show Grasshopper's carefree, happy feelings — he doesn't know he's doing anything wrong yet!
+    </div>
+    <div class="model-box" id="retell-model">
+      <div class="model-title">📋 Model Answer</div>
+      <div class="model-text">
+        One fine summer's day, I was bouncing about, chirruping merrily in the warm sunshine. Food was plentiful everywhere and I felt so alive! Then I spotted Ant — she was lugging an enormous ear of corn on her back. I couldn't fathom why she would work so hard when summer was so glorious. "Why not come and chat with me?" I teased her. "Winter is far, far away!" She shook her head and carried on her industrious way. I just laughed and played on. Looking back now, I realise I was foolish. I watched her wistfully as the cold crept in.
+      </div>
+      <div class="model-note">✅ Notice: she/her are still used for Ant, but I/my/me for Grasshopper. Correct 1st person throughout!</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: COMPREHENSION -->
+<div class="tab-pane" id="tab-comprehension">
+  <h2 class="st">🧠 Comprehension</h2>
+  <p class="st-sub">Exam-style questions — write full, detailed answers.</p>
+
+  <div class="exam-q">
+    <div class="eq-marks">2 marks</div>
+    <div class="eq-q">Q1. Who narrates The Ant and the Grasshopper? How do you know? Use evidence from the text.</div>
+    <textarea class="sa-textarea" placeholder="The story is narrated by..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m1')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">Think: does the narrator say "I" in the storytelling parts? What pronouns does the narrator use to describe Ant and Grasshopper? Find a quote as evidence.</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">📋 Model Answer (2 marks)</div>
+      <div class="model-text">The story is narrated by a third-person narrator — someone outside the story who is not a character. We know this because the narrator uses third-person pronouns: <em>"a grasshopper was bouncing about"</em> and <em>"she continued on her industrious way"</em>. The narrator never says "I" in the storytelling sections.</div>
+      <div class="model-note">Mark scheme: 1 mark for identifying 3rd person narrator. 1 mark for evidence/example from the text.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">2 marks</div>
+    <div class="eq-q">Q2. Choose the correct word: "Ant said the food was (her / hers) to keep." Explain why the other option is wrong.</div>
+    <textarea class="sa-textarea" placeholder="The correct word is..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m2')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">Ask yourself: is there a NOUN immediately after the blank? Possessive adjectives come before a noun. Possessive pronouns stand alone.</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">📋 Model Answer (2 marks)</div>
+      <div class="model-text">The correct word is <strong>hers</strong>: "Ant said the food was <em>hers</em> to keep." We use the possessive pronoun "hers" here because it stands alone — there is no noun directly after it. "Her" is a possessive adjective and must come before a noun (e.g., "her food"), not at the end of a sentence.</div>
+      <div class="model-note">Mark scheme: 1 mark for choosing "hers". 1 mark for explaining the rule correctly.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q3. Rewrite this paragraph changing it from 3rd to 1st person (Ant speaking):<br>
+    <em style="color:#555">"She scurried back and forth, gathering food for her nest. She never stopped to admire the glorious day."</em><br>
+    Begin: "I scurried..."</div>
+    <textarea class="sa-textarea" placeholder="I scurried..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m3')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">Change: she → I, her → my. Keep everything else EXACTLY the same — don't change the meaning or add new ideas. Two sentences needed.</div>
+    <div class="model-box" id="m3">
+      <div class="model-title">📋 Model Answer (3 marks)</div>
+      <div class="model-text">I scurried back and forth, gathering food for my nest. I never stopped to admire the glorious day.</div>
+      <div class="model-note">Mark scheme: 1 mark — she→I correct. 1 mark — her→my correct. 1 mark — no other changes to meaning, grammatically correct.</div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson('1-4','unit1_lesson_1_5.html','Lesson 1.5')">🎉 Mark Lesson Complete!</button>
+  <div class="complete-msg" id="complete-msg"></div>
+</div>
+
+</main>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function toggleHint(id) { document.getElementById(id).classList.toggle('show'); }
+function toggleModel(id) { document.getElementById(id).classList.toggle('show'); }
+function completeLesson(key, nextUrl, nextLabel) {
+  localStorage.setItem('u1_done_' + key, 'true');
+  const msg = document.getElementById('complete-msg');
+  msg.innerHTML = '✅ Lesson complete! <a href="' + nextUrl + '" style="color:#2E7D32;font-weight:900">Go to ' + nextLabel + ' →</a>';
+  msg.classList.add('show');
+  document.querySelector('.complete-btn').disabled = true;
+  document.querySelector('.complete-btn').style.opacity = '.7';
+}
+
+// VOICE GAME
+const voiceAnswers = ['3rd','1st','3rd','1st','3rd'];
+const voiceExplain = [
+  'Correct! "The grasshopper had played" — uses 3rd person (the grasshopper = he). No "I" from the narrator.',
+  'Correct! "I have been singing" — the grasshopper says "I" in his dialogue. But remember — this is DIALOGUE, not the narrator.',
+  'Correct! "She shook her head" — uses 3rd person pronoun "she". The narrator is outside the story.',
+  'Correct! "We ants" — Ant says "we" in her dialogue, so this is 1st person speech.',
+  'Correct! "The ant closed her door" — 3rd person narration. The narrator uses "the ant" and "her".'
+];
+const voiceWrong = [
+  'Not quite! Look at the underlined words — "the grasshopper" is 3rd person. The narrator uses "he/she/they", not "I".',
+  'Almost! The "I" here is Grasshopper speaking in dialogue. In exam questions about NARRATIVE VOICE, we check the storytelling, not the dialogue. But since this sentence is dialogue, choosing 1st is acceptable!',
+  'Not quite! "She shook" — "she" is a 3rd person pronoun. The narrator is telling us about her, not speaking as her.',
+  'Not quite! "We ants" — Ant is using "we" in her speech. Dialogue uses 1st person.',
+  'Not quite! Look — "The ant" and "her" are 3rd person. The narrator is NOT one of the characters.'
+];
+let voiceCount = 0;
+function checkVoice(i, choice) {
+  const sent = document.getElementById('vs'+i);
+  const fb = document.getElementById('vf'+i);
+  if(sent.classList.contains('correct') || sent.classList.contains('wrong')) return;
+  if(choice === voiceAnswers[i]) {
+    sent.classList.add('correct');
+    fb.textContent = '✅ ' + voiceExplain[i];
+    fb.className = 'v-feedback show ok';
+    voiceCount++;
+  } else {
+    sent.classList.add('wrong');
+    fb.textContent = '❌ ' + voiceWrong[i];
+    fb.className = 'v-feedback show no';
+  }
+  const answered = document.querySelectorAll('.voice-sent.correct,.voice-sent.wrong').length;
+  if(answered === 5) {
+    const sc = document.getElementById('voice-score');
+    sc.textContent = 'Score: ' + voiceCount + ' / 5 — ' + (voiceCount>=4?'Excellent!':voiceCount>=3?'Good work!':'Review the explanations above and try the comprehension tab.');
+    sc.classList.add('show');
+  }
+}
+
+// PRONOUN FILL
+const pronData = [
+  {text:'Ant worked hard every day. ___ never took a rest.', options:['She','Her'], answer:'She', explain:'"She" is a subject pronoun — Ant is the one doing the action (never took a rest).'},
+  {text:'Grasshopper called to Ant. He wanted ___ to come and play.', options:['she','her'], answer:'her', explain:'"her" is an object pronoun — Ant is receiving the action (being called to). After a verb, use object pronoun.'},
+  {text:'The ants stored all their food. Nothing could stop ___.', options:['they','them'], answer:'them', explain:'"them" is the object pronoun — the ants are the ones nothing could stop. After a verb, use object pronoun.'},
+  {text:'Grasshopper shivered in the cold. ___ wished he had worked harder.', options:['He','Him'], answer:'He', explain:'"He" is the subject pronoun — Grasshopper is the one doing the wishing. Subject comes first in the sentence.'},
+  {text:'"Can you help ___?" asked Grasshopper.', options:['I','me'], answer:'me', explain:'"me" is the object pronoun — Grasshopper is asking to be helped. After a verb like "help", use the object form.'},
+  {text:'___ and Ant had worked hard together that summer.', options:['Her','She'], answer:'She', explain:'"She" is the subject pronoun — she is doing the action. Tip: remove "and Ant" and try alone: "She worked hard" ✓ vs "Her worked hard" ✗.'},
+];
+
+function buildPronQs() {
+  const cont = document.getElementById('pron-qs');
+  pronData.forEach((q,i) => {
+    cont.innerHTML += `<div class="fill-q" id="pq${i}">
+      <div class="fill-text">${q.text.replace('___','<strong style="color:#3F51B5">___</strong>')}</div>
+      <div class="opt-btns">${q.options.map(o=>`<button class="opt-btn" data-q="${i}" data-opt="${o}" onclick="selectOpt(this,${i})">${o}</button>`).join('')}</div>
+      <div class="fill-feedback" id="pf${i}"></div>
+    </div>`;
+  });
+}
+
+function selectOpt(btn, qi) {
+  document.querySelectorAll(`[data-q="${qi}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function checkPronouns() {
+  let score = 0;
+  pronData.forEach((q,i) => {
+    const sel = document.querySelector(`[data-q="${i}"].selected`);
+    const fb = document.getElementById('pf'+i);
+    const box = document.getElementById('pq'+i);
+    if(!sel) { fb.textContent='❓ Please choose an answer.'; fb.className='fill-feedback show no'; return; }
+    if(sel.dataset.opt === q.answer) {
+      score++;
+      box.classList.add('correct');
+      fb.textContent = '✅ Correct! ' + q.explain;
+      fb.className = 'fill-feedback show ok';
+    } else {
+      box.classList.add('wrong');
+      fb.textContent = '❌ The answer is "' + q.answer + '". ' + q.explain;
+      fb.className = 'fill-feedback show no';
+    }
+  });
+  const sc = document.getElementById('pron-score');
+  sc.textContent = 'Score: ' + score + ' / ' + pronData.length + (score===pronData.length?' — Perfect! 🌟':score>=4?' — Well done!':' — Review the pronoun table and try again.');
+  sc.classList.add('show');
+}
+
+// POSSESSIVES
+const possData = [
+  {text:"Ant put down ___ heavy load and shook her head.", options:['her','hers'], answer:'her', explain:'"her" is a possessive adjective — it comes before the noun "load". Possessive adjectives always come before a noun.'},
+  {text:"\"That corn is ___!\" said Ant firmly.", options:['my','mine'], answer:'mine', explain:'"mine" is a possessive pronoun — it stands alone after "is". No noun follows it, so we use the pronoun form.'},
+  {text:"The grasshopper played ___ fiddle all day.", options:['his','him'], answer:'his', explain:'"his" is the possessive adjective here — it comes before "fiddle". "him" is an object pronoun, not a possessive.'},
+  {text:"The food in the nest was ___.", options:['their','theirs'], answer:'theirs', explain:'"theirs" is a possessive pronoun — it stands alone at the end of the sentence with no noun after it.'},
+  {text:"___ wings fluttered as the grasshopper leapt.", options:['Its','It\'s'], answer:'Its', explain:'"Its" (no apostrophe) is the possessive adjective — showing the wings belong to the grasshopper. "It\'s" means "it is", which doesn\'t make sense here.'},
+  {text:"\"This shelter is not ___,\" said Ant, \"you must find ___ own.\"", options:['yours / your','your / yours'], answer:'yours / your', explain:'"yours" stands alone after "is" (possessive pronoun). "your" comes before "own" (possessive adjective). The order matters!'},
+];
+
+function buildPossQs() {
+  const cont = document.getElementById('poss-qs');
+  possData.forEach((q,i) => {
+    cont.innerHTML += `<div class="fill-q" id="psq${i}">
+      <div class="fill-text">${q.text.replace('___','<strong style="color:#3F51B5">___</strong>').replace('___','<strong style="color:#3F51B5">___</strong>')}</div>
+      <div class="opt-btns">${q.options.map(o=>`<button class="opt-btn" data-pq="${i}" data-opt="${o}" onclick="selectPossOpt(this,${i})">${o}</button>`).join('')}</div>
+      <div class="fill-feedback" id="psf${i}"></div>
+    </div>`;
+  });
+}
+
+function selectPossOpt(btn, qi) {
+  document.querySelectorAll(`[data-pq="${qi}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function checkPossessives() {
+  let score = 0;
+  possData.forEach((q,i) => {
+    const sel = document.querySelector(`[data-pq="${i}"].selected`);
+    const fb = document.getElementById('psf'+i);
+    const box = document.getElementById('psq'+i);
+    if(!sel) { fb.textContent='❓ Please choose an answer.'; fb.className='fill-feedback show no'; return; }
+    if(sel.dataset.opt === q.answer) {
+      score++;
+      box.classList.add('correct');
+      fb.textContent = '✅ Correct! ' + q.explain;
+      fb.className = 'fill-feedback show ok';
+    } else {
+      box.classList.add('wrong');
+      fb.textContent = '❌ The answer is "' + q.answer + '". ' + q.explain;
+      fb.className = 'fill-feedback show no';
+    }
+  });
+  const sc = document.getElementById('poss-score');
+  sc.textContent = 'Score: ' + score + ' / ' + possData.length + (score===possData.length?' — Perfect! 🌟':score>=4?' — Well done!':' — Review the possessives table and try again.');
+  sc.classList.add('show');
+}
+
+function insertWord(word) {
+  const ta = document.getElementById('retell-ta');
+  const pos = ta.selectionStart;
+  const val = ta.value;
+  ta.value = val.slice(0,pos) + word + val.slice(pos);
+  ta.focus();
+  ta.selectionStart = ta.selectionEnd = pos + word.length;
+}
+
+buildPronQs();
+buildPossQs();
+</script>
+</body>
+</html>

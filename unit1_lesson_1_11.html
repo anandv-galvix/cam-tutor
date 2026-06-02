@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.11 – Retell a Fable | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#1B5E20;display:flex;align-items:center;padding:0 16px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.85);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#A5D6A7}
+.tn-btn.cur{color:#FFD700;cursor:default}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.lesson-hdr{background:#1B5E20;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.gc{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#1B5E20}
+.tab-btn.active{color:#1B5E20;border-bottom-color:#1B5E20;background:#E8F5E9}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#1B5E20;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}.ib-orange p{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}.ib-purple p{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.sa-textarea{width:100%;border:2px solid #D1C4E9;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#F5F0FF;resize:vertical;min-height:100px;transition:border .2s}
+.sa-textarea:focus{outline:none;border-color:#1B5E20;background:#fff}
+.btn{border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn:hover{transform:scale(1.04)}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.hint-box,.model-box{border-radius:10px;padding:12px 14px;margin-top:10px;display:none;line-height:1.5}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;font-size:.88rem;font-weight:700;color:#5D4037}
+.hint-box.show,.model-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px;box-shadow:0 4px 16px rgba(46,125,50,.3);transition:all .2s}
+.complete-btn:hover{transform:translateY(-2px)}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;font-size:1rem;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+/* plan canvas */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.plan-section{background:#fff;border-radius:14px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,.07)}
+.ps-label{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:4px}
+.ps-guide{font-size:.75rem;color:#888;margin-bottom:8px;font-weight:600;font-style:italic}
+/* draft */
+.draft-section{background:#fff;border-radius:14px;padding:18px;box-shadow:0 3px 12px rgba(0,0,0,.07);margin-bottom:14px;border-left:5px solid #1B5E20}
+.ds-label{font-family:'Fredoka One',cursive;color:#1B5E20;font-size:1rem;margin-bottom:4px}
+.ds-guide{font-size:.78rem;font-weight:700;color:#aaa;margin-bottom:8px}
+.wc-bar{display:flex;align-items:center;gap:10px;margin-top:8px}
+.wc-track{flex:1;background:#E8F5E9;height:8px;border-radius:4px;overflow:hidden}
+.wc-fill{background:#1B5E20;height:100%;border-radius:4px;transition:width .3s}
+.wc-num{font-size:.78rem;font-weight:800;color:#1B5E20}
+/* checklist */
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:6px;background:#fff;cursor:pointer;transition:background .2s}
+.cl-item:hover{background:#F1F8E9}
+.cl-item input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:#1B5E20;cursor:pointer;flex-shrink:0}
+.cl-item label{font-size:.88rem;font-weight:700;color:#333;cursor:pointer;line-height:1.4}
+.cl-item.checked{background:#E8F5E9}
+.cl-section{font-family:'Fredoka One',cursive;color:#1B5E20;font-size:1rem;margin:14px 0 8px}
+.progress-row{display:flex;align-items:center;gap:12px;background:#E8F5E9;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+.pr-bar{flex:1;background:#fff;height:12px;border-radius:6px;overflow:hidden}
+.pr-fill{background:linear-gradient(90deg,#2E7D32,#4CAF50);height:100%;border-radius:6px;transition:width .4s}
+.pr-text{font-family:'Fredoka One',cursive;color:#1B5E20;font-size:1rem;white-space:nowrap}
+/* model fable */
+.fable-card{background:#FFFDE7;border:2px solid #FFD54F;border-radius:18px;padding:24px;margin-bottom:16px}
+.fable-title{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#E65100;text-align:center;margin-bottom:16px}
+.fable-body{font-size:1rem;line-height:1.9;color:#3d2b00}
+.fable-body p{margin-bottom:12px}
+.annotation{display:inline-block;background:#7C4DFF;color:#fff;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800;margin-left:4px;vertical-align:middle}
+.ann-blue{background:#1565C0}
+.ann-orange{background:#E65100}
+.ann-green{background:#2E7D32}
+.ann-red{background:#C62828}
+.ann-purple{background:#7C4DFF}
+/* summary */
+.summary-card{background:linear-gradient(135deg,#E8F5E9,#F1F8E9);border:2px solid #66BB6A;border-radius:18px;padding:24px;margin-bottom:16px}
+.sl-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.9rem;font-weight:700;color:#1B5E20}
+.sl-check{font-size:1.2rem}
+.btn-papers{display:inline-block;background:#1B5E20;color:#fff;border-radius:14px;padding:14px 28px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;text-decoration:none;margin-top:14px;transition:all .2s}
+.btn-papers:hover{background:#2E7D32;transform:translateY(-2px)}
+@media(max-width:600px){.plan-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="unit1_home.html" class="tn-btn" style="color:#FFD700">🏠 Unit Home</a>
+  <a href="unit1_lesson_1_10.html" class="tn-btn">← Lesson 1.10</a>
+  <span class="tn-btn cur">▶ Lesson 1.11</span>
+  <div class="tn-spacer"></div>
+  <a href="unit1_practice_comprehension.html" class="tn-btn tn-side">Practice Papers →</a>
+</div>
+
+<div class="lesson-hdr">
+  <div class="lh-badge">✍️ LESSON 1.11</div>
+  <div class="lh-title">Retell a Fable</div>
+  <div class="lh-sub">Plan · Draft · Edit · Publish Your Own Fable!</div>
+  <div class="lh-goals">
+    <span class="gc">🗺️ Plan your story</span>
+    <span class="gc">✍️ Write a complete fable</span>
+    <span class="gc">🔍 Edit and improve</span>
+    <span class="gc">📖 Learn from a model</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('plan')">🗺️ Plan</button>
+  <button class="tab-btn" onclick="showTab('draft')">✍️ Draft</button>
+  <button class="tab-btn" onclick="showTab('edit')">🔍 Edit</button>
+  <button class="tab-btn" onclick="showTab('model')">📖 Model Fable</button>
+  <button class="tab-btn" onclick="showTab('done')">🎉 Unit Complete!</button>
+</div>
+
+<div class="main">
+
+<!-- PLAN TAB -->
+<div class="tab-pane active" id="tab-plan">
+  <div class="st">🗺️ Plan Your Fable</div>
+  <div class="st-sub">Great writers always plan before they write. Fill in all four boxes first!</div>
+
+  <div class="info-box ib-blue">
+    <h4>📌 Three ways to create your fable</h4>
+    <p><strong>Option A:</strong> Keep Ant &amp; Grasshopper but write a <strong>different ending</strong><br>
+    <strong>Option B:</strong> Use <strong>different animals</strong> but teach the same moral<br>
+    <strong>Option C:</strong> Create a <strong>completely new fable</strong> with a different moral</p>
+  </div>
+
+  <div class="plan-grid">
+    <div class="plan-section">
+      <div class="ps-label" style="color:#E65100">🐾 Characters &amp; Setting</div>
+      <div class="ps-guide">Who are your animals? What personality does each have? Where does the story happen?</div>
+      <textarea class="sa-textarea" id="plan1" style="min-height:90px" placeholder="Character 1: a [adjective] [animal] named...&#10;Character 2: a [adjective] [animal] named...&#10;Setting: in a [place] during [season]..."></textarea>
+    </div>
+    <div class="plan-section">
+      <div class="ps-label" style="color:#1565C0">⚠️ The Problem</div>
+      <div class="ps-guide">What choice does one character make? What goes wrong? What warning is given?</div>
+      <textarea class="sa-textarea" id="plan2" style="min-height:90px" placeholder="[Character 1] chooses to... because...&#10;[Character 2] warns...&#10;[Character 1] ignores / refuses..."></textarea>
+    </div>
+    <div class="plan-section">
+      <div class="ps-label" style="color:#7C4DFF">🌪️ What Happens</div>
+      <div class="ps-guide">How does the problem develop? What are the consequences? What is the turning point?</div>
+      <textarea class="sa-textarea" id="plan3" style="min-height:90px" placeholder="As [time] passed...&#10;The consequences were...&#10;The turning point came when..."></textarea>
+    </div>
+    <div class="plan-section">
+      <div class="ps-label" style="color:#1B5E20">💡 The Moral</div>
+      <div class="ps-guide">What lesson does the reader learn? Write it like a proverb.</div>
+      <textarea class="sa-textarea" id="plan4" style="min-height:90px" placeholder="The moral of my fable: ...&#10;A proverb that fits: ..."></textarea>
+    </div>
+  </div>
+
+  <div class="info-box ib-orange">
+    <h4>🏷️ Animal Stereotypes — choose animals that suit their character!</h4>
+    <p>🦊 Fox = cunning, sly &nbsp;·&nbsp; 🐢 Tortoise = slow but steady &nbsp;·&nbsp; 🦁 Lion = proud, powerful<br>
+    🐭 Mouse = small but clever &nbsp;·&nbsp; 🐺 Wolf = greedy, threatening &nbsp;·&nbsp; 🐦 Crow = vain<br>
+    🦅 Eagle = wise, far-seeing &nbsp;·&nbsp; 🐇 Hare = fast but careless &nbsp;·&nbsp; 🐝 Bee = hard-working</p>
+  </div>
+
+  <div class="info-box ib-green">
+    <h4>✅ Fable Features Checklist — tick as you plan!</h4>
+    <div id="plan-checklist"></div>
+  </div>
+</div>
+
+<!-- DRAFT TAB -->
+<div class="tab-pane" id="tab-draft">
+  <div class="st">✍️ Draft Your Fable</div>
+  <div class="st-sub">Write section by section. Don't worry about being perfect — just get your ideas down!</div>
+
+  <div class="wc-bar" style="margin-bottom:16px;background:#E8F5E9;padding:10px 16px;border-radius:12px">
+    <span style="font-weight:800;color:#1B5E20;font-size:.9rem">📝 Total words:</span>
+    <div class="wc-track"><div class="wc-fill" id="total-wc-fill" style="width:0%"></div></div>
+    <span class="wc-num" id="total-wc">0 / 200</span>
+  </div>
+
+  <div class="draft-section">
+    <div class="ds-label">📍 Section 1: Opening</div>
+    <div class="ds-guide">Introduce your setting and characters (~2-3 sentences). Use: "One [season] day..." / "Long ago, in a..."</div>
+    <textarea class="sa-textarea" id="d1" oninput="updateWC()" style="min-height:100px" placeholder="One [sunny/cold/stormy] day, in a [meadow/forest/river]..."></textarea>
+  </div>
+
+  <div class="draft-section">
+    <div class="ds-label">⚠️ Section 2: The Problem Develops</div>
+    <div class="ds-guide">Show the problem. Include DIALOGUE between your characters (~3-4 sentences).</div>
+    <textarea class="sa-textarea" id="d2" oninput="updateWC()" style="min-height:140px" placeholder='"[Character 1 speaks]," said [character].&#10;"[Character 2 replies]," said [character].&#10;But [Character 1] ignored the warning and...'></textarea>
+  </div>
+
+  <div class="draft-section">
+    <div class="ds-label">🌪️ Section 3: The Climax</div>
+    <div class="ds-guide">The turning point — what happens as a result of the choice? (~2-3 sentences)</div>
+    <textarea class="sa-textarea" id="d3" oninput="updateWC()" style="min-height:100px" placeholder="Then [event] happened...&#10;Only then did [character] realise...&#10;But it was too late..."></textarea>
+  </div>
+
+  <div class="draft-section">
+    <div class="ds-label">💡 Section 4: The Moral</div>
+    <div class="ds-guide">State the lesson clearly — one or two sentences.</div>
+    <textarea class="sa-textarea" id="d4" oninput="updateWC()" style="min-height:60px" placeholder="The moral of this fable: ..."></textarea>
+  </div>
+
+  <div class="info-box ib-purple" style="margin-top:8px">
+    <h4>💎 Checklist: Have you included these?</h4>
+    <p>✓ At least ONE simile or metaphor &nbsp; ✓ Alliteration (in a name or description)<br>
+    ✓ At least TWO modal verbs (must, should, might, will, can...)<br>
+    ✓ Interesting synonyms instead of "said" &nbsp; ✓ Past tense story, present tense dialogue</p>
+  </div>
+</div>
+
+<!-- EDIT TAB -->
+<div class="tab-pane" id="tab-edit">
+  <div class="st">🔍 Edit &amp; Improve</div>
+  <div class="st-sub">Tick each box as you check your fable. Aim for all 20!</div>
+
+  <div class="progress-row">
+    <div class="pr-bar"><div class="pr-fill" id="cl-fill" style="width:0%"></div></div>
+    <div class="pr-text"><span id="cl-count">0</span> / 20 checked</div>
+  </div>
+
+  <div id="edit-checklist"></div>
+
+  <div class="card" style="margin-top:16px">
+    <div style="font-family:'Fredoka One',cursive;color:#1B5E20;font-size:1.1rem;margin-bottom:10px">🔧 Choose ONE thing to improve</div>
+    <p style="font-size:.85rem;font-weight:700;color:#555;margin-bottom:8px">Look at the boxes you did NOT tick. Pick the most important one and rewrite that part of your fable here:</p>
+    <textarea class="sa-textarea" style="min-height:120px" placeholder="I am going to improve: ...&#10;&#10;Here is my improved version:..."></textarea>
+  </div>
+</div>
+
+<!-- MODEL FABLE TAB -->
+<div class="tab-pane" id="tab-model">
+  <div class="st">📖 Model Fable</div>
+  <div class="st-sub">Read this carefully! The annotations show you exactly what features to include.</div>
+
+  <div class="fable-card">
+    <div class="fable-title">🦁 The Proud Lion and the Wise Mouse 🐭</div>
+    <div class="fable-body">
+      <p>One golden afternoon on the <span style="background:#FFD54F;padding:1px 4px;border-radius:3px;font-weight:800">shimmering</span> African savannah, a magnificent lion lay dozing under an acacia tree. His mane gleamed <span style="background:#E3F2FD;padding:1px 4px;border-radius:3px;font-weight:800">like a copper crown</span><span class="annotation ann-orange">simile</span>, and he believed himself to be the greatest creature in all the land.</p>
+
+      <p>A tiny mouse scurried past and accidentally ran across the lion's enormous paw.</p>
+
+      <p><em>"How dare you wake me, you insignificant creature!"</em> the lion <span style="font-weight:800">roared</span><span class="annotation ann-blue">synonym for said</span>, trapping the mouse under his paw. <em>"I <span style="font-weight:800">ought to</span><span class="annotation ann-purple">modal verb</span> crush you where you stand."</em></p>
+
+      <p><em>"Please, great lion,"</em> squeaked the mouse<span class="annotation ann-blue">synonym for said</span>, <span style="background:#E8F5E9;padding:1px 4px;border-radius:3px;font-weight:800">trembling like a leaf</span><span class="annotation ann-orange">simile</span>, <em>"spare me now and I promise I <span style="font-weight:800">will</span><span class="annotation ann-purple">modal verb</span> help you one day."</em></p>
+
+      <p>The lion <span style="font-weight:800">guffawed</span><span class="annotation ann-blue">synonym for said</span> with laughter. <em>"You? Help ME?"</em> But his amusement softened him, and he let the mouse go free.</p>
+
+      <p>Many weeks later, the lion fell into a hunter's net. He roared and struggled, but the more he thrashed, the tighter the ropes became. He <span style="font-weight:800">might</span><span class="annotation ann-purple">modal verb</span> roar all he liked — he <span style="font-weight:800">could</span><span class="annotation ann-purple">modal verb</span> not free himself.</p>
+
+      <p>Then the tiny mouse appeared — she had heard his cries. She gnawed through the thick ropes with her sharp teeth until the lion stepped free into the golden evening light.</p>
+
+      <p><em>"I laughed at you,"</em> said the lion quietly<span class="annotation ann-blue">adverb adds meaning</span>, <em>"and I was wrong. I <span style="font-weight:800">should</span><span class="annotation ann-purple">modal verb</span> never have judged you by your size."</em></p>
+
+      <p><em>"And I thank you for sparing my life,"</em> replied the mouse. <em>"We are even now."</em></p>
+
+      <p style="background:#FFF8E1;border-radius:10px;padding:10px 14px;font-weight:800;color:#E65100;font-style:italic">The moral: No act of kindness is ever too small. Even the mightiest may need the humblest. <span class="annotation ann-green">moral clearly stated</span></p>
+    </div>
+  </div>
+
+  <div class="info-box ib-blue">
+    <h4>🔑 What makes this a strong fable?</h4>
+    <p>✅ Two animals with human qualities (anthropomorphism)<br>
+    ✅ Clear stereotypes: proud lion, clever mouse<br>
+    ✅ Dialogue correctly punctuated with synonyms for "said"<br>
+    ✅ Similes: "like a copper crown", "trembling like a leaf"<br>
+    ✅ Alliteration: "magnificent mane" implied, "wise mouse"<br>
+    ✅ 4 modal verbs: ought to, will, might, could, should<br>
+    ✅ Past tense narrative, present tense dialogue<br>
+    ✅ Clear moral stated at the end<br>
+    ✅ Both characters learn something — makes the story richer</p>
+  </div>
+</div>
+
+<!-- UNIT COMPLETE TAB -->
+<div class="tab-pane" id="tab-done">
+  <div class="st">🎉 You've Completed Unit 1!</div>
+  <div class="st-sub">What an achievement — 11 lessons of Cambridge Primary English Stage 5!</div>
+
+  <div class="summary-card">
+    <div style="font-family:'Fredoka One',cursive;color:#1B5E20;font-size:1.3rem;margin-bottom:14px">✅ What you have learned in Unit 1:</div>
+    <div id="summary-list"></div>
+  </div>
+
+  <div class="info-box ib-orange" style="margin-top:8px">
+    <h4>🏆 Ready for the exam? Try the Practice Papers!</h4>
+    <p>The Practice Papers test everything from Unit 1 in exam conditions. There is a <strong>Comprehension Paper</strong> (25 marks, 45 minutes) and a <strong>Writing Paper</strong> (35 marks, 45 minutes). Good luck!</p>
+  </div>
+
+  <a href="unit1_practice_comprehension.html" class="btn-papers">📋 Start Comprehension Practice Paper →</a>
+
+  <button class="complete-btn" onclick="completeLesson()" style="margin-top:16px">🏆 Mark Lesson 1.11 Complete!</button>
+  <div class="complete-msg" id="complete-msg">✅ Brilliant! You have completed all of Unit 1! <a href="unit1_practice_comprehension.html" style="color:#2E7D32;font-weight:900">Try the Practice Papers →</a></div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+function showTab(n){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+function toggleHint(id){document.getElementById(id).classList.toggle('show')}
+function toggleModel(id){document.getElementById(id).classList.toggle('show')}
+
+// Plan checklist
+const planItems=['Two or more animal characters with personalities','Animals act like humans (anthropomorphism)','A clear problem or conflict','Dialogue between the characters','A turning point / climax in the story','A clear lesson or moral at the end'];
+const pc=document.getElementById('plan-checklist');
+planItems.forEach((txt,i)=>{
+  const d=document.createElement('div');
+  d.style.cssText='display:flex;align-items:center;gap:8px;padding:6px 0;font-size:.85rem;font-weight:700;color:#1B5E20;cursor:pointer';
+  d.innerHTML=`<input type="checkbox" id="pc${i}" style="width:16px;height:16px;accent-color:#1B5E20"><label for="pc${i}">${txt}</label>`;
+  pc.appendChild(d);
+});
+
+// Word count
+function updateWC(){
+  const texts=['d1','d2','d3','d4'].map(id=>document.getElementById(id).value);
+  const total=texts.join(' ').trim().split(/\s+/).filter(w=>w.length>0).length;
+  const pct=Math.min(total/200*100,100);
+  document.getElementById('total-wc').textContent=total+' / 200';
+  document.getElementById('total-wc-fill').style.width=pct+'%';
+}
+
+// Edit checklist
+const editSections={
+  'Content':[
+    'My fable has animal characters that act like humans',
+    'There is a clear problem or conflict in my story',
+    'My fable has a turning point where the character realises their mistake',
+    'The moral is clearly shown at the end',
+    "My characters have distinct personalities shown through their words and actions"
+  ],
+  'Language':[
+    'I have used at least ONE simile or metaphor',
+    'I have used alliteration at least once',
+    'I have used at least TWO different modal verbs correctly',
+    'I have used interesting synonyms instead of "said" in dialogue',
+    'I have used figurative language effectively'
+  ],
+  'Grammar & Punctuation':[
+    'All dialogue has correct speech marks " "',
+    'Each new speaker starts on a new line',
+    'Commas are used correctly in dialogue',
+    'All sentences end with correct punctuation (. ! ?)',
+    'Capital letters used at sentence starts and for proper nouns'
+  ],
+  'Style & Structure':[
+    'My fable has a clear beginning, middle and end',
+    'The narrative is in past tense; dialogue is in present tense',
+    'I have used pronouns and possessives correctly',
+    'My fable is the right length — not too short, not padded',
+    'My fable would be suitable to read to a younger child'
+  ]
+};
+const econt=document.getElementById('edit-checklist');
+let ci=0;
+Object.entries(editSections).forEach(([sec,items])=>{
+  const sh=document.createElement('div');
+  sh.className='cl-section';sh.textContent=sec;econt.appendChild(sh);
+  items.forEach(txt=>{
+    const d=document.createElement('div');d.className='cl-item';d.id='cli'+ci;
+    const idx=ci;
+    d.innerHTML=`<input type="checkbox" id="clc${idx}"><label for="clc${idx}">${txt}</label>`;
+    d.addEventListener('click',()=>{
+      const cb=d.querySelector('input');
+      if(event.target!==cb)cb.checked=!cb.checked;
+      d.classList.toggle('checked',cb.checked);
+      updateCLProgress();
+    });
+    econt.appendChild(d);ci++;
+  });
+});
+function updateCLProgress(){
+  const total=document.querySelectorAll('#edit-checklist input[type=checkbox]').length;
+  const checked=document.querySelectorAll('#edit-checklist input[type=checkbox]:checked').length;
+  document.getElementById('cl-count').textContent=checked;
+  document.getElementById('cl-fill').style.width=(checked/total*100)+'%';
+}
+
+// Summary list
+const summaryItems=[
+  'Read and understood THREE fables from different cultures',
+  'Learned 30+ vocabulary words and their meanings',
+  'Can identify and use modal verbs (can, must, should, might, will...)',
+  'Can write in first person and third person narrative',
+  'Can use possessive pronouns and adjectives correctly',
+  'Can punctuate dialogue with speech marks correctly',
+  'Can identify simile, metaphor, personification and alliteration',
+  'Understand proverbs and the literal vs figurative difference',
+  'Can distinguish FACT from OPINION in a text',
+  'Can write using the PEE paragraph structure',
+  'Have planned and written your own original fable!'
+];
+const sl=document.getElementById('summary-list');
+summaryItems.forEach(t=>{
+  const d=document.createElement('div');d.className='sl-item';
+  d.innerHTML=`<span class="sl-check">✅</span><span>${t}</span>`;sl.appendChild(d);
+});
+
+function completeLesson(){
+  localStorage.setItem('u1_done_1-11','true');
+  document.getElementById('complete-msg').classList.add('show');
+  document.querySelector('.complete-btn').disabled=true;
+  document.querySelector('.complete-btn').style.opacity='.7';
+}
+if(localStorage.getItem('u1_done_1-11')==='true')document.getElementById('complete-msg').classList.add('show');
+</script>
+</body>
+</html>

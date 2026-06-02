@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.6 – A Twist in the Traditional Tale | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#00695C;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#80CBC4}
+.tn-btn.home{color:#FFD700}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;color:#fff !important;border-bottom:none !important}
+.tn-side:hover{background:rgba(255,255,255,.25) !important}
+.lesson-hdr{background:#00695C;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#00695C}
+.tab-btn.active{color:#00695C;border-bottom-color:#00695C;background:#E0F2F1}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#00695C;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-teal{background:#E0F2F1;border-color:#80CBC4}
+.ib-teal h4{color:#004D40;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-teal p,.ib-teal li{color:#004D40;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+
+/* STORY */
+.story-block{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #00695C;line-height:1.9;font-size:.92rem;color:#2d2d2d;font-weight:600}
+.story-block p{margin-bottom:12px}
+.story-block p:last-child{margin-bottom:0}
+.vocab-word{border-bottom:2px dotted #00695C;cursor:pointer;color:#004D40;font-weight:800;position:relative;display:inline}
+.vocab-tip{display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:#004D40;color:#fff;border-radius:8px;padding:6px 10px;font-size:.78rem;font-weight:700;white-space:nowrap;z-index:10;line-height:1.4;min-width:180px;max-width:240px;white-space:normal;pointer-events:none}
+.vocab-tip.show{display:block}
+.story-block .dialogue{color:#1B5E20;font-style:italic}
+.quick-check{background:#E0F2F1;border:2px solid #80CBC4;border-radius:14px;padding:16px;margin-top:8px}
+.qc-q{font-weight:800;color:#004D40;font-size:.9rem;margin-bottom:10px}
+.reveal-btn{background:#00695C;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.qc-answer{background:#fff;border:2px solid #80CBC4;border-radius:10px;padding:12px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#004D40;line-height:1.5}
+.qc-answer.show{display:block}
+
+/* COMPARE TABLE */
+.cmp-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:.85rem}
+.cmp-table th{background:#00695C;color:#fff;padding:10px 12px;text-align:left;font-weight:800}
+.cmp-table td{padding:9px 12px;border-bottom:1px solid #E0F2F1;font-weight:600;color:#333;line-height:1.5;vertical-align:top}
+.cmp-table tr:nth-child(even) td{background:#F5FFFE}
+.cmp-table .feat{font-weight:800;color:#004D40;white-space:nowrap}
+
+/* SUMMARY FRAME */
+.frame-line{background:#E0F2F1;border-left:4px solid #00695C;border-radius:0 10px 10px 0;padding:8px 12px;margin-bottom:6px;font-style:italic;font-weight:700;color:#004D40;font-size:.88rem}
+
+/* DISCUSSION */
+.disc-card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:14px;border-left:5px solid #00695C}
+.dc-q{font-weight:800;color:#004D40;font-size:.9rem;margin-bottom:10px;line-height:1.5}
+.dc-num{display:inline-block;background:#00695C;color:#fff;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:.8rem;font-weight:800;margin-right:6px;flex-shrink:0}
+
+/* shared */
+.sa-textarea{width:100%;border:2px solid #80CBC4;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#E0F2F1;resize:vertical;min-height:100px}
+.sa-textarea:focus{outline:none;border-color:#00695C;background:#fff}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.6}
+.model-note{font-size:.78rem;color:#388E3C;margin-top:6px;font-style:italic}
+.exam-q{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-left:5px solid #00695C}
+.eq-marks{display:inline-block;background:#00695C;color:#fff;border-radius:10px;padding:3px 10px;font-size:.78rem;font-weight:800;margin-bottom:8px}
+.eq-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:12px}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a class="tn-btn home" href="unit1_home.html">🏠 Unit 1</a>
+  <a class="tn-btn" href="unit1_lesson_1_1.html">1.1</a>
+  <a class="tn-btn" href="unit1_lesson_1_2.html">1.2</a>
+  <a class="tn-btn" href="unit1_lesson_1_3.html">1.3</a>
+  <a class="tn-btn" href="unit1_lesson_1_4.html">1.4</a>
+  <a class="tn-btn" href="unit1_lesson_1_5.html">1.5</a>
+  <span class="tn-btn" style="color:#FFD700;border-bottom-color:#FFD700">▶ 1.6</span>
+  <div class="tn-spacer"></div>
+  <a class="tn-btn tn-side" href="unit1_lesson_1_5.html">← Lesson 1.5</a>
+  <a class="tn-btn tn-side" href="unit1_lesson_1_7.html">Lesson 1.7 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Cambridge Primary English Stage 5</div>
+  <h1 class="lh-title">Lesson 1.6 – A Twist in the Traditional Tale</h1>
+  <p class="lh-sub">Modern retelling · Comparing versions · Summary writing · Discussion</p>
+  <div class="lh-goals">
+    <span class="goal-chip">📖 Read the modern version</span>
+    <span class="goal-chip">📊 Compare two versions</span>
+    <span class="goal-chip">✍️ Write a summary</span>
+    <span class="goal-chip">💬 Discussion questions</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('story',this)">📖 Read the Story</button>
+  <button class="tab-btn" onclick="showTab('compare',this)">📊 Compare Versions</button>
+  <button class="tab-btn" onclick="showTab('summary',this)">✍️ Summary Writing</button>
+  <button class="tab-btn" onclick="showTab('discussion',this)">💬 Discussion</button>
+  <button class="tab-btn" onclick="showTab('comprehension',this)">🧠 Comprehension</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: READ THE STORY -->
+<div class="tab-pane active" id="tab-story">
+  <h2 class="st">📖 Auntie Anthea and Gentle Geoffrey</h2>
+  <p class="st-sub">A modern retelling of the Ant and Grasshopper — with a twist! Hover/click the <span style="border-bottom:2px dotted #00695C;color:#004D40;font-weight:800">underlined words</span> to learn their meanings.</p>
+
+  <div class="info-box ib-teal">
+    <h4>Before you read...</h4>
+    <p>This story is a <strong>modern retelling</strong> — it takes the SAME characters and basic idea as The Ant and the Grasshopper, but changes the setting, language, and ending. Look out for:<br>
+    ✦ How the characters are different from the original<br>
+    ✦ The moment when the story takes a surprising twist!<br>
+    ✦ Funny moments the author has added</p>
+  </div>
+
+  <div class="story-block">
+    <p>Summer had been a blast and Gentle Geoffrey had loved every minute. He felt so inspired and his music was sweeter than ever. Auntie Anthea had also enjoyed the summer — Geoffrey's music had certainly made cleaning and collecting food seem much less effort.</p>
+
+    <p>As the weather cooled, Geoffrey's <span class="vocab-word" onclick="toggleVocab(this)">chirruping<span class="vocab-tip">chirruping: a cheerful, musical sound — like chirping crickets!</span></span> became a little less cheerful. Auntie Anthea, on the other hand, was still scrubbing and storing.</p>
+
+    <p>By the time the winter chill set in, Geoffrey felt <span class="vocab-word" onclick="toggleVocab(this)">famished<span class="vocab-tip">famished: extremely hungry — so hungry you feel weak!</span></span> and frail. He'd played music all summer with his head in the clouds, so he had no home and no food. But just as he thought he should do something, he caught a faint melody in the whistling wind and once more could think of little else.</p>
+
+    <p>Auntie Anthea, meanwhile, was warm and well-fed but was finding winter dull. All of a sudden, she thought of Geoffrey.</p>
+
+    <p class="dialogue">'What a tasty treat!' she clapped. 'I adore insects and Geoffrey will make a delicious difference!'</p>
+
+    <p class="dialogue">'A...A...Auntie Anthea,' shivered Geoffrey, surprised to see her braving the frosty fields. 'Wh...wh...what are you doing here?'</p>
+
+    <p class="dialogue">'I couldn't help thinking of you turning into a block of ice out here,' said Anthea, trying to keep the anticipation in her voice at bay. 'I want a <span class="vocab-word" onclick="toggleVocab(this)">tenant<span class="vocab-tip">tenant: someone who pays to live in someone else's home or space.</span></span>, and who could be more delicious, I mean delightful, than you?'</p>
+
+    <p class="dialogue">'D...d...delicious? That doesn't sound so c...c...cool,' <span class="vocab-word" onclick="toggleVocab(this)">quavered<span class="vocab-tip">quavered: spoke in a shaky, trembling voice — usually because of fear or cold!</span></span> Geoffrey.</p>
+
+    <p class="dialogue">'Well, it's not — my heart's set on taking you home for supper,' <span class="vocab-word" onclick="toggleVocab(this)">lured<span class="vocab-tip">lured: persuaded someone to come somewhere by offering something tempting.</span></span> Anthea. 'Just come on inside for a bit.'</p>
+
+    <p class="dialogue">'A b...b...bit of what?'</p>
+
+    <p class="dialogue">'A bit of a bite, of course!' snapped Anthea, with a touch of irritation.</p>
+
+    <p>Geoffrey, revived by the warmth of Anthea's hearth, smiled and picked up his instrument.</p>
+
+    <p class="dialogue">'Auntie, the other insects said you were mean, but you seem so kind. What can I do to thank you for your hospitality?'</p>
+
+    <p>And Geoffrey played and sang so beautifully that Anthea sat down, forgot all about her supper plans, and smiled for the first time all winter. They struck a deal: Geoffrey sang for his supper — rather than becoming it — and Anthea had company through the long cold months.</p>
+
+    <p><strong>The moral: One good turn deserves another.</strong></p>
+  </div>
+
+  <div class="quick-check">
+    <div class="qc-q">🤔 Quick Check: What was Anthea's REAL plan when she invited Geoffrey inside?</div>
+    <button class="reveal-btn" onclick="toggleQC(this)">Reveal Answer</button>
+    <div class="qc-answer">Anthea's real plan was to <strong>eat Geoffrey for supper</strong>! She kept using words like "delicious" and "a bit of a bite" — she wanted him as food, not just as a tenant. The twist is that Geoffrey's beautiful music changed her mind, and they ended up helping each other instead.</div>
+  </div>
+</div>
+
+<!-- TAB 2: COMPARE VERSIONS -->
+<div class="tab-pane" id="tab-compare">
+  <h2 class="st">📊 Comparing the Two Versions</h2>
+  <p class="st-sub">How is the modern version similar to and different from the original?</p>
+
+  <div class="card">
+    <div class="info-box ib-teal" style="margin-bottom:14px">
+      <h4>Why do writers retell traditional stories?</h4>
+      <p>Writers retell classic fables and tales to make them feel fresh, funny, or to give them a new moral. They often change the setting, add humour, or give characters a surprise twist to make readers think in a new way!</p>
+    </div>
+    <table class="cmp-table">
+      <tr><th>Feature</th><th>Original: Ant &amp; Grasshopper</th><th>Modern: Anthea &amp; Geoffrey</th></tr>
+      <tr>
+        <td class="feat">Characters</td>
+        <td>Ant (female, serious, hardworking)<br>Grasshopper (male, carefree, lazy)</td>
+        <td>Anthea (female, hardworking — but also scheming!)<br>Geoffrey (male, musical, gentle)</td>
+      </tr>
+      <tr>
+        <td class="feat">Setting</td>
+        <td>Generic meadow and fields, simple traditional world</td>
+        <td>Similar — but modern language makes it feel more current</td>
+      </tr>
+      <tr>
+        <td class="feat">The problem</td>
+        <td>Grasshopper ignored all of Ant's warnings about winter</td>
+        <td>Geoffrey played music all summer and ignored preparing for winter</td>
+      </tr>
+      <tr>
+        <td class="feat">Ant's attitude to Grasshopper</td>
+        <td>Disapproval and refusal to help — Grasshopper must suffer</td>
+        <td>Anthea wants to EAT Geoffrey — darkly funny twist!</td>
+      </tr>
+      <tr>
+        <td class="feat">The twist</td>
+        <td>No twist — the moral is straightforward: lazy = suffer</td>
+        <td>Geoffrey escapes by playing music so beautifully that Anthea forgets her plan</td>
+      </tr>
+      <tr>
+        <td class="feat">The ending</td>
+        <td>Grasshopper is left in the cold with no help</td>
+        <td>Both characters benefit — Geoffrey gets food and shelter, Anthea gets company</td>
+      </tr>
+      <tr>
+        <td class="feat">Moral</td>
+        <td>"Prepare for the future" (implied)</td>
+        <td>"One good turn deserves another" (stated directly)</td>
+      </tr>
+      <tr>
+        <td class="feat">Narrative style</td>
+        <td>Simple, traditional, serious</td>
+        <td>Humorous, modern, darker undertones — but warm ending</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#00695C;margin-bottom:10px;font-size:1.1rem">💭 Your Opinion</h3>
+    <p style="font-size:.88rem;font-weight:700;color:#333;margin-bottom:10px">Which version do you find more interesting and why? Give <strong>TWO reasons</strong>.</p>
+    <textarea class="sa-textarea" placeholder="I find the [original/modern] version more interesting because..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h-op')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m-op')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h-op">Choose ONE version. Give two clear reasons. Use the comparison table to help — think about: Which moral do you prefer? Which ending feels more satisfying? Which style of writing do you enjoy more?</div>
+    <div class="model-box" id="m-op">
+      <div class="model-title">📋 Model Answer</div>
+      <div class="model-text">I find the modern version more interesting because, firstly, it is funnier — the idea that Anthea wants to eat Geoffrey creates dark humour and dramatic irony that the original lacks. Secondly, the ending feels more satisfying because BOTH characters benefit from the deal they strike, which makes the moral feel more positive and hopeful. The original's ending, where Grasshopper simply suffers with no resolution, feels harsh by comparison.</div>
+      <div class="model-note">Accept any well-reasoned answer supporting either version, as long as TWO clear reasons are given.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: SUMMARY WRITING -->
+<div class="tab-pane" id="tab-summary">
+  <h2 class="st">✍️ Summary Writing</h2>
+  <p class="st-sub">A summary gives the MAIN points in a short, clear way.</p>
+
+  <div class="info-box ib-teal">
+    <h4>What is a Summary?</h4>
+    <p>A summary is a short version of a longer text. You include only the MOST IMPORTANT information — not every detail. A good summary:<br>
+    ✦ Gives the main events in order<br>
+    ✦ Does NOT include minor details<br>
+    ✦ Uses your own words where possible<br>
+    ✦ Is much shorter than the original</p>
+  </div>
+
+  <div class="card">
+    <div class="info-box ib-blue" style="margin-bottom:12px">
+      <h4>Sentence Frame — use these to help you</h4>
+      <div class="frame-line">Auntie Anthea and Gentle Geoffrey is a modern retelling of...</div>
+      <div class="frame-line">The story is set in...</div>
+      <div class="frame-line">The two main characters are...</div>
+      <div class="frame-line">The problem in the story is...</div>
+      <div class="frame-line">The twist comes when...</div>
+      <div class="frame-line">The moral of the story is...</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+      <label style="font-weight:800;color:#00695C;font-size:.88rem">Write your summary here (aim for 80–100 words):</label>
+      <span id="word-count" style="font-size:.8rem;font-weight:700;color:#888">0 words</span>
+    </div>
+    <textarea class="sa-textarea" id="summary-ta" placeholder="Auntie Anthea and Gentle Geoffrey is a modern retelling of..." oninput="countWords()" style="min-height:160px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('sum-hint')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('sum-model')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="sum-hint">Use the sentence frame above. Start with what the story IS (a modern retelling). Then say who the characters are and what they want. What is the problem? What is the twist? End with the moral. Don't include details like the exact words they said — just the main events!</div>
+    <div class="model-box" id="sum-model">
+      <div class="model-title">📋 Model Answer (92 words)</div>
+      <div class="model-text">Auntie Anthea and Gentle Geoffrey is a modern retelling of the fable The Ant and the Grasshopper. The story is set in a meadow during the changing seasons. The two main characters are Anthea, a hardworking ant, and Geoffrey, a musical grasshopper. The problem is that Geoffrey has spent all summer playing music and has no food or shelter for winter. The twist comes when Anthea, who plans to eat Geoffrey, is so charmed by his music that she forgets her scheme. They make a deal, and both benefit. The moral is: one good turn deserves another.</div>
+      <div class="model-note">Key features: covers all 6 frame points, no unnecessary detail, clear sequence, under 100 words.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: DISCUSSION -->
+<div class="tab-pane" id="tab-discussion">
+  <h2 class="st">💬 Discussion Questions</h2>
+  <p class="st-sub">Think carefully and write detailed answers. There is no single right answer — use evidence!</p>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">1</span> Do you think Anthea was really going to eat Geoffrey? Find evidence from the story to support your answer.</div>
+    <textarea class="sa-textarea" placeholder="I think Anthea [was/was not] going to eat Geoffrey because..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('dh1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('dm1')">📋 Suggested Answer</button>
+    </div>
+    <div class="hint-box" id="dh1">Look for the clues in what Anthea SAYS. What words does she use that suggest she wants to eat him? Find at least TWO pieces of evidence (quotes).</div>
+    <div class="model-box" id="dm1">
+      <div class="model-title">📋 Suggested Answer</div>
+      <div class="model-text">Yes, I think Anthea was really planning to eat Geoffrey. There is strong evidence: she says "What a tasty treat!" and "Geoffrey will make a delicious difference!" before he even arrives. Then she accidentally says "delicious, I mean delightful" — this slip reveals her true intentions. Her comment "A bit of a bite, of course!" is another clue. All of these suggest she had a very specific plan for Geoffrey's fate — as food, not as a tenant!</div>
+    </div>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">2</span> Geoffrey says Anthea seems "so kind" — but was she really being kind? Explain your answer.</div>
+    <textarea class="sa-textarea" placeholder="Anthea was / was not being kind because..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('dh2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('dm2')">📋 Suggested Answer</button>
+    </div>
+    <div class="hint-box" id="dh2">Think about dramatic irony — Geoffrey THINKS she is kind, but what does the reader know that Geoffrey doesn't? What is Anthea's real motive for inviting him in?</div>
+    <div class="model-box" id="dm2">
+      <div class="model-title">📋 Suggested Answer</div>
+      <div class="model-text">Anthea was NOT genuinely being kind. Her real motive was selfish — she wanted to eat Geoffrey, not help him. Geoffrey believes she is kind because he doesn't understand her hidden clues. This is an example of dramatic irony: the reader knows her true plan, but Geoffrey does not. By the END, Anthea does show genuine kindness by agreeing to give Geoffrey shelter in exchange for music — but her original intention was entirely self-serving.</div>
+    </div>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">3</span> Which ending do you think is fairer — the original (Grasshopper suffers) or the modern (Geoffrey survives)? Why?</div>
+    <textarea class="sa-textarea" placeholder="I think the [original/modern] ending is fairer because..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('dh3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('dm3')">📋 Suggested Answer</button>
+    </div>
+    <div class="hint-box" id="dh3">Think about: Does Grasshopper/Geoffrey deserve a second chance? Does suffering teach a better lesson than being helped? What does each ending say about how we should treat others?</div>
+    <div class="model-box" id="dm3">
+      <div class="model-title">📋 Suggested Answer</div>
+      <div class="model-text">I think the modern ending is fairer because it gives Geoffrey a chance to use his talent (music) to help himself, rather than simply suffering for his mistake. It also rewards Anthea for being open-minded enough to listen. The original ending is very harsh — Grasshopper gets no help at all, which could seem cruel rather than fair. The modern moral ("one good turn deserves another") feels more realistic: people can change and help each other rather than just being punished.</div>
+      <div class="model-note">Accept either answer — mark for clear reasoning with reference to both versions.</div>
+    </div>
+  </div>
+
+  <div class="disc-card">
+    <div class="dc-q"><span class="dc-num">4</span> What does "One good turn deserves another" mean? How does this apply to Geoffrey and Anthea at the end of the story?</div>
+    <textarea class="sa-textarea" placeholder="This proverb means..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('dh4')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('dm4')">📋 Suggested Answer</button>
+    </div>
+    <div class="hint-box" id="dh4">First explain the proverb. Then think: who does a good turn first? What do they receive in return? How does their "deal" match the meaning of the proverb?</div>
+    <div class="model-box" id="dm4">
+      <div class="model-title">📋 Suggested Answer</div>
+      <div class="model-text">"One good turn deserves another" means that if you do something kind or helpful for someone, they should do something kind in return. In the story, Anthea gives Geoffrey warmth and shelter (her good turn), and in return Geoffrey plays beautiful music to keep her company through the long winter (his good turn). Each character benefits from helping the other — their deal perfectly illustrates the proverb.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: COMPREHENSION -->
+<div class="tab-pane" id="tab-comprehension">
+  <h2 class="st">🧠 Comprehension</h2>
+  <p class="st-sub">Exam-style questions — write full, detailed answers.</p>
+
+  <div class="exam-q">
+    <div class="eq-marks">2 marks</div>
+    <div class="eq-q">Q1. Why does Anthea say "delicious, I mean delightful"? What does this tell us about her plan?</div>
+    <textarea class="sa-textarea" placeholder="Anthea says 'delicious, I mean delightful' because..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m1')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">Think about: what is a "slip of the tongue"? What does it reveal? What is "dramatic irony"? How does the reader feel compared to Geoffrey?</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">📋 Model Answer (2 marks)</div>
+      <div class="model-text">Anthea accidentally says "delicious" when she means "delightful" — this is a slip of the tongue that reveals her true plan: she intends to eat Geoffrey, not simply invite him as a friendly tenant. The writer uses this slip to create humour and dramatic irony — the reader knows Anthea's real motive before Geoffrey does.</div>
+      <div class="model-note">Mark scheme: 1 mark for explaining the slip reveals her plan to eat Geoffrey. 1 mark for identifying the effect — humour/dramatic irony and that the reader knows more than Geoffrey.</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q2. How is the modern version different from the original fable? Give THREE differences and explain why the writer may have made these changes.</div>
+    <textarea class="sa-textarea" placeholder="First, the modern version... Second,... Third,... The writer may have made these changes because..." style="min-height:140px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m2')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">Use the comparison table on the Compare tab. Choose THREE clear differences. For each one, explain WHY the writer might have made this change — think about: what effect does this create? What new message does it give?</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">📋 Model Answer (3 marks)</div>
+      <div class="model-text">First, the modern version has dark humour — Anthea's plan to eat Geoffrey is darkly funny, unlike the original's straightforward moral lesson. Second, Geoffrey survives and even benefits, whereas the original Grasshopper is left to suffer with no resolution. Third, the modern moral ('one good turn deserves another') is more positive — it rewards cleverness rather than just punishing laziness. The writer may have made these changes to create a more entertaining, modern story that shows both characters benefiting, making the lesson feel more hopeful.</div>
+      <div class="model-note">Mark scheme: 1 mark per difference correctly identified with explanation of the writer's purpose (up to 3 marks).</div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q3. What literary technique does the writer use when Anthea says "delicious, I mean delightful"? Explain the effect this creates for the reader.</div>
+    <textarea class="sa-textarea" placeholder="The writer uses... This creates an effect of..." style="min-height:120px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleHint('h3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleModel('m3')">📋 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">Name the technique (dramatic irony). Then explain: what does the reader know? What does Geoffrey NOT know? What two feelings does this create in the reader?</div>
+    <div class="model-box" id="m3">
+      <div class="model-title">📋 Model Answer (3 marks)</div>
+      <div class="model-text">The writer uses dramatic irony — the reader understands something that one character (Geoffrey) does not. When Anthea corrects herself from 'delicious' to 'delightful', the reader immediately understands her real plan, but Geoffrey remains confused. This creates both humour and tension: we are amused by Anthea's slip, but we also feel worried for Geoffrey, who is unknowingly in danger. It makes us want to read on to find out what happens.</div>
+      <div class="model-note">Mark scheme: 1 mark — names dramatic irony. 1 mark — explains the reader knows more than Geoffrey. 1 mark — identifies two effects (humour AND tension/suspense) with explanation.</div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="completeLesson('1-6','unit1_lesson_1_7.html','Lesson 1.7')">🎉 Mark Lesson Complete!</button>
+  <div class="complete-msg" id="complete-msg"></div>
+</div>
+
+</main>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function toggleHint(id) { document.getElementById(id).classList.toggle('show'); }
+function toggleModel(id) { document.getElementById(id).classList.toggle('show'); }
+function completeLesson(key, nextUrl, nextLabel) {
+  localStorage.setItem('u1_done_' + key, 'true');
+  const msg = document.getElementById('complete-msg');
+  msg.innerHTML = '✅ Lesson complete! <a href="' + nextUrl + '" style="color:#2E7D32;font-weight:900">Go to ' + nextLabel + ' →</a>';
+  msg.classList.add('show');
+  document.querySelector('.complete-btn').disabled = true;
+  document.querySelector('.complete-btn').style.opacity = '.7';
+}
+
+function toggleVocab(el) {
+  const tip = el.querySelector('.vocab-tip');
+  document.querySelectorAll('.vocab-tip.show').forEach(t => { if(t !== tip) t.classList.remove('show'); });
+  tip.classList.toggle('show');
+}
+
+function toggleQC(btn) {
+  const ans = btn.nextElementSibling;
+  ans.classList.toggle('show');
+  btn.textContent = ans.classList.contains('show') ? 'Hide Answer' : 'Reveal Answer';
+}
+
+function countWords() {
+  const ta = document.getElementById('summary-ta');
+  const wc = document.getElementById('word-count');
+  const words = ta.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+  wc.textContent = words + ' words';
+  wc.style.color = words >= 80 && words <= 100 ? '#2E7D32' : words > 100 ? '#E65100' : '#888';
+}
+
+// Close vocab tips when clicking elsewhere
+document.addEventListener('click', function(e) {
+  if(!e.target.classList.contains('vocab-word') && !e.target.closest('.vocab-word')) {
+    document.querySelectorAll('.vocab-tip.show').forEach(t => t.classList.remove('show'));
+  }
+});
+</script>
+</body>
+</html>

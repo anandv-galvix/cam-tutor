@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1.8 – Figurative Language is All Around | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F5F0FF;color:#1a1a2e}
+.top-nav{background:#E64A19;display:flex;align-items:center;padding:0 16px;gap:4px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.8);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block;transition:all .2s}
+.tn-btn:hover{color:#fff;border-bottom-color:#FFAB91}
+.tn-btn.home{color:#FFD700}
+.lesson-hdr{background:#E64A19;padding:28px 20px 56px;text-align:center;position:relative}
+.lesson-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#F5F0FF;border-radius:50% 50% 0 0/36px 36px 0 0}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.lh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.lh-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.lh-goals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.goal-chip{background:rgba(255,255,255,.15);color:#fff;border-radius:16px;padding:5px 14px;font-size:.78rem;font-weight:700}
+.tab-nav{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:100}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;white-space:nowrap;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn:hover{color:#E64A19}
+.tab-btn.active{color:#E64A19;border-bottom-color:#E64A19;background:#FBE9E7}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.st{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#E64A19;margin-bottom:6px}
+.st-sub{color:#888;font-size:.88rem;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-blue{background:#E3F2FD;border-color:#90CAF9}
+.ib-blue h4{color:#1565C0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-blue p,.ib-blue li{color:#1565C0;font-size:.9rem;font-weight:600;line-height:1.6}
+.ib-orange{background:#FFF3E0;border-color:#FFB74D}
+.ib-orange h4{color:#E65100;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-orange p,.ib-orange li{color:#BF360C;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-green{background:#E8F5E9;border-color:#A5D6A7}
+.ib-green h4{color:#2E7D32;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-green p,.ib-green li{color:#1B5E20;font-size:.88rem;font-weight:600;line-height:1.6}
+.ib-purple{background:#EDE7FF;border-color:#CE93D8}
+.ib-purple h4{color:#4527A0;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-purple p{color:#4527A0;font-size:.88rem;font-weight:600;line-height:1.6}
+/* Fig lang type cards */
+.fig-type{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:14px;border-left:6px solid #E64A19}
+.fig-type.sim{border-color:#1565C0}
+.fig-type.met{border-color:#7B1FA2}
+.fig-type.per{border-color:#2E7D32}
+.fig-type.all{border-color:#E64A19}
+.ft-badge{display:inline-block;border-radius:8px;padding:3px 12px;font-size:.78rem;font-weight:900;margin-bottom:8px;color:#fff}
+.ft-badge.sim{background:#1565C0}
+.ft-badge.met{background:#7B1FA2}
+.ft-badge.per{background:#2E7D32}
+.ft-badge.all{background:#E64A19}
+.ft-def{font-size:.92rem;font-weight:700;color:#333;margin-bottom:8px;line-height:1.5}
+.ft-ex{background:#FFF3E0;border-radius:8px;padding:8px 12px;font-size:.88rem;font-weight:700;color:#BF360C;margin-bottom:8px;font-style:italic}
+.ft-try{font-size:.82rem;font-weight:700;color:#888;margin-bottom:6px}
+.sa-textarea{width:100%;border:2px solid #FFAB91;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#FBE9E7;resize:vertical;min-height:80px}
+.sa-textarea:focus{outline:none;border-color:#E64A19;background:#fff}
+/* Spot the technique */
+.spot-item{background:#fff;border-radius:14px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:12px}
+.spot-sent{font-size:.92rem;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;font-style:italic}
+.btn-grid{display:flex;flex-wrap:wrap;gap:8px}
+.tech-btn{border:2px solid #E64A19;border-radius:10px;padding:8px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;background:#fff;color:#E64A19;transition:all .2s}
+.tech-btn:hover{background:#E64A19;color:#fff}
+.tech-btn.correct{background:#2E7D32;color:#fff;border-color:#2E7D32}
+.tech-btn.wrong{background:#C62828;color:#fff;border-color:#C62828}
+.spot-fb{margin-top:10px;font-size:.85rem;font-weight:700;display:none}
+.spot-fb.show{display:block}
+/* Alliteration */
+.allit-ex{background:#FFF3E0;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.9rem;font-weight:700;color:#BF360C}
+.allit-ex .letter{display:inline-block;background:#E64A19;color:#fff;border-radius:4px;padding:0 5px;font-weight:900}
+/* Idiom cards */
+.idiom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.idiom-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.07);cursor:pointer;border:2px solid transparent;transition:all .2s;text-align:center}
+.idiom-card:hover{border-color:#E64A19;transform:translateY(-2px)}
+.idiom-card.flipped{border-color:#E64A19;background:#FBE9E7}
+.ic-front{font-size:.88rem;font-weight:800;color:#333;line-height:1.4}
+.ic-emoji{font-size:1.6rem;margin-bottom:6px}
+.ic-back{display:none;font-size:.82rem;font-weight:600;color:#555;margin-top:8px;line-height:1.4}
+.ic-back-ex{font-style:italic;color:#888;margin-top:4px;font-size:.78rem}
+.idiom-card.flipped .ic-back{display:block}
+/* comprehension */
+.exam-q{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-left:5px solid #E64A19}
+.eq-marks{display:inline-block;background:#E64A19;color:#fff;border-radius:10px;padding:3px 10px;font-size:.78rem;font-weight:800;margin-bottom:8px}
+.eq-q{font-weight:800;color:#333;font-size:.92rem;line-height:1.5;margin-bottom:12px}
+.passage-box{background:#FFF3E0;border:2px solid #FFB74D;border-radius:12px;padding:14px;margin-bottom:14px;font-size:.9rem;font-weight:600;color:#333;line-height:1.7;font-style:italic}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;border-radius:10px;padding:12px 14px;margin-top:10px;display:none;font-size:.88rem;font-weight:700;color:#5D4037;line-height:1.5}
+.hint-box.show{display:block}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.model-box.show{display:block}
+.model-title{font-weight:800;color:#2E7D32;font-size:.85rem;margin-bottom:6px}
+.model-text{font-size:.88rem;color:#1B5E20;font-weight:600;line-height:1.7}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:16px 32px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;cursor:pointer;width:100%;margin-top:24px}
+.complete-msg{background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:16px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:12px}
+.complete-msg.show{display:block}
+.complete-msg a{color:#E64A19;text-decoration:none;font-weight:900}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="unit1_home.html" class="tn-btn home">🏠 Home</a>
+  <a href="unit1_lesson_1_7.html" class="tn-btn">← Lesson 1.7</a>
+  <span class="tn-btn" style="color:#FFD700">▶ Lesson 1.8</span>
+  <a href="unit1_lesson_1_9.html" class="tn-btn">Lesson 1.9 →</a>
+</nav>
+
+<header class="lesson-hdr">
+  <div class="lh-badge">Unit 1 · Stage 5</div>
+  <div class="lh-title">Lesson 1.8 – Figurative Language is All Around</div>
+  <div class="lh-sub">Simile · Metaphor · Personification · Alliteration · Idioms</div>
+  <div class="lh-goals">
+    <span class="goal-chip">🎭 4 Types</span>
+    <span class="goal-chip">🔍 Spot the Technique</span>
+    <span class="goal-chip">✨ Alliteration Explorer</span>
+    <span class="goal-chip">🌟 Idioms</span>
+    <span class="goal-chip">🧠 Exam Practice</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)">🎭 Types</button>
+  <button class="tab-btn" onclick="switchTab(1)">🔍 Spot It</button>
+  <button class="tab-btn" onclick="switchTab(2)">✨ Alliteration</button>
+  <button class="tab-btn" onclick="switchTab(3)">🌟 Idioms</button>
+  <button class="tab-btn" onclick="switchTab(4)">🧠 Comprehension</button>
+</nav>
+
+<main class="main">
+
+<!-- TAB 1: Types of Figurative Language -->
+<div class="tab-pane active" id="tab0">
+  <div class="st">🎭 Types of Figurative Language</div>
+  <div class="st-sub">Figurative language makes writing more interesting and exciting. Learn the 4 main types!</div>
+
+  <div class="info-box ib-orange">
+    <h4>What is figurative language?</h4>
+    <p>Figurative language uses words in a creative, non-literal way to create pictures in the reader's mind. It makes writing more vivid, memorable and powerful.</p>
+  </div>
+
+  <div class="fig-type sim">
+    <span class="ft-badge sim">SIMILE</span>
+    <div class="ft-def">Comparing two things using <strong>"like"</strong> or <strong>"as"</strong>. A simile says something is LIKE something else.</div>
+    <div class="ft-ex">
+      🔹 "The ant worked <strong>AS HARD AS</strong> a machine."<br>
+      🔹 "Grasshopper sang <strong>LIKE</strong> a bird without a care."<br>
+      🔹 "She ran <strong>as fast as</strong> the wind."
+    </div>
+    <div class="ft-try">✏️ Try your own simile:</div>
+    <textarea class="sa-textarea" placeholder='Write your own simile here — use "like" or "as"...' style="min-height:60px"></textarea>
+  </div>
+
+  <div class="fig-type met">
+    <span class="ft-badge met">METAPHOR</span>
+    <div class="ft-def">Saying something <strong>IS</strong> something else — without using like or as. It makes a direct comparison.</div>
+    <div class="ft-ex">
+      🔹 "Winter was a <strong>cruel thief</strong>, stealing all joy."<br>
+      🔹 "The meadow was a <strong>golden carpet</strong> in summer."<br>
+      🔹 "The ant was a <strong>tiny machine</strong> that never stopped."
+    </div>
+    <div class="ft-try">✏️ Try your own metaphor:</div>
+    <textarea class="sa-textarea" placeholder="Write your own metaphor here — say something IS something else..." style="min-height:60px"></textarea>
+  </div>
+
+  <div class="fig-type per">
+    <span class="ft-badge per">PERSONIFICATION</span>
+    <div class="ft-def">Giving <strong>human qualities</strong> to non-human things (animals, objects, weather, ideas). It brings things to life!</div>
+    <div class="ft-ex">
+      🔹 "Winter <strong>came</strong>, bringing barren fare and frosty fields." (winter chooses to come, like a person)<br>
+      🔹 "The sun <strong>smiled</strong> down on the meadow."<br>
+      🔹 "The trees <strong>whispered</strong> in the breeze."
+    </div>
+    <div class="ft-try">✏️ Try your own personification:</div>
+    <textarea class="sa-textarea" placeholder="Give a non-human thing a human quality..." style="min-height:60px"></textarea>
+  </div>
+
+  <div class="fig-type all">
+    <span class="ft-badge all">ALLITERATION</span>
+    <div class="ft-def">Using the <strong>same consonant sound</strong> at the start of several nearby words. It makes writing musical and memorable!</div>
+    <div class="ft-ex">
+      🔹 "<strong>A</strong>untie <strong>A</strong>nthea" — A sound repeated<br>
+      🔹 "<strong>G</strong>entle <strong>G</strong>eoffrey" — G sound repeated<br>
+      🔹 "<strong>S</strong>inging, <strong>s</strong>currying, <strong>s</strong>toring" — S sound repeated<br>
+      🔹 "<strong>S</strong>inging and <strong>j</strong>igging" — soft sounds
+    </div>
+    <div class="ft-try">✏️ Try your own alliteration:</div>
+    <textarea class="sa-textarea" placeholder="Write a phrase using the same letter at the start of 2 or 3 words..." style="min-height:60px"></textarea>
+  </div>
+</div>
+
+<!-- TAB 2: Spot the Technique -->
+<div class="tab-pane" id="tab1">
+  <div class="st">🔍 Spot the Technique</div>
+  <div class="st-sub">Read each expression and click what type of figurative language it is!</div>
+
+  <div id="spotContainer"></div>
+</div>
+
+<!-- TAB 3: Alliteration Explorer -->
+<div class="tab-pane" id="tab2">
+  <div class="st">✨ Alliteration Explorer</div>
+  <div class="st-sub">Discover how alliteration works and create your own alliterative character!</div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:1.1rem;margin-bottom:10px">Why do writers use alliteration?</h3>
+    <ul style="list-style:none;padding:0">
+      <li style="padding:6px 0;font-size:.9rem;font-weight:600;color:#333;border-bottom:1px solid #f0f0f0">🎵 It makes writing sound <strong>musical</strong> and pleasant to read aloud</li>
+      <li style="padding:6px 0;font-size:.9rem;font-weight:600;color:#333;border-bottom:1px solid #f0f0f0">🧠 It makes characters and phrases <strong>memorable</strong> and easier to remember</li>
+      <li style="padding:6px 0;font-size:.9rem;font-weight:600;color:#333;border-bottom:1px solid #f0f0f0">😄 It can be <strong>fun and playful</strong>, especially in names</li>
+      <li style="padding:6px 0;font-size:.9rem;font-weight:600;color:#333">✨ It adds <strong>rhythm and energy</strong> to descriptions</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:1.1rem;margin-bottom:10px">Examples from the stories</h3>
+    <div class="allit-ex"><span class="letter">A</span>untie <span class="letter">A</span>nthea — both names start with the same A sound</div>
+    <div class="allit-ex"><span class="letter">G</span>entle <span class="letter">G</span>eoffrey — G sound repeated to match his gentle personality</div>
+    <div class="allit-ex"><span class="letter">S</span>inging, <span class="letter">s</span>currying, <span class="letter">s</span>toring — three S words in a row create a busy, buzzing rhythm</div>
+    <div class="allit-ex"><span class="letter">S</span>inging and <span class="letter">j</span>igging — soft sounds make the scene feel light and carefree</div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:1.1rem;margin-bottom:12px">🐾 Pre-built Alliterative Characters</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:10px">
+      <div style="background:#FBE9E7;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:1.4rem">🐻</div>
+        <div style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:.9rem;margin:4px 0">Busy Barry the Bear</div>
+      </div>
+      <div style="background:#FBE9E7;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:1.4rem">🐍</div>
+        <div style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:.9rem;margin:4px 0">Sly Samantha the Snake</div>
+      </div>
+      <div style="background:#FBE9E7;border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:1.4rem">🐭</div>
+        <div style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:.9rem;margin:4px 0">Mighty Marco the Mouse</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Fredoka One',cursive;color:#E64A19;font-size:1.1rem;margin-bottom:12px">✏️ Create Your Own Alliterative Character!</h3>
+    <div style="margin-bottom:12px">
+      <label style="font-weight:800;font-size:.88rem;color:#333;display:block;margin-bottom:6px">Step 1: Choose your animal and give it an alliterative name (same first letter for name + adjective)</label>
+      <textarea class="sa-textarea" id="charName" placeholder="e.g. Brave Bobby the Bunny / Clever Clara the Cat / Daring Danny the Dog..." style="min-height:60px"></textarea>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-weight:800;font-size:.88rem;color:#333;display:block;margin-bottom:6px">Step 2: Write a sentence introducing your character using alliteration</label>
+      <textarea class="sa-textarea" id="charIntro" placeholder="e.g. Brave Bobby the Bunny bounded boldly across the field..." style="min-height:70px"></textarea>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-weight:800;font-size:.88rem;color:#333;display:block;margin-bottom:6px">Step 3: Write a figurative sentence describing your character (use a simile OR metaphor)</label>
+      <textarea class="sa-textarea" id="charFig" placeholder="e.g. He was a furry flash of lightning, faster than any fox could imagine. / He leapt like a bolt of electricity across the meadow." style="min-height:70px"></textarea>
+    </div>
+    <button class="btn-model" onclick="toggleBox('alitModel')">📖 Show Example</button>
+    <div class="model-box" id="alitModel">
+      <div class="model-title">⭐ Model Example</div>
+      <div class="model-text">
+        <strong>Name:</strong> Careful Carla the Cat<br><br>
+        <strong>Alliterative introduction:</strong> Careful Carla the Cat crept cautiously through the cold.<br><br>
+        <strong>Figurative sentence (metaphor + simile):</strong> She was a silent shadow, slipping through the darkness like smoke on a still evening.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: Idioms -->
+<div class="tab-pane" id="tab3">
+  <div class="st">🌟 Common Figurative Expressions</div>
+  <div class="st-sub">These are idioms — expressions that mean something DIFFERENT from the actual words. Click each card to reveal the real meaning!</div>
+
+  <div class="info-box ib-orange">
+    <h4>What is an idiom?</h4>
+    <p>An idiom is a phrase where the words together have a DIFFERENT meaning from what they say literally. For example, "break a leg" does NOT mean actually break your leg — it means good luck!</p>
+  </div>
+
+  <div class="idiom-grid" id="idiomGrid"></div>
+</div>
+
+<!-- TAB 5: Comprehension -->
+<div class="tab-pane" id="tab4">
+  <div class="st">🧠 Comprehension Practice</div>
+  <div class="st-sub">Exam-style questions on figurative language. Read carefully and show what you know!</div>
+
+  <div class="exam-q">
+    <div class="eq-marks">1 mark</div>
+    <div class="eq-q">Q1. What is the difference between a simile and a metaphor? Give one example of each.</div>
+    <textarea class="sa-textarea" id="eq1" placeholder="Write your answer here..."></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h1')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m1')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h1">Think about the key words: a simile uses "like" or "as". What words does a metaphor NOT use?</div>
+    <div class="model-box" id="m1">
+      <div class="model-title">⭐ Model Answer (1 mark)</div>
+      <div class="model-text">A simile compares two things using 'like' or 'as': <em>"She worked as hard as a machine."</em><br>A metaphor says something IS something else (no like/as): <em>"Life is a rollercoaster."</em></div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q2. Find THREE examples of figurative language in this passage and identify the technique used in each. Explain the effect of ONE of them.</div>
+    <div class="passage-box">"Summer was a golden dream, warm and endless. Ant scurried back and forth like a tiny engine that never switched off. When winter finally came knocking at the door, Grasshopper's joy melted like snow in a warm hand."</div>
+    <textarea class="sa-textarea" id="eq2" placeholder="Find three examples, name the technique, and explain one effect..." style="min-height:130px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h2')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m2')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h2">Look for: a phrase that uses "like" (simile), a phrase that says something IS something (metaphor), a non-human thing doing a human action (personification).</div>
+    <div class="model-box" id="m2">
+      <div class="model-title">⭐ Model Answer (3 marks)</div>
+      <div class="model-text">
+        1. <strong>"Summer was a golden dream"</strong> = metaphor — it compares summer to a dream, suggesting it felt unreal and perfect.<br><br>
+        2. <strong>"like a tiny engine that never switched off"</strong> = simile — compares Ant to an engine, emphasising her non-stop, mechanical work.<br><br>
+        3. <strong>"winter finally came knocking at the door"</strong> = personification — winter is given the human action of knocking, making it seem like an inevitable, unwelcome visitor.<br><br>
+        <strong>Effect of the metaphor:</strong> Calling summer "a golden dream" makes it sound magical and perfect — which makes the arrival of winter feel like an even harsher awakening.
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="eq-marks">3 marks</div>
+    <div class="eq-q">Q3. Write a short paragraph (4–6 sentences) describing a character or scene from the fable using AT LEAST TWO different types of figurative language. Label them.</div>
+    <div style="background:#FBE9E7;border-radius:10px;padding:12px;margin-bottom:12px;font-size:.88rem;font-weight:700;color:#BF360C">
+      <strong>Character/scene to describe:</strong> Choose one — Ant working in summer / Grasshopper in winter / the meadow in summer / the first snowfall<br><br>
+      <strong>Plan:</strong><br>
+      Simile: _______ like / as _______<br>
+      Metaphor or Personification: _______
+    </div>
+    <textarea class="sa-textarea" id="eq3" placeholder="Write your paragraph here. Label your figurative language in brackets after the sentence..." style="min-height:140px"></textarea>
+    <div class="btn-row">
+      <button class="btn-hint" onclick="toggleBox('h3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggleBox('m3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">Try describing Grasshopper in winter. Simile: "He shivered like..." Metaphor: "The cold was a..." Don't forget to label them!</div>
+    <div class="model-box" id="m3">
+      <div class="model-title">⭐ Model Answer (3 marks)</div>
+      <div class="model-text">
+        The meadow in winter was a frozen desert, silent and empty [<strong>METAPHOR</strong>]. Snow had crept across the ground like a cold white blanket, smothering every blade of grass [<strong>SIMILE + PERSONIFICATION</strong>]. Grasshopper stood at Ant's door, trembling like a leaf in the wind [<strong>SIMILE</strong>]. The cold air bit at his wings and clawed at his face [<strong>PERSONIFICATION</strong>]. He was no longer the carefree musician of summer — he was a broken instrument, silent at last [<strong>METAPHOR</strong>].<br><br>
+        <em>Labels used: metaphor × 2, simile × 2, personification × 2 — full marks!</em>
+      </div>
+    </div>
+  </div>
+
+  <button class="complete-btn" onclick="markDone()">🎉 Mark Lesson 1.8 as Complete!</button>
+  <div class="complete-msg" id="completeMsg">
+    ✅ Fantastic! Lesson 1.8 is complete!<br><br>
+    Ready for the next lesson? <a href="unit1_lesson_1_9.html">👉 Go to Lesson 1.9 – Hold a Discussion Forum</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(n){
+  document.querySelectorAll('.tab-pane').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+}
+function toggleBox(id){document.getElementById(id).classList.toggle('show');}
+
+// Spot the technique
+const spotData = [
+  {sent:'"The ant was as busy as a factory."', correct:'Simile', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ SIMILE! It uses "as...as" to compare Ant to a factory — showing she works non-stop.'},
+  {sent:'"Summer had been a blast!"', correct:'Metaphor', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ METAPHOR! "A blast" means something was fun/exciting — it says summer IS a blast (not like one).'},
+  {sent:'"Gentle Geoffrey grinned gleefully."', correct:'Alliteration', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ ALLITERATION! G, G, g, g — the G sound repeats at the start of four words!'},
+  {sent:'"Grasshopper\'s song stuck in his throat."', correct:'Metaphor', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ METAPHOR (or Personification)! The song can\'t literally "stick" — it means he was too sad or scared to sing.'},
+  {sent:'"Winter crept across the land like a cold shadow."', correct:'Simile', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ SIMILE! Uses "like" to compare winter to a cold shadow creeping silently.'},
+  {sent:'"The ant carried corn to her nest."', correct:'Literal', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ LITERAL! This just describes exactly what happened — no figurative language here.'},
+  {sent:'"Auntie Anthea appeared, armed with anticipation."', correct:'Alliteration', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ ALLITERATION! A, A, a, a — four words starting with the same A sound.'},
+  {sent:'"The meadow slept under a blanket of snow."', correct:'Personification', techniques:['Simile','Metaphor','Personification','Alliteration','Literal'], fb:'✅ PERSONIFICATION (and Metaphor)! The meadow "slept" — a human action. Snow as a "blanket" is also a metaphor. Both are acceptable!'}
+];
+
+function buildSpot(){
+  const c = document.getElementById('spotContainer');
+  spotData.forEach((item,i)=>{
+    const d = document.createElement('div');
+    d.className = 'spot-item';
+    const btns = item.techniques.map(t=>`<button class="tech-btn" onclick="checkSpot(${i},'${t}',this)">${t}</button>`).join('');
+    d.innerHTML = `<div class="spot-sent">"${item.sent}"</div><div class="btn-grid">${btns}</div><div class="spot-fb" id="sfb${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+buildSpot();
+
+function checkSpot(i,choice,btn){
+  const item = spotData[i];
+  const fb = document.getElementById('sfb'+i);
+  const parent = btn.closest('.spot-item');
+  parent.querySelectorAll('.tech-btn').forEach(b=>b.disabled=true);
+  if(choice===item.correct){
+    btn.classList.add('correct');
+    fb.innerHTML = item.fb;
+    fb.style.color='#2E7D32';
+  } else {
+    btn.classList.add('wrong');
+    fb.innerHTML = '🤔 Not quite! The answer is <strong>'+item.correct+'</strong>. '+item.fb;
+    fb.style.color='#C62828';
+    parent.querySelectorAll('.tech-btn').forEach(b=>{if(b.textContent===item.correct)b.classList.add('correct');});
+  }
+  fb.classList.add('show');
+}
+
+// Idiom cards
+const idioms = [
+  {expr:'Read between the lines',emoji:'📖',meaning:'Understand the hidden meaning — what is not said directly',ex:'"You need to read between the lines — she didn\'t say no, but she didn\'t say yes either."'},
+  {expr:'Once in a blue moon',emoji:'🌕',meaning:'Very rarely; almost never',ex:'"She only visits once in a blue moon — maybe twice a year."'},
+  {expr:'Pull your leg',emoji:'🦵',meaning:'Tease or joke with someone in a friendly way',ex:'"Don\'t worry, I\'m just pulling your leg — it was a joke!"'},
+  {expr:'Hold your tongue',emoji:'👅',meaning:'Stay quiet; do not speak when you want to',ex:'"Hold your tongue! This is not the time to argue."'},
+  {expr:'Hit the nail on the head',emoji:'🔨',meaning:'Say exactly the right thing; identify the exact problem',ex:'"You\'ve hit the nail on the head — that\'s exactly the problem."'},
+  {expr:'Let the cat out of the bag',emoji:'🐱',meaning:'Accidentally reveal a secret',ex:'"She let the cat out of the bag about the surprise party!"'},
+  {expr:'Bite the bullet',emoji:'🔫',meaning:'Do something difficult or painful bravely',ex:'"You\'ll just have to bite the bullet and tell him the truth."'},
+  {expr:'Break a leg!',emoji:'🦵',meaning:'Good luck! (used especially in performances)',ex:'"Break a leg tonight — I know you\'ll be brilliant in the show!"'}
+];
+
+function buildIdioms(){
+  const g = document.getElementById('idiomGrid');
+  idioms.forEach(item=>{
+    const d = document.createElement('div');
+    d.className = 'idiom-card';
+    d.innerHTML = `<div class="ic-emoji">${item.emoji}</div><div class="ic-front">${item.expr}</div><div class="ic-back"><strong>Real meaning:</strong> ${item.meaning}<div class="ic-back-ex">${item.ex}</div></div>`;
+    d.onclick = ()=>d.classList.toggle('flipped');
+    g.appendChild(d);
+  });
+}
+buildIdioms();
+
+function markDone(){
+  localStorage.setItem('u1_done_1-8','true');
+  document.getElementById('completeMsg').classList.add('show');
+}
+if(localStorage.getItem('u1_done_1-8')==='true'){
+  document.getElementById('completeMsg').classList.add('show');
+}
+</script>
+</body>
+</html>

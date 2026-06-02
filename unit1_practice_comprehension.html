@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Comprehension Paper | Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#FFF5F5;color:#1a1a2e}
+.top-nav{background:#B71C1C;display:flex;align-items:center;padding:0 16px;flex-wrap:wrap}
+.tn-btn{background:none;border:none;color:rgba(255,255,255,.85);padding:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;text-decoration:none;display:inline-block}
+.tn-btn:hover{color:#fff}
+.tn-btn.cur{color:#FFD700;cursor:default}
+.tn-spacer{flex:1}
+.tn-side{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px !important;border-bottom:none !important;color:#fff !important}
+.paper-hdr{background:#B71C1C;padding:28px 20px 56px;text-align:center;position:relative}
+.paper-hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:#FFF5F5;border-radius:50% 50% 0 0/36px 36px 0 0}
+.ph-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:800;margin-bottom:10px}
+.ph-title{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:8px}
+.ph-sub{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:600}
+.main{max-width:900px;margin:0 auto;padding:28px 16px 60px}
+/* TIMER */
+.timer-bar{background:#fff;border:2px solid #FFCDD2;border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.timer-display{font-family:'Fredoka One',cursive;font-size:1.8rem;color:#B71C1C;min-width:80px}
+.timer-label{font-size:.85rem;font-weight:700;color:#888}
+.timer-btn{background:#B71C1C;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.timer-btn:hover{background:#C62828}
+.timer-btn.pause{background:#F57F17}
+.timer-progress{flex:1;background:#FFCDD2;height:8px;border-radius:4px;min-width:100px;overflow:hidden}
+.timer-fill{background:#B71C1C;height:100%;border-radius:4px;transition:width 1s linear}
+/* SCORE */
+.score-bar{background:#fff;border:2px solid #FFCDD2;border-radius:14px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.sc-item{text-align:center}
+.sc-num{font-family:'Fredoka One',cursive;font-size:1.8rem;color:#B71C1C}
+.sc-lbl{font-size:.72rem;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.sc-prog{flex:1;min-width:150px}
+.sc-prog-bar{background:#FFCDD2;height:10px;border-radius:5px;overflow:hidden}
+.sc-prog-fill{background:#B71C1C;height:100%;border-radius:5px;transition:width .4s}
+/* TEXT BOX */
+.text-box{background:#FFFDE7;border:2px solid #F9A825;border-radius:16px;padding:24px;margin-bottom:28px}
+.tb-title{font-family:'Fredoka One',cursive;font-size:1.3rem;color:#E65100;text-align:center;margin-bottom:14px}
+.tb-author{font-size:.8rem;text-align:center;color:#888;margin-bottom:16px;font-style:italic}
+.tb-body{font-size:1rem;line-height:1.9;color:#3d2b00}
+.tb-body p{margin-bottom:12px}
+.vw{background:#FFD54F;border-radius:4px;padding:1px 5px;font-weight:800;cursor:pointer;border-bottom:2px solid #FF8F00}
+.vw:hover{background:#FFB300}
+.word-popup{background:#fff;border:2px solid #7C4DFF;border-radius:12px;padding:12px 16px;margin:8px 0;display:none}
+.word-popup.show{display:block}
+.wp-word{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#7C4DFF}
+.wp-def{font-size:.88rem;color:#333;font-weight:700;margin-top:4px}
+/* QUESTIONS */
+.qsection-title{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#B71C1C;margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid #FFCDD2}
+.qcard{background:#fff;border-radius:16px;padding:20px;box-shadow:0 3px 14px rgba(0,0,0,.07);margin-bottom:16px;border-left:5px solid #B71C1C}
+.q-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.q-num{font-family:'Fredoka One',cursive;color:#B71C1C;font-size:1rem}
+.q-marks{background:#FFCDD2;color:#B71C1C;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:800}
+.q-text{font-weight:700;font-size:.95rem;color:#222;background:#FFF5F5;border-radius:10px;padding:12px 14px;margin-bottom:12px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt-btn{background:#F9F9F9;border:2px solid #E0E0E0;border-radius:10px;padding:11px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;text-align:left;transition:all .2s;color:#333}
+.opt-btn:hover:not(:disabled){background:#FFEBEE;border-color:#B71C1C;color:#B71C1C;transform:translateX(3px)}
+.opt-btn.correct{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32}
+.opt-btn.wrong{background:#FFEBEE;border-color:#EF5350;color:#C62828}
+.opt-btn:disabled{cursor:not-allowed}
+.q-fb{border-radius:10px;padding:10px 14px;font-weight:700;font-size:.88rem;margin-top:10px;display:none;line-height:1.5}
+.q-fb.show{display:block}
+.fb-c{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7}
+.fb-w{background:#FFEBEE;color:#C62828;border:2px solid #EF9A9A}
+.txt-input{width:100%;border:2px solid #FFCDD2;border-radius:10px;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;background:#FFF5F5;margin-bottom:8px}
+.txt-input:focus{outline:none;border-color:#B71C1C;background:#fff}
+.check-btn{background:#B71C1C;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer}
+.check-btn:hover{background:#C62828}
+.sa-textarea{width:100%;border:2px solid #FFCDD2;border-radius:10px;padding:12px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:#333;background:#FFF5F5;resize:vertical;min-height:100px}
+.sa-textarea:focus{outline:none;border-color:#B71C1C;background:#fff}
+.btn-hint{background:#FFF8E1;color:#E65100;border:2px solid #FFD54F;border-radius:10px;padding:8px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer}
+.btn-model{background:#E8F5E9;color:#2E7D32;border:2px solid #A5D6A7;border-radius:10px;padding:8px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer}
+.hint-box,.model-box{border-radius:10px;padding:12px 14px;margin-top:8px;display:none;line-height:1.5;font-size:.88rem;font-weight:600}
+.hint-box{background:#FFF8E1;border:2px solid #FFD54F;color:#5D4037}
+.model-box{background:#E8F5E9;border:2px solid #66BB6A}
+.hint-box.show,.model-box.show{display:block}
+.m-title{font-weight:800;color:#2E7D32;margin-bottom:5px}
+.m-text{color:#1B5E20;line-height:1.6}
+.m-note{font-size:.76rem;color:#388E3C;margin-top:5px;font-style:italic}
+/* SCORE RESULT */
+.score-result{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-top:24px;text-align:center;display:none}
+.score-result.show{display:block}
+.sr-score{font-family:'Fredoka One',cursive;font-size:3rem;color:#B71C1C;margin-bottom:4px}
+.sr-msg{font-size:1.1rem;font-weight:700;color:#333;margin-bottom:12px}
+.sr-detail{font-size:.88rem;color:#666;line-height:1.6}
+.calc-btn{background:#B71C1C;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:20px}
+.calc-btn:hover{background:#C62828}
+.complete-btn{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;border:none;border-radius:14px;padding:14px 28px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;width:100%;margin-top:16px}
+.info-box{border-radius:14px;padding:14px 18px;margin-bottom:16px;border:2px solid}
+.ib-red{background:#FFEBEE;border-color:#FFCDD2}
+.ib-red h4{color:#B71C1C;font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px}
+.ib-red p,.ib-red li{color:#B71C1C;font-size:.9rem;font-weight:600;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="unit1_home.html" class="tn-btn" style="color:#FFD700">🏠 Unit Home</a>
+  <a href="unit1_lesson_1_11.html" class="tn-btn">← Lesson 1.11</a>
+  <span class="tn-btn cur">▶ Comprehension Paper</span>
+  <div class="tn-spacer"></div>
+  <a href="unit1_practice_writing.html" class="tn-btn tn-side">Writing Paper →</a>
+</div>
+
+<div class="paper-hdr">
+  <div class="ph-badge">📋 PRACTICE PAPER 1</div>
+  <div class="ph-title">Comprehension Practice Paper</div>
+  <div class="ph-sub">Cambridge Primary English · Stage 5 · Unit 1 · 25 Marks · 45 Minutes</div>
+</div>
+
+<div class="main">
+
+  <div class="info-box ib-red">
+    <h4>📌 Instructions</h4>
+    <p>• Read the passage carefully <strong>before</strong> answering any questions.<br>
+    • Answer <strong>ALL</strong> 10 questions.<br>
+    • Use evidence from the text whenever you are asked.<br>
+    • For extended answers, use the <strong>PEE method</strong> (Point · Evidence · Explain).<br>
+    • Suggested time: <strong>45 minutes</strong>. Click "Start Timer" below.</p>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-bar">
+    <div>
+      <div class="timer-label">⏱️ Time remaining</div>
+      <div class="timer-display" id="timer-display">45:00</div>
+    </div>
+    <div class="timer-progress"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+    <button class="timer-btn" id="timer-start-btn" onclick="startTimer()">▶ Start Timer</button>
+    <button class="timer-btn pause" id="timer-pause-btn" onclick="pauseTimer()" style="display:none">⏸ Pause</button>
+  </div>
+
+  <!-- SCORE TRACKER -->
+  <div class="score-bar">
+    <div class="sc-item"><div class="sc-num" id="sc-num">0</div><div class="sc-lbl">Marks so far</div></div>
+    <div class="sc-item"><div class="sc-num">25</div><div class="sc-lbl">Total marks</div></div>
+    <div class="sc-prog">
+      <div style="font-weight:700;color:#B71C1C;font-size:.82rem;margin-bottom:4px">Your progress</div>
+      <div class="sc-prog-bar"><div class="sc-prog-fill" id="sc-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- TEXT -->
+  <div class="text-box">
+    <div class="tb-title">🦚 The Proud Peacock and the Sparrow</div>
+    <div class="tb-author">An original fable for practice</div>
+    <div id="wp" class="word-popup"><span class="wp-word" id="wp-w"></span><div class="wp-def" id="wp-d"></div></div>
+    <div class="tb-body">
+      <p>One bright morning, a <span class="vw" data-w="magnificent" data-d="extremely beautiful and impressive">magnificent</span> peacock spread his feathers in the palace courtyard, <span class="vw" data-w="dazzling" data-d="impressing or blinding everyone with brilliant beauty">dazzling</span> all who passed. His tail <span class="vw" data-w="shimmered" data-d="shone with a soft, flickering light">shimmered</span> like a jewelled fan, rippling with a hundred eyes of blue and green. No creature, he was quite certain, could match his <span class="vw" data-w="splendour" data-d="magnificent, impressive beauty">splendour</span>.</p>
+
+      <p>A small brown sparrow hopped nearby, her feathers plain and <span class="vw" data-w="unremarkable" data-d="not special or interesting in any way; ordinary">unremarkable</span>.</p>
+
+      <p>"Look at me!" declared the peacock, fanning his spectacular tail still wider. "No creature in this garden is as magnificent as I am. What can a dull little bird like you possibly offer the world?"</p>
+
+      <p>The sparrow said nothing. She simply opened her wings and rose swiftly into the clear blue sky, soaring above the trees, above the rooftops, above the very clouds. The peacock watched her go. He spread his own glorious wings — but though they were beautiful, they were far too heavy to lift him beyond the ground.</p>
+
+      <p>As summer ended and the days grew short, the sparrow flew south to warmer lands, singing her <span class="vw" data-w="cheerful" data-d="happy and positive in mood">cheerful</span> song. The peacock remained in the cold courtyard, his magnificent tail dragging in the mud.</p>
+
+      <p>"How foolish I have been," he shivered, "to value beauty above everything else."</p>
+
+      <p><em>The moral: True worth lies not in appearance, but in what you can do.</em></p>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="qsection-title">Section A — Vocabulary (2 marks)</div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">What does the word "splendour" mean in this passage?</div>
+    <div class="opts" id="opts1">
+      <button class="opt-btn" onclick="ansQ(1,0,1,event)">A. Cleverness and intelligence</button>
+      <button class="opt-btn" onclick="ansQ(1,1,1,event)">B. Magnificent, impressive beauty</button>
+      <button class="opt-btn" onclick="ansQ(1,2,1,event)">C. Pride and arrogance</button>
+      <button class="opt-btn" onclick="ansQ(1,3,1,event)">D. Speed and agility</button>
+    </div>
+    <div class="q-fb" id="fb1"></div>
+  </div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q2</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Find and copy ONE word from the first paragraph that means "impressing everyone with brilliant beauty".</div>
+    <input class="txt-input" id="q2-input" type="text" placeholder="Type your answer here...">
+    <button class="check-btn" onclick="checkTextQ(2,'dazzling',['dazzling'])">✅ Check</button>
+    <div class="q-fb" id="fb2"></div>
+  </div>
+
+  <div class="qsection-title">Section B — Comprehension (8 marks)</div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q3</span><span class="q-marks">2 marks</span></div>
+    <div class="q-text">Why was the peacock unable to fly, even though he had wings? Use evidence from the text in your answer.</div>
+    <textarea class="sa-textarea" id="q3" placeholder="Although the peacock had wings, he couldn't fly because..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h3')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m3')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h3">Find the exact quote from the text that explains why. It is in paragraph 4.</div>
+    <div class="model-box" id="m3"><div class="m-title">✅ Model Answer (2 marks)</div><div class="m-text">Although the peacock had wings, they "were far too heavy to lift him beyond the ground." This suggests that his wings were designed for beauty and display rather than for actual flying. The very thing that made him appear magnificent was the thing that prevented him from being truly capable.</div><div class="m-note">📝 1 mark for evidence from text. 1 mark for explanation of what this shows.</div></div>
+  </div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q4</span><span class="q-marks">2 marks</span></div>
+    <div class="q-text">How does the writer use language to show the peacock is proud and boastful? Find ONE example and explain its effect.</div>
+    <textarea class="sa-textarea" id="q4" placeholder="The writer shows the peacock is proud through the word/phrase '...' which..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h4')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m4')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h4">Look at what the peacock says and how he says it. What verb does the writer use instead of "said"? What does the peacock literally ask the sparrow?</div>
+    <div class="model-box" id="m4"><div class="m-title">✅ Model Answer (2 marks)</div><div class="m-text">The writer uses the declarative verb "declared" — "declared the peacock" — which suggests a loud, confident public announcement, showing he wanted everyone to hear how wonderful he is. Furthermore, his question "What can a dull little bird like you possibly offer the world?" is actually a rhetorical insult — he is not seeking an answer, he is dismissing the sparrow to make himself seem superior.</div><div class="m-note">📝 1 mark for identifying language feature + quote. 1 mark for explanation of effect.</div></div>
+  </div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q5</span><span class="q-marks">2 marks</span></div>
+    <div class="q-text">"His tail shimmered like a jewelled fan." What technique is used here? Explain its effect on the reader.</div>
+    <textarea class="sa-textarea" id="q5" placeholder="The technique used is... The effect is..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h5')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m5')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h5">Does it use "like" or "as"? What type of figurative language uses these words? What picture does "jewelled fan" create?</div>
+    <div class="model-box" id="m5"><div class="m-title">✅ Model Answer (2 marks)</div><div class="m-text">This is a simile — the peacock's tail is compared to "a jewelled fan" using the word "like." The effect is to create a vivid, glamorous image: "jewelled" suggests sparkling colours and preciousness, while "fan" describes the peacock's tail shape perfectly. Together, they make the peacock seem dazzlingly beautiful — but the comparison to a decorative accessory also hints at his vanity, since a fan is ornamental, not useful.</div><div class="m-note">📝 1 mark for identifying simile. 1 mark for explaining the effect with reference to specific words.</div></div>
+  </div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q6</span><span class="q-marks">2 marks</span></div>
+    <div class="q-text">How does the writer contrast the sparrow and the peacock? Give TWO examples with explanations.</div>
+    <textarea class="sa-textarea" id="q6" style="min-height:120px" placeholder="First contrast: ...&#10;&#10;Second contrast: ..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h6')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m6')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h6">Think about: (1) How they look — peacock's tail vs sparrow's feathers. (2) What they can DO — compare what happens when they each try to use their wings.</div>
+    <div class="model-box" id="m6"><div class="m-title">✅ Model Answer (2 marks)</div><div class="m-text">First, the writer contrasts their appearance: the peacock's tail "shimmered like a jewelled fan" while the sparrow's feathers are described as "plain and unremarkable." This immediately shows one is visually spectacular and the other is ordinary. Second, the writer contrasts their abilities: the sparrow "rose swiftly into the clear blue sky, soaring above the clouds", whereas the peacock's wings were "too heavy to lift him beyond the ground." The contrast shows that beauty can be a disadvantage, while plainness can hide great ability.</div></div>
+  </div>
+
+  <div class="qsection-title">Section C — Grammar (4 marks)</div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q7</span><span class="q-marks">2 marks</span></div>
+    <div class="q-text">Find TWO modal verbs in the passage. For each one, copy the sentence it appears in and explain what the modal verb shows.</div>
+    <textarea class="sa-textarea" id="q7" placeholder="Modal verb 1: '...' — this shows...&#10;Modal verb 2: '...' — this shows..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h7')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m7')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h7">Modal verbs: can, could, may, might, should, would, will, must, ought to. Look through the passage for any of these words.</div>
+    <div class="model-box" id="m7"><div class="m-title">✅ Model Answer (2 marks)</div><div class="m-text">"No creature...could match his splendour" — "could" shows ability/possibility; the peacock believes absolutely that nothing is capable of matching him. "They were far too heavy to lift him beyond the ground" — the implied modal is "could not": the peacock cannot fly. This shows physical impossibility — a permanent limitation. (Also acceptable: "might roar" implied, "can" in the moral context.)</div></div>
+  </div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q8</span><span class="q-marks">2 marks</span></div>
+    <div class="q-text">Write down TWO possessive adjectives or possessive pronouns from the passage. For each one, explain what it refers to.</div>
+    <textarea class="sa-textarea" id="q8" placeholder="Example 1: '...' — this refers to...&#10;Example 2: '...' — this refers to..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h8')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m8')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h8">Possessive adjectives: my, your, his, her, its, our, their (come BEFORE a noun). Possessive pronouns: mine, yours, his, hers, ours, theirs (stand ALONE). Look through the passage for examples.</div>
+    <div class="model-box" id="m8"><div class="m-title">✅ Model Answer (2 marks)</div><div class="m-text">"his tail" — possessive adjective; "his" refers to the peacock; it shows that the tail belongs to the peacock. "her wings" / "her feathers" — possessive adjective; "her" refers to the sparrow; it shows the wings/feathers belong to the sparrow. (Any two correct examples with correct explanation = 2 marks.)</div></div>
+  </div>
+
+  <div class="qsection-title">Section D — Extended Response (11 marks)</div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q9</span><span class="q-marks">5 marks</span></div>
+    <div class="q-text">How does the writer contrast the personalities of the peacock and the sparrow? How does each character's personality lead to a different outcome? Use evidence from the text and the PEE method. Write in full paragraphs.</div>
+    <textarea class="sa-textarea" id="q9" style="min-height:160px" placeholder="The peacock and the sparrow have very different personalities..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h9')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m9')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h9">Structure: Para 1 — peacock's personality + evidence + explain. Para 2 — sparrow's personality + evidence + explain. Para 3 — how their personalities lead to different outcomes. Contrast words: "in contrast", "unlike", "whereas", "however".</div>
+    <div class="model-box" id="m9"><div class="m-title">✅ Model Answer (5 marks)</div><div class="m-text">The peacock is portrayed as vain and arrogant. He "declared" to the courtyard that "no creature is as magnificent as I am", using a confident, public verb that shows he wants an audience for his boasting. This vanity is ultimately his downfall: he remains in the cold courtyard as winter comes, his "magnificent tail dragging in the mud" — the very thing he was proudest of now humiliates him.<br><br>In contrast, the sparrow is quietly confident and capable. When insulted, she "said nothing" — she responded not with words but with action, "rising swiftly into the clear blue sky." This shows she had no need to defend herself because she knew her own worth. While the peacock is trapped by his beautiful but useless wings, the sparrow thrives and survives the winter.<br><br>The contrast shows that the peacock valued appearance over ability, while the sparrow valued action over words. Their different personalities directly cause their different outcomes: the peacock's vanity leads to cold and humiliation, while the sparrow's quiet competence leads to freedom and survival.</div><div class="m-note">📝 Marks: 1 — peacock personality + evidence. 1 — sparrow personality + evidence. 1 — explanation of contrast. 1 — link to outcomes. 1 — quality of language and paragraph structure.</div></div>
+  </div>
+
+  <div class="qcard">
+    <div class="q-header"><span class="q-num">Q10</span><span class="q-marks">6 marks</span></div>
+    <div class="q-text">Is "The Proud Peacock and the Sparrow" a fable? Explain your answer using at least FOUR features of a fable. Give evidence from the text for each feature. Write in full paragraphs.</div>
+    <textarea class="sa-textarea" id="q10" style="min-height:180px" placeholder="'The Proud Peacock and the Sparrow' can be considered a fable because..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-hint" onclick="toggle('h10')">💡 Hint</button>
+      <button class="btn-model" onclick="toggle('m10')">📖 Model Answer</button>
+    </div>
+    <div class="hint-box" id="h10">Fable features: short story, animal characters, animals act like humans (anthropomorphism), a clear problem, a moral/lesson, characters represent human types (stereotypes), teaches a universal lesson. Identify 4 of these and find evidence for each.</div>
+    <div class="model-box" id="m10"><div class="m-title">✅ Model Answer (6 marks)</div><div class="m-text">"The Proud Peacock and the Sparrow" is clearly a fable because it contains multiple key features of the genre. First, it uses animal characters that behave like humans — this is called anthropomorphism. The peacock "declared" an opinion and felt shame at the end; neither is possible for a real bird. Second, the story is short and simple, with only two characters and one central lesson — typical of fables, which need clarity to teach effectively.<br><br>Third, the characters represent human stereotypes: the peacock represents vanity and pride (the strutting, show-off type), while the sparrow represents quiet competence and humility. These types are recognisable because they reflect real human personalities. Fourth, and most importantly, the story ends with a clear moral: "True worth lies not in appearance, but in what you can do." This stated lesson is the defining feature of a fable — every event in the story exists to teach this one truth.<br><br>In conclusion, this story fulfils all the defining features of a fable: animal characters with human qualities, a simple structure, recognisable character types, and an explicit moral. It is a modern fable in the tradition of Aesop.</div><div class="m-note">📝 Marks: 1 mark per feature correctly identified and supported with evidence (max 4). 1 mark for overall argument/conclusion. 1 mark for quality of writing.</div></div>
+  </div>
+
+  <!-- CALCULATE SCORE -->
+  <button class="calc-btn" onclick="calcScore()">📊 See My Results</button>
+  <div class="score-result" id="score-result">
+    <div class="sr-score" id="sr-score">–</div>
+    <div class="sr-msg" id="sr-msg"></div>
+    <div class="sr-detail" id="sr-detail"></div>
+  </div>
+
+  <button class="complete-btn" onclick="markDone()" style="margin-top:16px">✅ Mark Paper Complete</button>
+  <div style="background:#E8F5E9;border:2px solid #66BB6A;border-radius:14px;padding:14px;text-align:center;font-weight:800;color:#2E7D32;display:none;margin-top:10px" id="done-msg">
+    ✅ Well done! <a href="unit1_practice_writing.html" style="color:#1B5E20">Try the Writing Paper →</a>
+  </div>
+</div>
+
+<script>
+// Timer
+let timerInterval=null,timerSeconds=45*60,timerRunning=false;
+const TOTAL=45*60;
+function startTimer(){
+  if(timerRunning)return;
+  timerRunning=true;
+  document.getElementById('timer-start-btn').style.display='none';
+  document.getElementById('timer-pause-btn').style.display='';
+  timerInterval=setInterval(()=>{
+    timerSeconds--;
+    const m=Math.floor(timerSeconds/60),s=timerSeconds%60;
+    document.getElementById('timer-display').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    document.getElementById('timer-fill').style.width=(timerSeconds/TOTAL*100)+'%';
+    if(timerSeconds<=0){clearInterval(timerInterval);document.getElementById('timer-display').textContent='00:00';document.getElementById('timer-display').style.color='#C62828';}
+  },1000);
+}
+function pauseTimer(){
+  clearInterval(timerInterval);timerRunning=false;
+  document.getElementById('timer-start-btn').style.display='';
+  document.getElementById('timer-start-btn').textContent='▶ Resume';
+  document.getElementById('timer-pause-btn').style.display='none';
+}
+
+// Vocab popup
+document.querySelectorAll('.vw').forEach(w=>{
+  w.addEventListener('click',()=>{
+    const p=document.getElementById('wp');
+    const wasOpen=w.classList.contains('active-w');
+    document.querySelectorAll('.vw').forEach(x=>x.classList.remove('active-w'));
+    if(wasOpen){p.classList.remove('show');return;}
+    w.classList.add('active-w');
+    document.getElementById('wp-w').textContent=w.dataset.w;
+    document.getElementById('wp-d').textContent=w.dataset.d;
+    p.classList.add('show');
+  });
+});
+
+// MCQ
+let totalScore=0;
+const markValues={1:1,2:1,3:2,4:2,5:2,6:2,7:2,8:2,9:5,10:6};
+const q1Explain='✅ "Splendour" means magnificent, impressive beauty. The peacock believed his beauty was unmatched.';
+const q1Wrong='❌ Not quite. Think about the context — the peacock was admiring his own appearance.';
+function ansQ(qNum,chosen,correct,e){
+  const opts=document.querySelectorAll('#opts'+qNum+' .opt-btn');
+  opts.forEach(o=>o.disabled=true);
+  const fb=document.getElementById('fb'+qNum);
+  if(chosen===correct){
+    opts[chosen].classList.add('correct');
+    fb.textContent=q1Explain;fb.className='q-fb show fb-c';
+    addScore(markValues[qNum]);
+  }else{
+    opts[chosen].classList.add('wrong');opts[correct].classList.add('correct');
+    fb.textContent=q1Wrong;fb.className='q-fb show fb-w';
+  }
+}
+function checkTextQ(qNum,correct,alts){
+  const inp=document.getElementById('q'+qNum+'-input');
+  const val=inp.value.trim().toLowerCase();
+  const fb=document.getElementById('fb'+qNum);
+  if(alts.some(a=>val===a)||val.includes(correct)){
+    inp.style.borderColor='#4CAF50';inp.style.background='#E8F5E9';
+    fb.textContent='✅ Correct! "'+correct+'" means impressing everyone with brilliant, blinding beauty.';
+    fb.className='q-fb show fb-c';
+    addScore(markValues[qNum]);
+  }else{
+    inp.style.borderColor='#EF5350';inp.style.background='#FFEBEE';
+    fb.textContent='❌ Look again at paragraph 1. The word starts with "d" and means blinding with light or beauty. Answer: "dazzling"';
+    fb.className='q-fb show fb-w';
+  }
+}
+function addScore(marks){
+  totalScore+=marks;
+  document.getElementById('sc-num').textContent=totalScore;
+  document.getElementById('sc-fill').style.width=(totalScore/25*100)+'%';
+}
+function toggle(id){document.getElementById(id).classList.toggle('show')}
+function calcScore(){
+  const r=document.getElementById('score-result');r.classList.add('show');
+  document.getElementById('sr-score').textContent=totalScore+' / 25';
+  const pct=Math.round(totalScore/25*100);
+  let msg,detail;
+  if(pct>=80){msg='🏆 Excellent! You are exam-ready!';detail='Outstanding work. You showed strong comprehension, language analysis and extended writing skills.'}
+  else if(pct>=60){msg='🌟 Good work! Review your weaker areas.';detail='You have a solid understanding. Re-read the model answers for questions you found difficult.'}
+  else if(pct>=40){msg='📚 Keep practising!';detail='Focus on using evidence from the text (PEE). Re-read the lessons on modal verbs, pronouns, and figurative language.'}
+  else{msg='💪 Don\'t give up!';detail='Read all the model answers carefully and re-do the comprehension questions in Lessons 1.1–1.3. You\'ll improve with practice!'}
+  document.getElementById('sr-msg').textContent=msg;
+  document.getElementById('sr-detail').textContent=detail;
+  r.scrollIntoView({behavior:'smooth'});
+}
+function markDone(){
+  localStorage.setItem('u1_done_paper-comp','true');
+  document.getElementById('done-msg').style.display='block';
+}
+if(localStorage.getItem('u1_done_paper-comp')==='true')document.getElementById('done-msg').style.display='block';
+</script>
+</body>
+</html>
