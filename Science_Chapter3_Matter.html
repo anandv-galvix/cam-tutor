@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3: States & Properties of Matter | Cambridge Primary Science Stage 5</title>
+<style>
+  :root {
+    --primary: #6C3FC5;
+    --secondary: #F7931E;
+    --accent1: #00BCD4;
+    --accent2: #E91E63;
+    --accent3: #4CAF50;
+    --accent4: #FF5722;
+    --bg: #F0F4FF;
+    --card-bg: #FFFFFF;
+    --text: #2D2D2D;
+    --light-text: #666;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,63,197,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #6C3FC5 0%, #00BCD4 50%, #E91E63 100%);
+    color: white;
+    padding: 28px 20px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+    animation: shimmer 4s infinite;
+  }
+  @keyframes shimmer {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(5%, 5%); }
+  }
+  header h1 { font-size: 2em; margin-bottom: 6px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); position: relative; }
+  header p { font-size: 1.1em; opacity: 0.9; position: relative; }
+  header .emoji-row { font-size: 2em; margin-bottom: 8px; }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 30px;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.95em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #EEE8FF;
+    color: var(--primary);
+  }
+  nav button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(108,63,197,0.25); }
+  nav button.active { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(108,63,197,0.4); }
+  nav button:nth-child(1).active { background: linear-gradient(135deg, #6C3FC5, #9C27B0); }
+  nav button:nth-child(2).active { background: linear-gradient(135deg, #00BCD4, #2196F3); }
+  nav button:nth-child(3).active { background: linear-gradient(135deg, #4CAF50, #00BCD4); }
+  nav button:nth-child(4).active { background: linear-gradient(135deg, #FF9800, #F44336); }
+  nav button:nth-child(5).active { background: linear-gradient(135deg, #E91E63, #9C27B0); }
+
+  .section { display: none; padding: 24px 20px; max-width: 1000px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title {
+    font-size: 1.8em;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .card h3 { font-size: 1.2em; margin-bottom: 12px; color: var(--primary); }
+  .card p { line-height: 1.7; color: var(--light-text); }
+
+  /* Particle Simulator */
+  .particle-panels {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .particle-panel {
+    flex: 1;
+    min-width: 180px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s;
+    box-shadow: var(--shadow);
+  }
+  .particle-panel:hover { transform: translateY(-4px); }
+  .particle-panel.selected { border-color: var(--secondary); transform: translateY(-4px); }
+  .panel-label {
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: white;
+  }
+  .panel-solid .panel-label { background: #6C3FC5; }
+  .panel-liquid .panel-label { background: #00BCD4; }
+  .panel-gas .panel-label { background: #E91E63; }
+  canvas.particle-canvas {
+    display: block;
+    width: 100%;
+    background: #1a1a2e;
+  }
+  .particle-info {
+    background: linear-gradient(135deg, #f8f4ff, #e8f8ff);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-top: 12px;
+    border-left: 4px solid var(--primary);
+    font-size: 1.05em;
+    line-height: 1.8;
+    min-height: 80px;
+  }
+
+  /* Air composition */
+  .air-bar {
+    display: flex;
+    height: 50px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0;
+    box-shadow: var(--shadow);
+  }
+  .air-n2 { background: linear-gradient(135deg, #6C3FC5, #9C27B0); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9em; }
+  .air-o2 { background: linear-gradient(135deg, #00BCD4, #2196F3); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9em; }
+  .air-other { background: linear-gradient(135deg, #4CAF50, #8BC34A); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.75em; }
+
+  /* Temperature slider */
+  .temp-display {
+    text-align: center;
+    font-size: 3em;
+    font-weight: 900;
+    margin: 10px 0;
+    transition: color 0.5s;
+  }
+  .state-display {
+    text-align: center;
+    padding: 16px;
+    border-radius: var(--radius);
+    font-size: 1.3em;
+    font-weight: 700;
+    margin: 10px 0;
+    transition: all 0.5s;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  input[type=range] {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 14px 0;
+    -webkit-appearance: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 2px 8px rgba(108,63,197,0.4);
+    cursor: pointer;
+  }
+  .temp-markers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: var(--light-text);
+    margin-bottom: 8px;
+  }
+
+  /* Water cycle */
+  .water-cycle {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .wc-step {
+    background: #f0f4ff;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s;
+    font-weight: 600;
+    font-size: 0.95em;
+  }
+  .wc-step:hover { border-color: var(--accent1); transform: scale(1.03); }
+  .wc-step.active { border-color: var(--accent1); background: #e0f9ff; box-shadow: 0 4px 15px rgba(0,188,212,0.3); }
+  .wc-step .step-icon { font-size: 2.2em; margin-bottom: 8px; }
+  .wc-explanation {
+    background: linear-gradient(135deg, #e0f9ff, #f0fff0);
+    border-radius: var(--radius);
+    padding: 18px;
+    border-left: 4px solid var(--accent1);
+    font-size: 1.05em;
+    line-height: 1.8;
+    min-height: 70px;
+  }
+
+  /* Solutions beaker */
+  .beaker-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 16px 0;
+  }
+  .beaker-wrap {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+  }
+  .beaker-svg-wrap { position: relative; }
+  #beakerCanvas {
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .dissolve-btn {
+    margin-top: 12px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #FF9800, #F44336);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(255,152,0,0.4);
+  }
+  .dissolve-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,152,0,0.5); }
+  .dissolve-btn:disabled { background: #ccc; box-shadow: none; transform: none; cursor: default; }
+
+  /* Vocab cards */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .vocab-card {
+    background: linear-gradient(135deg, #6C3FC5, #E91E63);
+    border-radius: 12px;
+    padding: 14px;
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.3s;
+    font-size: 1em;
+  }
+  .vocab-card:hover { transform: scale(1.05); }
+  .vocab-card .word { font-size: 1.1em; margin-bottom: 4px; }
+  .vocab-card .def { font-size: 0.78em; font-weight: 400; opacity: 0.9; }
+
+  /* Comparison cards */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 14px 0;
+  }
+  .compare-card {
+    border-radius: var(--radius);
+    padding: 18px;
+    color: white;
+    font-weight: 600;
+    line-height: 1.8;
+  }
+  .compare-card h4 { font-size: 1.2em; margin-bottom: 8px; }
+  .compare-card ul { padding-left: 18px; font-weight: 400; }
+
+  /* Quiz */
+  .quiz-progress {
+    background: #eee;
+    border-radius: 10px;
+    height: 14px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .quiz-progress-bar {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--accent2));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+  }
+  .quiz-question-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .quiz-question-card h3 {
+    font-size: 1.25em;
+    margin-bottom: 18px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .quiz-option {
+    padding: 14px 16px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    background: #f9f9f9;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.95em;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--primary); background: #f0ecff; }
+  .quiz-option.correct { background: #e8f5e9; border-color: #4CAF50; color: #2e7d32; font-weight: 700; }
+  .quiz-option.wrong { background: #ffebee; border-color: #f44336; color: #c62828; }
+  .quiz-feedback {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1em;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #e8f5e9; color: #2e7d32; border: 2px solid #4CAF50; }
+  .quiz-feedback.wrong { background: #ffebee; color: #c62828; border: 2px solid #f44336; }
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+  }
+  .quiz-nav button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  #nextBtn {
+    background: linear-gradient(135deg, var(--primary), var(--accent2));
+    color: white;
+    box-shadow: 0 4px 15px rgba(108,63,197,0.35);
+  }
+  #nextBtn:hover { transform: translateY(-2px); }
+  #nextBtn:disabled { background: #ccc; box-shadow: none; transform: none; cursor: default; }
+  .quiz-counter { font-weight: 700; color: var(--primary); font-size: 1.1em; }
+  .quiz-score-card {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6C3FC5, #E91E63);
+    border-radius: var(--radius);
+    color: white;
+    display: none;
+  }
+  .quiz-score-card.show { display: block; animation: fadeIn 0.5s ease; }
+  .quiz-score-card .big-score { font-size: 4em; font-weight: 900; margin: 16px 0; }
+  .quiz-score-card p { font-size: 1.2em; opacity: 0.9; }
+  .restart-btn {
+    margin-top: 20px;
+    padding: 14px 36px;
+    background: white;
+    color: var(--primary);
+    border: none;
+    border-radius: 30px;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .restart-btn:hover { transform: scale(1.05); }
+
+  /* Fact boxes */
+  .fact-box {
+    background: linear-gradient(135deg, #fff8e1, #fff3e0);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    border-left: 5px solid var(--secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 1em;
+    line-height: 1.6;
+  }
+  .fact-box .fact-icon { font-size: 1.8em; }
+
+  /* Info chips */
+  .chip {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.85em;
+    font-weight: 700;
+    margin: 3px;
+  }
+  .chip.green { background: var(--accent3); }
+  .chip.orange { background: var(--secondary); }
+  .chip.pink { background: var(--accent2); }
+  .chip.cyan { background: var(--accent1); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .water-cycle { grid-template-columns: repeat(2,1fr); }
+    .quiz-options { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.4em; }
+    .particle-panels { flex-direction: column; }
+  }
+
+  /* Pollution cards */
+  .pollution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .pollution-card {
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  .equation-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+  .eq-box {
+    background: #f0ecff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1em;
+  }
+  .eq-arrow {
+    font-size: 1.5em;
+    color: var(--secondary);
+    font-weight: 900;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="emoji-row">⚗️ 🧪 💧 ☁️ 🧂</div>
+  <h1>Chapter 3: States &amp; Properties of Matter</h1>
+  <p>Cambridge Primary Science · Stage 5 · Let's explore the world of matter! 🌍</p>
+</header>
+
+<nav>
+  <button class="active" onclick="showSection('gases')">🧪 3.1 Gases</button>
+  <button onclick="showSection('water')">💧 3.2 Water</button>
+  <button onclick="showSection('evap')">☁️ 3.3 Evaporation</button>
+  <button onclick="showSection('solutions')">🧂 3.4 Solutions</button>
+  <button onclick="showSection('quiz')">🧠 Quiz</button>
+</nav>
+
+<!-- SECTION 3.1: GASES -->
+<div id="gases" class="section active">
+  <div class="section-title">🧪 3.1 States of Matter &amp; Gases</div>
+
+  <div class="card">
+    <h3>🔬 Particle Model Simulator</h3>
+    <p style="margin-bottom:14px">Click on SOLID, LIQUID or GAS to see how particles move! 👇</p>
+    <div class="particle-panels">
+      <div class="particle-panel panel-solid selected" onclick="selectState('solid')">
+        <div class="panel-label">🧱 SOLID</div>
+        <canvas class="particle-canvas" id="solidCanvas" width="200" height="160"></canvas>
+      </div>
+      <div class="particle-panel panel-liquid" onclick="selectState('liquid')">
+        <div class="panel-label">💧 LIQUID</div>
+        <canvas class="particle-canvas" id="liquidCanvas" width="200" height="160"></canvas>
+      </div>
+      <div class="particle-panel panel-gas" onclick="selectState('gas')">
+        <div class="panel-label">💨 GAS</div>
+        <canvas class="particle-canvas" id="gasCanvas" width="200" height="160"></canvas>
+      </div>
+    </div>
+    <div class="particle-info" id="particleInfo">
+      <strong>🧱 SOLID</strong> — Particles are packed <strong>tightly</strong> in a fixed pattern. They vibrate in place but cannot move past each other. Solids have a <strong>definite shape and volume</strong>. Examples: ice, rock, wood.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌬️ What is Air Made Of?</h3>
+    <p>Air is a <strong>mixture of gases</strong>. Here's what's in every breath you take! 🫁</p>
+    <div class="air-bar">
+      <div class="air-n2" style="width:78%">Nitrogen 78%</div>
+      <div class="air-o2" style="width:21%">O₂ 21%</div>
+      <div class="air-other" style="width:1%">CO₂+</div>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+      <span class="chip">🔵 Nitrogen ~78%</span>
+      <span class="chip cyan">🔷 Oxygen ~21%</span>
+      <span class="chip green">🟢 CO₂ ~0.04%</span>
+      <span class="chip orange">🟠 Water vapour &amp; others ~1%</span>
+    </div>
+    <div class="fact-box" style="margin-top:14px">
+      <span class="fact-icon">💡</span>
+      <span>About <strong>4/5 of air is nitrogen</strong> and about <strong>1/5 is oxygen</strong>. We need oxygen to breathe and stay alive! Nitrogen is used by plants to grow.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🏭 Air Pollution — What Pollutes Our Air?</h3>
+    <div class="pollution-grid">
+      <div class="pollution-card" style="background:#ffe0e0; color:#c62828;">
+        <div style="font-size:2em">🚗</div>
+        <strong>Car &amp; Vehicle Fumes</strong><br>Burning petrol/diesel releases harmful gases like carbon monoxide.
+      </div>
+      <div class="pollution-card" style="background:#fff3e0; color:#e65100;">
+        <div style="font-size:2em">🏭</div>
+        <strong>Factory Smoke</strong><br>Factories release sulphur dioxide and other chemicals.
+      </div>
+      <div class="pollution-card" style="background:#e8f5e9; color:#2e7d32;">
+        <div style="font-size:2em">🔥</div>
+        <strong>Burning Waste</strong><br>Open fires release toxic smoke particles into the air.
+      </div>
+      <div class="pollution-card" style="background:#e3f2fd; color:#1565c0;">
+        <div style="font-size:2em">🤒</div>
+        <strong>Health Effects</strong><br>Breathing polluted air can cause asthma, coughs and lung damage.
+      </div>
+    </div>
+    <div class="fact-box" style="margin-top:14px">
+      <span class="fact-icon">🌿</span>
+      <span><strong>Plants are heroes!</strong> They absorb carbon dioxide (CO₂) and release oxygen during photosynthesis — helping to keep our air clean. This is one reason why forests are so important!</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3.2: WATER -->
+<div id="water" class="section">
+  <div class="section-title">💧 3.2 Properties of Water</div>
+
+  <div class="card">
+    <h3>🌡️ Temperature &amp; States of Water</h3>
+    <p>Drag the slider to change the temperature and watch what happens to water! 🔥❄️</p>
+    <div style="margin-top:16px;">
+      <div class="temp-markers">
+        <span>-20°C ❄️</span>
+        <span>0°C (Melting)</span>
+        <span>50°C</span>
+        <span>100°C (Boiling)</span>
+        <span>120°C 🔥</span>
+      </div>
+      <input type="range" id="tempSlider" min="-20" max="120" value="25"
+        style="background: linear-gradient(to right, #00BCD4 0%, #2196F3 14%, #4CAF50 57%, #FF9800 85%, #f44336 100%);"
+        oninput="updateTemp(this.value)">
+      <div class="temp-display" id="tempDisplay">25°C</div>
+      <div class="state-display" id="stateDisplay">💧 LIQUID WATER</div>
+    </div>
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <div style="background:#e3f2fd; border-radius:10px; padding:10px 16px; text-align:center; flex:1; min-width:140px;">
+        <div style="font-size:1.5em">❄️</div>
+        <strong>Melting Point</strong><br><span style="color:#2196F3; font-size:1.3em; font-weight:900;">0°C</span>
+        <br><small>Ice → Water</small>
+      </div>
+      <div style="background:#fff3e0; border-radius:10px; padding:10px 16px; text-align:center; flex:1; min-width:140px;">
+        <div style="font-size:1.5em">🔥</div>
+        <strong>Boiling Point</strong><br><span style="color:#f44336; font-size:1.3em; font-weight:900;">100°C</span>
+        <br><small>Water → Steam</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔄 Changes of State Equations</h3>
+    <div class="equation-row">
+      <div class="eq-box">🧊 SOLID (Ice)</div>
+      <div class="eq-arrow">+🔥→</div>
+      <div class="eq-box">💧 LIQUID (Water)</div>
+      <div style="margin-left:8px; color:var(--accent3); font-weight:700;">MELTING</div>
+    </div>
+    <div class="equation-row">
+      <div class="eq-box">💧 LIQUID (Water)</div>
+      <div class="eq-arrow">+🔥→</div>
+      <div class="eq-box">💨 GAS (Steam)</div>
+      <div style="margin-left:8px; color:var(--accent2); font-weight:700;">BOILING / EVAPORATION</div>
+    </div>
+    <div class="equation-row">
+      <div class="eq-box">💨 GAS (Steam)</div>
+      <div class="eq-arrow">−❄️→</div>
+      <div class="eq-box">💧 LIQUID (Water)</div>
+      <div style="margin-left:8px; color:var(--accent1); font-weight:700;">CONDENSATION</div>
+    </div>
+    <div class="equation-row">
+      <div class="eq-box">💧 LIQUID (Water)</div>
+      <div class="eq-arrow">−❄️→</div>
+      <div class="eq-box">🧊 SOLID (Ice)</div>
+      <div style="margin-left:8px; color: #6C3FC5; font-weight:700;">FREEZING</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌟 Amazing Properties of Water!</h3>
+    <div class="fact-box">
+      <span class="fact-icon">❄️</span>
+      <span><strong>Water EXPANDS when it freezes!</strong> This is very unusual — most substances get smaller (contract) when they cool down. Water actually gets <em>bigger</em> when it turns to ice. That's why ice cubes float in a glass of water!</span>
+    </div>
+    <div class="fact-box">
+      <span class="fact-icon">🌊</span>
+      <span><strong>Water is called the 'universal solvent'</strong> because more substances dissolve in water than in any other liquid. This makes it incredibly important for life on Earth!</span>
+    </div>
+    <div class="fact-box">
+      <span class="fact-icon">💧</span>
+      <span><strong>Water is the only substance</strong> that naturally exists as a solid, liquid AND gas on Earth's surface — as ice, water, and water vapour!</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3.3: EVAPORATION -->
+<div id="evap" class="section">
+  <div class="section-title">☁️ 3.3 Evaporation &amp; Condensation</div>
+
+  <div class="card">
+    <h3>🌊 The Water Cycle — Click each step! 👇</h3>
+    <div class="water-cycle">
+      <div class="wc-step active" onclick="showWCStep(0)">
+        <div class="step-icon">☀️</div>
+        1. Sun heats water
+      </div>
+      <div class="wc-step" onclick="showWCStep(1)">
+        <div class="step-icon">💨</div>
+        2. Evaporation
+      </div>
+      <div class="wc-step" onclick="showWCStep(2)">
+        <div class="step-icon">🌫️</div>
+        3. Water vapour rises
+      </div>
+      <div class="wc-step" onclick="showWCStep(3)">
+        <div class="step-icon">☁️</div>
+        4. Condensation (clouds)
+      </div>
+      <div class="wc-step" onclick="showWCStep(4)">
+        <div class="step-icon">🌧️</div>
+        5. Precipitation
+      </div>
+      <div class="wc-step" onclick="showWCStep(5)">
+        <div class="step-icon">🏞️</div>
+        6. Water flows back
+      </div>
+    </div>
+    <div class="wc-explanation" id="wcExplanation">
+      ☀️ <strong>Step 1 — The Sun heats water:</strong> The sun shines on oceans, lakes, rivers and puddles. The heat energy from the sun warms the water at the surface, giving particles the energy they need to escape into the air as water vapour. Without the sun, the water cycle could not happen!
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚖️ Evaporation vs Condensation</h3>
+    <div class="compare-grid">
+      <div class="compare-card" style="background: linear-gradient(135deg, #FF9800, #F44336);">
+        <h4>💨 Evaporation</h4>
+        <ul>
+          <li>Liquid → Gas</li>
+          <li>Happens at the surface</li>
+          <li>Needs heat energy</li>
+          <li>Happens faster when: warm, windy, large surface area</li>
+          <li>Example: puddles drying up</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="background: linear-gradient(135deg, #00BCD4, #2196F3);">
+        <h4>💧 Condensation</h4>
+        <ul>
+          <li>Gas → Liquid</li>
+          <li>Happens when gas cools</li>
+          <li>Releases heat energy</li>
+          <li>Happens when: gas touches cold surface</li>
+          <li>Example: mist on a mirror, clouds forming</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔬 What happens to particles?</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px;">
+      <div style="background:#fff3e0; border-radius:12px; padding:16px; border-left:4px solid #FF9800;">
+        <strong>💨 During Evaporation:</strong>
+        <p style="margin-top:8px; line-height:1.7; color:#555;">Surface particles of the liquid <strong>gain heat energy</strong>. They move faster and faster until they have enough energy to <strong>escape from the liquid</strong> into the air as individual gas particles (water vapour). 🏃‍♂️💨</p>
+      </div>
+      <div style="background:#e3f2fd; border-radius:12px; padding:16px; border-left:4px solid #2196F3;">
+        <strong>💧 During Condensation:</strong>
+        <p style="margin-top:8px; line-height:1.7; color:#555;">Gas particles <strong>lose heat energy</strong> when they touch a cold surface or rise to cold air. They slow down and <strong>come back together</strong> to form liquid droplets. This is how clouds and rain form! 🌧️</p>
+      </div>
+    </div>
+    <div class="fact-box" style="margin-top:14px">
+      <span class="fact-icon">🪟</span>
+      <span><strong>Try this at home!</strong> Breathe onto a mirror or cold window. The mist you see is <strong>condensation</strong> — your warm breath (water vapour) cools down on the cold glass and turns back into tiny liquid water droplets!</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📚 Key Vocabulary</h3>
+    <div class="vocab-grid">
+      <div class="vocab-card" style="background:linear-gradient(135deg,#FF9800,#F44336)">
+        <div class="word">Evaporation</div>
+        <div class="def">Liquid turning into gas at the surface</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#00BCD4,#2196F3)">
+        <div class="word">Condensation</div>
+        <div class="def">Gas turning back into liquid when cooled</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#6C3FC5,#9C27B0)">
+        <div class="word">Precipitation</div>
+        <div class="def">Rain, snow, sleet or hail falling from clouds</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#4CAF50,#2196F3)">
+        <div class="word">Water Vapour</div>
+        <div class="def">Water in its gas form — invisible in the air</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#E91E63,#FF9800)">
+        <div class="word">Water Cycle</div>
+        <div class="def">The continuous movement of water on Earth</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#009688,#4CAF50)">
+        <div class="word">Surface Area</div>
+        <div class="def">Bigger surface = faster evaporation!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3.4: SOLUTIONS -->
+<div id="solutions" class="section">
+  <div class="section-title">🧂 3.4 Solutions</div>
+
+  <div class="card">
+    <h3>🧪 Dissolving Demo — Watch the Sugar Dissolve!</h3>
+    <div class="beaker-container">
+      <div class="beaker-wrap">
+        <canvas id="beakerCanvas" width="220" height="260"></canvas>
+        <br>
+        <button class="dissolve-btn" id="dissolveBtn" onclick="startDissolve()">🍬 Add Sugar!</button>
+        <button class="dissolve-btn" style="background:linear-gradient(135deg,#00BCD4,#2196F3); margin-left:8px;" onclick="resetBeaker()">🔄 Reset</button>
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <div style="background:#f0ecff; border-radius:12px; padding:16px; margin-bottom:12px;">
+          <strong>📌 Remember:</strong>
+          <div class="equation-row" style="margin-top:10px; flex-wrap:wrap;">
+            <div class="eq-box" style="background:#ffe8f0; color:#c2185b;">🍬 Solute<br><small>(sugar)</small></div>
+            <div class="eq-arrow">+</div>
+            <div class="eq-box" style="background:#e3f2fd; color:#1565c0;">💧 Solvent<br><small>(water)</small></div>
+            <div class="eq-arrow">=</div>
+            <div class="eq-box" style="background:#e8f5e9; color:#2e7d32;">✨ Solution<br><small>(sweet water)</small></div>
+          </div>
+        </div>
+        <div id="dissolveStatus" style="background:#f9f9f9; border-radius:10px; padding:14px; line-height:1.8; font-size:0.95em; color:#555; min-height:80px;">
+          👆 Click "Add Sugar!" to start the dissolving animation. Watch the sugar particles spread through the water!
+        </div>
+      </div>
+    </div>
+    <div class="fact-box" style="margin-top:8px">
+      <span class="fact-icon">🔄</span>
+      <span><strong>Dissolving is REVERSIBLE!</strong> You can get the sugar or salt back by evaporating the water. The solute doesn't disappear — it's still there, just broken up into tiny invisible particles mixed in the solvent!</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ Soluble vs ❌ Insoluble</h3>
+    <div class="compare-grid">
+      <div class="compare-card" style="background: linear-gradient(135deg, #4CAF50, #2196F3);">
+        <h4>✅ SOLUBLE</h4>
+        <p style="font-weight:400; margin-bottom:8px;">Dissolves in water</p>
+        <ul>
+          <li>🧂 Salt</li>
+          <li>🍬 Sugar</li>
+          <li>☕ Coffee</li>
+          <li>🫖 Tea</li>
+          <li>🧃 Fruit juice powder</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="background: linear-gradient(135deg, #F44336, #E91E63);">
+        <h4>❌ INSOLUBLE</h4>
+        <p style="font-weight:400; margin-bottom:8px;">Does NOT dissolve in water</p>
+        <ul>
+          <li>🪨 Sand</li>
+          <li>🌾 Chalk</li>
+          <li>🟫 Soil</li>
+          <li>🪵 Wood</li>
+          <li>🫙 Plastic</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📚 Solutions Vocabulary</h3>
+    <div class="vocab-grid">
+      <div class="vocab-card" style="background:linear-gradient(135deg,#E91E63,#FF9800)">
+        <div class="word">Solute</div>
+        <div class="def">The substance that dissolves (e.g. sugar)</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#2196F3,#00BCD4)">
+        <div class="word">Solvent</div>
+        <div class="def">The liquid that dissolves (e.g. water)</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#4CAF50,#009688)">
+        <div class="word">Solution</div>
+        <div class="def">Solute + solvent mixed together evenly</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#9C27B0,#6C3FC5)">
+        <div class="word">Soluble</div>
+        <div class="def">Can dissolve in a solvent</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#F44336,#9C27B0)">
+        <div class="word">Insoluble</div>
+        <div class="def">Cannot dissolve in a solvent</div>
+      </div>
+      <div class="vocab-card" style="background:linear-gradient(135deg,#FF9800,#4CAF50)">
+        <div class="word">Universal Solvent</div>
+        <div class="def">Water — dissolves more things than anything else!</div>
+      </div>
+    </div>
+    <div class="fact-box" style="margin-top:14px">
+      <span class="fact-icon">🧑‍🍳</span>
+      <span><strong>Making a cup of tea</strong> is a perfect example of a solution! The tea leaves are the solute, the hot water is the solvent, and the cup of tea you drink is the solution! ☕</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: QUIZ -->
+<div id="quiz" class="section">
+  <div class="section-title">🧠 Quiz Time! — 10 Questions</div>
+
+  <div id="quizArea">
+    <div class="quiz-progress">
+      <div class="quiz-progress-bar" id="progressBar" style="width:10%"></div>
+    </div>
+
+    <div class="quiz-question-card" id="questionCard">
+      <div class="quiz-counter" id="questionCounter">Question 1 of 10</div>
+      <h3 id="questionText"></h3>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+    </div>
+
+    <div class="quiz-nav">
+      <div class="quiz-counter" id="scoreDisplay">Score: 0</div>
+      <button id="nextBtn" onclick="nextQuestion()" disabled>Next ➡️</button>
+    </div>
+  </div>
+
+  <div class="quiz-score-card" id="scoreCard">
+    <div style="font-size:3em">🏆</div>
+    <h2 style="font-size:1.8em; margin-top:10px;">Quiz Complete!</h2>
+    <div class="big-score" id="finalScore"></div>
+    <p id="scoreMessage"></p>
+    <button class="restart-btn" onclick="restartQuiz()">🔄 Try Again!</button>
+  </div>
+</div>
+
+<script>
+// ========== NAVIGATION ==========
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx = ['gases','water','evap','solutions','quiz'].indexOf(id);
+  document.querySelectorAll('nav button')[idx].classList.add('active');
+  if (id === 'quiz' && currentQuestion === 0) loadQuestion(0);
+}
+
+// ========== PARTICLE SIMULATOR ==========
+const stateInfo = {
+  solid: '🧱 <strong>SOLID</strong> — Particles are packed <strong>tightly</strong> in a fixed, regular pattern. They vibrate in place but <strong>cannot move past each other</strong>. Solids have a <strong>definite shape and volume</strong>. Examples: ice, rock, wood, metal.',
+  liquid: '💧 <strong>LIQUID</strong> — Particles are close together but <strong>can slide past each other</strong>. They move randomly. Liquids have a definite volume but <strong>take the shape of their container</strong>. Examples: water, oil, mercury.',
+  gas: '💨 <strong>GAS</strong> — Particles are <strong>far apart</strong> and move <strong>very fast in all directions</strong>. Gases have no fixed shape or volume — they <strong>spread to fill any container</strong>. Examples: air, steam, oxygen.'
+};
+
+function selectState(state) {
+  document.querySelectorAll('.particle-panel').forEach(p => p.classList.remove('selected'));
+  document.querySelector('.panel-' + state).classList.add('selected');
+  document.getElementById('particleInfo').innerHTML = stateInfo[state];
+}
+
+// Particle animations
+const particleSimulations = {};
+
+function initParticle(canvasId, type) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  let particles = [];
+
+  const colors = { solid: ['#9C27B0','#6C3FC5','#E91E63'], liquid: ['#00BCD4','#2196F3','#03A9F4'], gas: ['#FF9800','#F44336','#FFEB3B'] };
+  const c = colors[type];
+
+  if (type === 'solid') {
+    const cols = 6, rows = 5, px = W/cols, py = H/rows;
+    for (let r = 0; r < rows; r++) for (let col = 0; col < cols; col++) {
+      particles.push({ x: px*(col+0.5), y: py*(r+0.5), ox: px*(col+0.5), oy: py*(r+0.5), phase: Math.random()*Math.PI*2, color: c[Math.floor(Math.random()*c.length)] });
+    }
+  } else if (type === 'liquid') {
+    for (let i = 0; i < 28; i++) {
+      particles.push({ x: 10+Math.random()*(W-20), y: 10+Math.random()*(H-20), vx: (Math.random()-0.5)*0.8, vy: (Math.random()-0.5)*0.8, color: c[Math.floor(Math.random()*c.length)] });
+    }
+  } else {
+    for (let i = 0; i < 18; i++) {
+      const spd = 1.5 + Math.random()*2;
+      const ang = Math.random()*Math.PI*2;
+      particles.push({ x: 10+Math.random()*(W-20), y: 10+Math.random()*(H-20), vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, color: c[Math.floor(Math.random()*c.length)] });
+    }
+  }
+
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    frame++;
+    for (const p of particles) {
+      if (type === 'solid') {
+        const amp = 2.5;
+        p.x = p.ox + Math.sin(frame*0.12 + p.phase) * amp;
+        p.y = p.oy + Math.cos(frame*0.09 + p.phase) * amp;
+      } else if (type === 'liquid') {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 6 || p.x > W-6) p.vx *= -1;
+        if (p.y < 6 || p.y > H-6) p.vy *= -1;
+        p.vx += (Math.random()-0.5)*0.05; p.vy += (Math.random()-0.5)*0.05;
+        p.vx = Math.max(-1.2, Math.min(1.2, p.vx)); p.vy = Math.max(-1.2, Math.min(1.2, p.vy));
+      } else {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 5 || p.x > W-5) p.vx *= -1;
+        if (p.y < 5 || p.y > H-5) p.vy *= -1;
+      }
+      ctx.beginPath();
+      const r = type === 'solid' ? 7 : type === 'liquid' ? 7 : 6;
+      ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+    particleSimulations[canvasId] = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+initParticle('solidCanvas', 'solid');
+initParticle('liquidCanvas', 'liquid');
+initParticle('gasCanvas', 'gas');
+
+// ========== TEMPERATURE SLIDER ==========
+function updateTemp(val) {
+  val = parseInt(val);
+  const display = document.getElementById('tempDisplay');
+  const stateDisp = document.getElementById('stateDisplay');
+  display.textContent = val + '°C';
+
+  if (val < 0) {
+    display.style.color = '#2196F3';
+    stateDisp.style.background = 'linear-gradient(135deg, #e3f2fd, #bbdefb)';
+    stateDisp.style.color = '#1565c0';
+    stateDisp.innerHTML = '🧊 ICE (SOLID) — All frozen! Particles vibrate but stay in place. Below 0°C!';
+  } else if (val <= 100) {
+    const pct = val / 100;
+    const r = Math.round(33 + pct * 200);
+    const g = Math.round(150 - pct * 40);
+    const b = Math.round(200 - pct * 160);
+    display.style.color = `rgb(${r},${g},${b})`;
+    stateDisp.style.background = 'linear-gradient(135deg, #e0f7fa, #b2ebf2)';
+    stateDisp.style.color = '#006064';
+    stateDisp.innerHTML = '💧 LIQUID WATER — Particles slide around freely. Normal water! 🌊';
+  } else {
+    display.style.color = '#F44336';
+    stateDisp.style.background = 'linear-gradient(135deg, #fff3e0, #ffccbc)';
+    stateDisp.style.color = '#bf360c';
+    stateDisp.innerHTML = '💨 STEAM (GAS) — Water has boiled! Particles move very fast and spread out. Above 100°C! 🔥';
+  }
+}
+updateTemp(25);
+
+// ========== WATER CYCLE ==========
+const wcSteps = [
+  '☀️ <strong>Step 1 — The Sun heats water:</strong> The sun shines on oceans, lakes, rivers and puddles. The heat energy from the sun warms the water at the surface, giving particles the energy they need to escape into the air as water vapour. Without the sun, the water cycle could not happen!',
+  '💨 <strong>Step 2 — Evaporation:</strong> When the sun warms the water surface, water particles gain enough energy to <strong>escape from the liquid</strong> and become water vapour (an invisible gas). This is called evaporation. It happens faster on hot, windy days with larger surface areas!',
+  '🌫️ <strong>Step 3 — Water vapour rises:</strong> Water vapour is lighter than air, so it rises upwards. As it gets higher, the air gets <strong>colder</strong>. The higher up you go, the cooler it becomes — and this is very important for the next step!',
+  '☁️ <strong>Step 4 — Condensation (clouds form):</strong> When water vapour rises high enough, it cools down. The gas particles slow down and come together to form tiny liquid water droplets. Millions of these droplets form a <strong>cloud</strong>! This change from gas to liquid is called <strong>condensation</strong>.',
+  '🌧️ <strong>Step 5 — Precipitation:</strong> When the water droplets in clouds get heavy enough, they fall back to Earth as <strong>rain, snow, sleet or hail</strong>. This is called <strong>precipitation</strong>. It\'s how fresh water gets back to the land!',
+  '🏞️ <strong>Step 6 — Water flows back:</strong> After precipitation, water flows across the land in rivers, soaks into the ground, or collects in lakes. Eventually it flows back to the <strong>sea or ocean</strong>, where the sun heats it again — and the cycle begins again! ♻️'
+];
+
+function showWCStep(i) {
+  document.querySelectorAll('.wc-step').forEach((s, idx) => {
+    s.classList.toggle('active', idx === i);
+  });
+  document.getElementById('wcExplanation').innerHTML = wcSteps[i];
+}
+
+// ========== BEAKER / DISSOLVING ==========
+const bCanvas = document.getElementById('beakerCanvas');
+const bCtx = bCanvas.getContext('2d');
+let dissolveState = 'ready'; // ready, dissolving, done
+let sugarParticles = [];
+let dissolveFrame = 0;
+let dissolveAnim = null;
+
+function drawBeaker(progress) {
+  const W = bCanvas.width, H = bCanvas.height;
+  bCtx.clearRect(0, 0, W, H);
+
+  // Water
+  const waterColor = progress > 0 ? `rgba(${Math.round(173 - progress*30)}, ${Math.round(216 + progress*10)}, ${Math.round(230 + progress*5)}, 0.85)` : 'rgba(173, 216, 230, 0.85)';
+  bCtx.fillStyle = waterColor;
+  bCtx.fillRect(30, 60, 160, 170);
+
+  // Background water particles
+  bCtx.fillStyle = 'rgba(100,180,220,0.3)';
+  for (let i = 0; i < 20; i++) {
+    const xi = 35 + (i * 37) % 150;
+    const yi = 70 + (i * 53) % 155;
+    bCtx.beginPath(); bCtx.arc(xi, yi, 3, 0, Math.PI*2); bCtx.fill();
+  }
+
+  // Beaker outline
+  bCtx.strokeStyle = '#AAA'; bCtx.lineWidth = 3;
+  bCtx.beginPath();
+  bCtx.moveTo(30, 20); bCtx.lineTo(30, 230); bCtx.lineTo(190, 230); bCtx.lineTo(190, 20);
+  bCtx.stroke();
+  bCtx.beginPath(); bCtx.moveTo(20, 25); bCtx.lineTo(200, 25); bCtx.stroke();
+
+  // Labels
+  bCtx.fillStyle = '#555'; bCtx.font = 'bold 11px Trebuchet MS'; bCtx.textAlign = 'center';
+  if (progress === 0) {
+    bCtx.fillText('💧 Water (Solvent)', 110, 52);
+  } else if (progress < 1) {
+    bCtx.fillText('Dissolving... 🌀', 110, 52);
+  } else {
+    bCtx.fillText('✨ Sugar Solution!', 110, 52);
+  }
+
+  // Sugar particles
+  for (const sp of sugarParticles) {
+    bCtx.beginPath();
+    bCtx.arc(sp.cx, sp.cy, sp.r, 0, Math.PI*2);
+    bCtx.fillStyle = `rgba(255, 200, 50, ${sp.alpha})`;
+    bCtx.fill();
+    bCtx.strokeStyle = `rgba(200, 150, 0, ${sp.alpha * 0.6})`;
+    bCtx.lineWidth = 1;
+    bCtx.stroke();
+  }
+}
+
+function initSugarParticles() {
+  sugarParticles = [];
+  for (let i = 0; i < 30; i++) {
+    sugarParticles.push({
+      cx: 55 + Math.random() * 110,
+      cy: 65 + Math.random() * 50,
+      r: 4 + Math.random() * 3,
+      tx: 40 + Math.random() * 140,
+      ty: 70 + Math.random() * 160,
+      alpha: 1,
+      speed: 0.008 + Math.random() * 0.012
+    });
+  }
+}
+
+function startDissolve() {
+  if (dissolveState !== 'ready') return;
+  dissolveState = 'dissolving';
+  document.getElementById('dissolveBtn').disabled = true;
+  document.getElementById('dissolveStatus').innerHTML = '🌀 <strong>Dissolving in progress...</strong> Watch the sugar particles spread out! The solute is breaking apart into tiny particles and mixing evenly with the solvent.';
+  initSugarParticles();
+  let prog = 0;
+  function animate() {
+    prog = Math.min(1, prog + 0.004);
+    for (const sp of sugarParticles) {
+      sp.cx += (sp.tx - sp.cx) * sp.speed * 3;
+      sp.cy += (sp.ty - sp.cy) * sp.speed * 3;
+      if (prog > 0.6) sp.alpha = Math.max(0, sp.alpha - 0.012);
+    }
+    drawBeaker(prog);
+    if (prog < 1 || sugarParticles.some(s => s.alpha > 0)) {
+      dissolveAnim = requestAnimationFrame(animate);
+    } else {
+      dissolveState = 'done';
+      document.getElementById('dissolveStatus').innerHTML = '✅ <strong>The sugar has dissolved!</strong> The sugar (solute) is now spread evenly throughout the water (solvent). You can\'t see it, but it\'s still there! This is a <strong>solution</strong>. 🍬💧✨<br><br>🔄 <em>This is reversible! If you evaporate the water, the sugar will be left behind.</em>';
+      drawBeaker(1);
+    }
+  }
+  animate();
+}
+
+function resetBeaker() {
+  if (dissolveAnim) cancelAnimationFrame(dissolveAnim);
+  dissolveState = 'ready';
+  sugarParticles = [];
+  document.getElementById('dissolveBtn').disabled = false;
+  document.getElementById('dissolveStatus').innerHTML = '👆 Click "Add Sugar!" to start the dissolving animation. Watch the sugar particles spread through the water!';
+  drawBeaker(0);
+}
+
+drawBeaker(0);
+
+// ========== QUIZ ==========
+const questions = [
+  {
+    q: '1. 🧱 What are the THREE states of matter?',
+    opts: ['Solid, liquid and gas', 'Hot, warm and cold', 'Wood, water and air', 'Heavy, light and medium'],
+    ans: 0,
+    explain: '✅ Correct! The three states of matter are SOLID, LIQUID and GAS. Everything around us is made of matter in one of these three states!'
+  },
+  {
+    q: '2. 💨 In which state of matter are particles FARTHEST apart?',
+    opts: ['Solid — particles tightly packed', 'Liquid — particles close together', 'Gas — particles spread far apart', 'All states are the same'],
+    ans: 2,
+    explain: '✅ Correct! In a GAS, particles are very far apart and move freely in all directions. That\'s why gases spread out to fill any container!'
+  },
+  {
+    q: '3. ❄️ What is the melting point of ice (pure water)?',
+    opts: ['−10°C', '0°C', '10°C', '50°C'],
+    ans: 1,
+    explain: '✅ Correct! Ice melts at exactly 0°C. Below 0°C it stays as solid ice; above 0°C it turns into liquid water.'
+  },
+  {
+    q: '4. 🔥 What is the boiling point of pure water?',
+    opts: ['50°C', '75°C', '100°C', '120°C'],
+    ans: 2,
+    explain: '✅ Correct! Pure water boils at 100°C at sea level. Above 100°C, water turns into steam (a gas)!'
+  },
+  {
+    q: '5. 💧 What is it called when a liquid turns into a gas at the surface?',
+    opts: ['Condensation', 'Precipitation', 'Evaporation', 'Freezing'],
+    ans: 2,
+    explain: '✅ Correct! EVAPORATION is when liquid turns into gas at the surface. It happens when particles gain enough energy to escape the liquid!'
+  },
+  {
+    q: '6. ☁️ What is it called when a gas turns into a liquid?',
+    opts: ['Evaporation', 'Condensation', 'Precipitation', 'Boiling'],
+    ans: 1,
+    explain: '✅ Correct! CONDENSATION is when gas cools down and turns back into liquid. This is how clouds form and how mist appears on mirrors!'
+  },
+  {
+    q: '7. 🌧️ What do we call rain, snow and hail falling from clouds?',
+    opts: ['Evaporation', 'Condensation', 'Precipitation', 'Transpiration'],
+    ans: 2,
+    explain: '✅ Correct! PRECIPITATION is the word for any water that falls from clouds — rain, snow, sleet or hail. It\'s a key part of the water cycle!'
+  },
+  {
+    q: '8. 🧂 What is the SOLUTE in a salt water solution?',
+    opts: ['Water — the liquid', 'Salt — the substance that dissolves', 'The glass container', 'The bubbles in the water'],
+    ans: 1,
+    explain: '✅ Correct! SALT is the SOLUTE — it\'s the substance that dissolves. WATER is the SOLVENT — the liquid that does the dissolving!'
+  },
+  {
+    q: '9. 🔄 Is dissolving a REVERSIBLE or IRREVERSIBLE process?',
+    opts: ['Irreversible — you can\'t get it back', 'Reversible — you can get the solute back', 'Sometimes reversible, sometimes not', 'It depends on the temperature'],
+    ans: 1,
+    explain: '✅ Correct! Dissolving is REVERSIBLE! You can evaporate the water (solvent) to get the solute back. For example, evaporate salty water to get salt crystals!'
+  },
+  {
+    q: '10. 🌬️ Which gas makes up about 4/5 (four-fifths) of air?',
+    opts: ['Oxygen (O₂)', 'Carbon dioxide (CO₂)', 'Nitrogen (N₂)', 'Water vapour (H₂O)'],
+    ans: 2,
+    explain: '✅ Correct! NITROGEN makes up about 78% (roughly 4/5) of air. Oxygen makes up about 21% (roughly 1/5), and the rest is tiny amounts of other gases!'
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+let quizStarted = false;
+
+function loadQuestion(i) {
+  if (i >= questions.length) { showFinalScore(); return; }
+  quizStarted = true;
+  answered = false;
+  const q = questions[i];
+  document.getElementById('questionCounter').textContent = `Question ${i+1} of ${questions.length}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressBar').style.width = ((i+1)/questions.length*100) + '%';
+  document.getElementById('nextBtn').disabled = true;
+
+  const optDiv = document.getElementById('quizOptions');
+  optDiv.innerHTML = '';
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(idx);
+    optDiv.appendChild(btn);
+  });
+
+  const fb = document.getElementById('quizFeedback');
+  fb.className = 'quiz-feedback';
+  fb.textContent = '';
+  document.getElementById('scoreDisplay').textContent = `Score: ${score}`;
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQuestion];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.ans].classList.add('correct');
+
+  const fb = document.getElementById('quizFeedback');
+  if (idx === q.ans) {
+    score++;
+    btns[idx].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = q.explain;
+  } else {
+    btns[idx].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '❌ Not quite! ' + q.explain.replace('✅ Correct! ', '');
+  }
+  document.getElementById('scoreDisplay').textContent = `Score: ${score}`;
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('nextBtn').textContent = currentQuestion < questions.length - 1 ? 'Next ➡️' : 'See Results 🏆';
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion >= questions.length) { showFinalScore(); return; }
+  loadQuestion(currentQuestion);
+}
+
+function showFinalScore() {
+  document.getElementById('quizArea').style.display = 'none';
+  const sc = document.getElementById('scoreCard');
+  sc.classList.add('show');
+  document.getElementById('finalScore').textContent = score + ' / ' + questions.length;
+  const pct = (score/questions.length)*100;
+  let msg = '';
+  if (pct === 100) msg = '🌟 PERFECT SCORE! You are a matter expert! Amazing work! 🎉';
+  else if (pct >= 80) msg = '🎉 Brilliant! You really know your states of matter!';
+  else if (pct >= 60) msg = '👍 Good job! Review the sections and try again to get a higher score!';
+  else msg = '📚 Keep learning! Go back through the sections and try again — you can do it! 💪';
+  document.getElementById('scoreMessage').textContent = msg;
+}
+
+function restartQuiz() {
+  currentQuestion = 0; score = 0; answered = false;
+  document.getElementById('quizArea').style.display = 'block';
+  document.getElementById('scoreCard').classList.remove('show');
+  loadQuestion(0);
+}
+</script>
+</body>
+</html>

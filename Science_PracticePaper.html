@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Practice Paper — Cambridge Primary Stage 5</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Trebuchet MS',Arial,sans-serif;background:#f5f5f5;min-height:100vh;}
+.screen{display:none;} .screen.active{display:block;}
+
+/* ── WELCOME ── */
+.welcome-wrap{max-width:860px;margin:0 auto;padding:28px 20px;}
+.welcome-header{background:linear-gradient(135deg,#0d47a1 0%,#1565c0 60%,#283593 100%);color:white;border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:26px;box-shadow:0 6px 24px rgba(21,101,192,0.3);}
+.welcome-header h1{font-size:26px;margin-bottom:6px;}
+.welcome-header p{font-size:14px;opacity:0.85;}
+.paper-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px;}
+.paper-card{background:white;border-radius:18px;padding:22px 16px;box-shadow:0 3px 14px rgba(0,0,0,0.08);cursor:pointer;border:3px solid transparent;text-align:center;transition:all 0.25s;}
+.paper-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,0.13);}
+.paper-card.selected{border-color:#1565c0;background:#e3f2fd;}
+.pc-icon{font-size:44px;margin-bottom:10px;}
+.pc-title{font-size:14px;font-weight:bold;color:#222;margin-bottom:6px;line-height:1.4;}
+.pc-sub{font-size:12px;color:#777;}
+.info-strips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.istrip{flex:1;min-width:100px;background:white;border-radius:14px;padding:13px 10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+.istrip-icon{font-size:22px;margin-bottom:5px;}
+.istrip-t{font-size:13px;font-weight:bold;color:#333;}
+.istrip-s{font-size:11px;color:#888;margin-top:2px;}
+.start-btn{width:100%;padding:16px;border:none;border-radius:16px;font-size:18px;font-weight:bold;cursor:pointer;font-family:inherit;background:#1565c0;color:white;transition:all 0.25s;}
+.start-btn:hover{background:#0d47a1;transform:scale(1.02);}
+
+/* ── PAPER SCREEN ── */
+.paper-wrap{max-width:860px;margin:0 auto;padding:0 16px 40px;}
+.paper-top-bar{background:linear-gradient(135deg,#0d47a1,#1565c0);color:white;padding:14px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(13,71,161,0.3);}
+.paper-title-block{flex:1;}
+.paper-title-block h2{font-size:17px;margin-bottom:2px;}
+.paper-title-block p{font-size:12px;opacity:0.8;}
+.timer-block{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border-radius:50px;padding:8px 16px;}
+.timer-num{font-size:22px;font-weight:bold;font-family:'Courier New',monospace;min-width:54px;}
+.timer-num.warn{color:#ffcc02;}
+.timer-num.danger{color:#ff6b6b;animation:blink 0.6s infinite alternate;}
+@keyframes blink{from{opacity:1}to{opacity:0.4}}
+.marks-block{background:rgba(255,255,255,0.15);border-radius:50px;padding:8px 16px;font-size:14px;font-weight:bold;}
+
+.section-header{border-radius:14px;padding:14px 20px;margin:22px 0 14px;color:white;display:flex;align-items:center;gap:10px;}
+.sec-a{background:linear-gradient(135deg,#1565c0,#1976d2);}
+.sec-b{background:linear-gradient(135deg,#e65100,#f57c00);}
+.sec-c{background:linear-gradient(135deg,#6a1b9a,#8e24aa);}
+.sec-icon{font-size:28px;}
+.sec-info h3{font-size:16px;margin-bottom:2px;}
+.sec-info p{font-size:12px;opacity:0.85;}
+
+.question-block{background:white;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+.q-label{font-size:12px;font-weight:bold;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.mark-badge{background:#e3f2fd;color:#1565c0;padding:2px 9px;border-radius:20px;font-size:11px;}
+.q-text{font-size:16px;font-weight:bold;color:#1a1a1a;margin-bottom:14px;line-height:1.6;}
+
+/* MCQ */
+.mcq-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mcq-opt{padding:11px 14px;border:2.5px solid #e0e0e0;border-radius:12px;font-size:14px;background:white;cursor:pointer;text-align:left;font-family:inherit;transition:all 0.2s;font-weight:500;display:flex;align-items:flex-start;gap:9px;}
+.mcq-opt:hover:not(:disabled){border-color:#1565c0;background:#e3f2fd;}
+.mcq-opt:disabled{cursor:default;}
+.opt-ltr{width:24px;height:24px;border-radius:50%;background:#e0e0e0;color:#555;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.mcq-opt.correct{background:#e8f5e9!important;border-color:#43a047!important;}
+.mcq-opt.correct .opt-ltr{background:#43a047;color:white;}
+.mcq-opt.wrong{background:#ffebee!important;border-color:#e53935!important;}
+.mcq-opt.wrong .opt-ltr{background:#e53935;color:white;}
+.mcq-opt.reveal{background:#e8f5e9!important;border-color:#43a047!important;}
+.mcq-opt.reveal .opt-ltr{background:#43a047;color:white;}
+
+/* Short / Extended answer */
+.answer-textarea{width:100%;border:2px solid #e0e0e0;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;resize:vertical;min-height:90px;outline:none;transition:border-color 0.2s;}
+.answer-textarea:focus{border-color:#1565c0;}
+.answer-textarea.large{min-height:140px;}
+.submit-answer-btn{margin-top:10px;padding:10px 22px;border:none;border-radius:50px;font-size:14px;font-weight:bold;cursor:pointer;font-family:inherit;background:#1565c0;color:white;transition:all 0.2s;}
+.submit-answer-btn:hover{background:#0d47a1;}
+.submit-answer-btn:disabled{background:#bdbdbd;cursor:default;}
+.model-answer-box{background:#f1f8e9;border-radius:12px;padding:14px 16px;margin-top:12px;border-left:4px solid #43a047;display:none;animation:fadeIn 0.3s;}
+.model-answer-box.show{display:block;}
+.model-header{font-size:12px;font-weight:bold;color:#2e7d32;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;}
+.model-text{font-size:14px;color:#333;line-height:1.7;}
+.self-mark-row{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.self-mark-label{font-size:13px;font-weight:bold;color:#555;}
+.mark-btn{padding:7px 16px;border:2px solid #ccc;border-radius:50px;background:white;font-size:13px;font-weight:bold;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.mark-btn:hover{border-color:#1565c0;background:#e3f2fd;color:#1565c0;}
+.mark-btn.chosen{background:#1565c0;color:white;border-color:#1565c0;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.finish-bar{background:white;border-top:1px solid #e0e0e0;padding:18px 20px;text-align:center;margin-top:20px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+.finish-btn{padding:14px 36px;border:none;border-radius:16px;font-size:17px;font-weight:bold;cursor:pointer;font-family:inherit;background:#2e7d32;color:white;transition:all 0.25s;margin:0 6px;}
+.finish-btn:hover{background:#1b5e20;transform:scale(1.03);}
+.print-btn{padding:14px 28px;border:none;border-radius:16px;font-size:15px;font-weight:bold;cursor:pointer;font-family:inherit;background:#546e7a;color:white;transition:all 0.25s;margin:0 6px;}
+.print-btn:hover{background:#37474f;}
+
+/* ── RESULTS ── */
+.results-wrap{max-width:860px;margin:0 auto;padding:28px 20px;}
+.result-hero{background:linear-gradient(135deg,#0d47a1,#1565c0);color:white;border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:22px;box-shadow:0 6px 24px rgba(21,101,192,0.3);}
+.result-stars{font-size:48px;margin-bottom:10px;}
+.result-score-big{font-size:68px;font-weight:bold;line-height:1;}
+.result-out-of{font-size:16px;opacity:0.85;margin:6px 0 12px;}
+.result-msg{font-size:22px;font-weight:bold;margin-bottom:6px;}
+.result-sub{font-size:14px;opacity:0.85;line-height:1.6;}
+.breakdown{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;}
+.bcard{flex:1;min-width:130px;background:white;border-radius:16px;padding:18px 14px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.bcard-icon{font-size:28px;margin-bottom:6px;}
+.bcard-score{font-size:26px;font-weight:bold;color:#1565c0;}
+.bcard-label{font-size:12px;color:#888;margin-top:4px;}
+.revise-box{background:white;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.07);margin-bottom:20px;}
+.revise-title{font-size:16px;font-weight:bold;color:#333;margin-bottom:14px;}
+.revise-item{background:#fff8e1;border-radius:10px;padding:10px 14px;margin-bottom:8px;border-left:4px solid #f9a825;font-size:14px;color:#555;}
+.results-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.ra-btn{flex:1;min-width:130px;padding:13px 18px;border:none;border-radius:50px;font-size:14px;font-weight:bold;cursor:pointer;font-family:inherit;transition:all 0.25s;text-align:center;}
+.ra-btn:hover{transform:scale(1.04);}
+.btn-green{background:#43a047;color:white;}
+.btn-blue{background:#1565c0;color:white;}
+.btn-grey{background:#546e7a;color:white;}
+
+/* ── PRINT ── */
+@media print {
+  .paper-top-bar,.section-header,.submit-answer-btn,.self-mark-row,.finish-bar,.model-answer-box { display: none !important; }
+  body{background:white;}
+  .paper-wrap{padding:0;max-width:100%;}
+  .question-block{border:1px solid #ccc;box-shadow:none;break-inside:avoid;margin-bottom:10px;}
+  .mcq-opts{display:block;}
+  .mcq-opt{border:1px solid #999;margin-bottom:4px;}
+  .answer-textarea{border:1px solid #999;min-height:80px;}
+  .answer-textarea.large{min-height:120px;}
+  .print-section-header{display:block!important;}
+}
+.print-section-header{display:none;font-size:16px;font-weight:bold;margin:18px 0 8px;border-bottom:2px solid #333;padding-bottom:6px;}
+</style>
+</head>
+<body>
+
+<!-- ══════ WELCOME SCREEN ══════ -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome-wrap">
+    <div class="welcome-header">
+      <h1>📄 Cambridge Primary Science</h1>
+      <p>Practice Paper — Stage 5 &nbsp;|&nbsp; Choose your paper below and simulate a real exam!</p>
+    </div>
+    <div class="paper-grid">
+      <div class="paper-card selected" id="card-1" onclick="selectPaper(1)">
+        <div class="pc-icon">🌸</div>
+        <div class="pc-title">Chapter 1<br>Life Cycles of Plants</div>
+        <div class="pc-sub">31 marks · 45 min</div>
+      </div>
+      <div class="paper-card" id="card-2" onclick="selectPaper(2)">
+        <div class="pc-icon">🔊</div>
+        <div class="pc-title">Chapter 2<br>Sound</div>
+        <div class="pc-sub">31 marks · 45 min</div>
+      </div>
+      <div class="paper-card" id="card-3" onclick="selectPaper(3)">
+        <div class="pc-icon">💧</div>
+        <div class="pc-title">Chapter 3<br>States of Matter</div>
+        <div class="pc-sub">31 marks · 45 min</div>
+      </div>
+      <div class="paper-card" id="card-mix" onclick="selectPaper('mix')">
+        <div class="pc-icon">🎲</div>
+        <div class="pc-title">Mixed Paper<br>All Chapters</div>
+        <div class="pc-sub">31 marks · 45 min</div>
+      </div>
+    </div>
+    <div class="info-strips">
+      <div class="istrip"><div class="istrip-icon">⏱️</div><div class="istrip-t">45 Minutes</div><div class="istrip-s">Countdown timer</div></div>
+      <div class="istrip"><div class="istrip-icon">🔵</div><div class="istrip-t">Section A</div><div class="istrip-s">10 MCQ · 10 marks</div></div>
+      <div class="istrip"><div class="istrip-icon">🟠</div><div class="istrip-t">Section B</div><div class="istrip-s">5 short answers · 12 marks</div></div>
+      <div class="istrip"><div class="istrip-icon">🟣</div><div class="istrip-t">Section C</div><div class="istrip-s">2 extended · 9 marks</div></div>
+      <div class="istrip"><div class="istrip-icon">🏆</div><div class="istrip-t">31 Total</div><div class="istrip-s">Self-mark included</div></div>
+    </div>
+    <button class="start-btn" id="startPaperBtn" onclick="startPaper()">📄 Start Paper — Chapter 1</button>
+  </div>
+</div>
+
+<!-- ══════ PAPER SCREEN ══════ -->
+<div class="screen" id="screen-paper">
+  <div class="paper-top-bar">
+    <div class="paper-title-block">
+      <h2 id="paperBarTitle">Cambridge Primary Science Practice Paper</h2>
+      <p id="paperBarSub">Section A: 10 marks · Section B: 12 marks · Section C: 9 marks</p>
+    </div>
+    <div class="timer-block">⏱️ <span class="timer-num" id="timerNum">45:00</span></div>
+    <div class="marks-block" id="marksBar">Total: 31 marks</div>
+  </div>
+  <div class="paper-wrap" id="paperBody"></div>
+</div>
+
+<!-- ══════ RESULTS SCREEN ══════ -->
+<div class="screen" id="screen-results">
+  <div class="results-wrap">
+    <div class="result-hero">
+      <div class="result-stars" id="resStars">⭐⭐⭐⭐⭐</div>
+      <div class="result-score-big" id="resScore">0</div>
+      <div class="result-out-of">out of 31 marks</div>
+      <div class="result-msg" id="resMsg"></div>
+      <div class="result-sub" id="resSub"></div>
+    </div>
+    <div class="breakdown">
+      <div class="bcard"><div class="bcard-icon">🔵</div><div class="bcard-score" id="resA">0/10</div><div class="bcard-label">Section A<br>Multiple Choice</div></div>
+      <div class="bcard"><div class="bcard-icon">🟠</div><div class="bcard-score" id="resB">0/12</div><div class="bcard-label">Section B<br>Short Answer</div></div>
+      <div class="bcard"><div class="bcard-icon">🟣</div><div class="bcard-score" id="resC">0/9</div><div class="bcard-label">Section C<br>Extended Answer</div></div>
+    </div>
+    <div class="revise-box">
+      <div class="revise-title">📚 Areas to Revise</div>
+      <div id="reviseList"></div>
+    </div>
+    <div class="results-actions">
+      <button class="ra-btn btn-green" onclick="restartSamePaper()">🔄 Retry This Paper</button>
+      <button class="ra-btn btn-blue" onclick="goHome()">🏠 Choose Different Paper</button>
+      <button class="ra-btn btn-grey" onclick="window.print()">🖨️ Print Results</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════ QUESTION BANKS ════════════
+
+const PAPERS = {
+  1: {
+    title: 'Chapter 1 — Life Cycles of Flowering Plants',
+    secA: [
+      {q:'Which part of the flower produces pollen?', opts:['Petal','Anther','Stigma','Sepal'], ans:1},
+      {q:'What is the main function of petals?', opts:['Protect the bud','Contain eggs','Attract insects with colour and scent','Make food'], ans:2},
+      {q:'What is pollination?', opts:['When seeds germinate','Movement of pollen from stamen to stigma','When fruit ripens','When seeds are dispersed'], ans:1},
+      {q:'Which part of the carpel contains tiny eggs?', opts:['Stigma','Filament','Anther','Ovary'], ans:3},
+      {q:'Which THREE conditions does a seed need to germinate?', opts:['Sunlight, soil and insects','Water, warmth and air','Pollen, water and light','Fertiliser, warmth and soil'], ans:1},
+      {q:'Which part of the plant grows FIRST during germination?', opts:['The leaf','The stem','The root','The flower'], ans:2},
+      {q:'What is seed dispersal?', opts:['When seeds start to grow','Spreading seeds away from the parent plant','When flowers are pollinated','When fruit becomes ripe'], ans:1},
+      {q:'How do dandelion seeds travel to new places?', opts:['They float on water','They have hooks that catch on fur','They have a parachute of hairs and travel by wind','They explode from the pod'], ans:2},
+      {q:'What is fertilisation?', opts:['When a seed starts to grow','When pollen and egg join together','When petals fall off','When fruit ripens'], ans:1},
+      {q:'What happens to the seed after the seedling has grown?', opts:['It becomes a new flower','It turns into fruit','It shrivels up as its food store is used','It stays in the soil'], ans:2}
+    ],
+    secB: [
+      {q:'Name TWO differences between flowering and non-flowering plants.', marks:2,
+       model:'Flowering plants have <strong>flowers</strong> and produce seeds inside <strong>fruits</strong>. Non-flowering plants (like ferns) use <strong>spores</strong> instead of seeds and have <strong>no flowers</strong>.'},
+      {q:'Explain the process of pollination. How does it lead to fertilisation?', marks:3,
+       model:'Pollination is when <strong>pollen moves from the stamen (anther) to the stigma</strong>. Insects carry pollen on their bodies when they visit flowers to collect nectar. Once pollen reaches the stigma, it travels to the ovary where it <strong>joins with an egg</strong> — this is fertilisation.'},
+      {q:'Name TWO methods of seed dispersal and describe how each works.', marks:2,
+       model:'<strong>Wind</strong> — seeds are light with wings or parachutes that help them float on the breeze. <strong>Animals</strong> — seeds have hooks that attach to fur, or are eaten and deposited in droppings far away.'},
+      {q:'Describe THREE stages of seed germination in order.', marks:3,
+       model:'(1) Seed absorbs water and <strong>swells up</strong>; (2) Seed coat splits and the <strong>root emerges</strong>, growing downward; (3) The <strong>shoot grows upward</strong> and breaks through the soil; leaves form above ground.'},
+      {q:'Why do seeds need to be dispersed away from the parent plant?', marks:2,
+       model:'So seedlings have enough <strong>space to grow</strong> and access to <strong>light and water</strong> — to reduce competition with the parent plant and each other.'}
+    ],
+    secC: [
+      {q:'Draw and label the main parts of a flower. For EACH part, state its function. (You may use a diagram or a labelled list.)', marks:5,
+       model:'<strong>Petal</strong> — attracts insects with colour and scent<br><strong>Sepal</strong> — protects the flower bud before it opens<br><strong>Anther</strong> (part of stamen) — makes and releases pollen<br><strong>Filament</strong> (part of stamen) — holds the anther up<br><strong>Stigma</strong> (part of carpel) — sticky tip that catches pollen<br><strong>Ovary</strong> (part of carpel) — contains eggs; becomes the fruit after fertilisation<br><em>Mark scheme: 1 mark per correctly named part with its function, up to 5.</em>'},
+      {q:'Describe the complete life cycle of a flowering plant. Name EACH stage and explain what happens at each one.', marks:4,
+       model:'<strong>Germination</strong> → seed grows into a seedling. <strong>Plant grows</strong> → develops roots, stem and leaves. <strong>Flowering</strong> → flower opens to attract pollinators. <strong>Pollination</strong> → pollen moves from stamen to stigma. <strong>Fertilisation</strong> → pollen and egg join together in the ovary. <strong>Fruit and seed formation</strong> → ovary grows into fruit containing seeds. <strong>Seed dispersal</strong> → seeds spread away. Cycle repeats.<br><em>Mark scheme: 1 mark per correctly named and described stage, up to 4.</em>'}
+    ]
+  },
+  2: {
+    title: 'Chapter 2 — Sound',
+    secA: [
+      {q:'What causes sound to be made?', opts:['Movement of air only','Vibrations — back and forth movement','Heat energy','Gravity'], ans:1},
+      {q:'Through which type of material does sound travel BEST?', opts:['Gas (air)','Liquid (water)','Solid (wood or metal)','They are all the same'], ans:2},
+      {q:'What unit do we use to measure sound volume?', opts:['Metres (m)','Hertz (Hz)','Decibels (dB)','Newtons (N)'], ans:2},
+      {q:'What type of vibrations create a LOUD sound?', opts:['Very fast vibrations','Very slow vibrations','Very large (big) vibrations','Very small vibrations'], ans:2},
+      {q:'What type of vibrations create a HIGH-PITCHED sound?', opts:['Large vibrations','Small vibrations','Fast vibrations','Slow vibrations'], ans:2},
+      {q:'What does MUFFLING mean?', opts:['Making a sound louder','Making a sound higher pitched','Making a sound quieter by absorbing vibrations','Changing the direction of sound'], ans:2},
+      {q:'Above what decibel level can sounds start to damage your ears?', opts:['60 dB','75 dB','85 dB','100 dB'], ans:2},
+      {q:'What does the AMPLIFIER in a sound system do?', opts:['Picks up the sound','Makes the sound louder','Sends sound out through speakers','Turns sound into electricity'], ans:1},
+      {q:'What happens to pitch when you TIGHTEN a guitar string?', opts:['Pitch gets lower','Pitch stays the same','Pitch gets higher','String breaks'], ans:2},
+      {q:'A wind instrument with a LONGER air column produces which pitch?', opts:['Higher pitch','Lower pitch','Same pitch','Louder sound only'], ans:1}
+    ],
+    secB: [
+      {q:'Explain why sound travels faster through solids than through gases.', marks:2,
+       model:'In <strong>solids</strong>, particles are packed closely together. Vibrations pass <strong>quickly from one particle to the next</strong>. In <strong>gases</strong>, particles are far apart so vibrations take <strong>longer to pass through</strong>.'},
+      {q:'What is the difference between volume and pitch? Give an example of each.', marks:3,
+       model:'<strong>Volume</strong> = how loud or quiet a sound is (measured in dB). Example: thunder is loud volume. <strong>Pitch</strong> = how high or low a sound is. Example: a whistle has high pitch; a bass drum has low pitch.'},
+      {q:'Name THREE sources of noise pollution and explain ONE way to reduce it.', marks:2,
+       model:'Sources: <strong>traffic</strong>, <strong>aircraft/airports</strong>, <strong>factories or construction</strong>. Reduction: wear ear defenders / fit car silencers / insulate walls with soft materials / use carpets and curtains.'},
+      {q:'A student plucks a guitar. Explain how changing the string affects pitch. Describe THREE different changes.', marks:3,
+       model:'<strong>Tighter string</strong> → faster vibrations → higher pitch. <strong>Thicker string</strong> → slower vibrations → lower pitch. <strong>Shorter string</strong> (pressing on the neck) → faster vibrations → higher pitch.'},
+      {q:'Describe the independent, dependent and control variables when testing how well sound travels through different materials.', marks:2,
+       model:'<strong>Independent variable</strong> = type of material (what you change). <strong>Dependent variable</strong> = loudness (volume) of sound heard (what you measure). <strong>Control variables</strong> = same sound source, same distance, same original volume.'}
+    ],
+    secC: [
+      {q:'Plan a fair test to find out which material muffles sound best. Include: materials, method, variables, and how you would record your results.', marks:5,
+       model:'<strong>Method:</strong> Place a ticking clock or buzzer in a box. Wrap it in each material in turn. Stand 1 m away and measure volume with a sound level meter.<br><strong>Variables:</strong> Independent = muffling material (changed each time). Dependent = volume of sound heard (measured). Control = same clock, same distance, same starting volume.<br><strong>Record:</strong> Table with material and volume (dB) readings. Repeat each for reliability. Lowest reading = best muffler.<br><em>Mark scheme: method 2 marks, variables 2 marks, recording 1 mark.</em>'},
+      {q:'Describe how vibrations make sound and how sound travels from a guitar to your ear.', marks:4,
+       model:'Plucking a guitar string makes it <strong>vibrate</strong> (move back and forth rapidly). The vibrating string makes surrounding <strong>air particles vibrate</strong>. These vibrations travel through the air as <strong>sound waves</strong>. When they reach your <strong>ear</strong>, you hear the sound. The further away you stand, the <strong>quieter</strong> it sounds as vibrations spread out and weaken.<br><em>Mark scheme: 1 mark each — vibration created, air particles vibrate, travels to ear, louder/quieter with distance.</em>'}
+    ]
+  },
+  3: {
+    title: 'Chapter 3 — States and Properties of Matter',
+    secA: [
+      {q:'In which state of matter are the particles FARTHEST apart?', opts:['Solid','Liquid','Gas','It is the same in all states'], ans:2},
+      {q:'What is the melting point of ice?', opts:['100°C','50°C','0°C','-10°C'], ans:2},
+      {q:'What is the boiling point of pure water?', opts:['50°C','80°C','120°C','100°C'], ans:3},
+      {q:'What is EVAPORATION?', opts:['A gas changing to a liquid','A solid melting','A liquid changing to a gas at its surface','Water flowing in rivers'], ans:2},
+      {q:'What is CONDENSATION?', opts:['A liquid evaporating','A gas changing back into a liquid','A solid melting','Rain falling from clouds'], ans:1},
+      {q:'What is PRECIPITATION?', opts:['Water evaporating from the sea','Water vapour condensing into clouds','Rain, snow and hail falling from clouds','Water flowing underground'], ans:2},
+      {q:'In a solution, what is the SOLUTE?', opts:['The liquid that does the dissolving','The substance that dissolves','The final mixture','The container'], ans:1},
+      {q:'In a solution, what is the SOLVENT?', opts:['The solid that dissolves','The liquid that does the dissolving','The mixture formed','The undissolved remainder'], ans:1},
+      {q:'Is dissolving a reversible or irreversible process?', opts:['Irreversible — you can never get the solute back','Reversible — you can get the solute back by evaporating','Irreversible once stirred','Neither'], ans:1},
+      {q:'Water is unusual because when it freezes it...', opts:['Contracts like most substances','Turns a different colour','Expands (gets bigger) instead of contracting','Gets very hot'], ans:2}
+    ],
+    secB: [
+      {q:'Use the particle model to describe the THREE states of matter.', marks:3,
+       model:'<strong>Solid</strong>: particles tightly packed in a fixed regular pattern, vibrate in place, fixed shape. <strong>Liquid</strong>: particles close but not in a fixed pattern, can slide past each other, takes container shape. <strong>Gas</strong>: particles very far apart, move freely in all directions, no fixed shape.'},
+      {q:'What is evaporation? Explain using the particle model.', marks:2,
+       model:'Evaporation is when a <strong>liquid changes to a gas at its surface</strong>. Surface particles gain heat energy, move faster, and escape into the air as gas.'},
+      {q:'Describe the water cycle. Include evaporation, condensation and precipitation.', marks:3,
+       model:'Sun heats water in seas/lakes → water <strong>evaporates</strong> as water vapour → vapour rises and cools → <strong>condensation</strong> forms clouds → <strong>precipitation</strong> (rain/snow/hail) falls back to Earth → water returns to sea/rivers.'},
+      {q:'What is a solution? Give an example and name the solute and solvent.', marks:2,
+       model:'A solution is a mixture formed when a <strong>solute dissolves in a solvent</strong>. Example: <strong>salt water</strong> — salt is the solute, water is the solvent.'},
+      {q:'How can you separate salt from salt water? Why is this possible?', marks:2,
+       model:'<strong>Evaporate</strong> the water by heating the solution. The water evaporates as water vapour, leaving the salt behind. This is possible because <strong>dissolving is a reversible process</strong>.'}
+    ],
+    secC: [
+      {q:'Describe the changes that happen when ice at −10°C is heated until it becomes steam. Include particle-level explanations at each stage.', marks:5,
+       model:'At <strong>−10°C</strong>: ice is solid — particles vibrate in fixed positions, tightly packed.<br>At <strong>0°C (melting point)</strong>: ice melts — particles gain energy, break free of fixed pattern and can slide past each other → becomes liquid water.<br><strong>Between 0–100°C</strong>: water is liquid, particles moving and sliding.<br>At <strong>100°C (boiling point)</strong>: water boils — particles gain so much energy they escape as <strong>steam</strong> (gas). Steam particles move very fast and are very far apart.<br><em>Mark scheme: 1 mark each for each correct stage with particle explanation, up to 5.</em>'},
+      {q:'Design an experiment to show that dissolving is a reversible process using salt and water. Include method, prediction, results and conclusion.', marks:4,
+       model:'<strong>Method:</strong> Dissolve salt in water (salt disappears). Mark the water level. Heat the solution gently. Observe water evaporating. Continue until all water is gone.<br><strong>Prediction:</strong> Salt will reappear after the water evaporates.<br><strong>Results:</strong> White salt crystals visible after water evaporates.<br><strong>Conclusion:</strong> Dissolving is reversible — the salt was recovered unchanged.<br><em>Mark scheme: method 1, prediction 1, results 1, conclusion 1.</em>'}
+    ]
+  }
+};
+
+// Mixed paper — pick from all three
+PAPERS['mix'] = {
+  title: 'Mixed Paper — All Chapters',
+  secA: shuffle([...PAPERS[1].secA, ...PAPERS[2].secA, ...PAPERS[3].secA]).slice(0,10),
+  secB: shuffle([...PAPERS[1].secB, ...PAPERS[2].secB, ...PAPERS[3].secB]).slice(0,5),
+  secC: shuffle([...PAPERS[1].secC, ...PAPERS[2].secC, ...PAPERS[3].secC]).slice(0,2)
+};
+
+// ════════════ STATE ════════════
+let selectedPaper = 1;
+let timerInterval = null;
+let secsLeft = 2700;
+let mcqAnswers = {}; // q index → chosen index
+let shortMarkings = {}; // q index → marks given
+let extMarkings = {}; // q index → marks given
+let shortSubmitted = {};
+let extSubmitted = {};
+let currentPaperData = null;
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function selectPaper(id){
+  selectedPaper = id;
+  document.querySelectorAll('.paper-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('card-'+id).classList.add('selected');
+  const titles = {1:'Chapter 1: Life Cycles',2:'Chapter 2: Sound',3:'Chapter 3: States of Matter','mix':'Mixed All Chapters'};
+  document.getElementById('startPaperBtn').textContent = '📄 Start Paper — ' + titles[id];
+}
+
+function startPaper(){
+  // Rebuild mix each time
+  if(selectedPaper==='mix'){
+    PAPERS['mix'] = {
+      title: 'Mixed Paper — All Chapters',
+      secA: shuffle([...PAPERS[1].secA,...PAPERS[2].secA,...PAPERS[3].secA]).slice(0,10),
+      secB: shuffle([...PAPERS[1].secB,...PAPERS[2].secB,...PAPERS[3].secB]).slice(0,5),
+      secC: shuffle([...PAPERS[1].secC,...PAPERS[2].secC,...PAPERS[3].secC]).slice(0,2)
+    };
+  }
+  currentPaperData = PAPERS[selectedPaper];
+  mcqAnswers={};shortMarkings={};extMarkings={};shortSubmitted={};extSubmitted={};
+  secsLeft=2700;
+  document.getElementById('paperBarTitle').textContent='Cambridge Primary Science — '+currentPaperData.title;
+  buildPaper();
+  showScreen('paper');
+  startTimer();
+}
+
+function buildPaper(){
+  const body=document.getElementById('paperBody');
+  const p=currentPaperData;
+  let html='';
+
+  // Candidate info block
+  html+=`<div style="background:white;border-radius:14px;padding:16px 20px;margin:18px 0 10px;box-shadow:0 2px 10px rgba(0,0,0,0.07);">
+    <div style="font-size:15px;font-weight:bold;color:#333;margin-bottom:10px;">📋 Candidate Information</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <div style="flex:2;min-width:180px;"><label style="font-size:12px;color:#888;">Name</label><div style="border-bottom:2px solid #ccc;margin-top:6px;padding-bottom:4px;">&nbsp;</div></div>
+      <div style="flex:1;min-width:100px;"><label style="font-size:12px;color:#888;">Date</label><div style="border-bottom:2px solid #ccc;margin-top:6px;padding-bottom:4px;">&nbsp;</div></div>
+    </div>
+    <div style="margin-top:14px;font-size:13px;color:#666;line-height:1.8;">
+      ⏱️ Time allowed: <strong>45 minutes</strong> &nbsp;|&nbsp;
+      📝 Total marks: <strong>31</strong> &nbsp;|&nbsp;
+      🔵 Section A: <strong>10 marks</strong> &nbsp;|&nbsp;
+      🟠 Section B: <strong>12 marks</strong> &nbsp;|&nbsp;
+      🟣 Section C: <strong>9 marks</strong>
+    </div>
+  </div>`;
+
+  // SECTION A
+  html+=`<div class="print-section-header">SECTION A — Multiple Choice (10 marks)</div>`;
+  html+=`<div class="section-header sec-a"><div class="sec-icon">🔵</div><div class="sec-info"><h3>Section A — Multiple Choice</h3><p>Choose the best answer for each question. 1 mark each = 10 marks total</p></div></div>`;
+  p.secA.forEach((q,i)=>{
+    html+=`<div class="question-block" id="secA-q${i}">
+      <div class="q-label">Question ${i+1} <span class="mark-badge">1 mark</span></div>
+      <div class="q-text">${q.q}</div>
+      <div class="mcq-opts" id="mcq-opts-${i}">
+        ${['A','B','C','D'].map((L,j)=>`<button class="mcq-opt" id="mcq-${i}-${j}" onclick="selectMCQ(${i},${j})">${'<span class="opt-ltr">'+L+'</span>'}<span>${q.opts[j]}</span></button>`).join('')}
+      </div>
+    </div>`;
+  });
+
+  // SECTION B
+  html+=`<div class="print-section-header" style="margin-top:20px;">SECTION B — Short Answer Questions (~12 marks)</div>`;
+  html+=`<div class="section-header sec-b"><div class="sec-icon">🟠</div><div class="sec-info"><h3>Section B — Short Answer Questions</h3><p>Write your answer in the box, then click "Show Model Answer" to self-mark.</p></div></div>`;
+  let bTotal=0;
+  p.secB.forEach((q,i)=>{
+    bTotal+=q.marks;
+    const markOpts=Array.from({length:q.marks+1},(_,m)=>`<button class="mark-btn" id="sb-mark-${i}-${m}" onclick="setShortMark(${i},${m})">${m}/${q.marks}</button>`).join('');
+    html+=`<div class="question-block" id="secB-q${i}">
+      <div class="q-label">Question ${p.secA.length+i+1} <span class="mark-badge">${q.marks} marks</span></div>
+      <div class="q-text">${q.q}</div>
+      <textarea class="answer-textarea" id="short-ans-${i}" placeholder="Write your answer here..."></textarea>
+      <button class="submit-answer-btn" id="short-btn-${i}" onclick="submitShort(${i})">Show Model Answer 📖</button>
+      <div class="model-answer-box" id="short-model-${i}">
+        <div class="model-header">✅ Model Answer</div>
+        <div class="model-text">${q.model}</div>
+        <div class="self-mark-row">
+          <span class="self-mark-label">Give yourself:</span>
+          ${markOpts}
+        </div>
+      </div>
+    </div>`;
+  });
+
+  // SECTION C
+  html+=`<div class="print-section-header" style="margin-top:20px;">SECTION C — Extended Response (~9 marks)</div>`;
+  html+=`<div class="section-header sec-c"><div class="sec-icon">🟣</div><div class="sec-info"><h3>Section C — Extended Response Questions</h3><p>Write a detailed answer, then reveal the mark scheme to self-mark.</p></div></div>`;
+  p.secC.forEach((q,i)=>{
+    const markOpts=Array.from({length:q.marks+1},(_,m)=>`<button class="mark-btn" id="ec-mark-${i}-${m}" onclick="setExtMark(${i},${m})">${m}/${q.marks}</button>`).join('');
+    html+=`<div class="question-block" id="secC-q${i}">
+      <div class="q-label">Question ${p.secA.length+p.secB.length+i+1} <span class="mark-badge">${q.marks} marks</span></div>
+      <div class="q-text">${q.q}</div>
+      <textarea class="answer-textarea large" id="ext-ans-${i}" placeholder="Write your detailed answer here..."></textarea>
+      <button class="submit-answer-btn" id="ext-btn-${i}" onclick="submitExt(${i})">Show Mark Scheme 📖</button>
+      <div class="model-answer-box" id="ext-model-${i}">
+        <div class="model-header">✅ Mark Scheme</div>
+        <div class="model-text">${q.model}</div>
+        <div class="self-mark-row">
+          <span class="self-mark-label">Give yourself:</span>
+          ${markOpts}
+        </div>
+      </div>
+    </div>`;
+  });
+
+  // Finish bar
+  html+=`<div class="finish-bar">
+    <p style="font-size:13px;color:#888;margin-bottom:12px;">When you have answered all questions, click Finish Paper to see your results.</p>
+    <button class="finish-btn" onclick="finishPaper()">🏆 Finish Paper & See Results</button>
+    <button class="print-btn" onclick="window.print()">🖨️ Print Paper</button>
+  </div>`;
+
+  body.innerHTML=html;
+}
+
+function selectMCQ(qIdx, optIdx){
+  const p=currentPaperData;
+  const q=p.secA[qIdx];
+  // Disable all options
+  for(let j=0;j<4;j++){
+    const btn=document.getElementById('mcq-'+qIdx+'-'+j);
+    if(btn) btn.disabled=true;
+  }
+  mcqAnswers[qIdx]=optIdx;
+  const chosen=document.getElementById('mcq-'+qIdx+'-'+optIdx);
+  const correct=document.getElementById('mcq-'+qIdx+'-'+q.ans);
+  if(optIdx===q.ans){
+    chosen.classList.add('correct');
+  } else {
+    chosen.classList.add('wrong');
+    correct.classList.add('reveal');
+  }
+}
+
+function submitShort(i){
+  const btn=document.getElementById('short-btn-'+i);
+  if(btn) btn.disabled=true;
+  const model=document.getElementById('short-model-'+i);
+  if(model) model.classList.add('show');
+  shortSubmitted[i]=true;
+}
+
+function submitExt(i){
+  const btn=document.getElementById('ext-btn-'+i);
+  if(btn) btn.disabled=true;
+  const model=document.getElementById('ext-model-'+i);
+  if(model) model.classList.add('show');
+  extSubmitted[i]=true;
+}
+
+function setShortMark(qIdx, marks){
+  shortMarkings[qIdx]=marks;
+  const p=currentPaperData;
+  const maxM=p.secB[qIdx].marks;
+  for(let m=0;m<=maxM;m++){
+    const b=document.getElementById('sb-mark-'+qIdx+'-'+m);
+    if(b) b.classList.toggle('chosen', m===marks);
+  }
+}
+
+function setExtMark(qIdx, marks){
+  extMarkings[qIdx]=marks;
+  const p=currentPaperData;
+  const maxM=p.secC[qIdx].marks;
+  for(let m=0;m<=maxM;m++){
+    const b=document.getElementById('ec-mark-'+qIdx+'-'+m);
+    if(b) b.classList.toggle('chosen', m===marks);
+  }
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  updateTimerUI();
+  timerInterval=setInterval(()=>{
+    secsLeft--;
+    updateTimerUI();
+    if(secsLeft<=0){clearInterval(timerInterval);finishPaper(true);}
+  },1000);
+}
+
+function updateTimerUI(){
+  const m=Math.floor(secsLeft/60),s=secsLeft%60;
+  const el=document.getElementById('timerNum');
+  if(!el) return;
+  el.textContent=m+':'+String(s).padStart(2,'0');
+  el.className='timer-num'+(secsLeft<=120?' danger':secsLeft<=300?' warn':'');
+}
+
+function finishPaper(timeout){
+  clearInterval(timerInterval);
+  const p=currentPaperData;
+
+  // Section A score
+  let scoreA=0;
+  p.secA.forEach((q,i)=>{
+    if(mcqAnswers[i]===q.ans) scoreA++;
+  });
+
+  // Section B score
+  let scoreB=0;
+  const maxB=p.secB.reduce((s,q)=>s+q.marks,0);
+  p.secB.forEach((_,i)=>{ scoreB+=(shortMarkings[i]||0); });
+
+  // Section C score
+  let scoreC=0;
+  const maxC=p.secC.reduce((s,q)=>s+q.marks,0);
+  p.secC.forEach((_,i)=>{ scoreC+=(extMarkings[i]||0); });
+
+  const total=scoreA+scoreB+scoreC;
+  const maxTotal=10+maxB+maxC;
+  const pct=Math.round(total/maxTotal*100);
+
+  document.getElementById('resScore').textContent=total;
+  document.getElementById('resA').textContent=scoreA+'/10';
+  document.getElementById('resB').textContent=scoreB+'/'+maxB;
+  document.getElementById('resC').textContent=scoreC+'/'+maxC;
+
+  let stars,msg,sub;
+  if(pct>=90){stars='⭐⭐⭐⭐⭐';msg='Outstanding! Exam ready! 🏆';sub='Exceptional performance across all three sections!';}
+  else if(pct>=75){stars='⭐⭐⭐⭐';msg='Great work! Almost there! 🎉';sub='Strong performance — review any sections where you lost marks.';}
+  else if(pct>=55){stars='⭐⭐⭐';msg='Good effort! Keep practising! 💪';sub='Solid attempt — practise extended answers and key vocabulary.';}
+  else if(pct>=35){stars='⭐⭐';msg='Keep going — you\'re improving! 🌱';sub='Re-read the chapter and try the quiz, then attempt the paper again.';}
+  else{stars='⭐';msg='Don\'t give up! Every attempt helps! 📚';sub='Start with the quiz to build confidence, then try this paper again.';}
+
+  document.getElementById('resStars').textContent=stars;
+  document.getElementById('resMsg').textContent=msg;
+  document.getElementById('resSub').textContent=sub;
+
+  // Areas to revise
+  const revList=document.getElementById('reviseList');
+  let revHtml='';
+  if(scoreA<7) revHtml+=`<div class="revise-item">🔵 <strong>Section A (Multiple Choice)</strong> — Review the key facts and definitions for this chapter.</div>`;
+  if(scoreB<Math.round(maxB*0.6)) revHtml+=`<div class="revise-item">🟠 <strong>Section B (Short Answers)</strong> — Practise writing clear, concise answers. Use scientific vocabulary.</div>`;
+  if(scoreC<Math.round(maxC*0.6)) revHtml+=`<div class="revise-item">🟣 <strong>Section C (Extended Answers)</strong> — Practise structuring longer answers with full explanations and examples.</div>`;
+
+  // Topic-specific hints for missed MCQ
+  const wrongTopics=new Set();
+  p.secA.forEach((q,i)=>{ if(mcqAnswers[i]!==q.ans) wrongTopics.add(q.q.split(' ')[0]); });
+
+  if(timeout) revHtml=`<div class="revise-item">⏰ <strong>Time management</strong> — The timer ran out! Practise answering each section more quickly.</div>`+revHtml;
+  if(!revHtml) revHtml=`<div class="revise-item" style="background:#e8f5e9;border-left-color:#43a047;color:#2e7d32;">✅ <strong>Excellent work!</strong> No major areas of concern — keep up the good work!</div>`;
+
+  revList.innerHTML=revHtml;
+  showScreen('results');
+}
+
+function restartSamePaper(){
+  clearInterval(timerInterval);
+  startPaper();
+}
+
+function goHome(){
+  clearInterval(timerInterval);
+  showScreen('welcome');
+}
+
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+window.addEventListener('DOMContentLoaded',()=>{ selectPaper(1); });
+</script>
+</body>
+</html>
