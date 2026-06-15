@@ -1,324 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cambridge Grade 4 Tutor powered by AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cambridge Grade 4 Tutor — Powered by AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* ── RESET & BASE ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --sidebar-w: 268px;
+      --sidebar-bg: #0f172a;
+      --sidebar-border: #1e293b;
+      --topbar-h: 58px;
+      --en-color: #7c3aed;
+      --sc-color: #059669;
+      --ma-color: #d97706;
+      --radius: 16px;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    html { font-size: 15px; }
     body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #fef9c3 0%, #dbeafe 50%, #fce7f3 100%);
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
       min-height: 100vh;
-      padding-bottom: 60px;
+      overflow-x: hidden;
     }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
 
-    /* ── HEADER ── */
-    header {
-      background: linear-gradient(90deg, #7c3aed, #2563eb, #0891b2);
-      color: white;
-      text-align: center;
-      padding: 40px 20px 30px;
-      position: relative;
-      overflow: hidden;
-    }
-    header::before {
-      content: "⭐ 🌟 ✨ 🌟 ⭐";
-      font-size: 1.4rem;
-      display: block;
-      margin-bottom: 10px;
-      letter-spacing: 12px;
-      opacity: 0.8;
-    }
-    header h1 {
-      font-size: clamp(1.6rem, 5vw, 2.8rem);
-      font-weight: 900;
-      text-shadow: 2px 3px 6px rgba(0,0,0,0.3);
-      line-height: 1.2;
-    }
-    header p {
-      margin-top: 10px;
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-    .stars-row {
-      font-size: 1.6rem;
-      margin-top: 14px;
-      letter-spacing: 6px;
-    }
-
-    /* ── MAIN ── */
-    main { max-width: 1000px; margin: 0 auto; padding: 40px 20px 0; }
-
-    /* ── SUBJECT SECTION ── */
-    .subject { margin-bottom: 50px; }
-
-    .subject-header {
+    /* ── LAYOUT ──────────────────────────────────────────────────────── */
+    .layout {
       display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-    .subject-icon {
-      font-size: 2.6rem;
-      line-height: 1;
-    }
-    .subject-title {
-      font-size: 1.9rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
+      min-height: 100vh;
     }
 
-    /* subject accent colours */
-    .english  .subject-title { color: #7c3aed; }
-    .science  .subject-title { color: #059669; }
-    .maths    .subject-title { color: #d97706; }
-
-    .subject-divider {
-      height: 4px;
-      border-radius: 99px;
-      margin-bottom: 20px;
-    }
-    .english  .subject-divider { background: linear-gradient(90deg, #7c3aed, #c4b5fd); }
-    .science  .subject-divider { background: linear-gradient(90deg, #059669, #6ee7b7); }
-    .maths    .subject-divider { background: linear-gradient(90deg, #d97706, #fde68a); }
-
-    /* ── CARDS GRID ── */
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-
-    .card {
-      border-radius: 20px;
-      padding: 28px 22px;
-      text-decoration: none;
-      color: inherit;
+    /* ── SIDEBAR ─────────────────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      z-index: 200;
+      transition: transform .28s cubic-bezier(.4,0,.2,1);
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #1e293b transparent;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+    /* Sidebar logo/header */
+    .sb-logo {
+      display: flex;
+      align-items: center;
       gap: 10px;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      padding: 20px 18px 16px;
+      border-bottom: 1px solid var(--sidebar-border);
+      flex-shrink: 0;
+    }
+    .sb-logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #7c3aed, #2563eb);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .sb-logo-text { line-height: 1.2; }
+    .sb-logo-title { font-size: .82rem; font-weight: 900; color: #f1f5f9; letter-spacing: .3px; }
+    .sb-logo-sub   { font-size: .7rem;  color: #64748b; font-weight: 600; }
+
+    /* Home link */
+    .sb-home {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 18px;
+      color: #94a3b8;
+      font-size: .88rem; font-weight: 700;
+      border-bottom: 1px solid var(--sidebar-border);
+      transition: color .15s, background .15s;
+    }
+    .sb-home:hover, .sb-home.active { color: #f1f5f9; background: #1e293b; }
+    .sb-home span.icon { font-size: 1.1rem; }
+
+    /* Subject group */
+    .sb-group { border-bottom: 1px solid var(--sidebar-border); }
+    .sb-group-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: background .15s;
+      user-select: none;
+    }
+    .sb-group-hdr:hover { background: #1e293b; }
+    .sb-group-left { display: flex; align-items: center; gap: 10px; }
+    .sb-group-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; flex-shrink: 0;
+    }
+    .sb-group-name { font-size: .88rem; font-weight: 800; color: #e2e8f0; }
+    .sb-chevron {
+      color: #475569; font-size: .75rem; transition: transform .2s;
+      flex-shrink: 0;
+    }
+    .sb-group.open .sb-chevron { transform: rotate(180deg); }
+
+    /* Sub-items */
+    .sb-items { display: none; padding-bottom: 6px; }
+    .sb-group.open .sb-items { display: block; }
+
+    .sb-label {
+      font-size: .65rem; font-weight: 900; letter-spacing: .08em;
+      text-transform: uppercase; color: #475569;
+      padding: 10px 18px 4px 54px;
+    }
+    .sb-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 18px 7px 54px;
+      font-size: .82rem; font-weight: 600; color: #94a3b8;
+      transition: color .15s, background .15s;
+      border-radius: 0;
+    }
+    .sb-link:hover { color: #f1f5f9; background: #1e293b; }
+    .sb-link.active { color: #f1f5f9; background: #1e293b; }
+    .sb-link::before { content: '·'; color: #334155; flex-shrink: 0; }
+
+    /* ── MAIN WRAP ───────────────────────────────────────────────────── */
+    .main-wrap {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────────────────────────── */
+    .topbar {
+      height: var(--topbar-h);
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+    .topbar-toggle {
+      display: none;
+      width: 36px; height: 36px;
+      background: #f1f5f9; border-radius: 8px;
+      align-items: center; justify-content: center;
+      font-size: 1.1rem; color: #475569;
+      transition: background .15s;
+    }
+    .topbar-toggle:hover { background: #e2e8f0; }
+    .topbar-title { font-size: 1rem; font-weight: 800; color: #1e293b; }
+    .topbar-sub   { font-size: .8rem; color: #94a3b8; font-weight: 600; }
+    .topbar-spacer { flex: 1; }
+    .topbar-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 24px; padding: 5px 14px;
+      font-size: .78rem; font-weight: 700; color: #64748b;
+    }
+
+    /* ── CONTENT ─────────────────────────────────────────────────────── */
+    .content { padding: 28px 32px 60px; max-width: 1100px; }
+
+    /* ── HERO ─────────────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #312e81 0%, #1d4ed8 50%, #0891b2 100%);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; right: -40px; top: -40px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(255,255,255,.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2);
+      padding: 4px 14px; border-radius: 24px;
+      font-size: .76rem; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase; margin-bottom: 14px;
+    }
+    .hero h1 { font-family: 'Fredoka One', cursive; font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 8px; line-height: 1.15; }
+    .hero p  { font-size: .95rem; opacity: .85; max-width: 480px; line-height: 1.6; }
+    .hero-stats {
+      display: flex; gap: 24px; margin-top: 22px; flex-wrap: wrap;
+    }
+    .hero-stat {
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+      border-radius: 12px; padding: 10px 18px; min-width: 90px;
+    }
+    .hero-stat-num  { font-size: 1.5rem; font-weight: 900; line-height: 1; }
+    .hero-stat-label{ font-size: .72rem; opacity: .75; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+
+    /* ── SUBJECT SECTIONS ────────────────────────────────────────────── */
+    .section { margin-bottom: 36px; }
+    .section-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px;
+    }
+    .section-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .section-info {}
+    .section-title { font-size: 1.25rem; font-weight: 900; }
+    .section-meta  { font-size: .78rem; color: #64748b; font-weight: 600; margin-top: 1px; }
+
+    /* ── LESSON CARDS ────────────────────────────────────────────────── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      display: flex; flex-direction: column; gap: 9px;
+      text-decoration: none; color: inherit;
+      border: 1.5px solid #e2e8f0;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      box-shadow: var(--card-shadow);
       position: relative;
       overflow: hidden;
     }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
     .card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.13);
     }
 
-    /* card colours */
-    .card-purple { background: linear-gradient(135deg, #ede9fe, #c4b5fd); }
-    .card-blue   { background: linear-gradient(135deg, #dbeafe, #93c5fd); }
-    .card-green  { background: linear-gradient(135deg, #d1fae5, #6ee7b7); }
-    .card-teal   { background: linear-gradient(135deg, #ccfbf1, #5eead4); }
-    .card-yellow { background: linear-gradient(135deg, #fef9c3, #fde047); }
-    .card-orange { background: linear-gradient(135deg, #ffedd5, #fdba74); }
-    .card-pink   { background: linear-gradient(135deg, #fce7f3, #f9a8d4); }
-    .card-red    { background: linear-gradient(135deg, #fee2e2, #fca5a5); }
+    /* subject accent lines */
+    .card.en::before { background: var(--en-color); }
+    .card.sc::before { background: var(--sc-color); }
+    .card.ma::before { background: var(--ma-color); }
 
-    .card-emoji { font-size: 2.2rem; }
-    .card-type {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      padding: 3px 10px;
-      border-radius: 99px;
-      background: rgba(255,255,255,0.55);
+    .card:hover.en { border-color: #c4b5fd; }
+    .card:hover.sc { border-color: #6ee7b7; }
+    .card:hover.ma { border-color: #fde68a; }
+
+    .card-emoji  { font-size: 1.9rem; line-height: 1; }
+    .card-tag {
+      display: inline-flex; align-items: center;
+      padding: 2px 10px; border-radius: 20px;
+      font-size: .67rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+      align-self: flex-start;
     }
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 800;
-      line-height: 1.3;
-      color: #1e293b;
+    .tag-en { background: #ede9fe; color: var(--en-color); }
+    .tag-sc { background: #d1fae5; color: var(--sc-color); }
+    .tag-ma { background: #fef3c7; color: var(--ma-color); }
+    .tag-quiz  { background: #fce7f3; color: #db2777; }
+    .tag-exam  { background: #fee2e2; color: #dc2626; }
+
+    .card-title { font-size: .97rem; font-weight: 800; line-height: 1.3; color: #1e293b; }
+    .card-desc  { font-size: .8rem; color: #64748b; line-height: 1.45; flex: 1; }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 4px;
     }
-    .card-desc {
-      font-size: 0.88rem;
-      color: #475569;
-      line-height: 1.4;
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: .78rem; font-weight: 800;
+      padding: 5px 12px; border-radius: 20px;
+      transition: background .15s;
     }
-    .card-arrow {
-      margin-top: auto;
-      font-size: 1.3rem;
-      align-self: flex-end;
+    .cta-en { background: #ede9fe; color: var(--en-color); }
+    .cta-en:hover { background: #c4b5fd; }
+    .cta-sc { background: #d1fae5; color: var(--sc-color); }
+    .cta-sc:hover { background: #6ee7b7; }
+    .cta-ma { background: #fef3c7; color: var(--ma-color); }
+    .cta-ma:hover { background: #fde68a; }
+    .cta-quiz { background: #fce7f3; color: #db2777; }
+    .cta-quiz:hover { background: #fbcfe8; }
+    .cta-exam { background: #fee2e2; color: #dc2626; }
+    .cta-exam:hover { background: #fecaca; }
+
+    /* ── DIVIDER LABEL ───────────────────────────────────────────────── */
+    .stage-label {
+      font-size: .7rem; font-weight: 900; text-transform: uppercase;
+      letter-spacing: .09em; color: #94a3b8;
+      margin-bottom: 10px; margin-top: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .stage-label::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
+
+    /* ── OVERLAY (mobile sidebar) ────────────────────────────────────── */
+    .overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 199;
     }
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      margin-top: 60px;
-      padding: 24px;
-      font-size: 0.9rem;
-      color: #64748b;
+    /* ── RESPONSIVE ──────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-wrap { margin-left: 0; }
+      .topbar-toggle { display: flex; }
+      .content { padding: 20px 16px 48px; }
+      .overlay { display: block; opacity: 0; pointer-events: none; transition: opacity .28s; }
+      .overlay.show { opacity: 1; pointer-events: auto; }
+      .hero { padding: 24px 22px; }
+      .hero-stats { gap: 12px; }
     }
-    footer span { font-size: 1.2rem; }
+
+    @media (max-width: 480px) {
+      .cards { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Cambridge Grade 4 Tutor</h1>
-  <p>✨ Powered by AI &nbsp;·&nbsp; Learn, Explore, Have Fun! ✨</p>
-  <div class="stars-row">🎓 📚 🚀 📚 🎓</div>
-</header>
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="sidebar" id="sidebar">
 
-<main>
-
-  <!-- ══════════ ENGLISH ══════════ -->
-  <section class="subject english">
-    <div class="subject-header">
-      <div class="subject-icon">📖</div>
-      <div class="subject-title">English</div>
+  <!-- Logo -->
+  <div class="sb-logo">
+    <div class="sb-logo-icon">🎓</div>
+    <div class="sb-logo-text">
+      <div class="sb-logo-title">Cambridge Grade 4</div>
+      <div class="sb-logo-sub">AI-Powered Tutor</div>
     </div>
-    <div class="subject-divider"></div>
-    <!-- Stage 5 -->
-    <div style="font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#7c3aed;margin-bottom:10px;opacity:.7">Stage 5 — Primary English</div>
-    <div class="cards" style="margin-bottom:24px">
+  </div>
 
-      <a class="card card-purple" href="unit1_home.html">
-        <span class="card-emoji">🐜</span>
-        <span class="card-type">Unit 1 — Full Module</span>
-        <div class="card-title">Unit 1: There's a Lesson in That!</div>
-        <div class="card-desc">Fables · Modal verbs · Character analysis · PEE writing · 11 lessons + exam prep</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+  <!-- Home -->
+  <a href="index.html" class="sb-home active">
+    <span class="icon">🏠</span> Home
+  </a>
 
-      <a class="card card-blue" href="unit1_lesson_1_1.html">
-        <span class="card-emoji">📖</span>
-        <span class="card-type">Lesson 1.1</span>
-        <div class="card-title">Read Aesop's Fable</div>
-        <div class="card-desc">Ant &amp; Grasshopper · 10 vocab flashcards · Fact file · MCQ + comprehension</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+  <!-- ── ENGLISH ── -->
+  <div class="sb-group open" id="grp-english">
+    <div class="sb-group-hdr" onclick="toggleGroup('grp-english')">
+      <div class="sb-group-left">
+        <div class="sb-group-icon" style="background:#ede9fe">📖</div>
+        <span class="sb-group-name">English</span>
+      </div>
+      <span class="sb-chevron">▼</span>
+    </div>
+    <div class="sb-items">
+      <div class="sb-label">Stage 5 — Unit 1</div>
+      <a class="sb-link" href="unit1_home.html">Unit Overview</a>
+      <a class="sb-link" href="unit1_lesson_1_1.html">Lesson 1.1 – Aesop's Fable</a>
+      <a class="sb-link" href="unit1_lesson_1_2.html">Lesson 1.2 – Understanding</a>
+      <a class="sb-link" href="unit1_lesson_1_3.html">Lesson 1.3 – Story Features</a>
+      <a class="sb-link" href="unit1_lesson_1_4.html">Lesson 1.4</a>
+      <a class="sb-link" href="unit1_lesson_1_5.html">Lesson 1.5</a>
+      <a class="sb-link" href="unit1_lesson_1_6.html">Lesson 1.6</a>
+      <a class="sb-link" href="unit1_lesson_1_7.html">Lesson 1.7</a>
+      <a class="sb-link" href="unit1_lesson_1_8.html">Lesson 1.8</a>
+      <a class="sb-link" href="unit1_lesson_1_9.html">Lesson 1.9</a>
+      <a class="sb-link" href="unit1_lesson_1_10.html">Lesson 1.10</a>
+      <a class="sb-link" href="unit1_lesson_1_11.html">Lesson 1.11</a>
+      <a class="sb-link" href="unit1_practice_comprehension.html">Practice – Comprehension</a>
+      <a class="sb-link" href="unit1_practice_writing.html">Practice – Writing</a>
+      <div class="sb-label" style="margin-top:8px">Stage 4</div>
+      <a class="sb-link" href="Chapter1_Fables_Adventure.html">Chapter 1 – Fables &amp; Adventures</a>
+    </div>
+  </div>
 
-      <a class="card card-teal" href="unit1_lesson_1_2.html">
-        <span class="card-emoji">🔑</span>
-        <span class="card-type">Lesson 1.2</span>
-        <div class="card-title">Check Understanding</div>
-        <div class="card-desc">Modal verbs · Shades of meaning · Exam-style comprehension questions</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+  <!-- ── SCIENCE ── -->
+  <div class="sb-group" id="grp-science">
+    <div class="sb-group-hdr" onclick="toggleGroup('grp-science')">
+      <div class="sb-group-left">
+        <div class="sb-group-icon" style="background:#d1fae5">🔬</div>
+        <span class="sb-group-name">Science</span>
+      </div>
+      <span class="sb-chevron">▼</span>
+    </div>
+    <div class="sb-items">
+      <a class="sb-link" href="Science_Chapter1_Interactive.html">Chapter 1 – Life Cycles</a>
+      <a class="sb-link" href="Science_Chapter2_Sound.html">Chapter 2 – Sound</a>
+      <a class="sb-link" href="Science_Chapter3_Matter.html">Chapter 3 – States of Matter</a>
+      <div class="sb-label" style="margin-top:8px">Assessment</div>
+      <a class="sb-link" href="Science_Quiz.html">Quiz Challenge</a>
+      <a class="sb-link" href="Science_PracticePaper.html">Practice Paper</a>
+    </div>
+  </div>
 
-      <a class="card card-green" href="unit1_lesson_1_3.html">
-        <span class="card-emoji">🐾</span>
-        <span class="card-type">Lesson 1.3</span>
-        <div class="card-title">Story Features</div>
-        <div class="card-desc">Anthropomorphism · Story stages · Character analysis · PEE paragraph writing</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+  <!-- ── MATHS ── -->
+  <div class="sb-group" id="grp-maths">
+    <div class="sb-group-hdr" onclick="toggleGroup('grp-maths')">
+      <div class="sb-group-left">
+        <div class="sb-group-icon" style="background:#fef3c7">🔢</div>
+        <span class="sb-group-name">Maths</span>
+      </div>
+      <span class="sb-chevron">▼</span>
+    </div>
+    <div class="sb-items">
+      <a class="sb-link" href="Maths_Chapter1_NumberSystem.html">Unit 1 – The Number System</a>
+      <a class="sb-link" href="Maths_Chapter2_Shapes_Symmetry.html">Unit 2 – 2D Shapes &amp; Symmetry</a>
+      <a class="sb-link" href="Maths_Chapter3_NumbersSequences.html">Unit 3 – Numbers &amp; Sequences</a>
+    </div>
+  </div>
 
+</aside>
+
+<!-- Mobile overlay -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<div class="main-wrap">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <button class="topbar-toggle" onclick="openSidebar()" aria-label="Open menu">☰</button>
+    <div>
+      <div class="topbar-title">Cambridge Grade 4 Tutor</div>
+      <div class="topbar-sub">Powered by AI</div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-badge">📚 Grade 4 · Cambridge</div>
+  </header>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">✨ AI-Powered Learning</div>
+      <h1>Welcome to Your Cambridge Tutor!</h1>
+      <p>Interactive lessons, quizzes, and practice papers — all designed for Cambridge Primary Grade 4. Click any subject on the left to begin.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">3</span><span class="hero-stat-label">Subjects</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">22</span><span class="hero-stat-label">Lessons</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">2</span><span class="hero-stat-label">Practice Papers</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">100%</span><span class="hero-stat-label">Interactive</span></div>
+      </div>
     </div>
 
-    <!-- Stage 4 -->
-    <div style="font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#7c3aed;margin-bottom:10px;opacity:.7">Stage 4 — Primary English</div>
-    <div class="cards">
+    <!-- ── ENGLISH ── -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" style="background:#ede9fe">📖</div>
+        <div class="section-info">
+          <div class="section-title" style="color:var(--en-color)">English</div>
+          <div class="section-meta">Cambridge Primary Stage 4 &amp; 5 · 15 lessons</div>
+        </div>
+      </div>
 
-      <a class="card card-pink" href="Chapter1_Fables_Adventure.html">
-        <span class="card-emoji">🦊</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Chapter 1 – Fables &amp; Adventures</div>
-        <div class="card-desc">Explore exciting fables with quizzes and fun activities</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+      <div class="stage-label">Stage 5 — Unit 1: There's a Lesson in That!</div>
+      <div class="cards">
 
-    </div>
-  </section>
+        <a class="card en" href="unit1_home.html">
+          <span class="card-emoji">🐜</span>
+          <span class="card-tag tag-en">Full Unit</span>
+          <div class="card-title">Unit 1 Overview</div>
+          <div class="card-desc">All 11 lessons + exam prep — fables, modal verbs, character analysis &amp; PEE writing</div>
+          <div class="card-footer"><span class="card-cta cta-en">Start Unit →</span></div>
+        </a>
 
-  <!-- ══════════ SCIENCE ══════════ -->
-  <section class="subject science">
-    <div class="subject-header">
-      <div class="subject-icon">🔬</div>
-      <div class="subject-title">Science</div>
-    </div>
-    <div class="subject-divider"></div>
-    <div class="cards">
+        <a class="card en" href="unit1_lesson_1_1.html">
+          <span class="card-emoji">📖</span>
+          <span class="card-tag tag-en">Lesson 1.1</span>
+          <div class="card-title">Read Aesop's Fable</div>
+          <div class="card-desc">Ant &amp; Grasshopper · vocab flashcards · MCQ + comprehension</div>
+          <div class="card-footer"><span class="card-cta cta-en">Open →</span></div>
+        </a>
 
-      <a class="card card-green" href="Science_Chapter1_Interactive.html">
-        <span class="card-emoji">🌸</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Chapter 1 – Life Cycles of Flowering Plants</div>
-        <div class="card-desc">Flower parts, pollination, seed dispersal &amp; germination — click to explore!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+        <a class="card en" href="unit1_lesson_1_2.html">
+          <span class="card-emoji">🔑</span>
+          <span class="card-tag tag-en">Lesson 1.2</span>
+          <div class="card-title">Check Understanding</div>
+          <div class="card-desc">Modal verbs · shades of meaning · exam-style questions</div>
+          <div class="card-footer"><span class="card-cta cta-en">Open →</span></div>
+        </a>
 
-      <a class="card card-teal" href="Science_Chapter2_Sound.html">
-        <span class="card-emoji">🔊</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Chapter 2 – Sound</div>
-        <div class="card-desc">Vibrations, pitch, volume, muffling &amp; instruments — animated simulators!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+        <a class="card en" href="unit1_lesson_1_3.html">
+          <span class="card-emoji">🐾</span>
+          <span class="card-tag tag-en">Lesson 1.3</span>
+          <div class="card-title">Story Features</div>
+          <div class="card-desc">Anthropomorphism · story stages · character analysis · PEE writing</div>
+          <div class="card-footer"><span class="card-cta cta-en">Open →</span></div>
+        </a>
 
-      <a class="card card-blue" href="Science_Chapter3_Matter.html">
-        <span class="card-emoji">🧪</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Chapter 3 – States &amp; Properties of Matter</div>
-        <div class="card-desc">Particle model, water cycle, evaporation &amp; solutions — live animations!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+      </div>
 
-      <a class="card card-pink" href="Science_Quiz.html">
-        <span class="card-emoji">🎯</span>
-        <span class="card-type">Quiz Challenge</span>
-        <div class="card-title">Science Quiz — Ch 1, 2 &amp; 3</div>
-        <div class="card-desc">15-min timed quiz · MCQ + fill-in-blank spelling · 60-question bank per chapter!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+      <div class="stage-label" style="margin-top:20px">Stage 4</div>
+      <div class="cards">
+        <a class="card en" href="Chapter1_Fables_Adventure.html">
+          <span class="card-emoji">🦊</span>
+          <span class="card-tag tag-en">Interactive Lesson</span>
+          <div class="card-title">Chapter 1 – Fables &amp; Adventures</div>
+          <div class="card-desc">Explore fables with interactive quizzes and fun activities</div>
+          <div class="card-footer"><span class="card-cta cta-en">Open →</span></div>
+        </a>
+      </div>
+    </section>
 
-      <a class="card card-red" href="Science_PracticePaper.html">
-        <span class="card-emoji">📝</span>
-        <span class="card-type">Practice Paper</span>
-        <div class="card-title">Science Practice Paper — Exam Simulator</div>
-        <div class="card-desc">45-min timed exam · MCQ + short answer + extended questions · mark scheme included!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+    <!-- ── SCIENCE ── -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" style="background:#d1fae5">🔬</div>
+        <div class="section-info">
+          <div class="section-title" style="color:var(--sc-color)">Science</div>
+          <div class="section-meta">Cambridge Primary Grade 4 · 3 chapters + assessment</div>
+        </div>
+      </div>
+      <div class="cards">
 
-    </div>
-  </section>
+        <a class="card sc" href="Science_Chapter1_Interactive.html">
+          <span class="card-emoji">🌸</span>
+          <span class="card-tag tag-sc">Chapter 1</span>
+          <div class="card-title">Life Cycles of Flowering Plants</div>
+          <div class="card-desc">Flower parts, pollination, seed dispersal &amp; germination — click to explore!</div>
+          <div class="card-footer"><span class="card-cta cta-sc">Open →</span></div>
+        </a>
 
+        <a class="card sc" href="Science_Chapter2_Sound.html">
+          <span class="card-emoji">🔊</span>
+          <span class="card-tag tag-sc">Chapter 2</span>
+          <div class="card-title">Sound</div>
+          <div class="card-desc">Vibrations, pitch, volume, muffling &amp; instruments — animated simulators!</div>
+          <div class="card-footer"><span class="card-cta cta-sc">Open →</span></div>
+        </a>
 
-  <!-- ══════════ MATHS ══════════ -->
-  <section class="subject maths">
-    <div class="subject-header">
-      <div class="subject-icon">🔢</div>
-      <div class="subject-title">Maths</div>
-    </div>
-    <div class="subject-divider"></div>
-    <div class="cards">
+        <a class="card sc" href="Science_Chapter3_Matter.html">
+          <span class="card-emoji">🧪</span>
+          <span class="card-tag tag-sc">Chapter 3</span>
+          <div class="card-title">States &amp; Properties of Matter</div>
+          <div class="card-desc">Particle model, water cycle, evaporation &amp; solutions — live animations!</div>
+          <div class="card-footer"><span class="card-cta cta-sc">Open →</span></div>
+        </a>
 
-      <a class="card card-yellow" href="Maths_Chapter1_NumberSystem.html">
-        <span class="card-emoji">📍</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Unit 1 – The Number System</div>
-        <div class="card-desc">Place value, decimals, multiply &amp; divide by 10/100/1000, and rounding!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+        <a class="card sc" href="Science_Quiz.html">
+          <span class="card-emoji">🎯</span>
+          <span class="card-tag tag-quiz">Quiz</span>
+          <div class="card-title">Science Quiz — Ch 1, 2 &amp; 3</div>
+          <div class="card-desc">15-min timed quiz · MCQ + fill-in-blank · 60-question bank per chapter!</div>
+          <div class="card-footer"><span class="card-cta cta-quiz">Take Quiz →</span></div>
+        </a>
 
-      <a class="card card-orange" href="Maths_Chapter2_Shapes_Symmetry.html">
-        <span class="card-emoji">🔺</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Unit 2 – 2D Shapes &amp; Symmetry</div>
-        <div class="card-desc">Explore triangles, lines of symmetry, tessellation and pattern making!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+        <a class="card sc" href="Science_PracticePaper.html">
+          <span class="card-emoji">📝</span>
+          <span class="card-tag tag-exam">Exam Prep</span>
+          <div class="card-title">Practice Paper — Exam Simulator</div>
+          <div class="card-desc">45-min timed exam · MCQ + short answer + extended questions · mark scheme included!</div>
+          <div class="card-footer"><span class="card-cta cta-exam">Start Exam →</span></div>
+        </a>
 
-      <a class="card card-green" href="Maths_Chapter3_NumbersSequences.html">
-        <span class="card-emoji">📈</span>
-        <span class="card-type">Interactive Lesson</span>
-        <div class="card-title">Unit 3 – Numbers &amp; Sequences</div>
-        <div class="card-desc">Sequences, square &amp; triangular numbers, prime numbers + Sieve of Eratosthenes!</div>
-        <div class="card-arrow">➡️</div>
-      </a>
+      </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ── MATHS ── -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef3c7">🔢</div>
+        <div class="section-info">
+          <div class="section-title" style="color:var(--ma-color)">Maths</div>
+          <div class="section-meta">Cambridge Primary Grade 4 · 3 units</div>
+        </div>
+      </div>
+      <div class="cards">
 
-</main>
+        <a class="card ma" href="Maths_Chapter1_NumberSystem.html">
+          <span class="card-emoji">📍</span>
+          <span class="card-tag tag-ma">Unit 1</span>
+          <div class="card-title">The Number System</div>
+          <div class="card-desc">Place value, decimals, ×÷ by 10/100/1000, and rounding!</div>
+          <div class="card-footer"><span class="card-cta cta-ma">Open →</span></div>
+        </a>
 
-<footer>
-  <span>🌟</span> Cambridge Grade 4 Tutor &nbsp;·&nbsp; Keep learning, keep growing! <span>🌟</span>
-</footer>
+        <a class="card ma" href="Maths_Chapter2_Shapes_Symmetry.html">
+          <span class="card-emoji">🔺</span>
+          <span class="card-tag tag-ma">Unit 2</span>
+          <div class="card-title">2D Shapes &amp; Symmetry</div>
+          <div class="card-desc">Triangles, lines of symmetry, tessellation and pattern making!</div>
+          <div class="card-footer"><span class="card-cta cta-ma">Open →</span></div>
+        </a>
+
+        <a class="card ma" href="Maths_Chapter3_NumbersSequences.html">
+          <span class="card-emoji">📈</span>
+          <span class="card-tag tag-ma">Unit 3</span>
+          <div class="card-title">Numbers &amp; Sequences</div>
+          <div class="card-desc">Sequences, square &amp; triangular numbers, prime numbers + Sieve of Eratosthenes!</div>
+          <div class="card-footer"><span class="card-cta cta-ma">Open →</span></div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+</div><!-- /main-wrap -->
+
+<script>
+  /* ── Sidebar toggle ─────────────────────────────── */
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  /* ── Subject group collapse ─────────────────────── */
+  function toggleGroup(id) {
+    const grp = document.getElementById(id);
+    grp.classList.toggle('open');
+  }
+</script>
 
 </body>
 </html>
