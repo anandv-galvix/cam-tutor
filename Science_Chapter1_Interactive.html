@@ -212,6 +212,99 @@ body { font-family: 'Trebuchet MS', Arial, sans-serif; background: #f0fdf4; min-
   padding: 5px 14px; border-radius: 20px;
   font-size: 13px; font-weight: bold; margin-bottom: 14px;
 }
+
+/* ══════════════ POLLINATION JOURNEY STYLES ══════════════ */
+.n5 { background: #7b1fa2; color: white; }
+
+.pscene-nav {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 18px; justify-content: center;
+}
+.pscene-btn {
+  padding: 9px 18px; border: 2.5px solid #ce93d8; border-radius: 50px;
+  font-size: 13px; font-weight: bold; cursor: pointer; background: white;
+  color: #7b1fa2; font-family: inherit; transition: all 0.2s;
+}
+.pscene-btn.active { background: #7b1fa2; color: white; border-color: #7b1fa2; }
+.pscene-btn:hover:not(.active) { background: #f3e5f5; }
+
+.poll-scene { display: none; }
+.poll-scene.active { display: block; animation: fadeIn 0.4s; }
+
+.method-row { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+.method-btn {
+  padding: 11px 26px; border: 2.5px solid #ddd; border-radius: 50px;
+  font-size: 15px; font-weight: bold; cursor: pointer; background: white;
+  font-family: inherit; transition: all 0.2s;
+}
+.method-btn.active { border-color: #7b1fa2; background: #f3e5f5; color: #7b1fa2; }
+.method-btn:hover:not(.active) { border-color: #ce93d8; }
+
+.poll-desc {
+  background: #f3e5f5; border-left: 4px solid #7b1fa2;
+  border-radius: 14px; padding: 16px 18px; margin-top: 14px;
+  font-size: 14px; line-height: 1.75; color: #333;
+}
+.poll-desc strong { color: #7b1fa2; }
+
+.tube-step-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.tstep-btn {
+  padding: 8px 15px; background: white; color: #7b1fa2;
+  border: 2px solid #ce93d8; border-radius: 50px; font-size: 13px;
+  font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.tstep-btn.active { background: #7b1fa2; color: white; border-color: #7b1fa2; }
+
+.tube-layout { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+.tube-info { flex: 1; min-width: 220px; }
+.tube-info h3 { font-size: 17px; color: #7b1fa2; font-weight: bold; margin-bottom: 10px; }
+.tube-info p { font-size: 14px; line-height: 1.75; color: #444; }
+.tube-feedback-box {
+  margin-top: 12px; padding: 12px 14px; border-radius: 12px;
+  font-size: 14px; font-weight: bold; display: none;
+}
+.tube-feedback-box.show { display: block; animation: fadeIn 0.3s; }
+.tube-feedback-box.ok { background: #e8f5e9; color: #2e7d32; }
+
+.seed-game-instruct { font-size: 14px; color: #555; margin-bottom: 14px; }
+.seed-pool { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.seed-card {
+  padding: 10px 16px; background: white; border: 2.5px solid #ce93d8;
+  border-radius: 14px; cursor: pointer; font-size: 13px; font-weight: bold;
+  color: #5e35b1; transition: all 0.2s; user-select: none;
+}
+.seed-card:hover:not(.matched):not(.selected) { border-color: #7b1fa2; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(123,31,162,0.2); }
+.seed-card.selected { background: #f3e5f5; border-color: #7b1fa2; box-shadow: 0 4px 14px rgba(123,31,162,0.3); transform: scale(1.05); }
+.seed-card.matched { opacity: 0.5; pointer-events: none; border-color: #a5d6a7; background: #e8f5e9; color: #2e7d32; }
+
+.method-zones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mzone {
+  min-height: 80px; background: #f8f9fa; border: 2.5px dashed #ccc;
+  border-radius: 16px; padding: 12px; cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.mzone:hover { border-color: #7b1fa2; background: #f3e5f5; }
+.mzone.zone-correct { background: #e8f5e9 !important; border-color: #43a047 !important; border-style: solid !important; }
+.mzone.zone-shake { animation: shake 0.4s; }
+.mzone-title { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 6px; }
+.mzone-hits { font-size: 20px; min-height: 28px; }
+.game-result { text-align: center; margin-top: 16px; display: none; }
+.game-result.show { display: block; animation: fadeIn 0.5s; }
+.game-result-text { font-size: 18px; font-weight: bold; color: #7b1fa2; margin-bottom: 8px; }
+
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+.lc-wheel-wrap { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; justify-content: center; }
+.stage-info {
+  background: #f3e5f5; border-radius: 18px; padding: 18px;
+  border: 2px solid #ce93d8; flex: 1; min-width: 200px; min-height: 120px;
+}
+.stage-info h3 { font-size: 17px; color: #6a1b9a; margin-bottom: 8px; font-weight: bold; }
+.stage-info p { font-size: 13px; color: #444; line-height: 1.75; }
+.wheel-controls { display: flex; gap: 10px; margin-bottom: 14px; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 500px) {
+  .method-zones { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -227,6 +320,7 @@ body { font-family: 'Trebuchet MS', Arial, sans-serif; background: #f0fdf4; min-
   <button class="nav-btn n2" onclick="show('germ', this)">🌱 Germination</button>
   <button class="nav-btn n3" onclick="show('lifecycle', this)">🔄 Life Cycle</button>
   <button class="nav-btn n4" onclick="show('quiz', this)">🧠 Quiz Time!</button>
+  <button class="nav-btn n5" onclick="show('pollinate', this)">🐝 Pollination Journey</button>
 </div>
 
 <div class="content">
@@ -583,16 +677,163 @@ body { font-family: 'Trebuchet MS', Arial, sans-serif; background: #f0fdf4; min-
   </div>
 </div>
 
+<!-- ══════════════ SECTION 5: POLLINATION JOURNEY ══════════════ -->
+<div class="section" id="sec-pollinate">
+
+  <div class="pscene-nav">
+    <button class="pscene-btn active" onclick="showPollScene(1, this)">🐝 How Pollination Works</button>
+    <button class="pscene-btn" onclick="showPollScene(2, this)">🔬 Pollen Tube</button>
+    <button class="pscene-btn" onclick="showPollScene(3, this)">🌱 Seed Dispersal Game</button>
+    <button class="pscene-btn" onclick="showPollScene(4, this)">🔄 Life Cycle Wheel</button>
+  </div>
+
+  <!-- ── SCENE 1: How Pollination Works ── -->
+  <div class="poll-scene active card" id="ps1">
+    <div class="card-title">🐝 How Pollination Works</div>
+    <p style="font-size:14px;color:#666;margin-bottom:14px;">Pollination is when pollen moves from the <strong>anther</strong> of one flower to the <strong>stigma</strong> of another. Pick a method to watch it happen!</p>
+    <div class="method-row">
+      <button class="method-btn active" onclick="setPollMode('bee', this)">🐝 Insect Pollination</button>
+      <button class="method-btn" onclick="setPollMode('wind', this)">🌬️ Wind Pollination</button>
+    </div>
+    <canvas id="pollCanvas" width="560" height="260" style="display:block;margin:0 auto;border-radius:16px;max-width:100%;"></canvas>
+    <div class="poll-desc" id="pollModeDesc">
+      <strong>Insect pollination:</strong> A bee visits Flower A to collect sweet nectar. Pollen from the anther sticks to its furry body. When the bee visits Flower B, the pollen rubs off onto the sticky stigma — pollination complete! 🐝
+    </div>
+  </div>
+
+  <!-- ── SCENE 2: Pollen Tube ── -->
+  <div class="poll-scene card" id="ps2">
+    <div class="card-title">🔬 Inside the Flower: The Pollen Tube Journey</div>
+    <p style="font-size:14px;color:#666;margin-bottom:14px;">After pollen lands on the stigma, something incredible happens inside the flower. Follow each step:</p>
+    <div class="tube-step-row">
+      <button class="tstep-btn active" onclick="showTubeStep(0, this)">Step 1</button>
+      <button class="tstep-btn" onclick="showTubeStep(1, this)">Step 2</button>
+      <button class="tstep-btn" onclick="showTubeStep(2, this)">Step 3</button>
+      <button class="tstep-btn" onclick="showTubeStep(3, this)">Step 4</button>
+      <button class="tstep-btn" onclick="showTubeStep(4, this)">Step 5 🎉</button>
+    </div>
+    <div class="tube-layout">
+      <svg id="tubeSvg" viewBox="0 0 220 320" width="180" style="flex-shrink:0;border-radius:16px;background:#f0fdf4;">
+        <!-- Carpel outline -->
+        <rect x="88" y="15" width="44" height="280" rx="22" fill="none" stroke="#a5d6a7" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <!-- Stigma -->
+        <ellipse id="tStigma" cx="110" cy="36" rx="22" ry="12" fill="#81c784" stroke="#388e3c" stroke-width="2"/>
+        <text x="110" y="40" text-anchor="middle" font-size="10" fill="#1b5e20" font-weight="bold">Stigma</text>
+        <!-- Style label -->
+        <text x="148" y="105" font-size="10" fill="#2e7d32" font-weight="bold">Style</text>
+        <line x1="143" y1="102" x2="118" y2="102" stroke="#c8e6c9" stroke-width="1" stroke-dasharray="3,2"/>
+        <!-- Ovary -->
+        <ellipse id="tOvary" cx="110" cy="230" rx="30" ry="42" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+        <text x="148" y="234" font-size="10" fill="#2e7d32" font-weight="bold">Ovary</text>
+        <line x1="143" y1="231" x2="140" y2="231" stroke="#c8e6c9" stroke-width="1" stroke-dasharray="3,2"/>
+        <!-- Egg cell (shows at step 4+) -->
+        <ellipse id="tEgg" cx="110" cy="238" rx="14" ry="18" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5" opacity="0.4"/>
+        <text id="tEggLabel" x="68" y="242" font-size="10" fill="#e65100" font-weight="bold" opacity="0">egg cell</text>
+        <!-- Pollen grain (step 1) -->
+        <circle id="tPollen" cx="110" cy="22" r="10" fill="#ffd740" stroke="#f9a825" stroke-width="2" opacity="0"/>
+        <text id="tPollenLabel" x="63" y="18" font-size="10" fill="#e65100" font-weight="bold" opacity="0">pollen grain</text>
+        <!-- Tube segments -->
+        <line id="tTube1" x1="110" y1="48" x2="110" y2="120" stroke="#ffd740" stroke-width="5" stroke-linecap="round" opacity="0"/>
+        <line id="tTube2" x1="110" y1="120" x2="110" y2="188" stroke="#ffd740" stroke-width="5" stroke-linecap="round" opacity="0"/>
+        <!-- Male nucleus (travelling dot) -->
+        <circle id="tNucleus" cx="110" cy="48" r="7" fill="#ff8f00" stroke="#e65100" stroke-width="1.5" opacity="0"/>
+        <text id="tNucLabel" x="65" y="52" font-size="10" fill="#e65100" font-weight="bold" opacity="0">nucleus</text>
+        <!-- Fertilisation flash -->
+        <circle id="tFertFlash" cx="110" cy="232" r="26" fill="#ffe082" stroke="#ffd740" stroke-width="3" opacity="0"/>
+        <text id="tFertLabel" x="110" y="282" font-size="13" fill="#e65100" font-weight="bold" text-anchor="middle" opacity="0">FERTILISED! 🎉</text>
+        <text id="tZygoteLabel" x="110" y="298" font-size="10" fill="#7b1fa2" font-weight="bold" text-anchor="middle" opacity="0">→ becomes a seed</text>
+      </svg>
+      <div class="tube-info">
+        <h3 id="tubeStepTitle">Step 1: Pollen lands on the stigma</h3>
+        <p id="tubeStepDesc">A pollen grain arrives — carried by a bee or the wind. It lands on the <strong>sticky stigma</strong> at the top of the carpel. The pollen sticks because the stigma is coated in a special glue-like substance!</p>
+        <div class="tube-feedback-box" id="tubeFeedback"></div>
+        <div style="margin-top:14px;">
+          <button class="btn btn-v" onclick="nextTubeStep()" id="tubeNextBtn" style="font-size:13px;padding:8px 18px;">Next Step ➜</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 3: Seed Dispersal Game ── -->
+  <div class="poll-scene card" id="ps3">
+    <div class="card-title">🌱 Seed Dispersal Match-Up</div>
+    <p class="seed-game-instruct">Tap a seed to select it, then tap the correct way it travels. Get all 5 right to win! 🏆</p>
+    <div class="seed-pool" id="seedPool">
+      <div class="seed-card" id="sc-dandelion" onclick="selectSeed('dandelion', this)">🌼 Dandelion</div>
+      <div class="seed-card" id="sc-coconut" onclick="selectSeed('coconut', this)">🥥 Coconut</div>
+      <div class="seed-card" id="sc-burdock" onclick="selectSeed('burdock', this)">🌿 Burdock (hooks)</div>
+      <div class="seed-card" id="sc-cherry" onclick="selectSeed('cherry', this)">🍒 Cherry</div>
+      <div class="seed-card" id="sc-bean" onclick="selectSeed('bean', this)">🫘 Bean Pod</div>
+    </div>
+    <div id="seedHintBar" style="font-size:13px;color:#888;margin-bottom:12px;min-height:36px;padding:8px 12px;background:#f3e5f5;border-radius:10px;">
+      👆 Tap a seed above to select it first!
+    </div>
+    <div class="method-zones">
+      <div class="mzone" id="mz-wind" onclick="placeSeed('wind', this)">
+        <div class="mzone-title">🌬️ Wind</div>
+        <div class="mzone-hits" id="mz-wind-hits"></div>
+      </div>
+      <div class="mzone" id="mz-water" onclick="placeSeed('water', this)">
+        <div class="mzone-title">🌊 Water</div>
+        <div class="mzone-hits" id="mz-water-hits"></div>
+      </div>
+      <div class="mzone" id="mz-animal-fur" onclick="placeSeed('animal-fur', this)">
+        <div class="mzone-title">🦔 Animal fur / clothes</div>
+        <div class="mzone-hits" id="mz-animal-fur-hits"></div>
+      </div>
+      <div class="mzone" id="mz-eaten" onclick="placeSeed('eaten', this)">
+        <div class="mzone-title">🐦 Eaten by animals</div>
+        <div class="mzone-hits" id="mz-eaten-hits"></div>
+      </div>
+      <div class="mzone" id="mz-explosion" onclick="placeSeed('explosion', this)">
+        <div class="mzone-title">💥 Explosion</div>
+        <div class="mzone-hits" id="mz-explosion-hits"></div>
+      </div>
+    </div>
+    <div id="gameScore" style="text-align:center;font-size:15px;font-weight:bold;color:#7b1fa2;margin-top:14px;">Score: 0 / 5</div>
+    <div class="game-result" id="gameResult">
+      <div class="game-result-text" id="gameResultText"></div>
+      <button class="btn btn-o" onclick="resetSeedGame()">🔄 Play Again</button>
+    </div>
+  </div>
+
+  <!-- ── SCENE 4: Life Cycle Wheel ── -->
+  <div class="poll-scene card" id="ps4">
+    <div class="card-title">🔄 The Complete Life Cycle</div>
+    <p style="font-size:14px;color:#666;margin-bottom:14px;">Everything connects! Press Auto-play to watch the cycle, or tap any stage to learn more.</p>
+    <div class="wheel-controls">
+      <button class="btn btn-v" id="wheelPlayBtn" onclick="toggleWheelPlay()">▶ Auto-play</button>
+      <button class="btn" style="background:#e0e0e0;color:#333;" onclick="resetWheel()">↺ Reset</button>
+    </div>
+    <div class="lc-wheel-wrap">
+      <svg id="wheelSvg" viewBox="0 0 320 320" width="290" style="flex-shrink:0;cursor:pointer;" onclick="wheelClick(event)">
+        <circle cx="160" cy="160" r="58" fill="#f3e5f5" stroke="#ce93d8" stroke-width="2"/>
+        <text x="160" y="153" text-anchor="middle" font-size="12" fill="#7b1fa2" font-weight="bold">Life</text>
+        <text x="160" y="170" text-anchor="middle" font-size="12" fill="#7b1fa2" font-weight="bold">Cycle</text>
+        <text x="160" y="187" text-anchor="middle" font-size="13" fill="#9c4dcc">🌻</text>
+      </svg>
+      <div class="stage-info" id="stageInfo">
+        <h3 id="stageTitle">Tap a stage to learn more!</h3>
+        <p id="stageDesc">Each stage leads to the next. The whole cycle repeats over and over — that's why it's called a life cycle! 🔄<br><br>Press ▶ Auto-play to watch the dot travel around all 7 stages.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 </div><!-- end .content -->
 
 <script>
 // ═══ NAVIGATION ═══
 function show(id, btn) {
+  if (typeof _stopPollAnim === 'function') _stopPollAnim();
+  if (typeof _wheelPlaying !== 'undefined' && _wheelPlaying) resetWheel();
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-' + id).classList.add('active');
   btn.classList.add('active');
   if (id === 'quiz') initQuiz();
+  if (id === 'pollinate') setTimeout(function(){ showPollScene(1, document.querySelector('.pscene-btn')); }, 80);
 }
 
 // ═══ FLOWER PART DATA ═══
@@ -832,7 +1073,524 @@ function restartQuiz() {
 // Initialise quiz on load so it's ready
 window.addEventListener('DOMContentLoaded', () => {
   initQuiz();
+  _initWheel();
 });
+
+// ═══════════════════════════════════════════════════════════════
+// POLLINATION JOURNEY
+// ═══════════════════════════════════════════════════════════════
+
+// ─── Scene navigation ───
+function showPollScene(n, btn) {
+  _stopPollAnim();
+  document.querySelectorAll('.poll-scene').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.pscene-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('ps' + n).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (n === 1) setTimeout(_startPollAnim, 60);
+  if (n === 4) _initWheel();
+}
+
+// ─── SCENE 1: Canvas animation ───
+let _pollAnimId = null;
+let _pollMode = 'bee';
+const _CW = 560, _CH = 260;
+const _F1 = {x: 120, y: 135};
+const _F2 = {x: 440, y: 135};
+let _beePhase = 0, _beeT = 0, _beeWait = 0, _beePollen = false, _beeDir = 1;
+let _windPs = [];
+
+function setPollMode(mode, btn) {
+  _pollMode = mode;
+  document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const desc = document.getElementById('pollModeDesc');
+  if (mode === 'bee') {
+    desc.innerHTML = '<strong>Insect pollination:</strong> A bee visits Flower A to collect sweet nectar. Pollen from the anther sticks to its furry body. When the bee visits Flower B, the pollen rubs off onto the sticky stigma — pollination complete! 🐝';
+  } else {
+    desc.innerHTML = '<strong>Wind pollination:</strong> Wind-pollinated flowers like grasses produce huge amounts of very <em>light</em> pollen. The wind blows the pollen — but most of it misses! Wind-pollinated flowers are usually small and dull-coloured because they do not need to attract insects. 🌾';
+  }
+  _startPollAnim();
+}
+
+function _stopPollAnim() {
+  if (_pollAnimId) { cancelAnimationFrame(_pollAnimId); _pollAnimId = null; }
+}
+
+function _initWindPs() {
+  _windPs = [];
+  for (let i = 0; i < 28; i++) {
+    _windPs.push({
+      x: _F1.x + (Math.random()-0.5)*28,
+      y: _F1.y + (Math.random()-0.5)*28,
+      vx: 1.3 + Math.random()*1.8,
+      vy: (Math.random()-0.5)*0.8,
+      r: 1.8 + Math.random()*2,
+      alpha: 0.55 + Math.random()*0.45,
+      wobble: Math.random()*Math.PI*2,
+      delay: Math.floor(Math.random()*90),
+      landed: false,
+    });
+  }
+}
+
+function _drawFlowerC(ctx, cx, cy, c1, c2, isSource) {
+  const r = 50;
+  for (let i = 0; i < 6; i++) {
+    const a = (i/6)*Math.PI*2 - Math.PI/2;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(a);
+    ctx.beginPath();
+    ctx.ellipse(0, -r*0.65, r*0.27, r*0.52, 0, 0, Math.PI*2);
+    ctx.fillStyle = i%2===0 ? c1 : c2;
+    ctx.fill();
+    ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(cx, cy, r*0.3, 0, Math.PI*2);
+  ctx.fillStyle = '#fff176'; ctx.fill();
+  ctx.strokeStyle = '#f9a825'; ctx.lineWidth = 2; ctx.stroke();
+  if (isSource) {
+    for (let i = 0; i < 6; i++) {
+      const a = (i/6)*Math.PI*2;
+      ctx.beginPath();
+      ctx.arc(cx+Math.cos(a)*r*0.17, cy+Math.sin(a)*r*0.17, 4, 0, Math.PI*2);
+      ctx.fillStyle = '#ffd740'; ctx.strokeStyle = '#f9a825'; ctx.lineWidth = 1;
+      ctx.fill(); ctx.stroke();
+    }
+  } else {
+    ctx.beginPath(); ctx.arc(cx, cy, 9, 0, Math.PI*2);
+    ctx.fillStyle = '#a5d6a7'; ctx.strokeStyle = '#43a047'; ctx.lineWidth = 2;
+    ctx.fill(); ctx.stroke();
+  }
+}
+
+function _drawStemC(ctx, cx, cy) {
+  const base = cy + 50*0.3;
+  ctx.beginPath(); ctx.moveTo(cx, base); ctx.lineTo(cx, base+78);
+  ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.stroke();
+  for (let s of [-1,1]) {
+    ctx.save(); ctx.translate(cx, base+48); ctx.rotate(s*0.5);
+    ctx.beginPath(); ctx.ellipse(s*20, 0, 20, 9, 0, 0, Math.PI*2);
+    ctx.fillStyle = '#66bb6a'; ctx.fill(); ctx.restore();
+  }
+}
+
+function _drawBeeC(ctx, x, y, dir, hasPollen) {
+  ctx.save(); ctx.translate(x, y);
+  if (dir < 0) ctx.scale(-1,1);
+  for (let s of [-1,1]) {
+    ctx.beginPath(); ctx.ellipse(s*6, -11, 8.5, 5.5, s*0.3, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(200,240,255,0.75)';
+    ctx.strokeStyle = 'rgba(120,180,210,0.45)'; ctx.lineWidth = 1;
+    ctx.fill(); ctx.stroke();
+  }
+  ctx.beginPath(); ctx.ellipse(0, 0, 13, 8, 0, 0, Math.PI*2);
+  ctx.fillStyle = '#fdd835'; ctx.fill();
+  ctx.strokeStyle = '#f57f17'; ctx.lineWidth = 1.5; ctx.stroke();
+  for (let xi = -5; xi <= 5; xi += 5) {
+    ctx.fillStyle = 'rgba(0,0,0,0.28)'; ctx.fillRect(xi-1.5, -8, 3, 16);
+  }
+  ctx.beginPath(); ctx.arc(14, 0, 7, 0, Math.PI*2);
+  ctx.fillStyle = '#fdd835'; ctx.fill();
+  ctx.strokeStyle = '#f57f17'; ctx.lineWidth = 1; ctx.stroke();
+  ctx.beginPath(); ctx.arc(16, -2, 2, 0, Math.PI*2);
+  ctx.fillStyle = '#222'; ctx.fill();
+  ctx.restore();
+  if (hasPollen) {
+    for (let i = 0; i < 6; i++) {
+      const a = (i/6)*Math.PI*2;
+      ctx.beginPath();
+      ctx.arc(x+Math.cos(a)*18, y+Math.sin(a)*12, 3.5, 0, Math.PI*2);
+      ctx.fillStyle = '#ffd740'; ctx.strokeStyle = '#f9a825'; ctx.lineWidth = 0.5;
+      ctx.fill(); ctx.stroke();
+    }
+  }
+}
+
+function _bez(t, p0, p1, p2, p3) {
+  const m = 1-t;
+  return m*m*m*p0 + 3*m*m*t*p1 + 3*m*t*t*p2 + t*t*t*p3;
+}
+
+function _startPollAnim() {
+  _stopPollAnim();
+  const canvas = document.getElementById('pollCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  _beePhase = 0; _beeT = 0; _beeWait = 0; _beePollen = false; _beeDir = 1;
+  _initWindPs();
+  let tick = 0;
+
+  function frame() {
+    tick++;
+    ctx.clearRect(0, 0, _CW, _CH);
+
+    // Sky to ground gradient
+    const g = ctx.createLinearGradient(0,0,0,_CH);
+    g.addColorStop(0,'#dbeafe'); g.addColorStop(0.65,'#e8f5e9'); g.addColorStop(1,'#c8e6c9');
+    ctx.fillStyle = g; ctx.fillRect(0,0,_CW,_CH);
+
+    // Ground strip
+    ctx.fillStyle = '#a5d6a7'; ctx.fillRect(0,_CH-26,_CW,26);
+
+    // Swaying grass
+    for (let gx = 15; gx < _CW; gx += 22) {
+      ctx.beginPath(); ctx.moveTo(gx, _CH-26);
+      ctx.quadraticCurveTo(gx+4+Math.sin(tick*0.03+gx*0.1)*2, _CH-44, gx+7, _CH-50);
+      ctx.strokeStyle = '#66bb6a'; ctx.lineWidth = 2; ctx.stroke();
+    }
+
+    _drawStemC(ctx, _F1.x, _F1.y);
+    _drawStemC(ctx, _F2.x, _F2.y);
+    _drawFlowerC(ctx, _F1.x, _F1.y, '#f48fb1', '#f06292', true);
+    _drawFlowerC(ctx, _F2.x, _F2.y, '#ffcc80', '#ffa726', false);
+
+    ctx.font = 'bold 12px Arial, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#555';
+    ctx.fillText('Flower A', _F1.x, _CH-4);
+    ctx.fillText('Flower B', _F2.x, _CH-4);
+    ctx.font = '10px Arial';
+    ctx.fillStyle = '#f57f17'; ctx.fillText('(anther · pollen)', _F1.x, _F1.y-62);
+    ctx.fillStyle = '#2e7d32'; ctx.fillText('(stigma)', _F2.x, _F2.y-62);
+
+    if (_pollMode === 'bee') {
+      let bx = 0, by = 0;
+      if (_beePhase === 0) {
+        bx = _F1.x - 28; by = _F1.y - 36 + Math.sin(tick*0.12)*5;
+        _beeWait++;
+        if (_beeWait > 55) { _beePhase=1; _beeT=0; _beePollen=true; _beeDir=1; _beeWait=0; }
+      } else if (_beePhase === 1) {
+        _beeT = Math.min(1, _beeT + 0.009);
+        bx = _bez(_beeT, _F1.x-28, _F1.x+60, _F2.x-60, _F2.x+28);
+        by = _bez(_beeT, _F1.y-36, _F1.y-115, _F2.y-115, _F2.y-36);
+        if (_beeT >= 1) { _beePhase=2; _beeWait=0; _beePollen=false; }
+      } else if (_beePhase === 2) {
+        bx = _F2.x+28; by = _F2.y-36 + Math.sin(tick*0.12)*5;
+        _beeWait++;
+        if (_beeWait < 38) {
+          for (let i = 0; i < 4; i++) {
+            const pr = _beeWait/38;
+            ctx.beginPath(); ctx.arc(bx-(i+1)*8*pr, by+Math.sin(i*1.2)*7, 3, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(255,215,64,${1-pr})`; ctx.fill();
+          }
+        }
+        if (_beeWait > 72) { _beePhase=3; _beeT=0; _beeDir=-1; _beeWait=0; }
+      } else if (_beePhase === 3) {
+        _beeT = Math.min(1, _beeT + 0.009);
+        bx = _bez(_beeT, _F2.x+28, _F2.x-60, _F1.x+60, _F1.x-28);
+        by = _bez(_beeT, _F2.y-36, _F2.y-80, _F1.y-80, _F1.y-36);
+        if (_beeT >= 1) { _beePhase=0; _beeDir=1; _beeWait=0; }
+      }
+      _drawBeeC(ctx, bx, by, _beeDir, _beePollen && _beePhase===1);
+      if (_beePhase===2 && _beeWait>5 && _beeWait<58) {
+        ctx.font='bold 15px Arial'; ctx.fillStyle='#e91e63'; ctx.textAlign='center';
+        ctx.fillText('✅ Pollen delivered to stigma!', (_F1.x+_F2.x)/2, 20);
+      }
+
+    } else {
+      // Wind lines
+      for (let w = 0; w < 4; w++) {
+        const wy = 50 + w*52 + Math.sin(tick*0.04)*7;
+        ctx.beginPath();
+        for (let xi = 0; xi <= _CW; xi += 12) {
+          const yy = wy + Math.sin(xi*0.03+tick*0.04+w)*6;
+          xi===0 ? ctx.moveTo(xi,yy) : ctx.lineTo(xi,yy);
+        }
+        ctx.strokeStyle = `rgba(176,224,230,${0.2-w*0.04})`; ctx.lineWidth = 2; ctx.stroke();
+      }
+      _windPs.forEach(p => {
+        if (p.delay > 0) { p.delay--; return; }
+        if (!p.landed) {
+          p.x += p.vx; p.y += p.vy + Math.sin(tick*0.04+p.wobble)*0.32; p.wobble += 0.04;
+          const d = Math.hypot(p.x-_F2.x, p.y-_F2.y);
+          if (d < 20) { p.landed=true; p.x=_F2.x+(Math.random()-0.5)*14; p.y=_F2.y+(Math.random()-0.5)*14; }
+          else if (p.x > _CW+20) {
+            p.x=_F1.x+(Math.random()-0.5)*22; p.y=_F1.y+(Math.random()-0.5)*22;
+            p.vx=1.3+Math.random()*1.8; p.vy=(Math.random()-0.5)*0.8;
+            p.delay=Math.floor(Math.random()*35); p.landed=false;
+          }
+        }
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = p.landed ? 'rgba(100,200,100,0.75)' : `rgba(255,215,64,${p.alpha})`;
+        ctx.strokeStyle = p.landed ? 'rgba(56,142,60,0.4)' : 'rgba(249,168,37,0.35)';
+        ctx.lineWidth = 0.5; ctx.fill(); ctx.stroke();
+      });
+      const landedCount = _windPs.filter(p => p.landed).length;
+      if (landedCount > 0) {
+        ctx.font='bold 13px Arial'; ctx.fillStyle='#2e7d32'; ctx.textAlign='center';
+        ctx.fillText(`✅ ${landedCount} pollen grain${landedCount>1?'s':''} landed on the stigma!`, _CW/2, 18);
+      }
+    }
+    _pollAnimId = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ─── SCENE 2: Pollen Tube ───
+const TUBE_STEPS = [
+  {
+    title: '1️⃣ Pollen grain lands on the stigma',
+    desc: 'A pollen grain arrives at the flower — carried by a bee or the wind. It lands on the <strong>sticky stigma</strong> at the top of the carpel. It sticks there because the stigma is coated in a special glue-like substance! This is the start of the journey.',
+    show: ['tPollen','tPollenLabel'],
+    hide: ['tTube1','tTube2','tNucleus','tNucLabel','tFertFlash','tFertLabel','tZygoteLabel','tEggLabel'],
+    nucPos: null, fbClass: '', fbText: ''
+  },
+  {
+    title: '2️⃣ The pollen tube starts growing',
+    desc: 'The pollen grain absorbs water from the stigma and begins to grow a long thin tube called the <strong>pollen tube</strong>. This tube pushes down through the <em>style</em> — like a tiny drill boring a tunnel! This takes several hours.',
+    show: ['tPollen','tTube1'],
+    hide: ['tTube2','tNucleus','tNucLabel','tFertFlash','tFertLabel','tZygoteLabel','tEggLabel','tPollenLabel'],
+    nucPos: null, fbClass: '', fbText: ''
+  },
+  {
+    title: '3️⃣ The male nucleus travels down the tube',
+    desc: 'The pollen tube keeps growing until it reaches the ovary. Inside the tube, the <strong>male nucleus</strong> (a special sex cell) travels downward — like a tiny messenger heading for the egg! The nucleus is shown as the orange dot.',
+    show: ['tPollen','tTube1','tTube2','tNucleus','tNucLabel'],
+    hide: ['tFertFlash','tFertLabel','tZygoteLabel','tEggLabel','tPollenLabel'],
+    nucPos: 100, fbClass: '', fbText: ''
+  },
+  {
+    title: '4️⃣ The nucleus reaches the egg cell',
+    desc: 'The pollen tube enters the <strong>ovule</strong> inside the ovary. The male nucleus reaches the end of the tube, right next to the <strong>egg cell</strong>. Just one male nucleus and one egg cell will join together. Fertilisation is about to happen!',
+    show: ['tPollen','tTube1','tTube2','tNucleus','tEggLabel'],
+    hide: ['tFertFlash','tFertLabel','tZygoteLabel','tNucLabel','tPollenLabel'],
+    nucPos: 170, fbClass: '', fbText: ''
+  },
+  {
+    title: '5️⃣ Fertilisation! 🎉',
+    desc: 'The male nucleus joins with the egg cell — this is called <strong>fertilisation</strong>! The fertilised egg is now called a <strong>zygote</strong>. It will grow into a <strong>seed</strong>, and the ovary around it will swell into a <strong>fruit</strong>. A brand new plant has begun! 🌱',
+    show: ['tFertFlash','tFertLabel','tZygoteLabel','tPollen','tTube1','tTube2'],
+    hide: ['tNucleus','tNucLabel','tEggLabel','tPollenLabel'],
+    nucPos: null, fbClass: 'ok', fbText: '🎉 You\'ve followed the full pollen tube journey — from pollen landing to fertilisation!'
+  }
+];
+
+let _tubeStep = 0;
+
+function showTubeStep(idx, btn) {
+  _tubeStep = idx;
+  document.querySelectorAll('.tstep-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const step = TUBE_STEPS[idx];
+  document.getElementById('tubeStepTitle').textContent = step.title;
+  document.getElementById('tubeStepDesc').innerHTML = step.desc;
+  step.show.forEach(id => { const el=document.getElementById(id); if(el) el.setAttribute('opacity','1'); });
+  step.hide.forEach(id => { const el=document.getElementById(id); if(el) el.setAttribute('opacity','0'); });
+  if (step.nucPos !== null) {
+    const nc = document.getElementById('tNucleus');
+    const nl = document.getElementById('tNucLabel');
+    if (nc) nc.setAttribute('cy', step.nucPos);
+    if (nl) nl.setAttribute('y', step.nucPos + 4);
+  }
+  const fb = document.getElementById('tubeFeedback');
+  if (step.fbClass) {
+    fb.className = 'tube-feedback-box ' + step.fbClass + ' show';
+    fb.innerHTML = step.fbText;
+  } else {
+    fb.className = 'tube-feedback-box'; fb.textContent = '';
+  }
+  document.getElementById('tubeNextBtn').style.display = idx >= TUBE_STEPS.length-1 ? 'none' : 'inline-block';
+}
+
+function nextTubeStep() {
+  if (_tubeStep < TUBE_STEPS.length - 1) {
+    const nextBtn = document.querySelectorAll('.tstep-btn')[_tubeStep + 1];
+    showTubeStep(_tubeStep + 1, nextBtn);
+  }
+}
+
+// ─── SCENE 3: Seed Dispersal Game ───
+const SEED_MAP = {
+  dandelion: { label:'🌼 Dandelion',      method:'wind',       explain:'Dandelion seeds have tiny parachutes that float on the wind — they can travel far from the parent plant!' },
+  coconut:   { label:'🥥 Coconut',        method:'water',      explain:'Coconuts are large but they float! They can drift across oceans and wash up on distant beaches to grow there.' },
+  burdock:   { label:'🌿 Burdock (hooks)',method:'animal-fur', explain:'Burdock seeds have tiny hooks that catch on animal fur or clothing — hitching a ride without being eaten!' },
+  cherry:    { label:'🍒 Cherry',         method:'eaten',      explain:'Animals eat cherries! The stone (seed) passes through their body undamaged and grows somewhere new.' },
+  bean:      { label:'🫘 Bean Pod',       method:'explosion',  explain:'Bean pods dry out and TWIST — then EXPLODE, shooting seeds outward! Some can fire seeds 10 metres!' }
+};
+
+let _selectedSeed = null, _seedScore = 0, _seedMatched = {};
+
+function selectSeed(seedId, el) {
+  if (_seedMatched[seedId]) return;
+  document.querySelectorAll('.seed-card').forEach(c => c.classList.remove('selected'));
+  _selectedSeed = seedId;
+  el.classList.add('selected');
+  document.getElementById('seedHintBar').innerHTML = `<strong>${SEED_MAP[seedId].label}</strong> selected! 👇 Now tap the correct dispersal method below.`;
+  document.getElementById('seedHintBar').style.background = '#ede7f6';
+}
+
+function placeSeed(methodId, el) {
+  if (!_selectedSeed) {
+    document.getElementById('seedHintBar').textContent = '👆 Tap a seed above to select it first!';
+    return;
+  }
+  const seed = SEED_MAP[_selectedSeed];
+  if (seed.method === methodId) {
+    el.classList.add('zone-correct');
+    const hits = document.getElementById('mz-' + methodId + '-hits');
+    if (hits) hits.innerHTML += `<span title="${seed.explain}" style="cursor:help;">${seed.label.split(' ')[0]}</span> `;
+    const sc = document.getElementById('sc-' + _selectedSeed);
+    sc.classList.remove('selected'); sc.classList.add('matched');
+    sc.innerHTML = SEED_MAP[_selectedSeed].label + ' ✅';
+    _seedMatched[_selectedSeed] = true; _seedScore++;
+    document.getElementById('gameScore').textContent = `Score: ${_seedScore} / 5`;
+    document.getElementById('seedHintBar').innerHTML = `✅ Correct! ${seed.explain}`;
+    document.getElementById('seedHintBar').style.background = '#e8f5e9';
+    _selectedSeed = null;
+    if (_seedScore === 5) {
+      document.getElementById('gameResultText').textContent = '🏆 Brilliant! You matched all 5 seeds perfectly!';
+      document.getElementById('gameResult').classList.add('show');
+    }
+  } else {
+    el.classList.remove('zone-shake'); void el.offsetWidth; el.classList.add('zone-shake');
+    document.getElementById('seedHintBar').innerHTML = `❌ Not quite! Think about how ${seed.label} really travels. Try a different method!`;
+    document.getElementById('seedHintBar').style.background = '#ffebee';
+    setTimeout(() => { el.classList.remove('zone-shake'); }, 400);
+  }
+}
+
+function resetSeedGame() {
+  _selectedSeed = null; _seedScore = 0; _seedMatched = {};
+  Object.keys(SEED_MAP).forEach(id => {
+    const sc = document.getElementById('sc-' + id);
+    if (sc) { sc.classList.remove('selected','matched'); sc.innerHTML = SEED_MAP[id].label; }
+  });
+  document.querySelectorAll('.mzone').forEach(z => z.classList.remove('zone-correct','zone-shake'));
+  ['wind','water','animal-fur','eaten','explosion'].forEach(m => {
+    const el = document.getElementById('mz-' + m + '-hits');
+    if (el) el.innerHTML = '';
+  });
+  document.getElementById('gameScore').textContent = 'Score: 0 / 5';
+  document.getElementById('seedHintBar').textContent = '👆 Tap a seed above to select it first!';
+  document.getElementById('seedHintBar').style.background = '#f3e5f5';
+  document.getElementById('gameResult').classList.remove('show');
+}
+
+// ─── SCENE 4: Life Cycle Wheel ───
+const WHEEL_STAGES = [
+  { icon:'🌱', label:'Seed\nGerminates', color:'#a5d6a7', dark:'#388e3c', desc:'The seed absorbs water and the seed coat splits open. The root grows down and the shoot grows up — the tiny embryo inside comes to life!' },
+  { icon:'🌿', label:'Seedling\nGrows',   color:'#66bb6a', dark:'#2e7d32', desc:'The seedling grows bigger, developing leaves and a stem. Its leaves use sunlight to make food by photosynthesis. It needs water, warmth, and air.' },
+  { icon:'🌸', label:'Plant\nFlowers',    color:'#f48fb1', dark:'#c2185b', desc:'The mature plant grows flowers! Flowers have colourful petals to attract insects, stamens with pollen (male), and carpels with egg cells (female).' },
+  { icon:'🐝', label:'Pollination',       color:'#ffd740', dark:'#f9a825', desc:'Pollen moves from the anther of one flower to the stigma of another — carried by insects like bees, or blown by the wind.' },
+  { icon:'✨', label:'Fertilisation',     color:'#ce93d8', dark:'#7b1fa2', desc:'A pollen tube grows down through the style to the ovary. The male nucleus travels down and fuses with the egg cell. This is fertilisation!' },
+  { icon:'🍎', label:'Fruit\nForms',      color:'#ff8a65', dark:'#e64a19', desc:'After fertilisation, the ovary swells and grows into a fruit. The fertilised egg becomes a seed inside. The petals fall off — their job is done!' },
+  { icon:'🌬️', label:'Seeds\nDisperse',  color:'#81d4fa', dark:'#0277bd', desc:'Seeds are scattered by wind, water, animals or explosion. If a seed finds the right conditions — warmth, water, air — it germinates and the cycle begins again!' }
+];
+
+let _wheelPlaying = false, _wheelDotAngle = 0, _wheelAnimId = null, _wheelActiveStage = -1;
+
+function _initWheel() {
+  const svg = document.getElementById('wheelSvg');
+  if (!svg) return;
+  svg.querySelectorAll('.wd').forEach(e => e.remove());
+  const n = WHEEL_STAGES.length;
+  const cx=160, cy=160, outerR=122, innerR=66, gap=0.06;
+  const arcSpan = (2*Math.PI/n) - gap;
+
+  WHEEL_STAGES.forEach((st, i) => {
+    const startA = -Math.PI/2 + i*(2*Math.PI/n) + gap/2;
+    const endA = startA + arcSpan;
+    const midA = (startA+endA)/2;
+    const x1=cx+outerR*Math.cos(startA), y1=cy+outerR*Math.sin(startA);
+    const x2=cx+outerR*Math.cos(endA),   y2=cy+outerR*Math.sin(endA);
+    const ix1=cx+innerR*Math.cos(startA),iy1=cy+innerR*Math.sin(startA);
+    const ix2=cx+innerR*Math.cos(endA),  iy2=cy+innerR*Math.sin(endA);
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('id','warc-'+i);
+    path.setAttribute('class','wd');
+    path.setAttribute('d',`M${ix1} ${iy1} L${x1} ${y1} A${outerR} ${outerR} 0 0 1 ${x2} ${y2} L${ix2} ${iy2} A${innerR} ${innerR} 0 0 0 ${ix1} ${iy1}Z`);
+    path.setAttribute('fill', st.color);
+    path.setAttribute('stroke','white'); path.setAttribute('stroke-width','2.5');
+    path.setAttribute('data-stage', i); path.setAttribute('cursor','pointer');
+    svg.insertBefore(path, svg.firstChild);
+
+    const iconR = (outerR+innerR)/2;
+    const ict = document.createElementNS('http://www.w3.org/2000/svg','text');
+    ict.setAttribute('class','wd'); ict.setAttribute('x', cx+iconR*Math.cos(midA));
+    ict.setAttribute('y', cy+iconR*Math.sin(midA)+6);
+    ict.setAttribute('text-anchor','middle'); ict.setAttribute('font-size','17');
+    ict.setAttribute('pointer-events','none'); ict.textContent = st.icon;
+    svg.appendChild(ict);
+
+    const labelR = outerR + 17;
+    st.label.split('\n').forEach((line,li,arr) => {
+      const lt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      lt.setAttribute('class','wd');
+      lt.setAttribute('x', cx+labelR*Math.cos(midA));
+      lt.setAttribute('y', cy+labelR*Math.sin(midA) + li*12 - (arr.length-1)*6);
+      lt.setAttribute('text-anchor','middle'); lt.setAttribute('font-size','9');
+      lt.setAttribute('fill', st.dark); lt.setAttribute('font-weight','bold');
+      lt.setAttribute('pointer-events','none'); lt.textContent = line;
+      svg.appendChild(lt);
+    });
+  });
+
+  const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  dot.setAttribute('id','wheelDot'); dot.setAttribute('class','wd');
+  dot.setAttribute('r','8'); dot.setAttribute('fill','#ff4081');
+  dot.setAttribute('stroke','white'); dot.setAttribute('stroke-width','2');
+  dot.setAttribute('opacity','0'); dot.setAttribute('pointer-events','none');
+  svg.appendChild(dot);
+}
+
+function wheelClick(evt) {
+  const si = evt.target.getAttribute('data-stage');
+  if (si !== null) _showWheelStage(parseInt(si));
+}
+
+function _showWheelStage(i) {
+  _wheelActiveStage = i;
+  const st = WHEEL_STAGES[i];
+  document.getElementById('stageTitle').textContent = st.icon + ' ' + st.label.replace('\n',' ');
+  document.getElementById('stageDesc').textContent = st.desc;
+  document.querySelectorAll('.wd[id^="warc-"]').forEach((arc,idx) => {
+    arc.setAttribute('fill', WHEEL_STAGES[idx].color);
+  });
+  const active = document.getElementById('warc-'+i);
+  if (active) active.setAttribute('fill', WHEEL_STAGES[i].dark);
+}
+
+function toggleWheelPlay() {
+  _wheelPlaying = !_wheelPlaying;
+  const btn = document.getElementById('wheelPlayBtn');
+  const dot = document.getElementById('wheelDot');
+  if (_wheelPlaying) {
+    btn.textContent = '⏸ Pause';
+    if (dot) dot.setAttribute('opacity','1');
+    _animateWheel();
+  } else {
+    btn.textContent = '▶ Auto-play';
+    if (dot) dot.setAttribute('opacity','0');
+    if (_wheelAnimId) { cancelAnimationFrame(_wheelAnimId); _wheelAnimId = null; }
+  }
+}
+
+function _animateWheel() {
+  if (!_wheelPlaying) return;
+  const dot = document.getElementById('wheelDot');
+  if (!dot) return;
+  _wheelDotAngle += 0.007;
+  const cx=160, cy=160, trackR=94;
+  const a = -Math.PI/2 + _wheelDotAngle;
+  dot.setAttribute('cx', cx + trackR*Math.cos(a));
+  dot.setAttribute('cy', cy + trackR*Math.sin(a));
+  const n = WHEEL_STAGES.length;
+  const si = Math.floor(((_wheelDotAngle % (Math.PI*2)) / (Math.PI*2)) * n) % n;
+  if (si !== _wheelActiveStage) _showWheelStage(si);
+  _wheelAnimId = requestAnimationFrame(_animateWheel);
+}
+
+function resetWheel() {
+  _wheelPlaying = false; _wheelDotAngle = 0;
+  if (_wheelAnimId) { cancelAnimationFrame(_wheelAnimId); _wheelAnimId = null; }
+  document.getElementById('wheelPlayBtn').textContent = '▶ Auto-play';
+  const dot = document.getElementById('wheelDot');
+  if (dot) dot.setAttribute('opacity','0');
+  _wheelActiveStage = -1;
+  document.querySelectorAll('.wd[id^="warc-"]').forEach((arc,i) => arc.setAttribute('fill', WHEEL_STAGES[i].color));
+  document.getElementById('stageTitle').textContent = 'Tap a stage to learn more!';
+  document.getElementById('stageDesc').textContent = 'Each stage leads to the next. The whole cycle repeats over and over — that\'s why it\'s called a life cycle! 🔄\n\nPress ▶ Auto-play to watch the dot travel around all 7 stages.';
+}
 </script>
 <script src="cam-nav.js"></script>
 </body>
