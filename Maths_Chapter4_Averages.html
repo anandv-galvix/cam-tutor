@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4: Averages 📊</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #ede9fe 100%); min-height: 100vh; }
+
+/* HEADER */
+.header { background: linear-gradient(90deg, #db2777, #ec4899, #f472b6); color: white; padding: 24px 20px; text-align: center; box-shadow: 0 4px 20px rgba(219,39,119,0.4); }
+.header h1 { font-size: clamp(1.4rem,5vw,2.2rem); font-weight: 900; text-shadow: 2px 3px 6px rgba(0,0,0,0.2); }
+.header p { margin-top: 6px; font-size: 0.95rem; opacity: 0.95; }
+.back-btn { display:inline-block; margin-bottom:12px; background:rgba(255,255,255,0.25); color:white; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:0.85rem; font-weight:700; }
+.back-btn:hover { background:rgba(255,255,255,0.4); }
+.prog-wrap { background:rgba(255,255,255,0.3); border-radius:20px; height:12px; margin:12px auto; max-width:440px; }
+.prog-bar { height:12px; border-radius:20px; background:#fbbf24; transition:width 0.5s; width:0%; }
+.prog-label { font-size:0.82rem; color:white; margin-top:4px; }
+
+/* TABS */
+.tabs { display:flex; background:white; border-bottom:3px solid #db2777; overflow-x:auto; }
+.tab-btn { flex:1; padding:11px 6px; border:none; background:none; cursor:pointer; font-size:0.77rem; font-weight:700; color:#666; transition:all 0.2s; white-space:nowrap; min-width:72px; font-family:inherit; }
+.tab-btn.active { background:#db2777; color:white; }
+.tab-btn:hover:not(.active) { background:#fdf2f8; color:#db2777; }
+
+/* SECTIONS */
+.section { display:none; padding:20px; max-width:920px; margin:0 auto; }
+.section.active { display:block; }
+
+/* CARDS */
+.card { background:white; border-radius:18px; padding:22px; margin-bottom:18px; box-shadow:0 4px 16px rgba(0,0,0,0.08); }
+.card h2 { color:#db2777; margin-bottom:12px; font-size:1.2rem; }
+.card h3 { color:#9d174d; margin-bottom:8px; font-size:1rem; }
+
+/* INFO BOXES */
+.info-box { background:#fdf2f8; border-left:4px solid #db2777; border-radius:0 12px 12px 0; padding:14px 16px; margin:12px 0; font-size:0.9rem; line-height:1.6; }
+.info-box.blue { background:#eff6ff; border-color:#3b82f6; }
+.info-box.teal { background:#f0fdf4; border-color:#0f766e; }
+.info-box.amber { background:#fffbeb; border-color:#d97706; }
+.info-box.purple { background:#faf5ff; border-color:#8b5cf6; }
+
+.rule-box { background:linear-gradient(135deg,#fce7f3,#fbcfe8); border-radius:16px; padding:18px; margin:14px 0; }
+.rule-box h3 { color:#9d174d; margin-bottom:10px; }
+.rule-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; font-size:0.9rem; border-bottom:1px solid rgba(219,39,119,0.15); }
+.rule-item:last-child { border-bottom:none; }
+.rule-num { background:#db2777; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0; font-size:0.85rem; }
+
+.think-box { background:linear-gradient(135deg,#e0f2fe,#bae6fd); border-radius:16px; padding:20px; margin:14px 0; }
+.think-box h3 { color:#075985; margin-bottom:10px; }
+.think-box p { color:#0c4a6e; font-size:0.9rem; line-height:1.6; }
+
+/* BADGES */
+.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:700; margin:2px; }
+.badge.pink { background:#fce7f3; color:#9d174d; }
+.badge.blue { background:#dbeafe; color:#1e40af; }
+.badge.teal { background:#ccfbf1; color:#134e4a; }
+.badge.amber { background:#fef3c7; color:#92400e; }
+.badge.purple { background:#f3e8ff; color:#6b21a8; }
+
+/* BUTTONS */
+.btn { display:inline-block; padding:10px 22px; border-radius:25px; border:none; font-size:0.9rem; font-weight:800; cursor:pointer; transition:all 0.2s; margin:4px; font-family:inherit; }
+.btn-pink { background:linear-gradient(135deg,#db2777,#ec4899); color:white; }
+.btn-pink:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(219,39,119,0.4); }
+.btn-blue { background:linear-gradient(135deg,#2563eb,#3b82f6); color:white; }
+.btn-blue:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(37,99,235,0.4); }
+.btn-secondary { background:#e2e8f0; color:#4a5568; }
+.btn-amber { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; }
+
+/* INPUT */
+.inp { padding:8px 12px; border:2px solid #db2777; border-radius:12px; font-size:1rem; font-weight:700; font-family:inherit; }
+.inp:focus { outline:none; border-color:#9d174d; }
+
+/* ────── MODE INTERACTIVE ────── */
+.mode-input-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:12px 0; }
+.mode-chips { display:flex; flex-wrap:wrap; gap:8px; min-height:50px; margin:12px 0; align-items:center; }
+.num-chip { background:linear-gradient(135deg,#db2777,#ec4899); color:white; border-radius:12px; padding:10px 16px; font-size:1.1rem; font-weight:900; cursor:pointer; transition:all 0.2s; position:relative; }
+.num-chip.mode-winner { background:linear-gradient(135deg,#d97706,#f59e0b); transform:scale(1.15); box-shadow:0 6px 18px rgba(217,119,6,0.5); }
+.num-chip.mode-winner::after { content:'★ MODE'; position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-size:0.65rem; background:#d97706; color:white; padding:2px 6px; border-radius:8px; white-space:nowrap; }
+.freq-bar-wrap { margin:14px 0; }
+.freq-row { display:flex; align-items:center; gap:10px; margin:6px 0; }
+.freq-label { width:40px; text-align:right; font-weight:700; font-size:0.9rem; color:#1e293b; }
+.freq-bar { height:28px; border-radius:0 8px 8px 0; background:linear-gradient(90deg,#db2777,#ec4899); transition:width 0.5s; display:flex; align-items:center; padding-left:8px; color:white; font-weight:700; font-size:0.8rem; min-width:30px; }
+.freq-bar.winner { background:linear-gradient(90deg,#d97706,#f59e0b); }
+.freq-count { font-size:0.85rem; font-weight:700; color:#666; }
+
+/* ────── MEDIAN INTERACTIVE ────── */
+.median-chips { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; min-height:50px; align-items:center; }
+.med-chip { border-radius:12px; padding:10px 16px; font-size:1.1rem; font-weight:900; transition:all 0.4s; border:3px solid transparent; }
+.med-chip.unsorted { background:linear-gradient(135deg,#db2777,#ec4899); color:white; }
+.med-chip.sorted { background:white; color:#db2777; border-color:#db2777; }
+.med-chip.crossed { background:#f1f5f9; color:#94a3b8; text-decoration:line-through; border-color:#e2e8f0; }
+.med-chip.median-winner { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border-color:#d97706; transform:scale(1.2); box-shadow:0 6px 18px rgba(217,119,6,0.5); }
+.median-step-msg { background:#fdf2f8; border-radius:12px; padding:12px 16px; font-size:0.9rem; font-weight:700; color:#9d174d; margin:10px 0; min-height:44px; }
+.step-btn-row { display:flex; gap:10px; flex-wrap:wrap; margin:10px 0; }
+
+/* ────── MODE vs MEDIAN ────── */
+.scenario-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0; }
+@media(max-width:540px){ .scenario-cards { grid-template-columns:1fr; } }
+.scenario-card { background:white; border-radius:16px; padding:18px; border:3px solid #e2e8f0; cursor:pointer; transition:all 0.2s; }
+.scenario-card:hover { border-color:#db2777; transform:translateY(-2px); }
+.scenario-card.selected { border-color:#db2777; background:#fdf2f8; }
+.scenario-title { font-weight:900; font-size:1rem; color:#1e293b; margin-bottom:8px; }
+.scenario-data { font-size:0.85rem; color:#475569; margin-bottom:10px; }
+.scenario-result { display:none; font-size:0.85rem; line-height:1.6; }
+.scenario-result.show { display:block; }
+.avg-compare { display:flex; gap:10px; margin:10px 0; flex-wrap:wrap; }
+.avg-box { flex:1; min-width:120px; padding:12px; border-radius:12px; text-align:center; }
+.avg-box.mode-box { background:#fdf2f8; border:2px solid #db2777; }
+.avg-box.median-box { background:#eff6ff; border:2px solid #3b82f6; }
+.avg-box .avg-label { font-size:0.75rem; font-weight:700; color:#666; margin-bottom:4px; }
+.avg-box .avg-val { font-size:1.4rem; font-weight:900; }
+.avg-box.mode-box .avg-val { color:#db2777; }
+.avg-box.median-box .avg-val { color:#2563eb; }
+.best-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:700; margin-top:6px; }
+.best-badge.pink { background:#fce7f3; color:#9d174d; border:2px solid #ec4899; }
+.best-badge.blue { background:#dbeafe; color:#1e40af; border:2px solid #3b82f6; }
+
+/* ────── RAINFALL TABLE ────── */
+.rain-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:12px 0; overflow-x:auto; display:block; }
+.rain-table th { background:linear-gradient(135deg,#db2777,#ec4899); color:white; padding:8px 10px; text-align:center; font-weight:900; }
+.rain-table td { border:2px solid #fce7f3; padding:8px 10px; text-align:center; font-weight:700; }
+.rain-table tr:nth-child(even) td { background:#fdf9fe; }
+.rain-bar-cell { width:80px; }
+.rain-bar-inner { height:16px; border-radius:0 8px 8px 0; background:linear-gradient(90deg,#db2777,#ec4899); }
+
+/* QUIZ */
+.quiz-q { background:white; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.07); }
+.quiz-q p { font-weight:700; margin-bottom:12px; color:#1e293b; font-size:0.95rem; }
+.options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.opt-btn { padding:10px 14px; border:2px solid #e2e8f0; border-radius:12px; background:white; cursor:pointer; font-size:0.85rem; font-weight:700; transition:all 0.2s; text-align:left; font-family:inherit; }
+.opt-btn:hover { border-color:#db2777; background:#fdf2f8; }
+.opt-btn.correct { background:#d1fae5; border-color:#10b981; color:#065f46; }
+.opt-btn.wrong { background:#fee2e2; border-color:#f87171; color:#991b1b; }
+.opt-btn:disabled { cursor:not-allowed; opacity:0.8; }
+.feedback { font-size:0.85rem; margin-top:8px; font-weight:700; min-height:20px; }
+.feedback.ok { color:#065f46; }
+.feedback.err { color:#991b1b; }
+
+/* SHORT ANSWER */
+.sa-q { background:white; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.07); }
+.sa-q p { font-weight:700; margin-bottom:10px; color:#1e293b; font-size:0.95rem; }
+.sa-input { width:100%; padding:10px 14px; border:2px solid #e2e8f0; border-radius:12px; font-size:1rem; font-weight:700; font-family:inherit; }
+.sa-input:focus { outline:none; border-color:#db2777; }
+.sa-feedback { font-size:0.85rem; margin-top:8px; font-weight:700; min-height:20px; }
+.sa-feedback.ok { color:#065f46; }
+.sa-feedback.err { color:#991b1b; }
+
+/* SCORE DISPLAY */
+.score-display { text-align:center; padding:24px; background:white; border-radius:18px; box-shadow:0 4px 16px rgba(0,0,0,0.1); margin-top:20px; }
+.score-num { font-size:3rem; font-weight:900; color:#db2777; }
+.score-label { font-size:1rem; color:#475569; margin-top:4px; }
+.score-stars { font-size:1.5rem; margin:10px 0; }
+
+/* PRACTICE PAPER */
+.paper-header { background:white; border-radius:18px; padding:24px; margin-bottom:20px; box-shadow:0 4px 16px rgba(0,0,0,0.08); border-top:6px solid #db2777; }
+.paper-title { font-size:1.3rem; font-weight:900; color:#9d174d; margin-bottom:6px; }
+.paper-meta { font-size:0.85rem; color:#475569; line-height:1.8; }
+.paper-q { background:white; border-radius:14px; padding:22px; margin-bottom:16px; box-shadow:0 2px 10px rgba(0,0,0,0.07); }
+.paper-q-num { font-size:0.75rem; font-weight:900; color:#db2777; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.paper-q p { font-size:0.95rem; line-height:1.7; margin-bottom:8px; }
+.paper-q .marks { font-size:0.8rem; font-weight:700; color:#475569; float:right; background:#f1f5f9; padding:2px 8px; border-radius:10px; }
+.answer-space { background:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px; padding:16px; margin:10px 0; min-height:70px; font-size:0.85rem; color:#94a3b8; font-style:italic; }
+.worked-sol { display:none; margin-top:14px; background:#f0fff4; border:2px solid #10b981; border-radius:12px; padding:14px; font-size:0.9rem; line-height:1.7; }
+.worked-sol.show { display:block; }
+.worked-sol strong { color:#065f46; }
+.table-data { border-collapse:collapse; width:100%; margin:10px 0; font-size:0.85rem; }
+.table-data th { background:#fce7f3; padding:8px 12px; font-weight:900; border:1px solid #f9a8d4; }
+.table-data td { border:1px solid #f9a8d4; padding:8px 12px; text-align:center; font-weight:700; }
+
+/* CONFETTI CANVAS */
+#confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; display:none; }
+
+/* PRINT */
+@media print {
+  .header .back-btn, .tabs, #confettiCanvas, .btn, .step-btn-row, .mode-input-row, .inp { display:none !important; }
+  .section { display:block !important; }
+  #sec-paper { display:block !important; }
+  .answer-space { min-height:80px; border:1px solid #ccc; background:white; }
+  .worked-sol { display:none !important; }
+  body { background:white; }
+  .card, .paper-q, .paper-header { box-shadow:none; border:1px solid #e2e8f0; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- HEADER -->
+<div class="header">
+  <a class="back-btn" href="index.html">← Back to Home</a>
+  <h1>📊 Unit 4: Averages</h1>
+  <p>Mode · Median · Choosing the right average</p>
+  <div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
+  <div class="prog-label" id="progLabel">0 / 18 stars earned</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('explore')">🌟 Explore</button>
+  <button class="tab-btn" onclick="showTab('mode')">🎯 Mode</button>
+  <button class="tab-btn" onclick="showTab('median')">📏 Median</button>
+  <button class="tab-btn" onclick="showTab('compare')">⚖️ Compare</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🧠 MCQ</button>
+  <button class="tab-btn" onclick="showTab('short')">✏️ Short Answer</button>
+  <button class="tab-btn" onclick="showTab('paper')">📄 Practice Paper</button>
+</div>
+
+<!-- ═══════════════ EXPLORE ═══════════════ -->
+<div class="section active" id="sec-explore">
+
+  <div class="card">
+    <h2>🌟 What is an Average?</h2>
+    <p style="line-height:1.7;font-size:0.95rem;">An <strong>average</strong> is a single number that represents a whole set of data. If lots of people rate a film, the <em>average score</em> tells you what most people thought about it. You can use averages to compare, summarise and make decisions!</p>
+    <div class="info-box" style="margin-top:14px;">
+      <strong>🎬 Example:</strong> A film gets these scores from 9 people:<br>
+      <span style="font-size:1.2rem;font-weight:900;color:#db2777;letter-spacing:4px;">6 · 8 · 6 · 5 · 7 · 6 · 4 · 9 · 6</span><br>
+      The <strong>average score</strong> helps you decide whether to watch it!
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔑 Key Words</h2>
+    <div class="rule-box">
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div><strong>Average</strong> — a single value that represents a whole data set. It tells you what is <em>typical</em> for that data.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div><strong>Mode</strong> — the value that appears <em>most often</em> in a data set. It is the most popular value. There can be more than one mode, or no mode!</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div><strong>Median</strong> — the <em>middle value</em> when all values are sorted in order from smallest to largest. Half the values are below it, half above.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌱 Real-world Averages</h2>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:14px;">Think about these seed packets. Each shows the <em>average height</em> of the plants inside.</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;justify-content:center;">
+      <div style="background:linear-gradient(135deg,#1e40af,#3b82f6);color:white;border-radius:16px;padding:20px 28px;text-align:center;min-width:130px;">
+        <div style="font-size:2.5rem;">🌷</div>
+        <div style="font-weight:900;font-size:1.1rem;margin-top:8px;">Dark Blue Seeds</div>
+        <div style="font-size:0.85rem;opacity:0.9;margin-top:4px;">Average height: <strong>3 m</strong></div>
+      </div>
+      <div style="background:linear-gradient(135deg,#d97706,#f59e0b);color:white;border-radius:16px;padding:20px 28px;text-align:center;min-width:130px;">
+        <div style="font-size:2.5rem;">🌼</div>
+        <div style="font-weight:900;font-size:1.1rem;margin-top:8px;">Light Yellow Seeds</div>
+        <div style="font-size:0.85rem;opacity:0.9;margin-top:4px;">Average height: <strong>1 m</strong></div>
+      </div>
+    </div>
+    <div class="think-box">
+      <h3>🤔 Think about it!</h3>
+      <p>Not every dark blue flower will be exactly 3 m tall — some will be taller, some shorter. The average just tells you what is <em>typical</em>! Which packet has the taller flowers?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 What you will learn in this unit</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+      <div style="background:#fdf2f8;border-radius:14px;padding:16px;border:2px solid #f9a8d4;">
+        <div style="font-size:2rem;text-align:center;margin-bottom:8px;">🎯</div>
+        <div style="font-weight:900;color:#9d174d;margin-bottom:6px;">Mode</div>
+        <div style="font-size:0.85rem;color:#475569;line-height:1.5;">Find the value that appears most often. Great for finding the most popular item!</div>
+      </div>
+      <div style="background:#eff6ff;border-radius:14px;padding:16px;border:2px solid #93c5fd;">
+        <div style="font-size:2rem;text-align:center;margin-bottom:8px;">📏</div>
+        <div style="font-weight:900;color:#1e40af;margin-bottom:6px;">Median</div>
+        <div style="font-size:0.85rem;color:#475569;line-height:1.5;">Find the middle value after sorting. Not affected by very big or small values!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MODE ═══════════════ -->
+<div class="section" id="sec-mode">
+
+  <div class="card">
+    <h2>🎯 What is the Mode?</h2>
+    <div class="info-box">
+      <strong>Mode = the value that appears the MOST often in a data set.</strong><br>
+      Think of it as the most <em>popular</em> value — just like the most popular flavour of ice cream!
+    </div>
+    <div class="rule-box" style="margin-top:14px;">
+      <h3>How to find the Mode</h3>
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>Look at all the values in the data set.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>Count how many times each value appears.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div>The value with the <strong>highest count</strong> is the mode!</div>
+      </div>
+    </div>
+    <div class="think-box">
+      <h3>📦 Tip to remember</h3>
+      <p>If you have: cat, cat, mouse, rabbit — <strong>"cat"</strong> appears the most, so the mode is <strong>cat</strong>! The mode works for words too, not just numbers.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎮 Mode Finder — Try it!</h2>
+    <p style="font-size:0.9rem;margin-bottom:12px;color:#475569;">Type numbers separated by commas (or spaces), then press <strong>Find Mode</strong>!</p>
+    <div class="mode-input-row">
+      <input class="inp" id="modeInput" type="text" placeholder="e.g. 3, 5, 3, 7, 5, 3" style="flex:1;min-width:200px;">
+      <button class="btn btn-pink" onclick="findMode()">Find Mode 🎯</button>
+      <button class="btn btn-secondary" onclick="resetMode()">Reset</button>
+    </div>
+    <div id="modeChips" class="mode-chips"></div>
+    <div id="modeFreqBars" class="freq-bar-wrap"></div>
+    <div id="modeResult" style="font-size:1rem;font-weight:700;color:#9d174d;margin-top:10px;min-height:28px;"></div>
+  </div>
+
+  <div class="card">
+    <h2>📝 Worked Examples</h2>
+
+    <div style="background:#fdf2f8;border-radius:14px;padding:16px;margin-bottom:14px;">
+      <div style="font-weight:900;color:#9d174d;margin-bottom:8px;">Example 1 — Numbers</div>
+      <div style="font-size:0.9rem;line-height:1.8;">
+        Data: <span style="font-weight:900;color:#db2777;">8, 9, 9, 8, 9, 8, 9</span><br>
+        Count 8s: <strong>3 times</strong><br>
+        Count 9s: <strong>4 times</strong><br>
+        ∴ Mode = <span style="background:#d97706;color:white;padding:2px 10px;border-radius:10px;font-weight:900;">9</span> (appears 4 times)
+      </div>
+    </div>
+
+    <div style="background:#eff6ff;border-radius:14px;padding:16px;margin-bottom:14px;">
+      <div style="font-weight:900;color:#1e40af;margin-bottom:8px;">Example 2 — Two modes!</div>
+      <div style="font-size:0.9rem;line-height:1.8;">
+        Data: <span style="font-weight:900;color:#2563eb;">11, 11, 11, 13, 13, 13</span><br>
+        Count 11s: <strong>3 times</strong><br>
+        Count 13s: <strong>3 times</strong><br>
+        ∴ There are <strong>two modes</strong>: <span style="background:#2563eb;color:white;padding:2px 10px;border-radius:10px;font-weight:900;">11 and 13</span>
+      </div>
+    </div>
+
+    <div style="background:#f0fdf4;border-radius:14px;padding:16px;">
+      <div style="font-weight:900;color:#065f46;margin-bottom:8px;">Example 3 — Bananas in bunches</div>
+      <div style="font-size:0.9rem;line-height:1.8;">
+        Data: <span style="font-weight:900;color:#059669;">6, 4, 5, 6, 7, 4, 4, 5, 6, 5, 7, 5</span><br>
+        Count 4s: 3 · Count 5s: <strong>4 times</strong> · Count 6s: 3 · Count 7s: 2<br>
+        ∴ Mode = <span style="background:#059669;color:white;padding:2px 10px;border-radius:10px;font-weight:900;">5</span> bananas per bunch
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏪 Gloves Problem</h2>
+    <p style="font-size:0.9rem;line-height:1.6;margin-bottom:14px;">A shop sells gloves in sizes 1, 2, 3 and 4. In one day, the shop sells these sizes:</p>
+    <div style="text-align:center;font-size:1.4rem;font-weight:900;color:#db2777;letter-spacing:6px;margin:12px 0;padding:14px;background:#fdf2f8;border-radius:12px;">
+      1 · 2 · 3 · 4 · 1 · 4 · 4 · 2 · 4
+    </div>
+    <div class="info-box" style="margin-top:12px;">
+      <strong>Mode = 4</strong> (appears 4 times!)<br>
+      The shopkeeper should order more <strong>size 4 gloves</strong> — they are the most popular!<br><br>
+      <span style="color:#475569;">Count: Size 1 → 2×   Size 2 → 2×   Size 3 → 1×   Size 4 → 4×</span>
+    </div>
+    <div class="think-box" style="margin-top:12px;">
+      <h3>💡 Why Mode is useful here</h3>
+      <p>The mode tells you the <em>most popular</em> size. If the shopkeeper wants to sell more gloves, they should stock up on the most popular size — that's the <strong>mode</strong>!</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MEDIAN ═══════════════ -->
+<div class="section" id="sec-median">
+
+  <div class="card">
+    <h2>📏 What is the Median?</h2>
+    <div class="info-box">
+      <strong>Median = the MIDDLE value when all values are sorted from smallest to largest.</strong><br>
+      Half the values are below the median, and half are above it!
+    </div>
+    <div class="rule-box" style="margin-top:14px;">
+      <h3>The Crossing-Out Method</h3>
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>Write all the values in <strong>order</strong> from smallest to largest.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>Cross out the <strong>first and last</strong> values at the same time.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div>Keep crossing out from <strong>both ends</strong> together until one value remains.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">4</div>
+        <div>The value <strong>left in the middle</strong> is the median!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎮 Median Finder — Step by Step!</h2>
+    <p style="font-size:0.9rem;margin-bottom:12px;color:#475569;">Enter numbers, then press the buttons to see the crossing-out method in action!</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+      <input class="inp" id="medianInput" type="text" placeholder="e.g. 134, 131, 137, 132, 133" style="flex:1;min-width:200px;">
+      <button class="btn btn-blue" onclick="initMedian()">Sort &amp; Start 📏</button>
+      <button class="btn btn-secondary" onclick="resetMedian()">Reset</button>
+    </div>
+    <div id="medianChips" class="median-chips"></div>
+    <div id="medianMsg" class="median-step-msg" style="display:none;"></div>
+    <div class="step-btn-row" id="medianBtns" style="display:none;">
+      <button class="btn btn-pink" onclick="crossNextPair()">Cross Out Next Pair ✂️</button>
+      <button class="btn btn-amber" onclick="skipToMedian()">Show Answer 🎯</button>
+    </div>
+    <div id="medianResult" style="font-size:1rem;font-weight:700;color:#1e40af;margin-top:10px;min-height:28px;"></div>
+  </div>
+
+  <div class="card">
+    <h2>📝 Worked Example</h2>
+    <div style="background:#eff6ff;border-radius:14px;padding:16px;">
+      <div style="font-weight:900;color:#1e40af;margin-bottom:10px;">Finding the median of: 133 cm, 137 cm, 134 cm, 131 cm, 132 cm</div>
+      <div style="font-size:0.9rem;line-height:2;">
+        <strong>Step 1 — Sort:</strong><br>
+        <span style="font-family:monospace;font-size:1rem;color:#1e40af;">131, 132, <span style="background:#db2777;color:white;padding:2px 8px;border-radius:8px;">133</span>, 134, 137</span><br><br>
+        <strong>Step 2 — Cross out first pair:</strong><br>
+        <span style="font-family:monospace;font-size:1rem;"><s style="color:#94a3b8;">131</s>, 132, <span style="background:#db2777;color:white;padding:2px 8px;border-radius:8px;">133</span>, 134, <s style="color:#94a3b8;">137</s></span><br><br>
+        <strong>Step 3 — Cross out next pair:</strong><br>
+        <span style="font-family:monospace;font-size:1rem;"><s style="color:#cbd5e1;">131</s>, <s style="color:#94a3b8;">132</s>, <span style="background:#d97706;color:white;padding:2px 8px;border-radius:8px;">133</span>, <s style="color:#94a3b8;">134</s>, <s style="color:#cbd5e1;">137</s></span><br><br>
+        <strong>Answer:</strong> Median = <span style="background:#d97706;color:white;padding:2px 12px;border-radius:10px;font-weight:900;">133 cm</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎒 Bag Masses Problem</h2>
+    <p style="font-size:0.9rem;line-height:1.6;margin-bottom:12px;">Find the median mass of these bags:</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0;">
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">670 g</div>
+      </div>
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">855 g</div>
+      </div>
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">1000 g</div>
+      </div>
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">722 g</div>
+      </div>
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">595 g</div>
+      </div>
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">998 g</div>
+      </div>
+      <div style="background:#fdf2f8;border-radius:12px;padding:12px 16px;text-align:center;border:2px solid #f9a8d4;">
+        <div style="font-size:1.5rem;">🎒</div><div style="font-weight:900;color:#db2777;">789 g</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <strong>Sorted:</strong> 595, 670, 722, <span style="background:#d97706;color:white;padding:1px 8px;border-radius:8px;">789</span>, 855, 998, 1000<br>
+      <strong>Median = 789 g</strong> (the 4th value — the middle of 7 values)
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💡 What if there's an even number of values?</h2>
+    <div class="info-box blue">
+      With an <strong>odd</strong> number of values, there is always one middle value — that is the median.<br><br>
+      In Cambridge Stage 5, you will always be given an <strong>odd</strong> number of values to work with, so there will always be a single middle value!
+    </div>
+    <div class="think-box" style="margin-top:12px;">
+      <h3>🤔 Think about it!</h3>
+      <p>If you have 5 values, after sorting, the 3rd value is in the middle. If you have 7 values, the 4th value is in the middle. If you have 9 values, the 5th value is in the middle. Can you see the pattern?</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ COMPARE ═══════════════ -->
+<div class="section" id="sec-compare">
+
+  <div class="card">
+    <h2>⚖️ Mode vs Median — Which is better?</h2>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:14px;">Both mode and median are averages, but sometimes one is more useful than the other! The key is to think about what the question is asking.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="background:#fdf2f8;border-radius:14px;padding:16px;border:2px solid #f9a8d4;">
+        <div style="font-weight:900;color:#9d174d;font-size:1rem;margin-bottom:8px;">🎯 Use the MODE when...</div>
+        <div style="font-size:0.85rem;line-height:1.6;color:#475569;">
+          • You want to know the most <em>popular</em> or <em>common</em> value<br>
+          • You are choosing what to stock in a shop<br>
+          • You want to find the most typical item
+        </div>
+      </div>
+      <div style="background:#eff6ff;border-radius:14px;padding:16px;border:2px solid #93c5fd;">
+        <div style="font-weight:900;color:#1e40af;font-size:1rem;margin-bottom:8px;">📏 Use the MEDIAN when...</div>
+        <div style="font-size:0.85rem;line-height:1.6;color:#475569;">
+          • You want the middle of a range<br>
+          • There are very high or low values that might skew the data<br>
+          • You want a fair middle point
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🛍️ Explore Real-world Scenarios</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:14px;">Click a scenario to see both averages and find out which one is better!</p>
+    <div class="scenario-cards">
+      <div class="scenario-card" id="sc1" onclick="showScenario(1)">
+        <div class="scenario-title">🧤 Glove Shop</div>
+        <div class="scenario-data">Sizes sold: 1, 2, 3, 4, 1, 4, 4, 2, 4</div>
+        <div class="scenario-result" id="sr1">
+          <div class="avg-compare">
+            <div class="avg-box mode-box"><div class="avg-label">MODE</div><div class="avg-val">4</div></div>
+            <div class="avg-box median-box"><div class="avg-label">MEDIAN</div><div class="avg-val">3</div></div>
+          </div>
+          <div style="font-size:0.85rem;line-height:1.6;">
+            The shopkeeper should use the <strong>MODE</strong> (size 4) because they want to know the <em>most popular</em> size to restock. The median just tells them the middle size, not the most-sold one!
+          </div>
+          <div><span class="best-badge pink">✓ Use MODE here</span></div>
+        </div>
+      </div>
+      <div class="scenario-card" id="sc2" onclick="showScenario(2)">
+        <div class="scenario-title">🌧️ Monthly Rainfall</div>
+        <div class="scenario-data">Rainfall (mm): 7, 6, 14, 13, 5, 0, 4, 4, 0, 0, 3</div>
+        <div class="scenario-result" id="sr2">
+          <div class="avg-compare">
+            <div class="avg-box mode-box"><div class="avg-label">MODE</div><div class="avg-val">0 mm</div></div>
+            <div class="avg-box median-box"><div class="avg-label">MEDIAN</div><div class="avg-val">4 mm</div></div>
+          </div>
+          <div style="font-size:0.85rem;line-height:1.6;">
+            The <strong>MEDIAN</strong> (4 mm) better describes the average rainfall. The mode of 0 mm is misleading — it just means some months had no rain, but the median shows the true middle amount.
+          </div>
+          <div><span class="best-badge blue">✓ Use MEDIAN here</span></div>
+        </div>
+      </div>
+      <div class="scenario-card" id="sc3" onclick="showScenario(3)">
+        <div class="scenario-title">💰 Money Raised at Event</div>
+        <div class="scenario-data">Amounts ($): $9, $7, $6, $5, $9</div>
+        <div class="scenario-result" id="sr3">
+          <div class="avg-compare">
+            <div class="avg-box mode-box"><div class="avg-label">MODE</div><div class="avg-val">$9</div></div>
+            <div class="avg-box median-box"><div class="avg-label">MEDIAN</div><div class="avg-val">$7</div></div>
+          </div>
+          <div style="font-size:0.85rem;line-height:1.6;">
+            The <strong>MEDIAN</strong> ($7) better describes the average. The mode is just the most common amount — only 2 out of 5 people gave $9. The median gives a fairer picture of the middle donation.
+          </div>
+          <div><span class="best-badge blue">✓ Use MEDIAN here</span></div>
+        </div>
+      </div>
+      <div class="scenario-card" id="sc4" onclick="showScenario(4)">
+        <div class="scenario-title">🍽️ Restaurant Table Sizes</div>
+        <div class="scenario-data">Group sizes: 3, 2, 4, 4, 1, 5, 4, 2, 2, 4, 1</div>
+        <div class="scenario-result" id="sr4">
+          <div class="avg-compare">
+            <div class="avg-box mode-box"><div class="avg-label">MODE</div><div class="avg-val">4</div></div>
+            <div class="avg-box median-box"><div class="avg-label">MEDIAN</div><div class="avg-val">3</div></div>
+          </div>
+          <div style="font-size:0.85rem;line-height:1.6;">
+            The <strong>MODE</strong> (4) is better here! Maryam wants to know the most common group size so she can order the right tables. 4-person tables are ordered the most — the mode tells her exactly that!
+          </div>
+          <div><span class="best-badge pink">✓ Use MODE here</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌧️ Rainfall Table Explorer</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:12px;">Here is 11 months of rainfall data. The bars show you the amount visually!</p>
+    <table class="rain-table">
+      <tr>
+        <th>Month</th>
+        <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
+        <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th>
+      </tr>
+      <tr>
+        <td><strong>Rainfall (mm)</strong></td>
+        <td>7</td><td>6</td><td>14</td><td>13</td><td>5</td><td>0</td>
+        <td>4</td><td>4</td><td>0</td><td>0</td><td>3</td>
+      </tr>
+      <tr>
+        <td><strong>Bar</strong></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:50px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:43px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:100%;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:93px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:36px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:0px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:29px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:29px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:0px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:0px;"></div></td>
+        <td class="rain-bar-cell"><div class="rain-bar-inner" style="width:21px;"></div></td>
+      </tr>
+    </table>
+    <div class="info-box" style="margin-top:14px;">
+      <strong>Sorted:</strong> 0, 0, 0, 3, 4, <span style="background:#2563eb;color:white;padding:1px 8px;border-radius:8px;">4</span>, 5, 6, 7, 13, 14<br>
+      <strong>Mode = 0 mm</strong> (appears 3 times in Jun, Sep, Oct)<br>
+      <strong>Median = 4 mm</strong> (6th value of 11 = the middle)<br><br>
+      <span style="color:#475569;">The median (4 mm) better describes a typical month — the mode of 0 gives a misleading picture!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MCQ QUIZ ═══════════════ -->
+<div class="section" id="sec-quiz">
+  <div class="card">
+    <h2>🧠 MCQ Quiz — Averages</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:16px;">10 questions · 1 star each · choose the best answer!</p>
+  </div>
+
+  <div class="quiz-q" id="qq0">
+    <p>Q1. What is the mode of: 1, 1, 1, 2, 3?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(0,0,1)">1</button>
+      <button class="opt-btn" onclick="checkMCQ(0,1,1)">2</button>
+      <button class="opt-btn" onclick="checkMCQ(0,2,1)">3</button>
+      <button class="opt-btn" onclick="checkMCQ(0,3,1)">1 and 2</button>
+    </div>
+    <div class="feedback" id="qf0"></div>
+  </div>
+
+  <div class="quiz-q" id="qq1">
+    <p>Q2. What is the median of: 3, 7, 1, 5, 9?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(1,0,1)">3</button>
+      <button class="opt-btn" onclick="checkMCQ(1,1,1)">5</button>
+      <button class="opt-btn" onclick="checkMCQ(1,2,1)">7</button>
+      <button class="opt-btn" onclick="checkMCQ(1,3,1)">1</button>
+    </div>
+    <div class="feedback" id="qf1"></div>
+  </div>
+
+  <div class="quiz-q" id="qq2">
+    <p>Q3. The mode of: 30, 29, 31, 29, 32 is:</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(2,0,1)">30</button>
+      <button class="opt-btn" onclick="checkMCQ(2,1,1)">31</button>
+      <button class="opt-btn" onclick="checkMCQ(2,2,1)">29</button>
+      <button class="opt-btn" onclick="checkMCQ(2,3,1)">32</button>
+    </div>
+    <div class="feedback" id="qf2"></div>
+  </div>
+
+  <div class="quiz-q" id="qq3">
+    <p>Q4. The median of: 253, 257, 270, 299, 308, 310, 324, 740, 751 (already sorted) is:</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(3,0,1)">270</button>
+      <button class="opt-btn" onclick="checkMCQ(3,1,1)">308</button>
+      <button class="opt-btn" onclick="checkMCQ(3,2,1)">299</button>
+      <button class="opt-btn" onclick="checkMCQ(3,3,1)">324</button>
+    </div>
+    <div class="feedback" id="qf3"></div>
+  </div>
+
+  <div class="quiz-q" id="qq4">
+    <p>Q5. Shoe prices: $19.99, $30, $18.50, $25.45, $18.50. What is the mode?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(4,0,1)">$30</button>
+      <button class="opt-btn" onclick="checkMCQ(4,1,1)">$25.45</button>
+      <button class="opt-btn" onclick="checkMCQ(4,2,1)">$18.50</button>
+      <button class="opt-btn" onclick="checkMCQ(4,3,1)">$19.99</button>
+    </div>
+    <div class="feedback" id="qf4"></div>
+  </div>
+
+  <div class="quiz-q" id="qq5">
+    <p>Q6. Ribbons: 5m, 3m, 2m, 4m, 4m, 2m, 1m. What is the median?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(5,0,1)">2m</button>
+      <button class="opt-btn" onclick="checkMCQ(5,1,1)">3m</button>
+      <button class="opt-btn" onclick="checkMCQ(5,2,1)">4m</button>
+      <button class="opt-btn" onclick="checkMCQ(5,3,1)">5m</button>
+    </div>
+    <div class="feedback" id="qf5"></div>
+  </div>
+
+  <div class="quiz-q" id="qq6">
+    <p>Q7. Data: 5, 6, 1, 2, 6. What are the mode and median?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(6,0,1)">Mode=6, Median=5</button>
+      <button class="opt-btn" onclick="checkMCQ(6,1,1)">Mode=6, Median=6</button>
+      <button class="opt-btn" onclick="checkMCQ(6,2,1)">Mode=5, Median=5</button>
+      <button class="opt-btn" onclick="checkMCQ(6,3,1)">Mode=1, Median=5</button>
+    </div>
+    <div class="feedback" id="qf6"></div>
+  </div>
+
+  <div class="quiz-q" id="qq7">
+    <p>Q8. A shopkeeper can only order one glove size. Sizes sold: 1,2,3,4,1,4,4,2,4. Which average should they use?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(7,0,1)">Median — it's the middle size</button>
+      <button class="opt-btn" onclick="checkMCQ(7,1,1)">Mode — it's the most popular size</button>
+      <button class="opt-btn" onclick="checkMCQ(7,2,1)">Either — they're both the same</button>
+      <button class="opt-btn" onclick="checkMCQ(7,3,1)">Neither — just guess!</button>
+    </div>
+    <div class="feedback" id="qf7"></div>
+  </div>
+
+  <div class="quiz-q" id="qq8">
+    <p>Q9. What set of 5 numbers has BOTH a mode of 3 AND a median of 3?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(8,0,1)">1, 2, 3, 4, 5</button>
+      <button class="opt-btn" onclick="checkMCQ(8,1,1)">1, 3, 3, 4, 5</button>
+      <button class="opt-btn" onclick="checkMCQ(8,2,1)">3, 3, 3, 4, 5</button>
+      <button class="opt-btn" onclick="checkMCQ(8,3,1)">1, 2, 3, 3, 3</button>
+    </div>
+    <div class="feedback" id="qf8"></div>
+  </div>
+
+  <div class="quiz-q" id="qq9">
+    <p>Q10. Data set: 26, 26, 27, 28, 30, 31, 32, 32, 32, 31, 29. What is the median?</p>
+    <div class="options">
+      <button class="opt-btn" onclick="checkMCQ(9,0,1)">29</button>
+      <button class="opt-btn" onclick="checkMCQ(9,1,1)">30</button>
+      <button class="opt-btn" onclick="checkMCQ(9,2,1)">31</button>
+      <button class="opt-btn" onclick="checkMCQ(9,3,1)">28</button>
+    </div>
+    <div class="feedback" id="qf9"></div>
+  </div>
+
+  <div class="score-display" id="quizScore" style="display:none;">
+    <div class="score-num" id="quizScoreNum">0/10</div>
+    <div class="score-stars" id="quizScoreStars"></div>
+    <div class="score-label">Quiz complete! Keep practising! 🎉</div>
+  </div>
+</div>
+
+<!-- ═══════════════ SHORT ANSWER ═══════════════ -->
+<div class="section" id="sec-short">
+  <div class="card">
+    <h2>✏️ Short Answer Practice</h2>
+    <p style="font-size:0.9rem;color:#475569;margin-bottom:4px;">Type your answer and press <strong>Enter</strong> or click Check. 1 star per correct answer!</p>
+  </div>
+
+  <div class="sa-q">
+    <p>SA1. What is the mode of: 8, 9, 9, 8, 9, 8, 9?</p>
+    <input class="sa-input" id="sa0" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(0)">
+    <div class="sa-feedback" id="sf0"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA2. What is the median of: 5, 5, 6, 7, 7, 8, 9, 9, 9, 10, 10 (already sorted)?</p>
+    <input class="sa-input" id="sa1" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(1)">
+    <div class="sa-feedback" id="sf1"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA3. Data: 11, 12, 9, 11, 11, 12, 13. What is the MODE?</p>
+    <input class="sa-input" id="sa2" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(2)">
+    <div class="sa-feedback" id="sf2"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA4. Data: 11, 12, 9, 11, 11, 12, 13. What is the MEDIAN?</p>
+    <input class="sa-input" id="sa3" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(3)">
+    <div class="sa-feedback" id="sf3"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA5. Data: 13, 13, 11, 12, 14, 12, 14, 14, 11. What is the median? (Tip: sort first!)</p>
+    <input class="sa-input" id="sa4" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(4)">
+    <div class="sa-feedback" id="sf4"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA6. Event money raised: $9, $7, $6, $5, $9. What is the MODE?</p>
+    <input class="sa-input" id="sa5" type="text" placeholder="Your answer (write just the number)..." onkeydown="if(event.key==='Enter')checkSA(5)">
+    <div class="sa-feedback" id="sf5"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA7. Restaurant group sizes: 3, 2, 4, 4, 1, 5, 4, 2, 2, 4, 1. What is the MEDIAN?</p>
+    <input class="sa-input" id="sa6" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(6)">
+    <div class="sa-feedback" id="sf6"></div>
+  </div>
+
+  <div class="sa-q">
+    <p>SA8. Data: 101, 102, 103, 103, 104, 105, 106, 106, 106. What is the MODE?</p>
+    <input class="sa-input" id="sa7" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkSA(7)">
+    <div class="sa-feedback" id="sf7"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+    <button class="btn btn-pink" onclick="checkAllSA()">Check All Answers ✅</button>
+    <button class="btn btn-secondary" onclick="resetSA()">Reset</button>
+  </div>
+
+  <div class="score-display" id="saScore" style="display:none;margin-top:16px;">
+    <div class="score-num" id="saScoreNum">0/8</div>
+    <div class="score-stars" id="saScoreStars"></div>
+    <div class="score-label">Short Answer complete!</div>
+  </div>
+</div>
+
+<!-- ═══════════════ PRACTICE PAPER ═══════════════ -->
+<div class="section" id="sec-paper">
+  <div class="paper-header">
+    <div class="paper-title">📄 Cambridge-style Practice Paper — Unit 4: Averages</div>
+    <div class="paper-meta">
+      Name: _____________________________ &nbsp;&nbsp; Date: _______________<br>
+      Time allowed: 30 minutes &nbsp;&nbsp; Total marks: <strong>25</strong><br>
+      Show all your working. Read each question carefully.
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-pink" onclick="window.print()">🖨️ Print Paper</button>
+      <button class="btn btn-secondary" onclick="toggleAllSolutions()">👁️ Toggle All Solutions</button>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="paper-q">
+    <div class="paper-q-num">Question 1 <span class="marks">[4 marks]</span></div>
+    <p>Find the <strong>mode</strong> of each set of numbers.</p>
+    <p><strong>a)</strong> &nbsp; 1, 1, 1, 2, 3 &nbsp;&nbsp;&nbsp; Mode = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <p><strong>b)</strong> &nbsp; 30, 29, 31, 29, 32 &nbsp;&nbsp;&nbsp; Mode = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <p><strong>c)</strong> &nbsp; 8, 9, 9, 8, 9, 8, 9 &nbsp;&nbsp;&nbsp; Mode = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <p><strong>d)</strong> &nbsp; 11, 11, 11, 13, 13, 13 &nbsp;&nbsp;&nbsp; Mode(s) = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <div class="answer-space">Working space...</div>
+    <div class="worked-sol" id="sol1">
+      <strong>✅ Worked Solution:</strong><br>
+      a) 1 appears 3 times, 2 once, 3 once → <strong>Mode = 1</strong><br>
+      b) 29 appears 2 times, others once → <strong>Mode = 29</strong><br>
+      c) 8 appears 3 times, 9 appears 4 times → <strong>Mode = 9</strong><br>
+      d) 11 appears 3 times AND 13 appears 3 times → <strong>Mode = 11 and 13</strong> (bimodal)
+    </div>
+    <button class="btn btn-secondary" style="font-size:0.8rem;padding:6px 14px;margin-top:8px;" onclick="toggleSol('sol1')">Show/Hide Solution</button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="paper-q">
+    <div class="paper-q-num">Question 2 <span class="marks">[5 marks]</span></div>
+    <p>Find the <strong>median</strong> of each set of numbers. Show your working by writing the numbers in order.</p>
+    <p><strong>a)</strong> &nbsp; 1, 2, 3, 4, 5 &nbsp;&nbsp;&nbsp; Median = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <p><strong>b)</strong> &nbsp; 3, 7, 1, 5, 9 &nbsp;&nbsp;&nbsp; Median = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2]</p>
+    <p><strong>c)</strong> &nbsp; 535, 422, 278, 567, 453, 772, 329 &nbsp;&nbsp;&nbsp; Median = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2]</p>
+    <div class="answer-space">Write numbers in order, then cross out from both ends...</div>
+    <div class="worked-sol" id="sol2">
+      <strong>✅ Worked Solution:</strong><br>
+      a) Already sorted: 1, 2, <strong>3</strong>, 4, 5 → <strong>Median = 3</strong><br><br>
+      b) Sort: 1, 3, <strong>5</strong>, 7, 9 → <strong>Median = 5</strong><br><br>
+      c) Sort: 278, 329, 422, <strong>453</strong>, 535, 567, 772 → <strong>Median = 453</strong>
+    </div>
+    <button class="btn btn-secondary" style="font-size:0.8rem;padding:6px 14px;margin-top:8px;" onclick="toggleSol('sol2')">Show/Hide Solution</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="paper-q">
+    <div class="paper-q-num">Question 3 <span class="marks">[6 marks]</span></div>
+    <p>Find <strong>both</strong> the mode and the median of each set. Write your answers in the sentence.</p>
+    <p><strong>a)</strong> &nbsp; 3, 5, 6, 2, 9, 3, 4, 3, 5</p>
+    <p style="padding-left:16px;">"The mode is _______ and the median is _______" &nbsp;&nbsp; [3]</p>
+    <p><strong>b)</strong> &nbsp; 5, 2, 5, 6, 7, 2, 3, 2, 1</p>
+    <p style="padding-left:16px;">"The mode is _______ and the median is _______" &nbsp;&nbsp; [3]</p>
+    <div class="answer-space">Working space — sort the data first!</div>
+    <div class="worked-sol" id="sol3">
+      <strong>✅ Worked Solution:</strong><br>
+      a) Data: 3, 5, 6, 2, 9, 3, 4, 3, 5<br>
+      Count: 2→1, 3→3, 4→1, 5→2, 6→1, 9→1 → <strong>Mode = 3</strong><br>
+      Sorted: 2, 3, 3, 3, 4, 5, 5, 6, 9 → middle (5th) = 4 → <strong>Median = 4</strong><br>
+      Answer: "The mode is <strong>3</strong> and the median is <strong>4</strong>"<br><br>
+      b) Data: 5, 2, 5, 6, 7, 2, 3, 2, 1<br>
+      Count: 1→1, 2→3, 3→1, 5→2, 6→1, 7→1 → <strong>Mode = 2</strong><br>
+      Sorted: 1, 2, 2, 2, 3, 5, 5, 6, 7 → middle (5th) = 3 → <strong>Median = 3</strong><br>
+      Answer: "The mode is <strong>2</strong> and the median is <strong>3</strong>"
+    </div>
+    <button class="btn btn-secondary" style="font-size:0.8rem;padding:6px 14px;margin-top:8px;" onclick="toggleSol('sol3')">Show/Hide Solution</button>
+  </div>
+
+  <!-- Q4 -->
+  <div class="paper-q">
+    <div class="paper-q-num">Question 4 <span class="marks">[5 marks]</span></div>
+    <p>Lucas has been asked to report the average amount of money raised at an event. The amounts raised were:</p>
+    <p style="text-align:center;font-size:1.1rem;font-weight:900;color:#db2777;margin:12px 0;">$9 &nbsp; $7 &nbsp; $6 &nbsp; $5 &nbsp; $9</p>
+    <p><strong>a)</strong> &nbsp; What is the <strong>mode</strong> of the amounts? &nbsp;&nbsp;&nbsp; Mode = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <p><strong>b)</strong> &nbsp; What is the <strong>median</strong> amount? &nbsp;&nbsp;&nbsp; Median = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2]</p>
+    <p><strong>c)</strong> &nbsp; Is it better to use the mode or the median to describe the average amount of money raised? Give a reason. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2]</p>
+    <div class="answer-space">Write your answer for part c) here...</div>
+    <div class="worked-sol" id="sol4">
+      <strong>✅ Worked Solution:</strong><br>
+      a) $9 appears twice (most) → <strong>Mode = $9</strong><br><br>
+      b) Sorted: $5, $6, <strong>$7</strong>, $9, $9 → middle (3rd) = $7 → <strong>Median = $7</strong><br><br>
+      c) <strong>The median ($7) is better</strong> to use here.<br>
+      Reason: The mode ($9) only counts the most common amount — but only 2 out of 5 people gave $9. The median ($7) gives a fairer picture of what a typical person donated, as it is the middle value of the sorted list.
+    </div>
+    <button class="btn btn-secondary" style="font-size:0.8rem;padding:6px 14px;margin-top:8px;" onclick="toggleSol('sol4')">Show/Hide Solution</button>
+  </div>
+
+  <!-- Q5 -->
+  <div class="paper-q">
+    <div class="paper-q-num">Question 5 <span class="marks">[5 marks]</span></div>
+    <p>Maryam wants to use an average to work out what size tables are most useful in her restaurant. Here are the sizes of groups that ate at the restaurant:</p>
+    <p style="text-align:center;font-size:1.1rem;font-weight:900;color:#db2777;margin:12px 0;">3 &nbsp; 2 &nbsp; 4 &nbsp; 4 &nbsp; 1 &nbsp; 5 &nbsp; 4 &nbsp; 2 &nbsp; 2 &nbsp; 4 &nbsp; 1</p>
+    <p><strong>a)</strong> &nbsp; Find the <strong>mode</strong> of the data. &nbsp;&nbsp;&nbsp; Mode = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2]</p>
+    <p><strong>b)</strong> &nbsp; Find the <strong>median</strong> of the data. &nbsp;&nbsp;&nbsp; Median = _________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2]</p>
+    <p><strong>c)</strong> &nbsp; Is it better to use the mode or the median to decide what size tables will be most useful? Give a reason. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [1]</p>
+    <div class="answer-space">Working space for parts a), b), c)...</div>
+    <div class="worked-sol" id="sol5">
+      <strong>✅ Worked Solution:</strong><br>
+      a) Count: 1→2, 2→3, 3→1, 4→4, 5→1 → <strong>Mode = 4</strong> (appears most often)<br><br>
+      b) Sorted: 1, 1, 2, 2, 2, 3, 4, 4, 4, 4, 5 → middle (6th of 11) = 3 → <strong>Median = 3</strong><br><br>
+      c) <strong>The mode (4) is better</strong> to use here.<br>
+      Reason: Maryam wants to know the most common group size so she can choose the most useful table size. The mode (4) tells her the most common number of people in a group, so she should have mostly 4-person tables.
+    </div>
+    <button class="btn btn-secondary" style="font-size:0.8rem;padding:6px 14px;margin-top:8px;" onclick="toggleSol('sol5')">Show/Hide Solution</button>
+  </div>
+
+  <div style="text-align:center;padding:20px;background:white;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-top:20px;">
+    <div style="font-size:1.1rem;font-weight:900;color:#9d174d;margin-bottom:6px;">End of Paper</div>
+    <div style="font-size:0.9rem;color:#475569;">Total: 25 marks · Check your working!</div>
+  </div>
+</div>
+
+<script>
+// ═══ TABS ═══
+function showTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══ STARS / PROGRESS ═══
+let stars = 0;
+const maxStars = 18;
+function addStar() {
+  stars = Math.min(stars + 1, maxStars);
+  updateProgress();
+}
+function updateProgress() {
+  const pct = (stars / maxStars) * 100;
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = stars + ' / ' + maxStars + ' stars earned';
+  if (stars >= maxStars) launchConfetti();
+}
+
+// ═══ MODE FINDER ═══
+function parseNums(str) {
+  return str.split(/[,\s]+/).map(x => x.trim()).filter(x => x !== '' && !isNaN(x)).map(Number);
+}
+function findMode() {
+  const nums = parseNums(document.getElementById('modeInput').value);
+  if (nums.length === 0) { alert('Please enter some numbers!'); return; }
+  const freq = {};
+  nums.forEach(n => freq[n] = (freq[n] || 0) + 1);
+  const maxFreq = Math.max(...Object.values(freq));
+  const modes = Object.keys(freq).filter(k => freq[k] === maxFreq).map(Number);
+  // chips
+  const chipsDiv = document.getElementById('modeChips');
+  chipsDiv.innerHTML = '';
+  nums.forEach(n => {
+    const chip = document.createElement('div');
+    chip.className = 'num-chip' + (modes.includes(n) ? ' mode-winner' : '');
+    chip.textContent = n;
+    chipsDiv.appendChild(chip);
+  });
+  // freq bars
+  const barsDiv = document.getElementById('modeFreqBars');
+  barsDiv.innerHTML = '';
+  const sortedKeys = Object.keys(freq).map(Number).sort((a,b)=>a-b);
+  sortedKeys.forEach(k => {
+    const row = document.createElement('div');
+    row.className = 'freq-row';
+    const w = Math.round((freq[k] / maxFreq) * 220);
+    const isMode = modes.includes(k);
+    row.innerHTML = `<div class="freq-label">${k}</div>
+      <div class="freq-bar ${isMode?'winner':''}" style="width:${w}px">${freq[k]}×</div>
+      <div class="freq-count">${isMode ? '⭐ MODE' : ''}</div>`;
+    barsDiv.appendChild(row);
+  });
+  const hasTwoModes = maxFreq === 1;
+  let msg = '';
+  if (hasTwoModes && nums.length > 1) {
+    msg = '⚠️ No mode — all values appear the same number of times!';
+  } else if (modes.length > 1) {
+    msg = `🎯 Mode(s): ${modes.join(' and ')} — they both appear ${maxFreq} times!`;
+  } else {
+    msg = `🎯 Mode = <strong>${modes[0]}</strong> — it appears ${maxFreq} times!`;
+  }
+  document.getElementById('modeResult').innerHTML = msg;
+}
+function resetMode() {
+  document.getElementById('modeInput').value = '';
+  document.getElementById('modeChips').innerHTML = '';
+  document.getElementById('modeFreqBars').innerHTML = '';
+  document.getElementById('modeResult').innerHTML = '';
+}
+
+// ═══ MEDIAN FINDER ═══
+let medianState = { sorted: [], crossCount: 0, done: false };
+function initMedian() {
+  const nums = parseNums(document.getElementById('medianInput').value);
+  if (nums.length === 0) { alert('Please enter some numbers!'); return; }
+  const sorted = [...nums].sort((a,b)=>a-b);
+  medianState = { sorted, crossCount: 0, done: false };
+  renderMedianChips();
+  document.getElementById('medianMsg').style.display = 'block';
+  document.getElementById('medianMsg').textContent = '✅ Sorted from smallest to largest! Now cross out from both ends.';
+  document.getElementById('medianBtns').style.display = 'flex';
+  document.getElementById('medianResult').textContent = '';
+}
+function renderMedianChips() {
+  const { sorted, crossCount } = medianState;
+  const n = sorted.length;
+  const chipsDiv = document.getElementById('medianChips');
+  chipsDiv.innerHTML = '';
+  sorted.forEach((val, i) => {
+    const chip = document.createElement('div');
+    const midIdx = Math.floor(n / 2);
+    let cls = 'med-chip sorted';
+    if (i < crossCount || i >= n - crossCount) cls = 'med-chip crossed';
+    if (crossCount > 0 && i === midIdx && crossCount >= Math.floor(n / 2)) cls = 'med-chip median-winner';
+    chip.className = cls;
+    chip.textContent = val;
+    chipsDiv.appendChild(chip);
+  });
+}
+function crossNextPair() {
+  const { sorted, crossCount, done } = medianState;
+  const n = sorted.length;
+  const maxCross = Math.floor(n / 2);
+  if (done || crossCount >= maxCross) {
+    skipToMedian();
+    return;
+  }
+  medianState.crossCount++;
+  renderMedianChips();
+  const remaining = n - 2 * medianState.crossCount;
+  if (remaining === 1) {
+    const medVal = sorted[Math.floor(n / 2)];
+    document.getElementById('medianMsg').textContent = `🎯 One value left — that's the median!`;
+    document.getElementById('medianResult').innerHTML = `📏 Median = <strong style="color:#d97706;font-size:1.2rem;">${medVal}</strong>`;
+    medianState.done = true;
+  } else {
+    document.getElementById('medianMsg').textContent = `✂️ Crossed out ${medianState.crossCount} pair(s). ${remaining} values remaining — keep going!`;
+  }
+}
+function skipToMedian() {
+  const { sorted } = medianState;
+  const n = sorted.length;
+  medianState.crossCount = Math.floor(n / 2);
+  medianState.done = true;
+  renderMedianChips();
+  const medVal = sorted[Math.floor(n / 2)];
+  document.getElementById('medianMsg').textContent = `🎯 The middle value is the median!`;
+  document.getElementById('medianResult').innerHTML = `📏 Median = <strong style="color:#d97706;font-size:1.2rem;">${medVal}</strong>`;
+}
+function resetMedian() {
+  medianState = { sorted: [], crossCount: 0, done: false };
+  document.getElementById('medianInput').value = '';
+  document.getElementById('medianChips').innerHTML = '';
+  document.getElementById('medianMsg').style.display = 'none';
+  document.getElementById('medianBtns').style.display = 'none';
+  document.getElementById('medianResult').textContent = '';
+}
+
+// ═══ SCENARIOS ═══
+function showScenario(n) {
+  document.getElementById('sc'+n).classList.add('selected');
+  const r = document.getElementById('sr'+n);
+  r.classList.toggle('show');
+}
+
+// ═══ MCQ ═══
+const mcqAnswers = [0, 1, 2, 1, 2, 1, 0, 1, 2, 1];
+const mcqExplain = [
+  '1 appears 3 times — more than any other value.',
+  'Sort: 1,3,5,7,9 → middle value is 5.',
+  '29 appears twice; all others appear once.',
+  '9 values sorted → 5th is the middle = 308.',
+  '$18.50 appears twice — it is the most common price.',
+  'Sort: 1,2,2,3,4,4,5 → middle (4th) = 3m.',
+  'Sort: 1,2,5,6,6 → mode=6 (appears twice); median = 5 (middle of 5).',
+  'The mode tells you the most popular size — perfect for restocking!',
+  '1,3,3,3,4,5 → wait, that is 6 values. Try: 1,3,3,3,5 → mode=3, sorted 1,3,3,3,5 → median=3. ✓ But option C is 3,3,3,4,5 → mode=3, median=3. ✓',
+  'Sort: 26,26,27,28,29,30,31,31,32,32,32 → 11 values, 6th = 30.'
+];
+let mcqScores = new Array(10).fill(0);
+let mcqDone = new Array(10).fill(false);
+function checkMCQ(q, chosen, correct) {
+  if (mcqDone[q]) return;
+  mcqDone[q] = true;
+  const div = document.getElementById('qq' + q);
+  const btns = div.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qf' + q);
+  if (chosen === mcqAnswers[q]) {
+    btns[chosen].classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.textContent = '✅ Correct! ' + mcqExplain[q];
+    mcqScores[q] = 1;
+    addStar();
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[mcqAnswers[q]].classList.add('correct');
+    fb.className = 'feedback err';
+    fb.textContent = '❌ Not quite. ' + mcqExplain[q];
+  }
+  const total = mcqScores.reduce((a,b)=>a+b,0);
+  const allDone = mcqDone.every(Boolean);
+  if (allDone) {
+    const sd = document.getElementById('quizScore');
+    sd.style.display = 'block';
+    document.getElementById('quizScoreNum').textContent = total + '/10';
+    document.getElementById('quizScoreStars').textContent = '⭐'.repeat(total);
+    if (total >= 9) launchConfetti();
+  }
+}
+
+// ═══ SHORT ANSWER ═══
+const saAnswers = [
+  ['9'],
+  ['9'],
+  ['11'],
+  ['11'],
+  ['13'],
+  ['9','$9'],
+  ['3'],
+  ['106']
+];
+const saExplain = [
+  'Count: 8→3, 9→4. 9 appears most. Mode = 9.',
+  'The data has 11 values. The 6th value (middle) is 9.',
+  'Count: 9→1, 11→3, 12→2, 13→1. Mode = 11.',
+  'Sort: 9,11,11,11,12,12,13. Middle (4th) = 11. Median = 11.',
+  'Sort: 11,11,12,12,13,14,14,14,14 → wait: 13,13,11,12,14,12,14,14,11 → Sort: 11,11,12,12,13,14,14 → 7 values, 4th = 13. Median = 13.',
+  'Count: $5→1, $6→1, $7→1, $9→2. $9 appears twice. Mode = 9.',
+  'Sort: 1,1,2,2,2,3,4,4,4,4,5 → 11 values, 6th = 3. Median = 3.',
+  'Count: 101→1, 102→1, 103→2, 104→1, 105→1, 106→3. 106 appears 3 times. Mode = 106.'
+];
+let saScores = new Array(8).fill(0);
+let saDone = new Array(8).fill(false);
+function checkSA(i) {
+  if (saDone[i]) return;
+  const val = document.getElementById('sa'+i).value.trim().toLowerCase().replace(/\$/g,'');
+  const accepted = saAnswers[i].map(a => a.toLowerCase().replace(/\$/g,''));
+  const fb = document.getElementById('sf'+i);
+  if (accepted.includes(val)) {
+    fb.className = 'sa-feedback ok';
+    fb.textContent = '✅ Correct! ' + saExplain[i];
+    saScores[i] = 1;
+    saDone[i] = true;
+    addStar();
+  } else {
+    fb.className = 'sa-feedback err';
+    fb.textContent = '❌ Not quite — try again! Hint: ' + saExplain[i];
+  }
+}
+function checkAllSA() {
+  for (let i = 0; i < 8; i++) checkSA(i);
+  const total = saScores.reduce((a,b)=>a+b,0);
+  const sd = document.getElementById('saScore');
+  sd.style.display = 'block';
+  document.getElementById('saScoreNum').textContent = total + '/8';
+  document.getElementById('saScoreStars').textContent = '⭐'.repeat(total);
+  if (total >= 7) launchConfetti();
+}
+function resetSA() {
+  for (let i = 0; i < 8; i++) {
+    document.getElementById('sa'+i).value = '';
+    document.getElementById('sf'+i).textContent = '';
+    document.getElementById('sf'+i).className = 'sa-feedback';
+    saScores[i] = 0;
+    saDone[i] = false;
+  }
+  document.getElementById('saScore').style.display = 'none';
+}
+
+// ═══ PRACTICE PAPER SOLUTIONS ═══
+function toggleSol(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+function toggleAllSolutions() {
+  document.querySelectorAll('.worked-sol').forEach(el => el.classList.toggle('show'));
+}
+
+// ═══ CONFETTI ═══
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const pieces = Array.from({length:120}, () => ({
+    x: Math.random()*canvas.width, y: -20,
+    r: Math.random()*8+4,
+    c: ['#db2777','#ec4899','#f472b6','#fbbf24','#10b981','#3b82f6','#a855f7'][Math.floor(Math.random()*7)],
+    vx: (Math.random()-0.5)*4, vy: Math.random()*4+2,
+    rot: Math.random()*360, vrot: (Math.random()-0.5)*8
+  }));
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p => {
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.c; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r);
+      ctx.restore();
+      p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+    });
+    frame++;
+    if (frame < 120) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+  }
+  draw();
+}
+</script>
+</body>
+</html>
